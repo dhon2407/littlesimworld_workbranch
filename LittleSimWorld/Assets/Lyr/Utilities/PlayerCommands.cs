@@ -30,7 +30,11 @@ public static class PlayerCommands {
 
 	public static void WaitUntilAnimationFinished(string animation, Action callback) => WaitUntilAnimationFinishes(animation).AddCallback(callback).Start();
 
-	public static void JumpOff(float CustomSpeed = 0) => StartJumping(LastPositionBeforeJump, PlayerAnimationHelper.ResetPlayer, null, CustomSpeed).Start();
+	public static void JumpOff(float CustomSpeed = 0, Action CustomCallBack = null) {
+		if (CustomCallBack == null) { CustomCallBack = PlayerAnimationHelper.ResetPlayer; }
+		else { CustomCallBack = PlayerAnimationHelper.ResetPlayer + CustomCallBack; }
+		StartJumping(LastPositionBeforeJump, CustomCallBack, null, CustomSpeed).Start();
+	}
 	public static void WalkBackToLastPosition() => StartWalking(LastPositionBeforeWalk, PlayerAnimationHelper.ResetPlayer).Start();
 
 	public static void DelayAction(float waitTime, Action callback = null) => DelayWithAction(waitTime).AddCallback(callback).Start();

@@ -52,6 +52,11 @@ namespace GameSettings
                 Settings.Sound.MuteVolume(soundGroup, toggle.isOn);
         }
 
+        private void OnDestroy()
+        {
+            Settings.Display.onValuesChanged.RemoveListener(UpdateValue);
+        }
+
         private void Reset()
         {
             toggle = GetComponent<Toggle>();

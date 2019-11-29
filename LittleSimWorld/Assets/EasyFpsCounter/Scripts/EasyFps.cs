@@ -47,8 +47,13 @@ public class EasyFps : MonoBehaviour {
     int mx = 60;
     public int MaxFrameRate
     {
+#if (UNITY_EDITOR)
         get { return mx; }
         set { mx = value; Application.targetFrameRate = value; }
+#else
+        get { return Application.targetFrameRate; }
+        set { mx = value; }
+#endif
     }
 
     void Start () {
@@ -60,8 +65,10 @@ public class EasyFps : MonoBehaviour {
         {
             mx = maxFR;
             RefreshTime = refresht;
+#if (UNITY_EDITOR)
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = maxFR;
+#endif
         }
         EasyFpsCounter.EasyFps = this;
 	}

@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 3872338654827256585}
   - component: {fileID: 293503789906563211}
   - component: {fileID: -7257067474089267829}
+  - component: {fileID: 3942181810658553332}
   m_Layer: 10
   m_Name: 1
   m_TagString: Untagged
@@ -366,6 +367,7 @@ MonoBehaviour:
   HealthDrainPerHour: 4
   HygieneDrainPerHour: 4
   BrokenParticleSystem: {fileID: 0}
+  JumpOffSpeed: 5
 --- !u!61 &3872338654827256585
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -505,3 +507,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3942181810658553332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3872338654827256580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ec395d2fb1f4da45bac7f7355969252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundGroup: 1
+  audioSource: {fileID: -7257067474089267829}

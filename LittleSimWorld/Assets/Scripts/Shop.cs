@@ -73,7 +73,7 @@ public class Shop : MonoBehaviour
         AtommInventory.Instance.ShopActive(this);
     }
 
-    public void WorkHere()
+    /*public void WorkHere()
     {
         GameLibOfMethods.TempPos = GameLibOfMethods.player.transform.position;
         GameLibOfMethods.cantMove = true;
@@ -81,11 +81,11 @@ public class Shop : MonoBehaviour
         switch (jobType)
         {
             case JobType.CookingJob:
-                JobsPopUp.Instance.SetJobToCooker();
-				PlayerCommands.JumpTo(playerWorkPlace.position, delegate { StartCoroutine(JobsPopUp.Instance.DoJob("Cooking")); });
+                JobManager.Instance.SetJobToCooker();
+                StartCoroutine(InteractionChecker.Instance.JumpTo(playerWorkPlace.position, delegate { StartCoroutine(JobManager.Instance.DoJob("Cooking")); }));
                 break;
         }
         
         
-    }
+    }*/
 }

@@ -55,20 +55,20 @@ using System.Linq;
             AtommInventory.Instance.SpawnFX(UsageSound);
         AtommInventory.Refresh();
 
-        PlayerStatsManager.Instance.AddFood(Hunger);
-            PlayerStatsManager.Instance.AddFood(PlayerStatsManager.Instance.MaxFood * HungerPercentBonus);
+        PlayerStatsManager.Hunger.Instance.Add(Hunger);
+            PlayerStatsManager.Hunger.Instance.Add(PlayerStatsManager.Hunger.Instance.MaxAmount * HungerPercentBonus);
 
-            PlayerStatsManager.Instance.AddEnergy(Energy);
-            PlayerStatsManager.Instance.AddEnergy(PlayerStatsManager.Instance.MaxEnergy * EnergyPercentBonus);
+            PlayerStatsManager.Energy.Instance.Add(Energy);
+            PlayerStatsManager.Energy.Instance.Add(PlayerStatsManager.Energy.Instance.MaxAmount * EnergyPercentBonus);
 
-            PlayerStatsManager.Instance.Heal(Health);
-            PlayerStatsManager.Instance.Heal(PlayerStatsManager.Instance.MaxHealth * HealthPercentBonus);
+            PlayerStatsManager.Health.Instance.Add(Health);
+            PlayerStatsManager.Health.Instance.Add(PlayerStatsManager.Health.Instance.MaxAmount * HealthPercentBonus);
 
-            PlayerStatsManager.Instance.AddMood(Mood);
-            PlayerStatsManager.Instance.AddMood(PlayerStatsManager.Instance.MaxMood * MoodPercentBonus);
+            PlayerStatsManager.Mood.Instance.Add(Mood);
+            PlayerStatsManager.Mood.Instance.Add(PlayerStatsManager.Mood.Instance.MaxAmount * MoodPercentBonus);
 
-        PlayerStatsManager.Instance.AddThirst(Thirst);
-        PlayerStatsManager.Instance.AddThirst(PlayerStatsManager.Instance.MaxThirst * ThirstPercentBonus);
+        PlayerStatsManager.Thirst.Instance.Add(Thirst);
+        PlayerStatsManager.Thirst.Instance.Add(PlayerStatsManager.Thirst.Instance.MaxAmount * ThirstPercentBonus);
 
        
 

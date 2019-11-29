@@ -29,11 +29,11 @@ public class Buffs : MonoBehaviour
     void Update()
     {
         Instance = gameObject;
-        if (PlayerStatsManager.Instance.Health / PlayerStatsManager.Instance.MaxHealth < MinHealthPercentageForPoorHealth && !PoorHealthDebuff.poorHealthDebuffInstance && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
+        if (PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount < MinHealthPercentageForPoorHealth && !PoorHealthDebuff.poorHealthDebuffInstance && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
         {
            Instantiate(poorHealthDebuff, Instance.transform);
         }
-        if (PlayerStatsManager.Instance.Health / PlayerStatsManager.Instance.MaxHealth < MinHealthPercentageForVeryPoorHealth && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
+        if (PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount < MinHealthPercentageForVeryPoorHealth && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
         {
             Instantiate(veryPoorHealthDebuff, Instance.transform);
         }

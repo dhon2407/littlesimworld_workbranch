@@ -7,7 +7,7 @@ using CharacterStats;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-[System.Serializable]
+[System.Serializable,DefaultExecutionOrder(0)]
 public class PlayerStatsManager : MonoBehaviour
 {
     public static PlayerStatsManager Instance;
@@ -31,48 +31,21 @@ public class PlayerStatsManager : MonoBehaviour
 
     public bool passingOut = false;
 
+	[SerializeField] public Dictionary<SkillType, Skill> playerSkills;
+	[SerializeField] public Dictionary<StatusBarType, StatusBar> playerStatusBars;
 
-    /*
-     Ok, so instead of doing all of this variables public and static, I used a serializable Dictionary, so I can assign the values in the inspector(so the designer or anyone can easily change the values 
-     I will leave an example in the Start() of accessing it
-     */
-    //[SerializeField]
-    //public SerializableDictMisc.StringFloatDictionary playerStatsDictionary = new SerializableDictMisc.StringFloatDictionary();//here is how I declare a StringFloat serializable dictionary, I can do a StringInt too. For StringString or others I can easily implement them
-    //You can see SerializableDiscMisc script for more details about implementation
-    //I also set the values in the inspector, you can look over at the Scripts GameObject
-    
-   
-    
-    public  float Health = 100;
-    public  float MaxHealth = 100;
-    public float HealthDrainSpeedPerHour = 10;
-    public float HealthDrainSpeedPerHourIfPunished = 30;
+	public static Dictionary<SkillType, Skill> PlayerSkills => Instance.playerSkills;
+	public static Dictionary<StatusBarType, StatusBar> PlayerStatusBars => Instance.playerStatusBars;
 
-    public float Energy = 100;
-    public float EnergyDrainSpeedPerHour = 10;
-    public float MaxEnergy = 100;
+	public static void Add(SkillType skill, float amount) => Instance.playerSkills[skill].AddXP(amount);
+	public static void Add(StatusBarType status, float amount) => Instance.playerStatusBars[status].Add(amount);
+	public static void Remove(StatusBarType status, float amount) => Instance.playerStatusBars[status].Add(-amount);
+	public static int GetSkillLevel(SkillType skill) => Instance.playerSkills[skill].Level;
+	public static float GetCurrentAmount(StatusBarType status) => Instance.playerStatusBars[status].CurrentAmount;
 
-    public  float Mood = 100;
-    public float MoodDrainSpeedPerHour = 10;
-    public float MaxMood = 100;
 
-    public  float Food = 100;
-    public  float MaxFood = 100;
-    public float FoodDrainSpeedPerHour = 10;
-    
-    public  float Hygiene = 100;
-    public float MaxHygiene = 100;
-    public float HygieneDrainSpeedPerHour = 1;
 
-    public float Thirst = 100;
-    public float MaxThirst = 100;
-    public float ThirstDrainSpeedPerHour = 1;
-
-    public float Bladder = 100;
-    public float MaxBladder = 100;
-    public float BladderDrainSpeedPerHour = 1;
-
-    public  float Money = 2000;
+	public  float Money = 2000;
     public  float PriceMultiplier = 1;
     
     public  float XPMultiplier = 1;
@@ -88,233 +61,273 @@ public class PlayerStatsManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-       
     }
     private void Start()
     {
-        //Example of using the player stats dictionary
-        
-       // float hp = Health;
-       // float maxHp = maxHealth;
-        
-        //Debug.Log($"HP is {hp} and max health is {maxHp}");
+        UpdateTotalLevel();
     }
 
-    private void Update()
+    public void InitializeSkillsAndStatusBars()
     {
-        //TotalLevel = (Intelligence.Instance.Level + Fitness.Instance.Level + Strength.Instance.Level + Charisma.Instance.Level + Cooking.Instance.Level + Repair.Instance.Level) - 6;
-        
-        TotalLevel = (Intelligence.Instance.Level + Fitness.Instance.Level +
-                                               Strength.Instance.Level + Charisma.Instance.Level +
-                                               Cooking.Instance.Level + Repair.Instance.Level) - 6;
-        
-        //TotalLevelText.text = "Total level: " + TotalLevel;
-        
-        TotalLevelText.text = "Total level: " + TotalLevel;
+        if (GameManager.Instance.IsStartingNewGame)
+        {
 
-        if(Intelligence.Instance.Level - 1 == 0)
-        {
-            PhysicsLVLText.text = "-";
-             PhysicsXPText.text = " XP: " + Mathf.RoundToInt(Intelligence.Instance.XP) + "/" + Mathf.Abs(Intelligence.Instance.RequiredXP);
-        }
-        else
-        {
-            PhysicsLVLText.text =  (Intelligence.Instance.Level - 1).ToString();
-            PhysicsXPText.text = " XP: " + Mathf.RoundToInt(Intelligence.Instance.XP) + "/" + Mathf.Abs(Intelligence.Instance.RequiredXP);
-        }
        
-        if(Strength.Instance.Level - 1 == 0)
+        playerSkills = new Dictionary<SkillType, Skill>()
         {
-            StrengthLVLText.text =   "-";
-            StrengthXPText.text = " XP: " + Mathf.RoundToInt(Strength.Instance.XP) + "/" + Mathf.Abs(Strength.Instance.RequiredXP);
+        { SkillType.Intelligence, Intelligence.Initialize()},
+         { SkillType.Strength, Strength.Initialize()},
+          { SkillType.Fitness, Fitness.Initialize()},
+         { SkillType.Charisma, Charisma.Initialize()},
+         { SkillType.Cooking, Cooking.Initialize()},
+          { SkillType.Writing, Writing.Initialize()},
+           { SkillType.Repair, Repair.Initialize()}
+        };
+        playerStatusBars = new Dictionary<StatusBarType, StatusBar>()
+        {
+        { StatusBarType.Bladder, Bladder.Initialize() },
+         { StatusBarType.Energy, Energy.Initialize()},
+          { StatusBarType.Health, Health.Initialize()},
+         { StatusBarType.Hunger, Hunger.Initialize()},
+         { StatusBarType.Hygiene, Hygiene.Initialize()},
+          { StatusBarType.Mood, Mood.Initialize()},
+           { StatusBarType.Thirst, Thirst.Initialize()}
+        };
+            Debug.Log("Creating new status objects");
         }
         else
         {
-            StrengthLVLText.text = (Strength.Instance.Level - 1).ToString();
-            StrengthXPText.text = " XP: " + Mathf.RoundToInt(Strength.Instance.XP) + "/" + Mathf.Abs(Strength.Instance.RequiredXP);
-        }
-       
-        if(Charisma.Instance.Level - 1 == 0)
-        {
-            CharismaLVLText.text = "-";
-            CharismaXPText.text = " XP: " + Mathf.RoundToInt(Charisma.Instance.XP) + "/" + Mathf.Abs(Charisma.Instance.RequiredXP);
-        }
-        else
-        {
-            CharismaLVLText.text = (Charisma.Instance.Level - 1).ToString();
-            CharismaXPText.text = " XP: " + Mathf.RoundToInt(Charisma.Instance.XP) + "/" + Mathf.Abs(Charisma.Instance.RequiredXP);
-        }
-        
-        if(Fitness.Instance.Level - 1 == 0)
-        {
-            FitnessLVLText.text = "-";
-            FitnessXPText.text = " XP: " + Mathf.RoundToInt(Fitness.Instance.XP) + "/" + Mathf.Abs(Fitness.Instance.RequiredXP);
-        }
-        else
-        {
-            FitnessLVLText.text = (Fitness.Instance.Level - 1).ToString();
-            FitnessXPText.text = " XP: " + Mathf.RoundToInt(Fitness.Instance.XP) + "/" + Mathf.Abs(Fitness.Instance.RequiredXP);
-        }
-        if (Cooking.Instance.Level - 1 == 0)
-        {
-            CookingLVLText.text = "-";
-            CookingXPText.text = " XP: " + Mathf.RoundToInt(Cooking.Instance.XP) + "/" + Mathf.Abs(Cooking.Instance.RequiredXP);
-        }
-        else
-        {
-            CookingLVLText.text =(Cooking.Instance.Level - 1).ToString();
-            CookingXPText.text = " XP: " + Mathf.RoundToInt(Cooking.Instance.XP) + "/" + Mathf.Abs(Cooking.Instance.RequiredXP);
-        }
-        if (Repair.Instance.Level - 1 == 0)
-        {
-            RepairLVLText.text = "-";
-            RepairXPText.text = " XP: " + Mathf.RoundToInt(Repair.Instance.XP) + "/" + Mathf.Abs(Repair.Instance.RequiredXP);
-        }
-        else
-        {
-            RepairLVLText.text = (Repair.Instance.Level - 1).ToString();
-            RepairXPText.text = " XP: " + Mathf.RoundToInt(Repair.Instance.XP) + "/" + Mathf.Abs(Repair.Instance.RequiredXP);
-        }
 
-
-        if (Food > 0)
+            playerSkills = new Dictionary<SkillType, Skill>()
         {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Food -= (((FoodDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier)/2;
-            }
-            else
-            {
-                Food -= ((FoodDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-            
-        }
-        if(Food <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        { SkillType.Intelligence, Intelligence.Initialize()},
+         { SkillType.Strength, Strength.Initialize()},
+          { SkillType.Fitness, Fitness.Initialize()},
+         { SkillType.Charisma, Charisma.Initialize()},
+         { SkillType.Cooking, Cooking.Initialize()},
+          { SkillType.Writing, Writing.Initialize()},
+           { SkillType.Repair, Repair.Initialize()}
+        };
+            playerStatusBars = new Dictionary<StatusBarType, StatusBar>()
         {
-            Health -= (((HealthDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+        { StatusBarType.Bladder, Bladder.Initialize() },
+         { StatusBarType.Energy, Energy.Initialize()},
+          { StatusBarType.Health, Health.Initialize()},
+         { StatusBarType.Hunger, Hunger.Initialize()},
+         { StatusBarType.Hygiene, Hygiene.Initialize()},
+          { StatusBarType.Mood, Mood.Initialize()},
+           { StatusBarType.Thirst, Thirst.Initialize()}
+        };
+            Debug.Log("Loading old status objects");
         }
-
-        if (Health > 0)
-        {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Health -= (((HealthDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
-            }
-            else
-            {
-                Health -= ((HealthDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-        }
-        if (Health <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
-        {
-            passingOut = true;
-            GameLibOfMethods.PassOut();
-        }
-
-        if (Bladder > 0)
-        {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Bladder -= (((BladderDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
-            }
-            else
-            {
-                Bladder -= ((BladderDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-        }
-        if (Bladder <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
-        {
-            Bladder = MaxBladder;
-            Hygiene = 0;
-            GameLibOfMethods.animator.SetBool("PissingInPants", true);
-        }
-
-        if (Hygiene > 0)
-        {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Hygiene -= (((HygieneDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
-            }
-            else
-            {
-                Hygiene -= ((HygieneDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-        }
-        if (Hygiene <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
-        {
-            Health -= (((HealthDrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-        }
-        if (Thirst > 0)
-        {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Thirst -= (((ThirstDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
-            }
-            else
-            {
-                Thirst -= ((ThirstDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-        }
-        if (Thirst <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
-        {
-            Health -= (((HealthDrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-        }
-        if (Energy > 0)
-        {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Energy -= (((EnergyDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
-            }
-            else
-            {
-                Energy -= ((EnergyDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-        }
-        if (Energy <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
-        {
-            GameLibOfMethods.animator.SetBool("PassOutToSleep", true);
-
-        }
-        if (Mood > 0)
-        {
-            if (GameLibOfMethods.isSleeping)
-            {
-                Mood -= (((MoodDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
-            }
-            else
-            {
-                Mood -= ((MoodDrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
-            }
-        }
-
-        if (PlayerStatsManager.Instance.Mood <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
-        {
-            Health -= (((HealthDrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-        }
-
     }
-   
+
+    public void UpdateTotalLevel()
+    {
+        int totalLevel = 0;
+        foreach (SkillType skilltype in playerSkills.Keys)
+        {
+            totalLevel += playerSkills[skilltype].Level;
+        }
+        TotalLevel = totalLevel;
+    }
+
+  
+    public void AddXP(SkillType skill, float amount)
+    {
+        playerSkills[skill].AddXP(amount);
+        UpdateTotalLevel();
+    }
+
     [System.Serializable]
-    public class Skills
+    public class StatusBar
     {
-        public  int Level = 1;
+        public float CurrentAmount = 100;
+        public float MaxAmount = 100;
+        public float DrainSpeedPerHour = -10;
+        public float DrainSpeedPerHourIfPunished = -30;
+        public virtual StatusBarType statusBarType { get; set; }
+        public static StatusBar Instance;
+
+
+        public virtual void Add(float amount)
+        {
+
+            if (CurrentAmount + amount < MaxAmount)
+            {
+                CurrentAmount += amount;
+            }
+            else
+            {
+                CurrentAmount = MaxAmount;
+            }
+        }
+         public static StatusBar Initialize()
+        {
+            return Instance = new StatusBar();
+        }
+        public StatusBar NonStaticInitialize()
+        {
+            return Instance = new StatusBar();
+        }
+
+    }
+    [System.Serializable]
+    public class Health: StatusBar
+    {
+       new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Health; } }
+        new public static StatusBar Initialize()
+        {
+            if(GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Health();
+            }else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Health];
+            }
+           
+        }
+
+    }
+    [System.Serializable]
+    public class Bladder : StatusBar
+    {
+        new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Bladder; } }
+        new public static StatusBar Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Bladder();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Bladder];
+            }
+
+        }
+    }
+    [System.Serializable]
+    public class Energy : StatusBar
+    {
+        new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Energy; } }
+        new public static StatusBar Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Energy();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Energy];
+            }
+
+        }
+
+    }
+    [System.Serializable]
+    public class Thirst : StatusBar
+    {
+        new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Thirst; } }
+        new public static StatusBar Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Thirst();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Thirst];
+            }
+
+        }
+
+    }
+    [System.Serializable]
+    public class Hunger: StatusBar
+    {
+        new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Hunger; } }
+        new public static StatusBar Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Hunger();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Hunger];
+            }
+
+        }
+
+    }
+    [System.Serializable]
+    public class Mood : StatusBar
+    {
+        new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Mood; } }
+        new public static StatusBar Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Mood();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Mood];
+            }
+
+        }
+
+    }
+    [System.Serializable]
+    public class Hygiene : StatusBar
+    {
+        new public static StatusBar Instance;
+        public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Hygiene; } }
+        new public static StatusBar Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Hygiene();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Hygiene];
+            }
+
+        }
+
+    }
+
+
+
+    [System.Serializable]
+    public class Skill  
+    {
+        public  int Level = 0;
         public float XP = 0;
         public float RequiredXP = 100;
         public int MaxLVL = 10;
-        public static Skills Instance = new Skills();
+        public static Skill Instance;
         virtual public string SkillName{ get; set; }
+        public SkillType Skilltype;
 
 
         public virtual void AddXP(float amount)
         {
-            /*XP += Mathf.RoundToInt(amount * (XPmultiplayer + BonusXPMultiplayer));
+            XP += Mathf.RoundToInt(amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
             if (XP >= RequiredXP && Level + 1 <= MaxLVL)
             {
                 XP = 0;
                 Level += 1;
-                OnLevelUP();
+                Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
-            }*/
+            }
         }
         
         public virtual void Effect()
@@ -322,15 +335,36 @@ public class PlayerStatsManager : MonoBehaviour
             PlayerStatsManager.Instance.levelUpParticles.Play();
             Debug.Log("Nothing");
         }
+        public static Skill Initialize()
+        {
+            return Instance = new Skill();
+        }
 
     }
+   
     [System.Serializable]
-    public class Intelligence : PlayerStatsManager.Skills
+    public class Intelligence : PlayerStatsManager.Skill
     {
-        new public static PlayerStatsManager.Skills Instance = new Intelligence();
+        
+        new public static PlayerStatsManager.Skill Instance;
+        new public SkillType Skilltype = SkillType.Intelligence;
         override public string SkillName
         {
-            get { return SkillName = "Intelligence"; }
+            get {
+                return SkillName = "Intelligence";
+            }
+        }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Intelligence();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Intelligence];
+            }
+
         }
 
         public override void Effect()
@@ -343,16 +377,16 @@ public class PlayerStatsManager : MonoBehaviour
         
         public override void AddXP(float amount)
         {
-            Intelligence.Instance.XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
+            XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
             UIManager.Instance.LevelingSkill.text = SkillName + ": " + Level;
             UIManager.Instance.XPbar.fillAmount = XP / RequiredXP;
             UIManager.Instance.CurrentSkillImage.sprite = UIManager.Instance.Intelligence;
             GameLibOfMethods.StaticCoroutine.Start(UIManager.Instance.ShowLevelingSkill());
             BubbleSpawner.SpawnBubble();
-            if (Intelligence.Instance.XP >= Intelligence.Instance.RequiredXP && Intelligence.Instance.Level + 1 <= Intelligence.Instance.MaxLVL)
+            if (XP >= RequiredXP && Level + 1 <= MaxLVL)
             {
-                Intelligence.Instance.XP = 0;
-                Intelligence.Instance.Level += 1;
+                XP = 0;
+                Level += 1;
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                
@@ -361,33 +395,46 @@ public class PlayerStatsManager : MonoBehaviour
 
     }
     [System.Serializable]
-    public class Strength : PlayerStatsManager.Skills
+    public class Strength : PlayerStatsManager.Skill
     {
-        new public static PlayerStatsManager.Skills Instance = new Strength();
+        new public SkillType Skilltype = SkillType.Strength;
+        new public static PlayerStatsManager.Skill Instance;
 
         override public string SkillName
         {
-            get { return SkillName = "Strength"; }
+            get {
+                return SkillName = "Strength"; }
+        }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Strength();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Strength];
+            }
+
         }
         public override void Effect()
         {
             PlayerStatsManager.Instance.levelUpParticles.Play();
-            AtommInventory.InventoryCapacity += 1;
             GameLibOfMethods.CreateFloatingText("Now you have " + AtommInventory.InventoryCapacity.ToString() + " slots in your inventory!", 2);
         }
         
          public override void AddXP(float amount)
         {
-            Strength.Instance.XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
+            XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
             UIManager.Instance.LevelingSkill.text = SkillName + ": " + Level;
             UIManager.Instance.XPbar.fillAmount = XP / RequiredXP;
             UIManager.Instance.CurrentSkillImage.sprite = UIManager.Instance.Strength;
             GameLibOfMethods.StaticCoroutine.Start(UIManager.Instance.ShowLevelingSkill());
             BubbleSpawner.SpawnBubble();
-            if (Strength.Instance.XP >= Strength.Instance.RequiredXP && Strength.Instance.Level + 1 <= Strength.Instance.MaxLVL)
+            if (XP >= RequiredXP && Level + 1 <= MaxLVL)
             {
-                Strength.Instance.XP = 0;
-                Strength.Instance.Level += 1;
+                XP = 0;
+                Level += 1;
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                 
@@ -396,33 +443,47 @@ public class PlayerStatsManager : MonoBehaviour
 
     }
     [System.Serializable]
-    public class Fitness : PlayerStatsManager.Skills
+    public class Fitness : PlayerStatsManager.Skill
     {
-        new public static PlayerStatsManager.Skills Instance = new Fitness();
+        new public SkillType Skilltype = SkillType.Fitness;
+        new public static PlayerStatsManager.Skill Instance;
 
         override public string SkillName
         {
-            get { return SkillName = "Fitness"; }
+            get { 
+                return SkillName = "Fitness"; }
+        }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Fitness();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Fitness];
+            }
+
         }
 
         public override void Effect()
         {
             PlayerStatsManager.Instance.levelUpParticles.Play();
-            PlayerStatsManager.Instance.MaxEnergy += 5;
-            GameLibOfMethods.CreateFloatingText("Now you have " + PlayerStatsManager.Instance.MaxEnergy + " max energy!", 4);
+            PlayerStatsManager.Energy.Instance.MaxAmount += 5;
+            GameLibOfMethods.CreateFloatingText("Now you have " + PlayerStatsManager.Energy.Instance.MaxAmount + " max energy!", 4);
         }
         public override void AddXP(float amount)
         {
-            Fitness.Instance.XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
+            XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
             UIManager.Instance.LevelingSkill.text = SkillName + ": " + Level;
             UIManager.Instance.XPbar.fillAmount = XP / RequiredXP;
             UIManager.Instance.CurrentSkillImage.sprite = UIManager.Instance.Fitness;
             GameLibOfMethods.StaticCoroutine.Start(UIManager.Instance.ShowLevelingSkill());
             BubbleSpawner.SpawnBubble();
-            if (Fitness.Instance.XP >= Fitness.Instance.RequiredXP && Fitness.Instance.Level + 1 <= Fitness.Instance.MaxLVL)
+            if (XP >= RequiredXP && Level + 1 <= MaxLVL)
             {
-                Fitness.Instance.XP = 0;
-                Fitness.Instance.Level += 1;
+                XP = 0;
+                Level += 1;
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                
@@ -431,15 +492,27 @@ public class PlayerStatsManager : MonoBehaviour
 
     }
     [System.Serializable]
-    public class Charisma : PlayerStatsManager.Skills
+    public class Charisma : PlayerStatsManager.Skill
     {
-
-        new public static PlayerStatsManager.Skills Instance = new Charisma();
+        new public SkillType Skilltype = SkillType.Charisma;
+        new public static PlayerStatsManager.Skill Instance;
         override public string SkillName
         {
-            get { return SkillName = "Charisma"; }
+            get {
+                return SkillName = "Charisma"; }
         }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Charisma();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Charisma];
+            }
 
+        }
         public override void Effect()
         {
             PlayerStatsManager.Instance.levelUpParticles.Play();
@@ -450,16 +523,16 @@ public class PlayerStatsManager : MonoBehaviour
 
         public override void AddXP(float amount)
         {
-            Charisma.Instance.XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
+            XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
             UIManager.Instance.LevelingSkill.text = SkillName + ": " + Level;
             UIManager.Instance.XPbar.fillAmount = XP / RequiredXP;
             UIManager.Instance.CurrentSkillImage.sprite = UIManager.Instance.Charisma;
             GameLibOfMethods.StaticCoroutine.Start(UIManager.Instance.ShowLevelingSkill());
             BubbleSpawner.SpawnBubble();
-            if (Charisma.Instance.XP >= Charisma.Instance.RequiredXP && Charisma.Instance.Level + 1 <= Charisma.Instance.MaxLVL)
+            if (XP >= RequiredXP && Instance.Level + 1 <= MaxLVL)
             {
-                Charisma.Instance.XP = 0;
-                Charisma.Instance.Level += 1;
+                XP = 0;
+                Level += 1;
                 Effect();
                 PlayerStatsManager.Instance.PriceMultiplier -= 0.02f;
                 GameLibOfMethods.CreateFloatingText("Items now costs only " + PlayerStatsManager.Instance.PriceMultiplier.ToString() + "% of their price!", 2);
@@ -470,13 +543,26 @@ public class PlayerStatsManager : MonoBehaviour
 
     }
     [System.Serializable]
-    public class Cooking : PlayerStatsManager.Skills
+    public class Cooking : PlayerStatsManager.Skill
     {
-
-        new public static PlayerStatsManager.Skills Instance = new Cooking();
+        new public SkillType Skilltype = SkillType.Cooking;
+        new public static PlayerStatsManager.Skill Instance;
         override public string SkillName
         {
-            get { return SkillName = "Cooking"; }
+            get {
+                return SkillName = "Cooking"; }
+        }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Cooking();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Cooking];
+            }
+
         }
 
         public override void Effect()
@@ -499,21 +585,34 @@ public class PlayerStatsManager : MonoBehaviour
                 Level += 1;
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
+                Debug.Log(amount);
                
             }
         }
 
     }
     [System.Serializable]
-    public class Repair : PlayerStatsManager.Skills
+    public class Repair : PlayerStatsManager.Skill
     {
-
-        new public static PlayerStatsManager.Skills Instance = new Repair();
+        new public SkillType Skilltype = SkillType.Repair;
+        new public static PlayerStatsManager.Skill Instance;
         override public string SkillName
         {
-            get { return SkillName = "Repair"; }
+            get {
+                return SkillName = "Repair"; }
         }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Repair();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Repair];
+            }
 
+        }
         public override void Effect()
         {
             PlayerStatsManager.Instance.RepairSpeed += 0.05f;
@@ -540,85 +639,56 @@ public class PlayerStatsManager : MonoBehaviour
         }
 
     }
+    [System.Serializable]
+    public class Writing : PlayerStatsManager.Skill
+    {
+        new public SkillType Skilltype = SkillType.Writing;
+        new public static PlayerStatsManager.Skill Instance = new Writing();
+        override public string SkillName
+        {
+            get {
+                return SkillName = "Writing"; }
+        }
+        new public static Skill Initialize()
+        {
+            if (GameManager.Instance.IsStartingNewGame)
+            {
+                return Instance = new Writing();
+            }
+            else
+            {
+                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Writing];
+            }
 
+        }
 
+        public override void Effect()
+        {
+          
+            GameLibOfMethods.AddChatMessege(SkillName + " level UP!");
+            PlayerStatsManager.Instance.levelUpParticles.Play();
+        }
 
-    /*public static void SubstractEnergy(float amount)
-    {
-        Energy -= amount;
-    }
+        public override void AddXP(float amount)
+        {
+            Instance.XP += (amount * (PlayerStatsManager.Instance.XPMultiplier + PlayerStatsManager.Instance.BonusXPMultiplier));
+            UIManager.Instance.LevelingSkill.text = SkillName + ": " + Level;
+            UIManager.Instance.XPbar.fillAmount = XP / RequiredXP;
+            UIManager.Instance.CurrentSkillImage.sprite = UIManager.Instance.Writing;
+            GameLibOfMethods.StaticCoroutine.Start(UIManager.Instance.ShowLevelingSkill());
+            BubbleSpawner.SpawnBubble();
+            if (XP >= RequiredXP && Instance.Level + 1 <= Instance.MaxLVL)
+            {
+                Instance.XP = 0;
+                Level += 1;
+                Effect();
+                GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
 
-    public static void AddEnergy(float amount)
-    {
-        if (Energy + amount < maxEnergy)
-            Energy += amount;
-        else
-            Energy = maxEnergy;
-    }
+            }
+        }
 
-    public static void SetStamina(float amount)
-    {
-        Energy = amount;
-    }*/
-
-    public void SubstractEnergy(float amount)
-    {
-        Energy -= amount;
-    }
-
-    public void AddEnergy(float amount)
-    {
-        if (Energy + amount < MaxEnergy)
-            Energy += amount;
-        else
-            Energy = MaxEnergy;
     }
 
-    public void SetStamina(float amount)
-    {
-        Energy = amount;
-    }
-
-    /*public static void AddFood(float amount)
-    {
-        if (Food + amount < maxFood)
-            Food += amount;
-        else
-            Food = maxFood;
-    }
-    public static void SetFood(float amount)
-    {
-        Food = amount;
-    }
-    public static void SubstractFood(float amount)
-    {
-        Food -= amount;
-    }*/
-    
-    public void AddFood(float amount)
-    {
-        if (Food + amount < MaxFood)
-            Food += amount;
-        else
-            Food = MaxFood;
-    }
-    public void SetFood(float amount)
-    {
-        Food = amount;
-    }
-    public void SubstractFood(float amount)
-    {
-        Food -= amount;
-    }
-    
-    /*public static void SubstractMoney(int amount)
-    {
-        if (Money - amount > 0)
-            Money -= amount;
-        else
-            Money = 0;
-    }*/
-    
     public void SubstractMoney(int amount)
     {
         if (Money - amount > 0)
@@ -627,118 +697,202 @@ public class PlayerStatsManager : MonoBehaviour
             Money = 0;
     }
     
-    /*public static void Heal(float amount)
-    {
-        if (Health + amount < maxHealth)
-            Health += amount;
-        else
-            Health = maxHealth;
-    }*/
 
-    public void Heal(float amount)
-    {
-        if (Health + amount < MaxHealth)
-        {
-            Health += amount;
-        }
-        else
-        {
-            Health = MaxHealth;
-        }
-    }
     
-    /*public static void AddMood(float amount)
-    {
-        if (Mood + amount < maxMood)
-            Mood += amount;
-        else
-            Mood = maxMood;
-    }*/
-
-    public void AddMood(float amount)
-    {
-        if (Mood + amount < MaxMood)
-        {
-            Mood += amount;
-        }
-        else
-        {
-            Mood = MaxMood;
-        }
-    }
-
-    /*public static void AddMoney(int amount)
-    {
-        Money += amount;
-      
-    }*/
 
     public void AddMoney(int amount)
     {
         Money += amount;
     }
-
-    /*public static void Addhygiene(float amount)
+    private void Update()
     {
-        if (hygiene + amount < maxhygiene)
-            hygiene += amount;
-        else
-            hygiene = maxhygiene;
-    }*/
 
-    public void AddHygiene(float amount)
-    {
-        if (Hygiene + amount < MaxHygiene)
+        TotalLevelText.text = "Total level: " + TotalLevel;
+
+        if (Instance.playerSkills[SkillType.Intelligence].Level == 0)
         {
-            Hygiene += amount;
+            PhysicsLVLText.text = "-";
+            PhysicsXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Intelligence].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Intelligence].RequiredXP);
         }
         else
         {
-            Hygiene = MaxHygiene;
+            PhysicsLVLText.text = (Instance.playerSkills[SkillType.Intelligence].Level).ToString();
+            PhysicsXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Intelligence].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Intelligence].RequiredXP);
         }
-    }
-    
-    /*public static void AddBladder(float amount)
-    {
-        if (Bladder + amount < maxBladder)
-            Bladder += amount;
-        else
-            Bladder = maxBladder;
-    }*/
-    
-    public void AddBladder(float amount)
-    {
-        if (Bladder + amount < PlayerStatsManager.Instance.MaxBladder)
-            Bladder += amount;
-        else
-            Bladder = PlayerStatsManager.Instance.MaxBladder;
-    }
-    
-    /*public static void AddSanity(float amount)
-    {
-        if (sanity + amount < maxSanity)
-            sanity += amount;
-        else
-            sanity = maxSanity;
-    }*/
-    
-    
-    /*public static void AddThirst(float amount)
-    {
-        if (thirst + amount < maxThirst)
-            thirst += amount;
-        else
-            thirst = maxThirst;
-    }*/
 
-    public void AddThirst(float amount)
-    {
-        if (Thirst + amount < MaxThirst)
-            Thirst += amount;
+        if (Instance.playerSkills[SkillType.Strength].Level == 0)
+        {
+            StrengthLVLText.text = "-";
+            StrengthXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Strength].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Strength].RequiredXP);
+        }
         else
-            Thirst = MaxThirst;
+        {
+            StrengthLVLText.text = (Instance.playerSkills[SkillType.Strength].Level).ToString();
+            StrengthXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Strength].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Strength].RequiredXP);
+        }
+
+        if (Instance.playerSkills[SkillType.Charisma].Level == 0)
+        {
+            CharismaLVLText.text = "-";
+            CharismaXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Charisma].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Charisma].RequiredXP);
+        }
+        else
+        {
+            CharismaLVLText.text = (Instance.playerSkills[SkillType.Charisma].Level).ToString();
+            CharismaXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Charisma].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Charisma].RequiredXP);
+        }
+
+        if (Instance.playerSkills[SkillType.Fitness].Level == 0)
+        {
+            FitnessLVLText.text = "-";
+            FitnessXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Fitness].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Fitness].RequiredXP);
+        }
+        else
+        {
+            FitnessLVLText.text = (Instance.playerSkills[SkillType.Fitness].Level).ToString();
+            FitnessXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Fitness].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Fitness].RequiredXP);
+        }
+        if (Instance.playerSkills[SkillType.Cooking].Level == 0)
+        {
+            CookingLVLText.text = "-";
+            CookingXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Cooking].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Cooking].RequiredXP);
+        }
+        else
+        {
+            CookingLVLText.text = (Instance.playerSkills[SkillType.Cooking].Level).ToString();
+            CookingXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Cooking].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Cooking].RequiredXP);
+        }
+        if (Instance.playerSkills[SkillType.Repair].Level == 0)
+        {
+            RepairLVLText.text = "-";
+            RepairXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Repair].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Repair].RequiredXP);
+        }
+        else
+        {
+            RepairLVLText.text = (Instance.playerSkills[SkillType.Repair].Level).ToString();
+            RepairXPText.text = " XP: " + Mathf.RoundToInt(Instance.playerSkills[SkillType.Repair].XP) + "/" + Mathf.Abs(Instance.playerSkills[SkillType.Repair].RequiredXP);
+        }
+
+
+        if (Hunger.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Hunger.Instance.CurrentAmount -= (((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
+            }
+            else
+            {
+                Hunger.Instance.CurrentAmount -= ((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+            }
+
+        }
+        if (Hunger.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+        }
+
+        if (Health.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Health.Instance.CurrentAmount -= (((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
+            }
+            else
+            {
+                Health.Instance.Add(((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            }
+        }
+        if (Health.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            passingOut = true;
+            GameLibOfMethods.PassOut();
+        }
+
+        if (Bladder.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Bladder.Instance.Add((((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+            }
+            else
+            {
+                Bladder.Instance.Add(((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            }
+        }
+        if (Bladder.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            Bladder.Instance.CurrentAmount = Bladder.Instance.MaxAmount;
+            Hygiene.Instance.CurrentAmount = 0;
+            GameLibOfMethods.animator.SetBool("PissingInPants", true);
+        }
+
+        if (Hygiene.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Hygiene.Instance.Add((((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+            }
+            else
+            {
+                Hygiene.Instance.Add(((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            }
+        }
+        if (Hygiene.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+        }
+        if (Thirst.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Thirst.Instance.Add((((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+            }
+            else
+            {
+                Thirst.Instance.CurrentAmount -= ((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+            }
+        }
+        if (Thirst.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+        }
+        if (Energy.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Energy.Instance.Add((((Energy.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+            }
+            else
+            {
+                Energy.Instance.Add(((Energy.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            }
+        }
+        if (Energy.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            GameLibOfMethods.animator.SetBool("PassOutToSleep", true);
+
+        }
+        if (Mood.Instance.CurrentAmount > 0)
+        {
+            if (GameLibOfMethods.isSleeping)
+            {
+                Mood.Instance.Add((((Mood.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+            }
+            else
+            {
+                Mood.Instance.Add(((Mood.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            }
+        }
+
+        if (Mood.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
+        {
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+        }
+
     }
 
 
 }
+public enum SkillType { Strength, Fitness, Intelligence, Cooking, Charisma, Repair, Writing };
+public enum StatusBarType { Health, Energy, Mood, Hygiene, Bladder, Hunger, Thirst };
 

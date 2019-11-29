@@ -21,6 +21,11 @@ namespace GameSettings
             Settings.Sound.RegisterSource(soundGroup, audioSource);
         }
 
+        private void OnDestroy()
+        {
+            Settings.Sound.RemoveSource(soundGroup, audioSource);
+        }
+
         private void Reset()
         {
             audioSource = GetComponent<AudioSource>();

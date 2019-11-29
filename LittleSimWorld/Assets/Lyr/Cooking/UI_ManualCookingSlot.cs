@@ -24,7 +24,7 @@ namespace UI.Cooking {
 		void CheckAvailability() {
 			if (isAvailableForPlayer) { return; }
 
-			isAvailableForPlayer = PlayerStatsManager.Cooking.Instance.Level >= RequiredCookingLevel;
+			isAvailableForPlayer = PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].Level >= RequiredCookingLevel;
 			// To be swapped with sprite
 			SlotImage.color = isAvailableForPlayer ? Color.white : Color.grey;
 		}

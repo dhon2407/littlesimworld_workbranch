@@ -8,14 +8,20 @@ public class DebugUtilities : MonoBehaviour
 	public Vector3 HomePos;
 	public Vector3 GroceriesPos;
 
-	Transform player;
-	void Awake() {
-		player = GameObject.Find("Player").transform;
-		//FindObjectOfType<_CookingStove>().TimeToCook = 1;
-	}
+	Transform player => GameLibOfMethods.player.transform;
+
+	bool Cheated3;
+
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Keypad0)) { player.position = HomePos; }
 		if (Input.GetKeyDown(KeyCode.Keypad1)) { player.position = GroceriesPos; }
+		if (Input.GetKeyDown(KeyCode.Keypad2)) { PlayerStatsManager.Instance.Money += 100; }
+		if (Input.GetKeyDown(KeyCode.Keypad3)) {
+			_CookingStove.instance.EXPAfterCooking = Cheated3 ? 5 : 100;
+			_CookingStove.instance.TimeToCook = Cheated3 ? 10 : 5;
+
+			Cheated3 = !Cheated3;
+		}
 	}
 
 	void OnDrawGizmosSelected() {
@@ -23,5 +29,5 @@ public class DebugUtilities : MonoBehaviour
 		Gizmos.DrawWireSphere(HomePos, 0.2f);
 		Gizmos.DrawWireSphere(GroceriesPos, 0.2f);
 	}
-	#endif
+#endif
 }

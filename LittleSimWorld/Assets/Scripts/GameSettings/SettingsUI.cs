@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +11,6 @@ namespace GameSettings
         [SerializeField]
         private Toggle customDisplay = null;
 
-        [SerializeField]
-        private Dictionary<SoundMixer.SoundGroup, Toggle> audioSourcesMute;
-
         private void Start()
         {
             StartCoroutine(Initialize());
@@ -26,12 +22,18 @@ namespace GameSettings
                 yield return null;
 
             UpdateData();
+            Invoke(nameof(OverrideFPSVSync), 1f);
         }
 
         private void UpdateData()
         {
             autoDetect.isOn = Settings.Display.AutoDetectResolution;
             customDisplay.isOn = !autoDetect.isOn;
+        }
+
+        private void OverrideFPSVSync()
+        {
+            Settings.Display.RefreshFPSVSyncValues();
         }
 
         public void SaveSettings()
@@ -48,6 +50,14 @@ namespace GameSettings
         {
             Settings.DefaultSettings();
             UpdateData();
+        }
+
+        public void Open()
+        {
+            if (transform.localScale == Vector3.zero)
+                GetComponent<GuiPopUpAnim>().OpenWindow();
+            else
+                GetComponent<GuiPopUpAnim>().CloseWindow();
         }
     }
 }

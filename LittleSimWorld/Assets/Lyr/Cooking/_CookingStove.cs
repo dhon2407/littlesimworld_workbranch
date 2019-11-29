@@ -29,11 +29,14 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 	}
 
 	void Update() {
-		if (isOpen && !IsInRange()) { StoveManager.instance.ToggleMenu(MenuState.Closed); }
+		if (isOpen && !IsInRange()) {
+			StoveManager.instance.ToggleMenu(MenuState.Closed);
+		}
 	}
 
 	public void Interact() {
 		if (isPlayerCooking) { return; }
+		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 5 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 5) { return; }
 		StoveManager.instance.ToggleMenu();
 		isOpen = !isOpen;
 	}
@@ -49,6 +52,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 	#region Cooking Logic
 
 	public void Cook(List<Item> ingredients) {
+		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 5 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 5) { return; }
 		GameLibOfMethods.doingSomething = true;
 		PlayerCommands.MoveTo(ZoneToStand.position, () => StartCooking(ingredients).Start());
 	}
@@ -57,14 +61,14 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 
 		isPlayerCooking = true;
 		StoveManager.instance.CloseMenu();
+		FryingPan.SetActive(false);
 
 		GameLibOfMethods.canInteract = false;
 		GameLibOfMethods.cantMove = true;
 		GameLibOfMethods.Walking = true;
 		SpriteControler.Instance.FaceUP();
 
-		FryingPan.SetActive(false);
-		DayNightCycle.Instance.currentTimeSpeedMultiplier = 5;
+		//DayNightCycle.Instance.currentTimeSpeedMultiplier = 1;
 		GameLibOfMethods.animator.SetBool("Cooking", true);
 		UIManager.Instance.ActionText.text = "Cooking";
 		bool WasCanceled = false;
@@ -82,25 +86,36 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 				WasCanceled = true;
 				break;
 			}
+
+			if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) { break; }
 			yield return 0f;
 		}
 
 
-		DayNightCycle.Instance.currentTimeSpeedMultiplier = 1;
-		FryingPan.SetActive(false);
+		DayNightCycle.Instance.currentTimeSpeedMultiplier = 5;
+
+		FryingPan.SetActive(true);
+		yield return 0f;
+		isPlayerCooking = false;
+		StoveManager.instance.CloseMenu();
 
 		GameLibOfMethods.progress = 0;
-		// Check if the user canceled the action.
-		if (WasCanceled) {
+
+		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) {
 			PlayerAnimationHelper.ResetPlayer();
 			yield return 0f;
-			isPlayerCooking = false;
-			StoveManager.instance.CloseMenu();
+			GameLibOfMethods.animator.SetBool("PassOut", true);
+		}
+		// Check if the user canceled the action.
+		else if (WasCanceled) {
+			PlayerAnimationHelper.ResetPlayer();
+			yield return 0f;
+
 		}
 		else {
 			var recipeOutcome = GetRecipeOutcome(ingredients, out int expEarned);
 
-			PlayerStatsManager.Cooking.Instance.AddXP(expEarned);
+			PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].AddXP(expEarned);
 
 			RemoveIngredientsFromInventory(ingredients);
 			AddItemToInventory(recipeOutcome);
@@ -109,9 +124,15 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 			// Call this again, if it is AUTO-Cooking
 			if (ingredients == null) { StartCooking(null).Start(); }
 			// If it is not auto-cooking, Reset the player
-			else { PlayerAnimationHelper.ResetPlayer(); }
+			else {
+				PlayerAnimationHelper.ResetPlayer();
+				yield return 0f;
+				
+				StoveManager.instance.CloseMenu();
+			}
 		}
-		
+
+
 	}
 
 	Item GetRecipeOutcome(List<Item> ingredients, out int EXP) {

@@ -632,7 +632,7 @@ public class AtommInventory : MonoBehaviour
 
         PlayerStatsManager.Instance.Money -= item.quantity * item.price; //***
 
-        PlayerStatsManager.Charisma.Instance.AddXP(item.price * 0.2f);
+        PlayerStatsManager.Instance.playerSkills[SkillType.Charisma].AddXP(item.price * 0.2f);
 
         
 
@@ -750,7 +750,7 @@ public class AtommInventory : MonoBehaviour
         PlayerStatsManager.Instance.Money -= item.price;
         //inventory.Add(new Slot(item));
 
-        PlayerStatsManager.Charisma.Instance.AddXP(item.price * 0.2f);
+        PlayerStatsManager.Instance.playerSkills[SkillType.Charisma].AddXP(item.price * 0.2f);
 
 
 
@@ -818,7 +818,7 @@ public class AtommInventory : MonoBehaviour
         }
         PlayerStatsManager.Instance.Money -= item.price;
 
-        PlayerStatsManager.Charisma.Instance.AddXP(item.price * 0.2f);
+        PlayerStatsManager.Instance.playerSkills[SkillType.Charisma].AddXP(item.price * 0.2f);
 
         //int currentUpgradeLevel = int.Parse(item.upgradableGO.transform.GetChild(0).name);
         int currentUpgradeLevel = item.shopUpgradeID;

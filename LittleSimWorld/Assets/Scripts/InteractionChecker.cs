@@ -393,9 +393,9 @@ public class InteractionChecker : MonoBehaviour
     //    {
     //
     //        GameLibOfMethods.animator.SetBool("Learning", true);
-    //        PlayerStatsManager.Intelligence.Instance.AddXP(((xpGainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Instance.Energy -=(((energyDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Instance.Mood -=(((moodDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Instance.PlayerSkills[SkillType.Intelligence].AddXP(((xpGainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Energy.Instance.CurrentAmount -=(((energyDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Mood.Instance.CurrentAmount -=(((moodDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
     //
     //        /*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     //
@@ -437,9 +437,9 @@ public class InteractionChecker : MonoBehaviour
     //    {
     //        GameLibOfMethods.animator.SetBool(animationName, false);
     //        GameLibOfMethods.animator.SetBool("Learning", true);
-    //        PlayerStatsManager.Intelligence.Instance.AddXP(((xpGainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Instance.Energy -= (((energyDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Instance.Mood -= (((moodDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Instance.PlayerSkills[SkillType.Intelligence].AddXP(((xpGainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Energy.Instance.CurrentAmount -= (((energyDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Mood.Instance.CurrentAmount -= (((moodDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
     //
     //        /*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     //
@@ -474,10 +474,10 @@ public class InteractionChecker : MonoBehaviour
     //
     //IEnumerator SlowlyApproachToSleep()
     //{
-    //    if (!GameLibOfMethods.doingSomething && PlayerStatsManager.Instance.Food > PlayerStatsManager.Instance.MaxFood * 0.1f &&
-    //        PlayerStatsManager.Instance.Thirst > PlayerStatsManager.Instance.MaxThirst * 0.1f &&
-    //        PlayerStatsManager.Instance.Bladder > PlayerStatsManager.Instance.MaxBladder * 0.1f &&
-    //        PlayerStatsManager.Instance.Hygiene > PlayerStatsManager.Instance.MaxHygiene * 0.1f)
+    //    if (!GameLibOfMethods.doingSomething && PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
+    //        PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
+    //        PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
+    //        PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f)
     //    {
     //        float percentage = 0;
     //        GameLibOfMethods.canInteract = false;
@@ -536,23 +536,23 @@ public class InteractionChecker : MonoBehaviour
     //    float timeWithFullBar = 0;
     //    DayNightCycle.Instance.ChangeSpeedToSleepingSpeed();
     //    while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut &&
-    //        !GameLibOfMethods.doingSomething && PlayerStatsManager.Instance.Food > PlayerStatsManager.Instance.MaxFood * 0.1f &&
-    //        PlayerStatsManager.Instance.Thirst > PlayerStatsManager.Instance.MaxThirst * 0.1f &&
-    //        PlayerStatsManager.Instance.Bladder > PlayerStatsManager.Instance.MaxBladder * 0.1f &&
-    //        PlayerStatsManager.Instance.Hygiene > PlayerStatsManager.Instance.MaxHygiene * 0.1f)
+    //        !GameLibOfMethods.doingSomething && PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
+    //        PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
+    //        PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
+    //        PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f)
     //    {
     //        //Debug.Log(Time.deltaTime);
     //
     //        GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * DayNightCycle.Instance.currentTimeSpeedMultiplier) * DayNightCycle.Instance.speed;
-    //        PlayerStatsManager.Instance.AddEnergy(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().EnergyGainPerHour) 
+    //        PlayerStatsManager.Energy.Instance.Add(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().EnergyGainPerHour) 
     //            * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Instance.AddMood(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().MoodGainPerHour)
+    //        PlayerStatsManager.Mood.Instance.Add(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().MoodGainPerHour)
     //            * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Instance.Heal(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().HealthGainPerHour)
+    //        PlayerStatsManager.Health.Instance.Add(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().HealthGainPerHour)
     //           * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
     //
     //
-    //        if (PlayerStatsManager.Instance.Energy >= PlayerStatsManager.Instance.MaxEnergy)
+    //        if (PlayerStatsManager.Energy.Instance.CurrentAmount >= PlayerStatsManager.Energy.Instance.MaxAmount)
     //        {
     //            timeWithFullBar += Time.deltaTime;
     //
@@ -589,14 +589,14 @@ public class InteractionChecker : MonoBehaviour
     //        PlayerStatsManager.Instance.passingOut = true;
     //        yield return new WaitForEndOfFrame();
     //        DayNightCycle.Instance.ChangeSpeedToSleepingSpeed();
-    //        while (PlayerStatsManager.Instance.Energy < 50)
+    //        while (PlayerStatsManager.Energy.Instance.CurrentAmount < 50)
     //        {
     //            //Debug.Log(Time.deltaTime);
     //
     //
-    //            PlayerStatsManager.Instance.AddEnergy(((EnergyGainSpeedWhenPassedOut)
+    //            PlayerStatsManager.Energy.Instance.Add(((EnergyGainSpeedWhenPassedOut)
     //                * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //            PlayerStatsManager.Instance.Health -= (((EnergyGainSpeedWhenPassedOut * 0.5f)
+    //            PlayerStatsManager.Health.Instance.CurrentAmount -= (((EnergyGainSpeedWhenPassedOut * 0.5f)
     //              * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
     //
     //

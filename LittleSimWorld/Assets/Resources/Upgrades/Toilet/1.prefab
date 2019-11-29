@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6458339594901633689}
   - component: {fileID: 6458339594901633690}
   - component: {fileID: 6458339594901633691}
+  - component: {fileID: 4545832884620903928}
   m_Layer: 10
   m_Name: 1
   m_TagString: Untagged
@@ -138,7 +139,23 @@ MonoBehaviour:
   LoopingSound: {fileID: 8300000, guid: 5985f329956e099448dfee6ad66c0a97, type: 3}
   ExitSound: {fileID: 8300000, guid: f60bb1548949a5344a513654aec348a1, type: 3}
   LoopingParticleSystem: {fileID: 0}
+  XpGainGetHour: 0
+  EnergyGainPerHour: 4
+  FoodGainPerHour: 4
+  MoodGainPerHour: 4
+  BladderGainPerHour: 4
+  ThirstGainPerHour: 4
+  HealthGainPerHour: 4
+  HygieneGainPerHour: 4
+  EnergyDrainPerHour: 4
+  FoodDrainPerHour: 4
+  MoodDrainPerHour: 4
+  BladderDrainPerHour: 4
+  ThirstDrainPerHour: 4
+  HealthDrainPerHour: 4
+  HygieneDrainPerHour: 4
   BrokenParticleSystem: {fileID: 0}
+  BladderGainAmount: 30
 --- !u!82 &6458339594901633690
 AudioSource:
   m_ObjectHideFlags: 0
@@ -247,15 +264,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RendererOfOutlinedObject: []
-  OutlineGO: []
-  outlineThickness: 0.2
+  RendererOfOutlinedObject: {fileID: 0}
+  OutlineGO: {fileID: 0}
+  outlineThickness: 0
   OutlineColor: {r: 0.05789665, g: 1, b: 0.042452812, a: 0.23529412}
-  OutlineMaterial: {fileID: 2100000, guid: afc7c2ae304b53e4fb7e204c5479ed16, type: 2}
-  OutlinePrefab: {fileID: 1731291263807503400, guid: 81826a2594212d34880a913de03e4e31,
-    type: 3}
-  DeltaOfOutline: {x: 0, y: 0.01, z: 0}
   Enabled: 0
+--- !u!114 &4545832884620903928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458339594901633693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ec395d2fb1f4da45bac7f7355969252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundGroup: 1
+  audioSource: {fileID: 6458339594901633690}
 --- !u!1 &6458339595030472477
 GameObject:
   m_ObjectHideFlags: 0

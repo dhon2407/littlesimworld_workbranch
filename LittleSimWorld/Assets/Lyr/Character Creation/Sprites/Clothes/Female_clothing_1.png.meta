@@ -1,0 +1,319 @@
+fileFormatVersion: 2
+guid: 8aecc2c2708a2174d82dd5ef44ffd8a8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8009018750598492459
+    second: Shirt_Bot
+  - first:
+      213: -8065605429410983168
+    second: Shirt_Top
+  - first:
+      213: -6591695106193794852
+    second: Shirt_Right
+  - first:
+      213: -973984215656221004
+    second: Shirt_L
+  - first:
+      213: -6102166861987765068
+    second: Pants_Bot
+  - first:
+      213: 6590416720225641397
+    second: Pants_Top
+  - first:
+      213: -2550767861566163756
+    second: Pants_Right
+  - first:
+      213: -2498275904045106556
+    second: Pants_Left
+  - first:
+      213: 5716506231374067881
+    second: Female_clothing_1_0
+  - first:
+      213: 454956207725497911
+    second: Female_clothing_1_1
+  - first:
+      213: 7912610567904367423
+    second: Female_clothing_1_2
+  - first:
+      213: -6602648042620030076
+    second: Female_clothing_1_3
+  - first:
+      213: 6841712851281056414
+    second: Female_clothing_1_4
+  - first:
+      213: -4974266219176783970
+    second: Female_clothing_1_5
+  - first:
+      213: 7191899464578314143
+    second: Female_clothing_1_6
+  - first:
+      213: -8644557980246046996
+    second: Female_clothing_1_7
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Female_clothing_1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 73
+        width: 77
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5e64f7d0ebd74548962aca8a53ef3ad
+      internalID: 5716506231374067881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_1
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 73
+        width: 78
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe154be412a26ad44a491a619cbc9e98
+      internalID: 454956207725497911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_2
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 73
+        width: 77
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53c438e013a3f9c4abc41c055831fa61
+      internalID: 7912610567904367423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_3
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 73
+        width: 77
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4374891a9d17ae0488614745b63f8a42
+      internalID: -6602648042620030076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 78
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6700d5dd1d9321f44965e9b1e127792b
+      internalID: 6841712851281056414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_5
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 0
+        width: 78
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c884d335b4183a74790edf1fd232704f
+      internalID: -4974266219176783970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_6
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 0
+        width: 78
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 355bde5ea0e2706459f0352f52d968ac
+      internalID: 7191899464578314143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_clothing_1_7
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 0
+        width: 77
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75fb4906ca92b3c4498538b0316a4bbb
+      internalID: -8644557980246046996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

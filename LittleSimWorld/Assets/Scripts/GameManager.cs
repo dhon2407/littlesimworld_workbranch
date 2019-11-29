@@ -7,23 +7,22 @@ using System.IO;
 using TMPro;
 using UnityEngine.SceneManagement;
 [System.Serializable]
+[DefaultExecutionOrder(1)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public string CurrentSaveName;
     public float PlayTime;
-    public TMPro.TMP_InputField saveName;
     public bool IsStartingNewGame = false;
     public List<string> UpgradableGOsNames = new List<string>();
-    //public List<string> UpgradeTiers = new List<string>();
+    public Save CurrentSave;
 
-    [SerializeField] public SerializableDictMisc.StringFloatDictionary playerSaveTemplateDictionary;
+	[HideInInspector] public CharacterData.CharacterInfo CharacterInfo;
+    //public List<string> UpgradeTiers = new List<string>();
     
     private Save CreateSaveGameObject()
     {
         Save save = new Save();
-        
-        //save.SetSaveDictionary(playerSaveTemplateDictionary);
         
         int i = 0;
         foreach (AtommInventory.Slot slot in AtommInventory.inventory)
@@ -34,52 +33,16 @@ public class GameManager : MonoBehaviour
                 i++;
 
         }
+        save.PlayerSkills = PlayerStatsManager.Instance.playerSkills;
 
-        save.Health = PlayerStatsManager.Instance.Health;
-        save.maxHealth = PlayerStatsManager.Instance.MaxHealth;
-
-        save.Energy = PlayerStatsManager.Instance.Energy;
-        save.maxEnergy = PlayerStatsManager.Instance.MaxEnergy;
-
-        save.Mood = PlayerStatsManager.Instance.Mood;
-        save.maxMood = PlayerStatsManager.Instance.MaxMood;
-
-        save.Food = PlayerStatsManager.Instance.Food;
-        save.maxFood = PlayerStatsManager.Instance.MaxFood;
-
-        save.Thirst = PlayerStatsManager.Instance.Thirst;
-        save.maxThirst = PlayerStatsManager.Instance.MaxThirst;
-
-        save.Hygiene = PlayerStatsManager.Instance.Hygiene;
-        save.MaxHygiene = PlayerStatsManager.Instance.MaxHygiene;
-
-        save.Bladder = PlayerStatsManager.Instance.Bladder;
-        save.MaxBladder = PlayerStatsManager.Instance.MaxBladder;
+        save.PlayerStatusBars = PlayerStatsManager.Instance.playerStatusBars;
 
         save.Money = PlayerStatsManager.Instance.Money;
         save.XPmultiplayer = PlayerStatsManager.Instance.XPMultiplier;
         save.PriceMultiplayer = PlayerStatsManager.Instance.PriceMultiplier;
 
-        /*foreach(KeyValuePair<string,float> dic in PlayerStatsManager.Instance.playerStatsDictionary)
-        {                                                                                                                           //Kira
-            save.playerSaveDictionary[dic.Key] = dic.Value;
-        }*/
-
-        save.intelligenceSkill = PlayerStatsManager. Intelligence.Instance;
-        
-
-        save.strengthSkill = PlayerStatsManager.Strength.Instance;
        
-
-        save.fitnesSkill = PlayerStatsManager.Fitness.Instance;
-       
-        save.charismaSkill = PlayerStatsManager.Charisma.Instance;
         
-
-        save.cookingSkill = PlayerStatsManager.Cooking.Instance;
-        
-        save.repairSkill = PlayerStatsManager.Repair.Instance;
-
         save.repairSpeed = PlayerStatsManager.Instance.RepairSpeed;
 
         save.time = DayNightCycle.Instance.time;
@@ -90,12 +53,11 @@ public class GameManager : MonoBehaviour
         save.RealPlayTime = PlayTime;
 
 
-        save.SavedCurrentJob = JobsPopUp.CurrentJob;
+        save.CurrentJob = JobManager.Instance.CurrentJob;
 
         save.playerX = GameLibOfMethods.player.transform.position.x;
         save.playerY = GameLibOfMethods.player.transform.position.y;
 
-        //UpgradeTiers.Clear();
         foreach (string name in UpgradableGOsNames)
         {
             save.Upgrades.Add(name);
@@ -113,19 +75,11 @@ public class GameManager : MonoBehaviour
 
         save.moneyInBank = Bank.Instance.MoneyInBank;
         save.percentagePerDay = Bank.Instance.PercentagePerDay;
-         
 
 
+        save.CurrentJob = JobManager.Instance.CurrentJob;
         return save;
     }
-    
-   /* private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SaveGame();
-        }
-    }*/
     private void Awake()
     {
         if (Instance != null)
@@ -139,10 +93,12 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        if(Application.platform == RuntimePlatform.WindowsEditor)
+        if(Application.platform == RuntimePlatform.WindowsEditor && SceneManager.GetActiveScene().buildIndex == 1)
         {
+            
             LoadGame();
         }
+       
         SceneManager.activeSceneChanged +=
          delegate {
 
@@ -150,8 +106,10 @@ public class GameManager : MonoBehaviour
                  LoadGame();
              else
              {
-                 SaveGame();
-             }
+				 Debug.Log("No game saved, creating new one");
+				
+				 SaveGame();
+			 }
 
          };
     }
@@ -163,7 +121,11 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        // 1
+        if (IsStartingNewGame)
+        {
+            PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
+        }
+        IsStartingNewGame = false;
         Save save = CreateSaveGameObject();
 
         // 2
@@ -173,9 +135,9 @@ public class GameManager : MonoBehaviour
         bf.Serialize(file, save);
         file.Close();
 
-        
 
 
+        CurrentSave = save;
         Debug.Log("Game Saved");
     }
     public void LoadGame()
@@ -183,7 +145,7 @@ public class GameManager : MonoBehaviour
         // 1
         if (File.Exists(Application.persistentDataPath + "/" + CurrentSaveName + ".save"))
         {
-
+            IsStartingNewGame = false;
 
             // 2
             BinaryFormatter bf = new BinaryFormatter();
@@ -191,56 +153,20 @@ public class GameManager : MonoBehaviour
             FileStream file = File.Open(Application.persistentDataPath + "/" + CurrentSaveName + ".save", FileMode.Open);
             file.Position = 0;
             Save save = (Save)bf.Deserialize(file);
-            
 
+            CurrentSave = save;
             // 3
             for (int i = 0; i < save.itemsInInventory.Count; i++)
             {
                 AtommInventory.inventory.Add(save.itemsInInventory[i]);
             }
 
-           /* PlayerStatsManager.Instance.Health = save.playerSaveDictionary["Health"];*/
-            
-            PlayerStatsManager.Instance.Health = save.Health;
-            PlayerStatsManager.Instance.MaxHealth = save.maxHealth;
-
-            PlayerStatsManager.Instance.Energy = save.Energy;
-            PlayerStatsManager.Instance.MaxEnergy = save.maxEnergy;
-
-            PlayerStatsManager.Instance.Mood = save.Mood;
-            PlayerStatsManager.Instance.MaxMood = save.maxMood;
-
-
-            PlayerStatsManager.Instance.Food = save.Food;
-            PlayerStatsManager.Instance.MaxFood = save.maxFood;
-
-            PlayerStatsManager.Instance.Thirst = save.Thirst;
-            PlayerStatsManager.Instance.MaxThirst = save.maxThirst;
-
-            PlayerStatsManager.Instance.Bladder = save.Bladder;
-            PlayerStatsManager.Instance.MaxBladder = save.MaxBladder;
-
-            PlayerStatsManager.Instance.Hygiene = save.Hygiene;
-            PlayerStatsManager.Instance.MaxHygiene = save.MaxHygiene;
-
-
-
+            PlayerStatsManager.Instance.playerStatusBars = save.PlayerStatusBars;
+            PlayerStatsManager.Instance.playerSkills = save.PlayerSkills;
 
             PlayerStatsManager.Instance.Money = save.Money;
             PlayerStatsManager.Instance.XPMultiplier = save.XPmultiplayer;
             PlayerStatsManager.Instance.PriceMultiplier = save.PriceMultiplayer;
-            
-            PlayerStatsManager.Intelligence.Instance = save.intelligenceSkill;
-
-            PlayerStatsManager.Strength.Instance = save.strengthSkill;
-
-            PlayerStatsManager.Fitness.Instance = save.fitnesSkill;
-
-            PlayerStatsManager.Charisma.Instance = save.charismaSkill;
-
-            PlayerStatsManager.Cooking.Instance = save.cookingSkill;
-
-            PlayerStatsManager.Repair.Instance = save.repairSkill;
 
             DayNightCycle.Instance.time = save.time;
             DayNightCycle.Instance.days = save.days;
@@ -264,7 +190,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log(mission);
             }
 
-            JobsPopUp.CurrentJob = save.SavedCurrentJob;
+            JobManager.Instance.CurrentJob = save.CurrentJob;
 
             for (int p = 0; p < UpgradableGOsNames.Count; p++)
             {
@@ -294,23 +220,23 @@ public class GameManager : MonoBehaviour
 
             Debug.Log("Game Loaded");
             file.Close();
+            PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
         }
         else
         {
-            Debug.Log("No game saved!");
+            /*if (PlayerStatsManager.Instance) {
+				
+				IsStartingNewGame = true;
+				PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
+				SaveGame();
+			}*/
+            Debug.Log("No game saved, creating new one");
         }
-        
-        
-    }
-    public void ChangeCurrentSave()
-    {
 
-        CurrentSaveName = saveName.text;
     }
     public void NewGame()
     {
         IsStartingNewGame = true;
-        ChangeCurrentSave();
         Save save = new Save();
 
         //save.SetSaveDictionary(playerSaveTemplateDictionary);
@@ -324,7 +250,8 @@ public class GameManager : MonoBehaviour
         MainMenu.Instance.LoadMainSceneGame(1);
 
 
-
+        CurrentSave = save;
+        Debug.Log("New Game");
     }
    
 }

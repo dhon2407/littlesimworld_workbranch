@@ -250,13 +250,13 @@ public class GameLibOfMethods : MonoBehaviour
         DayNightCycle.Instance.ChangeSpeedToNormal();
         yield return new WaitForSecondsRealtime(2);
         player.GetComponent<Animator>().enabled = true;
-        PlayerStatsManager.Instance.Food = (PlayerStatsManager.Instance.MaxFood);
-        PlayerStatsManager.Instance.Energy = (PlayerStatsManager.Instance.MaxEnergy);
-        PlayerStatsManager.Instance.Health =(PlayerStatsManager.Instance.MaxHealth);
-        PlayerStatsManager.Instance.Mood = (PlayerStatsManager.Instance.MaxMood);
-        PlayerStatsManager.Instance.Bladder = (100);
-        PlayerStatsManager.Instance.Hygiene = (100);
-        PlayerStatsManager.Instance.Thirst = (100);
+        PlayerStatsManager.Hunger.Instance.CurrentAmount = (PlayerStatsManager.Hunger.Instance.MaxAmount);
+        PlayerStatsManager.Energy.Instance.CurrentAmount = (PlayerStatsManager.Energy.Instance.MaxAmount);
+        PlayerStatsManager.Health.Instance.CurrentAmount =(PlayerStatsManager.Health.Instance.MaxAmount);
+        PlayerStatsManager.Mood.Instance.CurrentAmount = (PlayerStatsManager.Mood.Instance.MaxAmount);
+        PlayerStatsManager.Bladder.Instance.CurrentAmount = (100);
+        PlayerStatsManager.Hygiene.Instance.CurrentAmount = (100);
+        PlayerStatsManager.Thirst.Instance.CurrentAmount = (100);
 
         Vector3 tempRotation = new Vector3(0, 0, 0);
         player.transform.rotation = Quaternion.Euler(tempRotation);

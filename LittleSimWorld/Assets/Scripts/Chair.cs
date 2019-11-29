@@ -62,8 +62,8 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
 			GameLibOfMethods.animator.SetBool("Learning", true);
 			float multi = (Time.deltaTime / DayNightCycle.Instance.speed) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
 			PlayerStatsManager.Intelligence.Instance.AddXP(xpGainSpeed * multi);
-			PlayerStatsManager.Instance.Energy -= (energyDrainSpeed * multi);
-			PlayerStatsManager.Instance.Mood -= (moodDrainSpeed * multi);
+			PlayerStatsManager.Energy.Instance.CurrentAmount -= (energyDrainSpeed * multi);
+			PlayerStatsManager.Mood.Instance.CurrentAmount -= (moodDrainSpeed * multi);
 
 			/*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 

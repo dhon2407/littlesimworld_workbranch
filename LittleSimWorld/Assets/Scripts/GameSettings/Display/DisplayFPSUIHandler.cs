@@ -23,6 +23,7 @@ namespace GameSettings
 
             Settings.Display.onValuesChanged.AddListener(UpdateValue);
             UpdateValue();
+
             input.onValueChanged.AddListener(UpdateFPS);
         }
 
@@ -37,6 +38,11 @@ namespace GameSettings
                 input.text = Settings.Display.ChangeMaxFPS(newFPS).ToString("0");
             else
                 input.text = Settings.Display.ChangeMaxFPS().ToString("0");
+        }
+
+        private void OnDestroy()
+        {
+            Settings.Display.onValuesChanged.RemoveListener(UpdateValue);
         }
 
         private void Reset()

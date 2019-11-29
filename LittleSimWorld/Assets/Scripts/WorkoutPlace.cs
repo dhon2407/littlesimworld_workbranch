@@ -9,7 +9,11 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
 	public Vector3 PlayerStandPosition => Weights.transform.position;
 	public float CustomSpeedToPosition { get; }
 
-	public void Interact() => PlayerCommands.JumpTo(this);
+	public void Interact() {
+		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 5 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 5) { return; }
+		PlayerCommands.JumpTo(this);
+	}
+
 	public void Use() {
 		GameLibOfMethods.player.GetComponent<SpriteControler>().FaceRIGHT();
 		Weights.SetActive(false);
@@ -30,11 +34,12 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
 
 		SpriteControler.Instance.FaceRIGHT();
 
-		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut) {
+		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract)) {
 
+			PlayerStatsManager.Instance.playerSkills[SkillType.Strength].AddXP(0.027777778f);
+			PlayerStatsManager.Energy.Instance.Add(-0.027777778f);
 
-			PlayerStatsManager.Strength.Instance.AddXP(0.027777778f);
-			PlayerStatsManager.Instance.SubstractEnergy(0.027777778f);
+			if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) { break; }
 
 			yield return new WaitForFixedUpdate();
 		}
@@ -45,7 +50,12 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
 		GameLibOfMethods.animator.SetBool("Lifting", false);
 		yield return new WaitForEndOfFrame();
 
-		PlayerCommands.JumpOff();
+
+		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) {
+			void act() => GameLibOfMethods.animator.SetBool("PassOut", true);
+			PlayerCommands.JumpOff(0, act);
+		}
+		else { PlayerCommands.JumpOff(); }
 
 	}
 

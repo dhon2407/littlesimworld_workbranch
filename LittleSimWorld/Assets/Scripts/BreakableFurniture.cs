@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+
 public class BreakableFurniture : MonoBehaviour
 {
     public float breakChancePerSecond = 50;
@@ -43,10 +45,6 @@ public class BreakableFurniture : MonoBehaviour
     }
     protected virtual void Start()
     {
-        if (SoundSource)
-        {
-            OptionsManager.Instance.SoundSources.Add(SoundSource);
-        }
         if (LoopingParticleSystem)
         {
             Emission = LoopingParticleSystem.emission;
@@ -116,7 +114,7 @@ public class BreakableFurniture : MonoBehaviour
         RepairProgress = 0;
         Progress.fillAmount = RepairProgress;
 		PlayerAnimationHelper.ResetPlayer();
-        PlayerStatsManager.Repair.Instance.AddXP(10);
+        PlayerStatsManager.Instance.playerSkills[SkillType.Repair].AddXP(10);
     }
 
     public void PlayEnterAndLoopSound()

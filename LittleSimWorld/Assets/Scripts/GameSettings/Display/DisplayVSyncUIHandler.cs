@@ -39,6 +39,11 @@ namespace GameSettings
             Settings.Display.SetVsync(toggle.isOn);
         }
 
+        private void OnDestroy()
+        {
+            Settings.Display.onValuesChanged.RemoveListener(UpdateValue);
+        }
+
         private void Reset()
         {
             toggle = GetComponent<Toggle>();

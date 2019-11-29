@@ -21,7 +21,10 @@ public class Shower : BreakableFurniture, IUseable, IInteractable {
 
 
 	public void Use() => StartCoroutine(TakingShower());
-	public void Interact() => PlayerCommands.JumpTo(this);
+	public void Interact() {
+		SpriteControler.Instance.ChangeSortingOrder(7);
+		PlayerCommands.JumpTo(this);
+	}
 
 	public IEnumerator TakingShower() {
 		if (!GameLibOfMethods.canInteract) {
@@ -44,7 +47,7 @@ public class Shower : BreakableFurniture, IUseable, IInteractable {
 			while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut && !isBroken) {
 
 
-				PlayerStatsManager.Instance.AddHygiene(HygieneGainAmount * Time.fixedDeltaTime);
+				PlayerStatsManager.Hygiene.Instance.Add(HygieneGainAmount * Time.fixedDeltaTime);
 
 				float chance = Random.Range(0f, 100f);
 				if (chance <= breakChancePerSecond / 60) {
@@ -53,7 +56,7 @@ public class Shower : BreakableFurniture, IUseable, IInteractable {
 				}
 
 
-				if (PlayerStatsManager.Instance.Hygiene >= PlayerStatsManager.Instance.MaxHygiene) {
+				if (PlayerStatsManager.Hygiene.Instance.CurrentAmount >= PlayerStatsManager.Hygiene.Instance.MaxAmount) {
 					timeWithFullBar += Time.deltaTime;
 
 					if (timeWithFullBar >= 2) {
@@ -73,7 +76,9 @@ public class Shower : BreakableFurniture, IUseable, IInteractable {
 			GameLibOfMethods.animator.SetBool("TakingShower", false);
 			yield return new WaitForEndOfFrame();
 
-			PlayerCommands.JumpOff();
+			void act() => SpriteControler.Instance.ChangeSortingOrder(6);
+
+			PlayerCommands.JumpOff(0, act);
 		}
 	}
 

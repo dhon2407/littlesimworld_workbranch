@@ -114,8 +114,8 @@ public class DayNightCycle : MonoBehaviour
         {
             days += 1;
             WeekDay += 1;
-            if(JobsPopUp.CurrentJob!= null)
-            JobsPopUp.CurrentJob.WorkedToday = false;
+            if (JobManager.Instance.CurrentJob != null)
+                JobManager.Instance.CurrentJob.WorkedToday = false;
             WeatherSystem.Instance.ChooseWeatherForTheDay();
             Bank.Instance.AddPercentageToBalance();
             if (WeekDay >= 7)

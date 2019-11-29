@@ -8,11 +8,6 @@ public class TelephoneBooth : MonoBehaviour, IUseable, IInteractable {
 	public float CustomSpeedToPosition { get; }
 
 	public void Interact() {
-		Debug.Log("Using the booth");
-		if (JobsPopUp.CurrentJob != null) {
-			/*JobsPopUp.Instance.anim.SetBool("CarCalled", true);
-			GameLibOfMethods.AddChatMessege("Called car to work.");*/
-		}
 	}
 	public void Use() => Debug.Log("Using the booth");
 

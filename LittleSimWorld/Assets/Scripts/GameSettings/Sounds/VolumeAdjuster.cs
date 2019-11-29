@@ -51,6 +51,11 @@ namespace GameSettings
                 Settings.Sound.ChangeVolume(soundGroup, slider.value);
         }
 
+        private void OnDestroy()
+        {
+            Settings.Display.onValuesChanged.RemoveListener(UpdateValue);
+        }
+
         private void Reset()
         {
             slider = GetComponent<Slider>();    

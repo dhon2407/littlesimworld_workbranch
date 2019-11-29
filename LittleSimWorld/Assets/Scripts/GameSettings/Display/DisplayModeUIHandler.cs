@@ -38,7 +38,7 @@ namespace GameSettings
             Settings.Display.onValuesChanged.AddListener(ModeChanged);
 
             ModeChanged();
-            dropDownList.onValueChanged.AddListener(delegate { UpdateMode(); });
+            dropDownList.onValueChanged.AddListener(delegate{ UpdateMode(); });
         }
 
         private void ModeChanged()
@@ -52,6 +52,11 @@ namespace GameSettings
         public void UpdateMode()
         {
             Settings.Display.ChangeMode(modes[dropDownList.value]);
+        }
+
+        private void OnDestroy()
+        {
+            Settings.Display.onValuesChanged.RemoveListener(ModeChanged);
         }
 
         private void Reset()

@@ -10,7 +10,10 @@ public class Toilet : BreakableFurniture, IUseable, IInteractable {
 
 	public float BladderGainAmount = 30;
 
-	public void Interact() => PlayerCommands.JumpTo(this);
+	public void Interact() {
+		SpriteControler.Instance.ChangeSortingOrder(7);
+		PlayerCommands.JumpTo(this);
+	}
 	public void Use() => StartCoroutine(UseToilet());
 
 	IEnumerator UseToilet() {
@@ -29,10 +32,10 @@ public class Toilet : BreakableFurniture, IUseable, IInteractable {
 
 
 
-			PlayerStatsManager.Instance.AddBladder(BladderGainAmount * Time.fixedDeltaTime);
+			PlayerStatsManager.Bladder.Instance.Add(BladderGainAmount * Time.fixedDeltaTime);
 
 
-			if (PlayerStatsManager.Instance.Bladder >= PlayerStatsManager.Instance.MaxBladder) {
+			if (PlayerStatsManager.Bladder.Instance.CurrentAmount >= PlayerStatsManager.Bladder.Instance.MaxAmount) {
 				timeWithFullBar += Time.deltaTime;
 
 				if (timeWithFullBar >= 2) {
@@ -49,7 +52,9 @@ public class Toilet : BreakableFurniture, IUseable, IInteractable {
 		GameLibOfMethods.animator.SetBool("TakingADump", false);
 		yield return new WaitForEndOfFrame();
 
-		PlayerCommands.JumpOff();
+		void act() => SpriteControler.Instance.ChangeSortingOrder(6);
+
+		PlayerCommands.JumpOff(0, act);
 	}
 
 }

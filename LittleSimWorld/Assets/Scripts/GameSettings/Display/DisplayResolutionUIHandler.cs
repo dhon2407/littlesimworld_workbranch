@@ -1,6 +1,4 @@
-﻿using GameSettings.Helpers;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,8 +15,8 @@ namespace GameSettings
 
         private void Awake()
         {
-            resolutions = new List<Resolution>();
             dropDownList.ClearOptions();
+            resolutions = new List<Resolution>();
         }
 
         private void Start()
@@ -31,21 +29,35 @@ namespace GameSettings
             while (!Settings.DataReady)
                 yield return null;
 
-            foreach (var resolution in Settings.Display.Resolutions)
-            {
-                resolutions.Add(resolution);
-                dropDownList.options.Add(new DropDownData(string.Format("{0} x {1}",
-                    resolution.width, resolution.height)));
-            }
-
             dropDownList.onValueChanged.AddListener(delegate { UpdateResolution(); });
             Settings.Display.onChangeResolution.AddListener(ResolutionChanged);
+            Settings.Display.onResolutionListChanged.AddListener(UpdateList);
         }
 
         public void UpdateResolution()
         {
-            if (!resolutions[dropDownList.value].Same(Settings.Display.CurrentGameResolution))
+            if (resolutions.Count > 0)
                 Settings.Display.ChangeResolution(resolutions[dropDownList.value]);
+        }
+
+        private void UpdateList()
+        {
+            ClearValues();
+            foreach (var res in Settings.Display.Resolutions)
+            {
+                dropDownList.options.Add(new DropDownData(string.Format("{0} x {1}",
+                                                          res.width, res.height)));
+                resolutions.Add(res);
+            }
+
+            if (!Settings.Display.AutoDetectResolution)
+                SelectFromList(Settings.Display.CurrentGameResolution);
+        }
+
+        private void OnDestroy()
+        {
+            Settings.Display.onChangeResolution.RemoveListener(ResolutionChanged);
+            Settings.Display.onResolutionListChanged.RemoveListener(UpdateList);
         }
 
         private void Reset()
@@ -55,12 +67,39 @@ namespace GameSettings
 
         private void ResolutionChanged(Resolution newResolution)
         {
-            int resIndex = resolutions.FindIndex(
-                res => (res.width == newResolution.width && res.height == newResolution.height));
-            
-            if (resIndex >= 0)
-                dropDownList.value = resIndex;
+            if (Settings.Display.AutoDetectResolution)
+            {
+                ClearValues();
+                dropDownList.options.Add(new DropDownData(string.Format("{0} x {1}",
+                    newResolution.width, newResolution.height)));
+                resolutions.Add(newResolution);
+
+                dropDownList.value = -1;
+            }
+            else
+            {
+                SelectFromList(newResolution);
+            }
         }
 
+        private void SelectFromList(Resolution newResolution)
+        {
+            int resIndex = resolutions.FindIndex(
+                resolution => (resolution.width == newResolution.width && resolution.height == newResolution.height));
+
+            if (resIndex >= 0)
+            {
+                if (dropDownList.options.Count == 1)
+                    dropDownList.value = -1;
+                else
+                    dropDownList.value = resIndex;
+            }
+        }
+
+        private void ClearValues()
+        {
+            resolutions.Clear();
+            dropDownList.ClearOptions();
+        }
     }
 }

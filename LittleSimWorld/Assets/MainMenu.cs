@@ -64,12 +64,12 @@ public class MainMenu : MonoBehaviour
 
             save.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Total time spent: "+ TimeSpan.FromSeconds(savefile.RealPlayTime).Hours.ToString() + " hours " + TimeSpan.FromSeconds(savefile.RealPlayTime).Minutes.ToString() + "  minutes.";
             string totalLvl = (
-                savefile.charismaSkill.Level - 1
-                + savefile.fitnesSkill.Level - 1
-                + savefile.intelligenceSkill.Level - 1
-                + savefile.strengthSkill.Level - 1
-                + savefile.cookingSkill.Level - 1
-                + savefile.repairSkill.Level - 1
+                savefile.PlayerSkills[SkillType.Charisma].Level
+                + savefile.PlayerSkills[SkillType.Fitness].Level
+                + savefile.PlayerSkills[SkillType.Intelligence].Level
+                + savefile.PlayerSkills[SkillType.Strength].Level
+                + savefile.PlayerSkills[SkillType.Cooking].Level
+                + savefile.PlayerSkills[SkillType.Repair].Level
                 ).ToString();
             if(totalLvl == "0")
             save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + "-";
@@ -99,6 +99,9 @@ public class MainMenu : MonoBehaviour
 
             yield return null;
         }
+
+		SpriteControler.Instance.visuals = GameManager.Instance.CharacterInfo;
+		SpriteControler.Instance.FaceDOWN();
     }
     void cursorSet(Texture2D tex)
     {

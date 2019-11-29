@@ -28,6 +28,7 @@ namespace GameSettings
             soundSources = new Dictionary<SoundGroup, List<AudioSource>>();
             soundSourcesVolume = new Dictionary<SoundGroup, float>();
             soundSourcesVolumeMuted = new Dictionary<SoundGroup, bool>();
+            masterVolumeMuted = false;
 
             foreach (SoundGroup group in Enum.GetValues(typeof(SoundGroup)))
             {
@@ -41,29 +42,38 @@ namespace GameSettings
 
         public void RestoreDefaults()
         {
-            masterVolume = 1;
+            ChangeMasterVolume(1);
+            MuteMasterVolume(false);
 
             foreach (SoundGroup group in Enum.GetValues(typeof(SoundGroup)))
             {
                 ChangeVolume(group, 0.5f);
-                soundSourcesVolumeMuted[group] = false;
+                MuteVolume(group, false);
             }
 
             onValuesChanged.Invoke();
+            DataLoaded = true;
         }
 
         public void RegisterSource(SoundGroup group, AudioSource audioSource)
         {
             if (!soundSources[group].Contains(audioSource))
+            {
                 soundSources[group].Add(audioSource);
+                audioSource.volume = Mathf.Clamp01(soundSourcesVolume[group] * masterVolume);
+                audioSource.mute = soundSourcesVolumeMuted[group];
+            }
+        }
+
+        public void RemoveSource(SoundGroup soundGroup, AudioSource audioSource)
+        {
+            if (soundSources[soundGroup].Contains(audioSource))
+                soundSources[soundGroup].Remove(audioSource);
         }
 
         public void ChangeMasterVolume(float value)
         {
             masterVolume = Mathf.Clamp01(value);
-
-            Debug.Log("Master volume set to " + value);
-
             AdjustAllVolumes();
         }
 
@@ -80,15 +90,16 @@ namespace GameSettings
             masterVolumeMuted = muted;
 
             foreach (var soundGroup in soundSources.Keys)
+            {
                 foreach (var audioSource in soundSources[soundGroup])
-                    audioSource.mute = muted;
+                    audioSource.mute = muted ? true : audioSource.mute;
+            }
         }
 
         public void MuteVolume(SoundGroup soundGroup, bool muted)
         {
-            Debug.Log(soundGroup + " volume muted : " + muted);
             foreach (var audioSource in soundSources[soundGroup])
-                audioSource.mute = muted;
+                audioSource.mute = masterVolumeMuted ? true : muted;
             
             soundSourcesVolumeMuted[soundGroup] = muted;
         }
@@ -105,59 +116,58 @@ namespace GameSettings
 
         public float GetVolume(SoundGroup soundGroup)
         {
-            Debug.Log("Returned " + soundGroup + " " + soundSourcesVolume[soundGroup]);
             return soundSourcesVolume[soundGroup];
         }
 
         public void SaveSetting()
         {
-            PlayerPrefs.SetFloat(nameof(masterVolume), masterVolume);
-            PlayerPrefs.SetInt(nameof(masterVolumeMuted), masterVolumeMuted ? 1 : 0);
+            PlayerPrefs.SetFloat(DataSave.MasterVolume, masterVolume);
+            PlayerPrefs.SetInt(DataSave.MasterVolumeMute, masterVolumeMuted ? 1 : 0);
 
-            PlayerPrefs.SetFloat(nameof(masterVolume) + nameof(BG), soundSourcesVolume[BG]);
-            PlayerPrefs.SetFloat(nameof(masterVolume) + nameof(SFX), soundSourcesVolume[SFX]);
-            PlayerPrefs.SetFloat(nameof(masterVolume) + nameof(FOOTSTEP), soundSourcesVolume[FOOTSTEP]);
+            PlayerPrefs.SetFloat(DataSave.VolumeBG, soundSourcesVolume[BG]);
+            PlayerPrefs.SetFloat(DataSave.VolumeSFX, soundSourcesVolume[SFX]);
+            PlayerPrefs.SetFloat(DataSave.VolumeFOOTSTEP, soundSourcesVolume[FOOTSTEP]);
 
-            PlayerPrefs.SetInt(nameof(masterVolumeMuted) + nameof(BG), soundSourcesVolumeMuted[BG] ? 1 : 0);
-            PlayerPrefs.SetInt(nameof(masterVolumeMuted) + nameof(SFX), soundSourcesVolumeMuted[SFX] ? 1 : 0);
-            PlayerPrefs.SetInt(nameof(masterVolumeMuted) + nameof(FOOTSTEP), soundSourcesVolumeMuted[FOOTSTEP] ? 1 : 0);
+            PlayerPrefs.SetInt(DataSave.VolumeBGMute, soundSourcesVolumeMuted[BG] ? 1 : 0);
+            PlayerPrefs.SetInt(DataSave.VolumeSFXMute, soundSourcesVolumeMuted[SFX] ? 1 : 0);
+            PlayerPrefs.SetInt(DataSave.VolumeFOOTSTEPMute, soundSourcesVolumeMuted[FOOTSTEP] ? 1 : 0);
 
-            PlayerPrefs.SetInt(nameof(SoundMixer.SaveSetting), 1);
+            PlayerPrefs.SetInt(DataSave.Save, 1);
             PlayerPrefs.Save();
         }
 
         public void LoadSettings()
         {
-            if (PlayerPrefs.HasKey(nameof(SoundMixer.SaveSetting)))
+            if (PlayerPrefs.HasKey(DataSave.Save))
                 LoadSoundSettings();
             else
+            {
+                RestoreDefaults();
                 SaveSetting();
+            }
         }
 
         private void LoadSoundSettings()
         {
-            ChangeMasterVolume(PlayerPrefs.GetFloat(nameof(masterVolume)));
-            MuteMasterVolume(PlayerPrefs.GetInt(nameof(masterVolumeMuted)) == 1);
+            ChangeMasterVolume(PlayerPrefs.GetFloat(DataSave.MasterVolume, 1));
+            MuteMasterVolume(PlayerPrefs.GetInt(DataSave.MasterVolumeMute) == 1);
 
-            ChangeVolume(BG, PlayerPrefs.GetFloat(nameof(masterVolume) + nameof(BG)));
-            ChangeVolume(SFX, PlayerPrefs.GetFloat(nameof(masterVolume) + nameof(SFX)));
-            ChangeVolume(FOOTSTEP, PlayerPrefs.GetFloat(nameof(masterVolume) + nameof(FOOTSTEP)));
+            ChangeVolume(BG, PlayerPrefs.GetFloat(DataSave.VolumeBG));
+            ChangeVolume(SFX, PlayerPrefs.GetFloat(DataSave.VolumeSFX));
+            ChangeVolume(FOOTSTEP, PlayerPrefs.GetFloat(DataSave.VolumeFOOTSTEP));
 
-            MuteVolume(BG, PlayerPrefs.GetInt(nameof(masterVolumeMuted) + nameof(BG)) == 1);
-            MuteVolume(SFX, PlayerPrefs.GetInt(nameof(masterVolumeMuted) + nameof(SFX)) == 1);
-            MuteVolume(FOOTSTEP, PlayerPrefs.GetInt(nameof(masterVolumeMuted) + nameof(FOOTSTEP)) == 1);
+            MuteVolume(BG, PlayerPrefs.GetInt(DataSave.VolumeBGMute) == 1);
+            MuteVolume(SFX, PlayerPrefs.GetInt(DataSave.VolumeSFXMute) == 1);
+            MuteVolume(FOOTSTEP, PlayerPrefs.GetInt(DataSave.VolumeFOOTSTEPMute) == 1);
 
-            Debug.Log("Soung settings loaded.");
             DataLoaded = true;
         }
-
-
 
         private void AdjustAllVolumes()
         {
             foreach (var soundGroup in soundSources.Keys)
                 foreach (var audioSource in soundSources[soundGroup])
-                    audioSource.volume = Mathf.Clamp01(audioSource.volume * masterVolume);
+                    audioSource.volume = Mathf.Clamp01(soundSourcesVolume[soundGroup] * masterVolume);
         }
 
         public enum SoundGroup
@@ -165,6 +175,21 @@ namespace GameSettings
             Background,
             SFX,
             Footsteps
+        }
+
+        private class DataSave
+        {
+            public readonly static string MasterVolume = "MasterVolume" + test_value;
+            public readonly static string VolumeBG = "VolumeBG" + test_value;
+            public readonly static string VolumeSFX = "VolumeSFX" + test_value;
+            public readonly static string VolumeFOOTSTEP = "VolumeFOOTSTEP" + test_value;
+            public readonly static string MasterVolumeMute = "MasterVolumeMute" + test_value;
+            public readonly static string VolumeBGMute = "VolumeBGMute" + test_value;
+            public readonly static string VolumeSFXMute = "VolumeSFXMute" + test_value;
+            public readonly static string VolumeFOOTSTEPMute = "VolumeFOOTSTEPMute" + test_value;
+            public readonly static string Save = "SoundDataSaved" + test_value;
+
+            private static string test_value => "v3";
         }
     }
 }

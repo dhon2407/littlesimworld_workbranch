@@ -22,12 +22,12 @@ public class LevelQuest : Mission
     // Update is called once per frame
     void Update()
     {
-        if (PlayerStatsManager.Strength.Instance.Level >= RequieredStrLevel ||
-            PlayerStatsManager.Intelligence.Instance.Level >= RequiredIntLevel ||
-            PlayerStatsManager.Fitness.Instance.Level >= RequiredFitLevel ||
-            PlayerStatsManager.Charisma.Instance.Level >= RequiredChrLevel||
-            PlayerStatsManager.Cooking.Instance.Level >= RequiredCookingLevel||
-            PlayerStatsManager.Repair.Instance.Level >= RequiredRepairLevel)
+        if (PlayerStatsManager.Instance.playerSkills[SkillType.Strength].Level >= RequieredStrLevel ||
+            PlayerStatsManager.Instance.playerSkills[SkillType.Intelligence].Level >= RequiredIntLevel ||
+            PlayerStatsManager.Instance.playerSkills[SkillType.Fitness].Level >= RequiredFitLevel ||
+            PlayerStatsManager.Instance.playerSkills[SkillType.Charisma].Level >= RequiredChrLevel||
+            PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].Level >= RequiredCookingLevel||
+         PlayerStatsManager.Instance.playerSkills[SkillType.Repair].Level >= RequiredRepairLevel)
 
         {
             if (accomplished == false)

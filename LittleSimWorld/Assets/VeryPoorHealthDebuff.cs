@@ -16,7 +16,7 @@ public class VeryPoorHealthDebuff : Buffs
     // Update is called once per frame
     void Update()
     {
-        if (PlayerStatsManager.Instance.Health / PlayerStatsManager.Instance.MaxHealth > MinHealthPercentageForVeryPoorHealth)
+        if (PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount > MinHealthPercentageForVeryPoorHealth)
         {
             Destroy(gameObject);
         }

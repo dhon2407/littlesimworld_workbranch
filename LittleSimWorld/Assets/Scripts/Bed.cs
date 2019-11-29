@@ -12,10 +12,10 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 
 	public float JumpOffSpeed = 5;
 
-	bool CanPlayerSleep => !GameLibOfMethods.doingSomething && PlayerStatsManager.Instance.Food > PlayerStatsManager.Instance.MaxFood * 0.1f &&
-												PlayerStatsManager.Instance.Thirst > PlayerStatsManager.Instance.MaxThirst * 0.1f &&
-												PlayerStatsManager.Instance.Bladder > PlayerStatsManager.Instance.MaxBladder * 0.1f &&
-												PlayerStatsManager.Instance.Hygiene > PlayerStatsManager.Instance.MaxHygiene * 0.1f;
+	bool CanPlayerSleep => !GameLibOfMethods.doingSomething && PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
+												PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
+												PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
+												PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f;
 	public void Interact() {
 		if (!CanPlayerSleep) {
 			Debug.Log("Player cannot sleep at the moment");
@@ -32,7 +32,9 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		var anim = GameLibOfMethods.animator;
 		anim.Play("PrepareToSleep");
 		GameLibOfMethods.animator.SetBool("Sleeping", true);
+
 		yield return 0f;
+
 
 		PlayerCommands.LastPositionBeforeJump = GameLibOfMethods.player.transform.position;
 
@@ -64,6 +66,8 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 
 	IEnumerator<float> Sleeping() {
 
+		HandlePlayerSprites(enable: false);
+
 		//PlayerAnimationHelper.ResetPlayer();
 		yield return 0f;
 		Debug.Log("Went to sleep");
@@ -84,13 +88,13 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 			GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * DayNightCycle.Instance.currentTimeSpeedMultiplier) * DayNightCycle.Instance.speed;
 			float Multi = (Time.deltaTime / DayNightCycle.Instance.speed) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
 
-			PlayerStatsManager.Instance.AddEnergy(EnergyGainPerHour * Multi);
-			PlayerStatsManager.Instance.AddMood(MoodGainPerHour * Multi);
-			PlayerStatsManager.Instance.Heal(HealthGainPerHour * Multi);
+			PlayerStatsManager.Energy.Instance.Add(EnergyGainPerHour * Multi);
+			PlayerStatsManager.Mood.Instance.Add(MoodGainPerHour * Multi);
+			PlayerStatsManager.Health.Instance.Add(HealthGainPerHour * Multi);
 
 			if (Input.GetKeyUp(KeyCode.E)) { break; }
 
-			if (PlayerStatsManager.Instance.Energy >= PlayerStatsManager.Instance.MaxEnergy) {
+			if (PlayerStatsManager.Energy.Instance.CurrentAmount >= PlayerStatsManager.Energy.Instance.MaxAmount) {
 				T += Time.deltaTime;
 
 				if (T >= 2) {
@@ -118,12 +122,23 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 			}
 			yield return 0f;
 		}
+
+		HandlePlayerSprites(enable: true);
+
 		PlayerCommands.JumpOff(JumpOffSpeed);
 
 		DayNightCycle.Instance.ChangeSpeedToNormal();
 
 		//Debug.Log("Saving not implemented");
 		GameManager.Instance.SaveGame();
+	}
+
+	void HandlePlayerSprites(bool enable) {
+		SpriteControler.Instance.Body.enabled = enable;
+		SpriteControler.Instance.Shirt.enabled = enable;
+		SpriteControler.Instance.Pants.enabled = enable;
+		SpriteControler.Instance.Hand_L.enabled = enable;
+		SpriteControler.Instance.Hand_R.enabled = enable;
 	}
 
 }

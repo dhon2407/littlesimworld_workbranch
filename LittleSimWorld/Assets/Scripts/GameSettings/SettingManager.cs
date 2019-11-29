@@ -21,16 +21,12 @@ namespace GameSettings
         {
             Display.SaveSettings();
             Sound.SaveSetting();
-
-            Debug.Log("Settings Saved.");
         }
 
         public static void DefaultSettings()
         {
             Display.RestoreDefaults();
             Sound.RestoreDefaults();
-
-            Debug.Log("Defaults Restored.");
         }
 
         public static void Load()
@@ -39,8 +35,6 @@ namespace GameSettings
             Display.onValuesChanged.Invoke();
             Sound.LoadSettings();
             Sound.onValuesChanged.Invoke();
-
-            Debug.Log("Settings Loaded.");
         }
     }
 

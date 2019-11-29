@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.U2D;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using GameSettings;
 
 public class UIManager : MonoBehaviour
 {
@@ -51,7 +52,6 @@ public class UIManager : MonoBehaviour
     public Image actionBar;
     public int maxCameraSize = 60;
     public int minCameraSize = 150;
-    public int TargetFPS = 60;
 
     public GameObject XPbarParent;
     public Image XPbar;
@@ -64,6 +64,7 @@ public class UIManager : MonoBehaviour
     public Sprite Repair;
     public Sprite Charisma;
     public Sprite Cooking;
+    public Sprite Writing;
 
     public Color MaxColor;
     public Color MiddleColor;
@@ -100,7 +101,6 @@ public class UIManager : MonoBehaviour
         {
             TutorialUI.GetComponent<GuiPopUpAnim>().CloseWindow();
         }
-        Application.targetFrameRate = TargetFPS;
 
 
         if (!UIExists)
@@ -158,8 +158,8 @@ public class UIManager : MonoBehaviour
             SwitchExit();
         }
 
-        EnergyBar.fillAmount = PlayerStatsManager.Instance.Energy / PlayerStatsManager.Instance.MaxEnergy;
-        EnergyBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Energy / PlayerStatsManager.Instance.MaxEnergy);
+        EnergyBar.fillAmount = PlayerStatsManager.Energy.Instance.CurrentAmount / PlayerStatsManager.Energy.Instance.MaxAmount;
+        EnergyBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Energy.Instance.CurrentAmount / PlayerStatsManager.Energy.Instance.MaxAmount);
         if (EnergyBar.fillAmount <= PercentageWhenStartGlowing)
         {
             EnergyOutline.keepGoing = true;
@@ -169,8 +169,8 @@ public class UIManager : MonoBehaviour
             EnergyOutline.keepGoing = false;
         }
 
-        FoodBar.fillAmount = PlayerStatsManager.Instance.Food / PlayerStatsManager.Instance.MaxFood;
-        FoodBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Food / PlayerStatsManager.Instance.MaxFood);
+        FoodBar.fillAmount = PlayerStatsManager.Hunger.Instance.CurrentAmount / PlayerStatsManager.Hunger.Instance.MaxAmount;
+        FoodBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Hunger.Instance.CurrentAmount / PlayerStatsManager.Hunger.Instance.MaxAmount);
         if (FoodBar.fillAmount <= PercentageWhenStartGlowing)
         {
             FoodOutline.keepGoing = true;
@@ -181,8 +181,8 @@ public class UIManager : MonoBehaviour
         }
 
 
-        MoodBar.fillAmount = PlayerStatsManager.Instance.Mood / PlayerStatsManager.Instance.MaxMood;
-        MoodBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Mood / PlayerStatsManager.Instance.MaxMood);
+        MoodBar.fillAmount = PlayerStatsManager.Mood.Instance.CurrentAmount / PlayerStatsManager.Mood.Instance.MaxAmount;
+        MoodBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Mood.Instance.CurrentAmount / PlayerStatsManager.Mood.Instance.MaxAmount);
         if (MoodBar.fillAmount <= PercentageWhenStartGlowing)
         {
             MoodOutline.keepGoing = true;
@@ -219,8 +219,8 @@ public class UIManager : MonoBehaviour
 
 
 
-        HealthBar.fillAmount = PlayerStatsManager.Instance.Health / PlayerStatsManager.Instance.MaxHealth;
-        HealthBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Health / PlayerStatsManager.Instance.MaxHealth);
+        HealthBar.fillAmount = PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount;
+        HealthBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount);
         if (HealthBar.fillAmount <= PercentageWhenStartGlowing)
         {
             HealthOutline.keepGoing = true;
@@ -230,8 +230,8 @@ public class UIManager : MonoBehaviour
             HealthOutline.keepGoing = false;
         }
 
-        BladderBar.fillAmount = PlayerStatsManager.Instance.Bladder / PlayerStatsManager.Instance.MaxBladder;
-        BladderBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Bladder / PlayerStatsManager.Instance.MaxBladder);
+        BladderBar.fillAmount = PlayerStatsManager.Bladder.Instance.CurrentAmount / PlayerStatsManager.Bladder.Instance.MaxAmount;
+        BladderBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Bladder.Instance.CurrentAmount / PlayerStatsManager.Bladder.Instance.MaxAmount);
         if (BladderBar.fillAmount <= PercentageWhenStartGlowing)
         {
             BladderOutline.keepGoing = true;
@@ -242,8 +242,8 @@ public class UIManager : MonoBehaviour
         }
 
 
-        HygieneBar.fillAmount = PlayerStatsManager.Instance.Hygiene / PlayerStatsManager.Instance.MaxHygiene;
-        HygieneBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Hygiene /  PlayerStatsManager.Instance.MaxHygiene);
+        HygieneBar.fillAmount = PlayerStatsManager.Hygiene.Instance.CurrentAmount / PlayerStatsManager.Hygiene.Instance.MaxAmount;
+        HygieneBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Hygiene.Instance.CurrentAmount /  PlayerStatsManager.Hygiene.Instance.MaxAmount);
         if (HygieneBar.fillAmount <= PercentageWhenStartGlowing)
         {
             HygieneOutline.keepGoing = true;
@@ -256,8 +256,8 @@ public class UIManager : MonoBehaviour
       
 
 
-        ThirstBar.fillAmount = PlayerStatsManager.Instance.Thirst / PlayerStatsManager.Instance.MaxThirst;
-        ThirstBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Instance.Thirst / PlayerStatsManager.Instance.MaxThirst);
+        ThirstBar.fillAmount = PlayerStatsManager.Thirst.Instance.CurrentAmount / PlayerStatsManager.Thirst.Instance.MaxAmount;
+        ThirstBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Thirst.Instance.CurrentAmount / PlayerStatsManager.Thirst.Instance.MaxAmount);
         if (ThirstBar.fillAmount <= PercentageWhenStartGlowing)
         {
             ThirstOutline.keepGoing = true;

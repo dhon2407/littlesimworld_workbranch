@@ -10,9 +10,8 @@ public class Save
     [SerializeField]
     public List<AtommInventory.Slot> itemsInInventory = new List<AtommInventory.Slot>();
 
-    // [SerializeField] public SerializableDictMisc.StringFloatDictionary playerSaveDictionary = new SerializableDictMisc.StringFloatDictionary();                                 //Kira
 
-    public  float Health = 100;
+    /*public  float Health = 100;
     public float maxHealth = 100;
 
     public float Energy = 100;
@@ -36,23 +35,14 @@ public class Save
 
     public float Hygiene = 100;
     public float MaxHygiene = 100;
-    public float HygieneDrainSpeed = 10;
+    public float HygieneDrainSpeed = 10;*/
 
     public float Money = 2000;
     public float XPmultiplayer = 1;
     public float PriceMultiplayer = 1;
 
-    public PlayerStatsManager.Skills intelligenceSkill;
-
-    public PlayerStatsManager.Skills strengthSkill;
-
-    public PlayerStatsManager.Skills fitnesSkill;
-
-    public PlayerStatsManager.Skills charismaSkill;
-
-    public PlayerStatsManager.Skills cookingSkill;
-
-    public PlayerStatsManager.Skills repairSkill;
+    public Dictionary<SkillType, PlayerStatsManager.Skill> PlayerSkills;
+    public Dictionary<StatusBarType, PlayerStatsManager.StatusBar> PlayerStatusBars;
 
     public float time;
     public int days;
@@ -70,7 +60,8 @@ public class Save
     public List<string> CompletedMissions = new List<string>();
     public List<string> CurrentMissions = new List<string>();
 
-    public JobsPopUp.Jobs SavedCurrentJob;
+    [SerializeField]
+    public JobManager.Job CurrentJob;
 
     public float repairSpeed;
 
@@ -78,11 +69,5 @@ public class Save
     public double moneyInBank;
     public float percentagePerDay;
 
-    /*public void SetSaveDictionary(SerializableDictMisc.StringFloatDictionary dictionary)
-    {        
-        foreach (string key in dictionary.Keys)
-        {
-            playerSaveDictionary.Add(key, dictionary[key]);
-        }
-    }*/
+   
 }
