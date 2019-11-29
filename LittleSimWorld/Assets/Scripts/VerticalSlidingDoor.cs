@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameClock = GameTime.Clock;
 
 public class VerticalSlidingDoor : SlidingDoor
 {
@@ -31,7 +32,7 @@ public class VerticalSlidingDoor : SlidingDoor
     void FixedUpdate()
     {
         if (Vector2.Distance(GameLibOfMethods.player.transform.position, transform.position) < distanceFromPlayerToOpen &&
-            DayNightCycle.Instance.time >= openTimeInSeconds && DayNightCycle.Instance.time < closeingTimeInSeconds)
+            GameClock.Time >= openTimeInSeconds && GameClock.Time < closeingTimeInSeconds)
         {
             if(ClosingMessege)
             ClosingMessege.SetActive(false);
@@ -43,13 +44,13 @@ public class VerticalSlidingDoor : SlidingDoor
             if (ClosingMessege)
                 ClosingMessege.SetActive(false);
         }
-        else if (ShopZone && ShopZone.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()) && DayNightCycle.Instance.time >= closeingTimeInSeconds)
+        else if (ShopZone && ShopZone.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()) && GameClock.Time >= closeingTimeInSeconds)
         {
             if (ClosingMessege)
                 ClosingMessege.SetActive(true);
         }
 
-        if (DayNightCycle.Instance.time >= openTimeInSeconds && DayNightCycle.Instance.time < closeingTimeInSeconds)
+        if (GameClock.Time >= openTimeInSeconds && GameClock.Time < closeingTimeInSeconds)
         {
             if (anim != null && anim.GetFloat("OpenedClosed") < 1)
                 anim.SetFloat("OpenedClosed", anim.GetFloat("OpenedClosed") + 0.02f);
@@ -88,7 +89,7 @@ public class VerticalSlidingDoor : SlidingDoor
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && DayNightCycle.Instance.time >= closeingTimeInSeconds)
+        if (collision.tag == "Player" && GameClock.Time >= closeingTimeInSeconds)
         {
             GameLibOfMethods.canInteract = false;
         }

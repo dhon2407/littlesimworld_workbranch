@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
+using GameClock = GameTime.Clock;
+
 public class LightTrigger : MonoBehaviour
 {
     public UnityEngine.Experimental.Rendering.Universal.Light2D LightSource;
@@ -22,7 +24,7 @@ public class LightTrigger : MonoBehaviour
     {
         if (DependsOnSunIntensity)
         {
-            LightSource.intensity = LightIntensity - DayNightCycle.Instance.light2d.intensity;
+            LightSource.intensity = LightIntensity - GameTime.DayAndNight.LightIntensity;
         }
        
        /* if (Vector2.Distance(GameLibOfMethods.player.transform.position, LightSource.transform.position) < LightSource.range)
@@ -34,7 +36,7 @@ public class LightTrigger : MonoBehaviour
         {
             LightSource.renderMode = LightRenderMode.ForceVertex;
         }*/
-        if (DayNightCycle.Instance.time >= TimeToEnable || DayNightCycle.Instance.time < TimeToDisable)
+        if (GameClock.Time >= TimeToEnable || GameClock.Time < TimeToDisable)
         {
             anim.SetBool("Enabled", true);
         }

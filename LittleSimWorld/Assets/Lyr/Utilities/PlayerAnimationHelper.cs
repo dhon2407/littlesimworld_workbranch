@@ -34,9 +34,9 @@ public static class PlayerAnimationHelper
 		GameLibOfMethods.player.transform.rotation = Quaternion.Euler(Vector3.zero);
 		GameLibOfMethods.animator.enabled = true;
 
-		DayNightCycle.Instance.currentTimeSpeedMultiplier = 1;
+        GameTime.Clock.ResetSpeed();
 
-		SpriteControler.Instance.LeftHand.position = SpriteControler.Instance.LeftHandLeft.transform.position;
+        SpriteControler.Instance.LeftHand.position = SpriteControler.Instance.LeftHandLeft.transform.position;
 		SpriteControler.Instance.LeftHand.GetComponent<SpriteRenderer>().sortingOrder = 6;
 		SpriteControler.Instance.RightHand.position = SpriteControler.Instance.RightHandRight.transform.position;
 		SpriteControler.Instance.RightHand.GetComponent<SpriteRenderer>().sortingOrder = 6;

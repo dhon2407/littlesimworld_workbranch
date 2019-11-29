@@ -183,7 +183,7 @@ public class GameLibOfMethods : MonoBehaviour
     {
         if (!doingSomething && canInteract && !cantMove && !isSleeping && !sitting)
         {
-            DayNightCycle.Instance.ChangeSpeedToNormal();
+            GameTime.Clock.ResetSpeed();
             
             if (!passedOut)
             {
@@ -223,7 +223,7 @@ public class GameLibOfMethods : MonoBehaviour
 
     public static void WakeUpAtHospital()
     {
-        DayNightCycle.Instance.days += 1;
+        GameTime.Calendar.NextDay();
         StaticCoroutine.Start(WakeUpHospital());
     }
     public static void CreateFloatingText(string text, float FadeDuration)
@@ -235,7 +235,7 @@ public class GameLibOfMethods : MonoBehaviour
     public static void AddChatMessege(string text)
     {
         GameObject chatMessege = Instantiate(ChatMessege, ChatContent);
-        chatMessege.GetComponent<TextMeshProUGUI>().text = "[" + DayNightCycle.Instance.CurrentTime + "]" + text;
+        chatMessege.GetComponent<TextMeshProUGUI>().text = "[" + GameTime.Clock.CurrentTimeFormat+ "]" + text;
         StaticCoroutine.Start(GameLibOfMethods.ResetChat());
     }
     public static IEnumerator ResetChat()
@@ -247,7 +247,7 @@ public class GameLibOfMethods : MonoBehaviour
     public static IEnumerator WakeUpHospital()
     {
         PlayerStatsManager.Instance.passingOut = false;
-        DayNightCycle.Instance.ChangeSpeedToNormal();
+        GameTime.Clock.ResetSpeed();
         yield return new WaitForSecondsRealtime(2);
         player.GetComponent<Animator>().enabled = true;
         PlayerStatsManager.Hunger.Instance.CurrentAmount = (PlayerStatsManager.Hunger.Instance.MaxAmount);
@@ -277,7 +277,7 @@ public class GameLibOfMethods : MonoBehaviour
     public static IEnumerator DoAction(UnityAction action, float SecondsToComplete, Item itemToPutOnCooldown, string animationToPlay)
     {
 
-        DayNightCycle.Instance.ChangeSpeedToNormal();
+        GameTime.Clock.ResetSpeed();
         if (!GameLibOfMethods.doingSomething && !CooldownManager.ItemsOnCooldown.Contains(itemToPutOnCooldown) && !isSleeping && canInteract)
         {
             cantMove = true;

@@ -5,6 +5,9 @@ using UnityEngine;
 [ExecuteInEditMode, RequireComponent(typeof(MeshFilter)),RequireComponent(typeof(MeshRenderer))]
 public class LightRays2D:LightRays2DAbstract{
 
+    [SerializeField]
+    private GameTime.DayAndNightController dayAndNightController;
+
 	private MeshRenderer mr;
 
 	//For sorting layers
@@ -33,9 +36,9 @@ public class LightRays2D:LightRays2DAbstract{
 		}
         if (WeatherSystem.Instance && WeatherSystem.Instance.sunnyToday)
         {
-            float biggestValue = DayNightCycle.Instance.curve.keys.GetUpperBound(0);
-            color1.a = DayNightCycle.Instance.intensity / biggestValue;
-            color2.a = DayNightCycle.Instance.intensity / biggestValue;
+            float intensity = dayAndNightController.GetLightIntensityUpperBoundRatio();
+            color1.a = intensity;
+            color2.a = intensity;
         }
         else
         {

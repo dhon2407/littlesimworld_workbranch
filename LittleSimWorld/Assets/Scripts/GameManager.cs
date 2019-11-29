@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using TMPro;
 using UnityEngine.SceneManagement;
+using GameClock = GameTime.Clock;
+
 [System.Serializable]
 [DefaultExecutionOrder(1)]
 public class GameManager : MonoBehaviour
@@ -45,10 +47,10 @@ public class GameManager : MonoBehaviour
         
         save.repairSpeed = PlayerStatsManager.Instance.RepairSpeed;
 
-        save.time = DayNightCycle.Instance.time;
-        save.days = DayNightCycle.Instance.days;
-        save.season = DayNightCycle.Instance.season;
-        save.WeekDay = DayNightCycle.Instance.WeekDay;
+        save.time = GameClock.Time;
+        save.days = GameTime.Calendar.Day;
+        save.season = GameTime.Calendar.CurrentSson;
+        save.WeekDay = GameTime.Calendar.CurrentWkDay;
 
         save.RealPlayTime = PlayTime;
 
@@ -168,10 +170,8 @@ public class GameManager : MonoBehaviour
             PlayerStatsManager.Instance.XPMultiplier = save.XPmultiplayer;
             PlayerStatsManager.Instance.PriceMultiplier = save.PriceMultiplayer;
 
-            DayNightCycle.Instance.time = save.time;
-            DayNightCycle.Instance.days = save.days;
-            DayNightCycle.Instance.WeekDay = save.WeekDay;
-            DayNightCycle.Instance.season = save.season;
+            GameClock.SetTime(save.time);
+            GameTime.Calendar.Initialize(save.days, save.WeekDay, save.season);
 
             PlayTime = save.RealPlayTime;
 

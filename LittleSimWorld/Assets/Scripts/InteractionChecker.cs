@@ -23,7 +23,7 @@ public class InteractionChecker : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyToInteract) && !GameLibOfMethods.isSleeping && GameLibOfMethods.canInteract && !GameLibOfMethods.doingSomething)
         {
-            DayNightCycle.Instance.ChangeSpeedToNormal();
+            GameTime.Clock.ResetSpeed();
             GameObject interactableObject = GameLibOfMethods.CheckInteractable();
 
             if (interactableObject)
@@ -119,14 +119,14 @@ public class InteractionChecker : MonoBehaviour
     //
     //    if (GameLibOfMethods.lastInteractable && GameLibOfMethods.lastInteractable.GetComponent<Shower>())
     //        GameLibOfMethods.lastInteractable.GetComponent<Shower>().Emission.enabled = false;
-    //    DayNightCycle.Instance.currentTimeSpeedMultiplier = 1;
+    //    GameClock.Multiplier = 1;
     //    GameLibOfMethods.cantMove = false;
     //    GameLibOfMethods.canInteract = true;
     //    GameLibOfMethods.doingSomething = false;
     //    GameLibOfMethods.player.transform.rotation = Quaternion.Euler(Vector3.zero);
     //    GameLibOfMethods.animator.enabled = true;
     //
-    //    if (GameLibOfMethods.concecutiveSleepTime >= GameLibOfMethods.neededConcecutiveSleepTimeForPositiveBuff && DayNightCycle.Instance.time < 36000)
+    //    if (GameLibOfMethods.concecutiveSleepTime >= GameLibOfMethods.neededConcecutiveSleepTimeForPositiveBuff && GameClock.Time < 36000)
     //    {
     //        Instantiate(Resources.Load<GameObject>("Buffs/Slept Well"), Buffs.Instance.transform);
     //    }
@@ -178,14 +178,14 @@ public class InteractionChecker : MonoBehaviour
     //
     //    if (GameLibOfMethods.lastInteractable && GameLibOfMethods.lastInteractable.GetComponent<Shower>())
     //        GameLibOfMethods.lastInteractable.GetComponent<Shower>().Emission.enabled = false;
-    //    DayNightCycle.Instance.currentTimeSpeedMultiplier = 1;
+    //    GameClock.Multiplier = 1;
     //    GameLibOfMethods.cantMove = false;
     //    GameLibOfMethods.canInteract = true;
     //    GameLibOfMethods.doingSomething = false;
     //    GameLibOfMethods.player.transform.rotation = Quaternion.Euler(Vector3.zero);
     //    GameLibOfMethods.animator.enabled = true;
     //
-    //    if (GameLibOfMethods.concecutiveSleepTime >= GameLibOfMethods.neededConcecutiveSleepTimeForPositiveBuff && DayNightCycle.Instance.time < 36000)
+    //    if (GameLibOfMethods.concecutiveSleepTime >= GameLibOfMethods.neededConcecutiveSleepTimeForPositiveBuff && GameClock.Time < 36000)
     //    {
     //        Instantiate(Resources.Load<GameObject>("Buffs/Slept Well"), Buffs.Instance.transform);
     //    }
@@ -393,9 +393,9 @@ public class InteractionChecker : MonoBehaviour
     //    {
     //
     //        GameLibOfMethods.animator.SetBool("Learning", true);
-    //        PlayerStatsManager.Instance.PlayerSkills[SkillType.Intelligence].AddXP(((xpGainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Energy.Instance.CurrentAmount -=(((energyDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Mood.Instance.CurrentAmount -=(((moodDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Instance.PlayerSkills[SkillType.Intelligence].AddXP(((xpGainSpeed) * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
+    //        PlayerStatsManager.Energy.Instance.CurrentAmount -=(((energyDrainSpeed) * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
+    //        PlayerStatsManager.Mood.Instance.CurrentAmount -=(((moodDrainSpeed) * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //
     //        /*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     //
@@ -437,9 +437,9 @@ public class InteractionChecker : MonoBehaviour
     //    {
     //        GameLibOfMethods.animator.SetBool(animationName, false);
     //        GameLibOfMethods.animator.SetBool("Learning", true);
-    //        PlayerStatsManager.Instance.PlayerSkills[SkillType.Intelligence].AddXP(((xpGainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Energy.Instance.CurrentAmount -= (((energyDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
-    //        PlayerStatsManager.Mood.Instance.CurrentAmount -= (((moodDrainSpeed) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //        PlayerStatsManager.Instance.PlayerSkills[SkillType.Intelligence].AddXP(((xpGainSpeed) * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
+    //        PlayerStatsManager.Energy.Instance.CurrentAmount -= (((energyDrainSpeed) * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
+    //        PlayerStatsManager.Mood.Instance.CurrentAmount -= (((moodDrainSpeed) * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //
     //        /*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     //
@@ -543,13 +543,13 @@ public class InteractionChecker : MonoBehaviour
     //    {
     //        //Debug.Log(Time.deltaTime);
     //
-    //        GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * DayNightCycle.Instance.currentTimeSpeedMultiplier) * DayNightCycle.Instance.speed;
+    //        GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * GameClock.Multiplier) * GameClock.Speed;
     //        PlayerStatsManager.Energy.Instance.Add(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().EnergyGainPerHour) 
-    //            * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //            * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //        PlayerStatsManager.Mood.Instance.Add(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().MoodGainPerHour)
-    //            * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //            * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //        PlayerStatsManager.Health.Instance.Add(((GameLibOfMethods.lastInteractable.GetComponent<BreakableFurniture>().HealthGainPerHour)
-    //           * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //           * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //
     //
     //        if (PlayerStatsManager.Energy.Instance.CurrentAmount >= PlayerStatsManager.Energy.Instance.MaxAmount)
@@ -595,9 +595,9 @@ public class InteractionChecker : MonoBehaviour
     //
     //
     //            PlayerStatsManager.Energy.Instance.Add(((EnergyGainSpeedWhenPassedOut)
-    //                * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //                * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //            PlayerStatsManager.Health.Instance.CurrentAmount -= (((EnergyGainSpeedWhenPassedOut * 0.5f)
-    //              * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+    //              * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //
     //
     //

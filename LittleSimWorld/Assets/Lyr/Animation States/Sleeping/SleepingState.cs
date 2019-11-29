@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using GameClock = GameTime.Clock;
 
 public class SleepingState : StateMachineBehaviour {
 
@@ -13,12 +14,12 @@ public class SleepingState : StateMachineBehaviour {
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		DayNightCycle.Instance.currentTimeSpeedMultiplier = TimeMultiplierWhileSleeping;
+		GameClock.ChangeSpeed(TimeMultiplierWhileSleeping);
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		float Multi = Time.deltaTime * DayNightCycle.Instance.currentTimeSpeedMultiplier / DayNightCycle.Instance.speed;
+		float Multi = Time.deltaTime * GameClock.TimeMultiplier / GameClock.Speed;
 
 		PlayerStatsManager.Add(StatusBarType.Energy, EnergyGainPerSecond * Multi);
 		PlayerStatsManager.Remove(StatusBarType.Health, HealthReducePerSecond * Multi);
@@ -29,7 +30,7 @@ public class SleepingState : StateMachineBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		DayNightCycle.Instance.ChangeSpeedToNormal();
+        GameTime.Clock.ResetSpeed();
 		PlayerAnimationHelper.ResetPlayer();
 	}
 

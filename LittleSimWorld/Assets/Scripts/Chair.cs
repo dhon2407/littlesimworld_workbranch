@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using GameClock = GameTime.Clock;
 public class Chair : BreakableFurniture, IInteractable, IUseable {
     public Canvas LaptopOptionsCanvas;
     public bool IsFacingDown;
@@ -60,7 +60,7 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
 		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut) {
 
 			GameLibOfMethods.animator.SetBool("Learning", true);
-			float multi = (Time.deltaTime / DayNightCycle.Instance.speed) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+			float multi = (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier;
 			PlayerStatsManager.Intelligence.Instance.AddXP(xpGainSpeed * multi);
 			PlayerStatsManager.Energy.Instance.CurrentAmount -= (energyDrainSpeed * multi);
 			PlayerStatsManager.Mood.Instance.CurrentAmount -= (moodDrainSpeed * multi);

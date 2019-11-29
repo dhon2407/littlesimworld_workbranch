@@ -6,6 +6,7 @@ using TMPro;
 using CharacterStats;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using GameClock = GameTime.Clock;
 
 [System.Serializable,DefaultExecutionOrder(0)]
 public class PlayerStatsManager : MonoBehaviour
@@ -778,28 +779,28 @@ public class PlayerStatsManager : MonoBehaviour
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Hunger.Instance.CurrentAmount -= (((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
+                Hunger.Instance.CurrentAmount -= (((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2;
             }
             else
             {
-                Hunger.Instance.CurrentAmount -= ((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+                Hunger.Instance.CurrentAmount -= ((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier;
             }
 
         }
         if (Hunger.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
         {
-            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
         }
 
         if (Health.Instance.CurrentAmount > 0)
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Health.Instance.CurrentAmount -= (((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2;
+                Health.Instance.CurrentAmount -= (((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2;
             }
             else
             {
-                Health.Instance.Add(((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+                Health.Instance.Add(((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
         }
         if (Health.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
@@ -812,11 +813,11 @@ public class PlayerStatsManager : MonoBehaviour
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Bladder.Instance.Add((((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+                Bladder.Instance.Add((((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Bladder.Instance.Add(((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+                Bladder.Instance.Add(((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
         }
         if (Bladder.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
@@ -830,41 +831,41 @@ public class PlayerStatsManager : MonoBehaviour
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Hygiene.Instance.Add((((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+                Hygiene.Instance.Add((((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Hygiene.Instance.Add(((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+                Hygiene.Instance.Add(((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
         }
         if (Hygiene.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
         {
-            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
         }
         if (Thirst.Instance.CurrentAmount > 0)
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Thirst.Instance.Add((((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+                Thirst.Instance.Add((((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Thirst.Instance.CurrentAmount -= ((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+                Thirst.Instance.CurrentAmount -= ((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier;
             }
         }
         if (Thirst.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
         {
-            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
         }
         if (Energy.Instance.CurrentAmount > 0)
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Energy.Instance.Add((((Energy.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+                Energy.Instance.Add((((Energy.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Energy.Instance.Add(((Energy.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+                Energy.Instance.Add(((Energy.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
         }
         if (Energy.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
@@ -876,17 +877,17 @@ public class PlayerStatsManager : MonoBehaviour
         {
             if (GameLibOfMethods.isSleeping)
             {
-                Mood.Instance.Add((((Mood.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier) / 2);
+                Mood.Instance.Add((((Mood.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Mood.Instance.Add(((Mood.Instance.DrainSpeedPerHour) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+                Mood.Instance.Add(((Mood.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
         }
 
         if (Mood.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
         {
-            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / DayNightCycle.Instance.speed)) * DayNightCycle.Instance.currentTimeSpeedMultiplier);
+            Health.Instance.Add(((Health.Instance.DrainSpeedPerHourIfPunished) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
         }
 
     }

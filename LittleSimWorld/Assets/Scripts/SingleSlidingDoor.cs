@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameClock = GameTime.Clock;
 
 public class SingleSlidingDoor : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class SingleSlidingDoor : MonoBehaviour
     void FixedUpdate()
     {
         if (Vector2.Distance(GameLibOfMethods.player.transform.position, transform.position) < distanceFromPlayerToOpen &&
-            DayNightCycle.Instance.time >= openTimeInSeconds && DayNightCycle.Instance.time < closeingTimeInSeconds)
+            GameClock.Time >= openTimeInSeconds && GameClock.Time < closeingTimeInSeconds)
         {
             if (ClosingMessege)
                 ClosingMessege.SetActive(false);
@@ -52,7 +53,7 @@ public class SingleSlidingDoor : MonoBehaviour
                 ClosingMessege.SetActive(false);
             CloseDoor();
         }
-        else if (ShopZone.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()) && DayNightCycle.Instance.time >= closeingTimeInSeconds)
+        else if (ShopZone.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()) && GameClock.Time >= closeingTimeInSeconds)
         {
             if (ClosingMessege)
                 ClosingMessege.SetActive(true);
@@ -60,7 +61,7 @@ public class SingleSlidingDoor : MonoBehaviour
         }
 
 
-        if (DayNightCycle.Instance.time >= openTimeInSeconds && DayNightCycle.Instance.time < closeingTimeInSeconds)
+        if (GameClock.Time >= openTimeInSeconds && GameClock.Time < closeingTimeInSeconds)
         {
             if (anim != null && anim.GetFloat("OpenedClosed") < 1)
                 anim.SetFloat("OpenedClosed", anim.GetFloat("OpenedClosed") + 0.02f);
@@ -98,7 +99,7 @@ public class SingleSlidingDoor : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && DayNightCycle.Instance.time >= closeingTimeInSeconds)
+        if (collision.tag == "Player" && GameClock.Time >= closeingTimeInSeconds)
         {
             GameLibOfMethods.canInteract = false;
         }

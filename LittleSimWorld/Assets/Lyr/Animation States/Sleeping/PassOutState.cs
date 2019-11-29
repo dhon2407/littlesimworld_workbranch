@@ -28,7 +28,7 @@ public class PassOutState : StateMachineBehaviour {
 
 	public static IEnumerator<float> WakeUpHospital() {
 		PlayerStatsManager.Instance.passingOut = false;
-		DayNightCycle.Instance.ChangeSpeedToNormal();
+        GameTime.Clock.ResetSpeed();
 		GameLibOfMethods.blackScreen.CrossFadeAlpha(1, 0.5f, false);
 		yield return MEC.Timing.WaitForSeconds(2);
 

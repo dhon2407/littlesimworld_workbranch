@@ -68,7 +68,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 		GameLibOfMethods.Walking = true;
 		SpriteControler.Instance.FaceUP();
 
-		//DayNightCycle.Instance.currentTimeSpeedMultiplier = 1;
+		//GameClock.TimeMultiplier = 1;
 		GameLibOfMethods.animator.SetBool("Cooking", true);
 		UIManager.Instance.ActionText.text = "Cooking";
 		bool WasCanceled = false;
@@ -92,7 +92,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 		}
 
 
-		DayNightCycle.Instance.currentTimeSpeedMultiplier = 5;
+		GameTime.Clock.ChangeSpeed(5);
 
 		FryingPan.SetActive(true);
 		yield return 0f;

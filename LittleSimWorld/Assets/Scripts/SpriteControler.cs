@@ -81,7 +81,7 @@ public class SpriteControler : SerializedMonoBehaviour
             anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
             if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
             {
-                DayNightCycle.Instance.ChangeSpeedToNormal();
+                GameTime.Clock.ResetSpeed();
             }
         }
         /*else

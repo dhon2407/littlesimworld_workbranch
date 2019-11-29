@@ -13,7 +13,7 @@ public class SleptPoorDebuff : Buffs
     void FixedUpdate()
     {
         CooldownImage.fillAmount = 1 - currentDuration / maxDuration;
-        currentDuration += Time.deltaTime * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+        currentDuration += Time.deltaTime * GameTime.Clock.TimeMultiplier;
         if (currentDuration >= maxDuration)
         {
             Destroy(gameObject);

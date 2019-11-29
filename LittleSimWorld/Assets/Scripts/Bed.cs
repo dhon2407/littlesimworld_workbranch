@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using GameClock = GameTime.Clock;
 
 public class Bed : BreakableFurniture, IInteractable, IUseable {
 	public float InteractionRange => 1;
@@ -83,10 +84,10 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 
 
 		float T = 0;
-		DayNightCycle.Instance.ChangeSpeedToSleepingSpeed();
+        GameClock.ChangeSpeedToSleepingSpeed();
 		while (true) {
-			GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * DayNightCycle.Instance.currentTimeSpeedMultiplier) * DayNightCycle.Instance.speed;
-			float Multi = (Time.deltaTime / DayNightCycle.Instance.speed) * DayNightCycle.Instance.currentTimeSpeedMultiplier;
+			GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * GameClock.TimeMultiplier) * GameClock.Speed;
+			float Multi = (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier;
 
 			PlayerStatsManager.Energy.Instance.Add(EnergyGainPerHour * Multi);
 			PlayerStatsManager.Mood.Instance.Add(MoodGainPerHour * Multi);
@@ -127,7 +128,7 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 
 		PlayerCommands.JumpOff(JumpOffSpeed);
 
-		DayNightCycle.Instance.ChangeSpeedToNormal();
+        GameClock.ResetSpeed();
 
 		//Debug.Log("Saving not implemented");
 		GameManager.Instance.SaveGame();

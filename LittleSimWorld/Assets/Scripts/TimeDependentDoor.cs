@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameClock = GameTime.Clock;
 
 public class TimeDependentDoor : MonoBehaviour
 {
@@ -13,11 +14,11 @@ public class TimeDependentDoor : MonoBehaviour
     private void Update()
     {
         
-         if(DayNightCycle.Instance.time >= openTimeInSeconds  && DayNightCycle.Instance.time < closeingTimeInSeconds)
+         if(GameClock.Time >= openTimeInSeconds  && GameClock.Time < closeingTimeInSeconds)
         {
             OpenDoor();
         }
-        else if(DayNightCycle.Instance.time >= openTimeInSeconds && DayNightCycle.Instance.time >= closeingTimeInSeconds)
+        else if(GameClock.Time >= openTimeInSeconds && GameClock.Time >= closeingTimeInSeconds)
         {
             CloseDoor();
         }
