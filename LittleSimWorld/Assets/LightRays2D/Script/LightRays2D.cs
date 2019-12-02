@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Weather;
 
 [ExecuteInEditMode, RequireComponent(typeof(MeshFilter)),RequireComponent(typeof(MeshRenderer))]
 public class LightRays2D:LightRays2DAbstract{
@@ -34,7 +35,8 @@ public class LightRays2D:LightRays2DAbstract{
 			_sortingLayer=sortingLayer;
 			_orderInLayer=orderInLayer;
 		}
-        if (WeatherSystem.Instance && WeatherSystem.Instance.sunnyToday)
+
+        if (WeatherSystem.CurrentWeather == Type.Sunny)
         {
             float intensity = dayAndNightController.GetLightIntensityUpperBoundRatio();
             color1.a = intensity;
@@ -45,7 +47,6 @@ public class LightRays2D:LightRays2DAbstract{
             color1.a = 0;
             color2.a = 0;
         }
-        
 
     }
 	

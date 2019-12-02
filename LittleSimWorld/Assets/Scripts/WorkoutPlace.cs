@@ -6,7 +6,7 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
     public GameObject Weights;
 
 	public float InteractionRange => 1;
-	public Vector3 PlayerStandPosition => Weights.transform.position;
+	public Vector3 PlayerStandPosition => CharacterPosition.position;
 	public float CustomSpeedToPosition { get; }
 
 	public void Interact() {
@@ -30,8 +30,9 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
 
 		GameLibOfMethods.animator.SetBool("Jumping", false);
 		GameLibOfMethods.animator.SetBool("Lifting", true);
-		yield return new WaitForEndOfFrame();
+		Weights.SetActive(false);
 
+		yield return new WaitForEndOfFrame();
 		SpriteControler.Instance.FaceRIGHT();
 
 		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract)) {
@@ -49,6 +50,7 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
 
 		GameLibOfMethods.animator.SetBool("Lifting", false);
 		yield return new WaitForEndOfFrame();
+		Weights.SetActive(true);
 
 
 		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace UI.CharacterCreation {
 	public class CharacterPanel : MonoBehaviour {
 
-		public Button LeftButton, RightButton, RandomizeButton;
+		public Button LeftButton, RightButton, RandomizeButton, FemaleGenderButton, MaleGenderButton;
 
 		[Space, Header("Selection Panel Settings")]
 		public RectTransform SelectionPanel;
@@ -18,6 +18,8 @@ namespace UI.CharacterCreation {
 			LeftButton.onClick.AddListener(ChangeGender);
 			RightButton.onClick.AddListener(ChangeGender);
 			RandomizeButton.onClick.AddListener(Randomize);
+			MaleGenderButton.onClick.AddListener(ChangeGender);
+			FemaleGenderButton.onClick.AddListener(ChangeGender);
 
 			originalPanelPos = SelectionPanel.transform.localPosition;
 		}
@@ -32,12 +34,15 @@ namespace UI.CharacterCreation {
 					CharacterCreationManager.instance.ChangeSprite((UIAttributeType) enumValue, (ArrowType) arrowInt, ref _unused);
 				}
 			}
-			CharacterCreationManager.instance.ChangeGender((ArrowType) Random.Range(-1, 0));
+			var rnd = Random.Range(-1, 2);
+			if (rnd == 0) { ChangeGender(); }
 		}
 
 		void ChangeGender() {
 			CharacterCreationManager.instance.ChangeGender(ArrowType.Left);
 			SetSelectionPanelPosition();
+			FemaleGenderButton.interactable = CharacterCreationManager.instance.gender == Gender.Male;
+			MaleGenderButton.interactable = CharacterCreationManager.instance.gender == Gender.Female;
 		}
 
 		[Button]

@@ -125,6 +125,11 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void UpdateTotalLevel()
     {
+		if (playerSkills == null) {
+			Debug.Log("Player Skills are null.. be careful on the order you call the methods.");
+			TotalLevel = 0;
+			return;
+		}
         int totalLevel = 0;
         foreach (SkillType skilltype in playerSkills.Keys)
         {

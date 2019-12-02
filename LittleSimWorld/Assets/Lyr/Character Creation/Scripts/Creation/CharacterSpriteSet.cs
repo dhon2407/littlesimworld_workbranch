@@ -5,7 +5,7 @@ using UnityEngine;
 public enum CharacterOrientation { Bot, Top, Right, Left }
 
 namespace CharacterData {
-	[HideReferenceObjectPicker]
+	[HideReferenceObjectPicker,InlineEditor]
 	public class CharacterSpriteSet : SerializedScriptableObject {
 
 		[HideInInlineEditors] public CharacterPart Part;

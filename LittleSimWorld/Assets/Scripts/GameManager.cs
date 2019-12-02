@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Runtime.Serialization.Formatters.Binary;
+using Sirenix.Serialization;
 using System.IO;
 using TMPro;
 using UnityEngine.SceneManagement;
-using GameClock = GameTime.Clock;
-
 [System.Serializable]
-[DefaultExecutionOrder(1)]
+[DefaultExecutionOrder(100)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -19,7 +17,6 @@ public class GameManager : MonoBehaviour
     public List<string> UpgradableGOsNames = new List<string>();
     public Save CurrentSave;
 
-	[HideInInspector] public CharacterData.CharacterInfo CharacterInfo;
     //public List<string> UpgradeTiers = new List<string>();
     
     private Save CreateSaveGameObject()
@@ -47,7 +44,7 @@ public class GameManager : MonoBehaviour
         
         save.repairSpeed = PlayerStatsManager.Instance.RepairSpeed;
 
-        save.time = GameClock.Time;
+		save.time = GameTime.Clock.Time;
         save.days = GameTime.Calendar.Day;
         save.season = GameTime.Calendar.CurrentSson;
         save.WeekDay = GameTime.Calendar.CurrentWkDay;
@@ -64,6 +61,7 @@ public class GameManager : MonoBehaviour
         {
             save.Upgrades.Add(name);
         }
+
         for(int p = 0; p < UpgradableGOsNames.Count; p++)
         {
             save.UpgradesTier.Add(GameObject.Find(UpgradableGOsNames[p]).transform.GetChild(0).gameObject.name);
@@ -77,9 +75,12 @@ public class GameManager : MonoBehaviour
 
         save.moneyInBank = Bank.Instance.MoneyInBank;
         save.percentagePerDay = Bank.Instance.PercentagePerDay;
+		save.characterVisuals = new CharacterData.Wrappers.CharacterInfoWrapper(SpriteControler.Instance.visuals);
 
+		save.CurrentJob = JobManager.Instance.CurrentJob;
 
-        save.CurrentJob = JobManager.Instance.CurrentJob;
+        save.weather = Weather.WeatherSystem.CurrentSaveWeather;
+
         return save;
     }
     private void Awake()
@@ -130,33 +131,38 @@ public class GameManager : MonoBehaviour
         IsStartingNewGame = false;
         Save save = CreateSaveGameObject();
 
-        // 2
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath +"/" + CurrentSaveName + ".save");
-        file.Position = 0;
-        bf.Serialize(file, save);
-        file.Close();
+		// 2
+		var filePath = Application.persistentDataPath + "/" + CurrentSaveName + ".save";
 
+		if (!File.Exists(filePath)) {
+			var file = File.Create(filePath);
+			file.Close();
+			Debug.Log(filePath + " now exists");
+		}
 
+		DataFormat format = DataFormat.Binary;
+		var bytes = SerializationUtility.SerializeValue(save, format);
+		File.WriteAllBytes(filePath, bytes);
 
         CurrentSave = save;
         Debug.Log("Game Saved");
     }
     public void LoadGame()
     {
-        // 1
-        if (File.Exists(Application.persistentDataPath + "/" + CurrentSaveName + ".save"))
+		// 1
+		var filePath = Application.persistentDataPath + "/" + CurrentSaveName + ".save";
+
+		if (File.Exists(filePath))
         {
             IsStartingNewGame = false;
 
-            // 2
-            BinaryFormatter bf = new BinaryFormatter();
-            
-            FileStream file = File.Open(Application.persistentDataPath + "/" + CurrentSaveName + ".save", FileMode.Open);
-            file.Position = 0;
-            Save save = (Save)bf.Deserialize(file);
+			// 2
+			DataFormat format = DataFormat.Binary;
+			var bytes = File.ReadAllBytes(filePath);
+			Save save = SerializationUtility.DeserializeValue<Save>(bytes, format);
+			if (save == null) { Debug.Log("Failed to Load."); return; }
 
-            CurrentSave = save;
+			CurrentSave = save;
             // 3
             for (int i = 0; i < save.itemsInInventory.Count; i++)
             {
@@ -170,21 +176,23 @@ public class GameManager : MonoBehaviour
             PlayerStatsManager.Instance.XPMultiplier = save.XPmultiplayer;
             PlayerStatsManager.Instance.PriceMultiplier = save.PriceMultiplayer;
 
-            GameClock.SetTime(save.time);
+			GameTime.Clock.SetTime(save.time);
             GameTime.Calendar.Initialize(save.days, save.WeekDay, save.season);
+            Weather.WeatherSystem.Initialize(save.weather);
 
             PlayTime = save.RealPlayTime;
 
             GameLibOfMethods.player.transform.position = new Vector2(save.playerX, save.playerY);
+			//if (save.visuals != null) { SpriteControler.Instance.visuals = save.visuals; }
 
-            
-            if(save.CompletedMissions != null)
+			if(save.CompletedMissions != null)
             MissionHandler.CompletedMissions = new List<string>(save.CompletedMissions);
             if (save.CurrentMissions != null)
                 MissionHandler.CurrentMissions = new List<string>(save.CurrentMissions);
             
             MissionHandler.missionHandler.ReactivateOld();
-           
+
+
             foreach( string mission in MissionHandler.CurrentMissions)
             {
                 Debug.Log(mission);
@@ -209,27 +217,26 @@ public class GameManager : MonoBehaviour
                     temp.name = save.UpgradesTier[i];
                 }
             }
-            
 
-            Bank.Instance.MoneyInBank = save.moneyInBank;
+			SpriteControler.Instance.visuals = save.characterVisuals.GetVisuals();
+			//Debug.Log($"Loaded : {save.characterVisuals.GetVisuals()}");
+
+
+			Bank.Instance.MoneyInBank = save.moneyInBank;
             Bank.Instance.PercentagePerDay = save.percentagePerDay;
             Bank.Instance.UpdateBalance();
 
-
-
-
             Debug.Log("Game Loaded");
-            file.Close();
             PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
         }
         else
         {
-            /*if (PlayerStatsManager.Instance) {
+            if (PlayerStatsManager.Instance) {
 				
 				IsStartingNewGame = true;
 				PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
 				SaveGame();
-			}*/
+			}
             Debug.Log("No game saved, creating new one");
         }
 
@@ -239,19 +246,23 @@ public class GameManager : MonoBehaviour
         IsStartingNewGame = true;
         Save save = new Save();
 
-        //save.SetSaveDictionary(playerSaveTemplateDictionary);
-        
-        // 2
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/" + CurrentSaveName + ".save");
-        file.Position = 0;
-        bf.Serialize(file, save);
-        file.Close();
+		//save.SetSaveDictionary(playerSaveTemplateDictionary);
+
+		var filePath = Application.persistentDataPath + "/" + CurrentSaveName + ".save";
+
+		if (!File.Exists(filePath)) {
+			var file = File.Create(filePath);
+			file.Close();
+			Debug.Log(filePath + " now exists");
+		}
+
+		DataFormat format = DataFormat.Binary;
+		var bytes = SerializationUtility.SerializeValue(save, format);
+		File.WriteAllBytes(filePath, bytes);
+
+		CurrentSave = save;
+		Debug.Log("New Game");
         MainMenu.Instance.LoadMainSceneGame(1);
-
-
-        CurrentSave = save;
-        Debug.Log("New Game");
     }
-   
+
 }

@@ -49,7 +49,7 @@ public class AtommInventory : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(gameObject.name);
+        Debug.Log($"Inventory Object: {gameObject.name}");
 
         canvas = GameObject.Find("Canvas").transform;
         inv = Instantiate(Resources.Load<GameObject>("Core/AIS/AtommInventory"), canvas);

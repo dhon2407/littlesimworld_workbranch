@@ -179,7 +179,6 @@ public class BreakableFurniture : MonoBehaviour
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(f.PlayerStandPosition, 0.3f);
 		}
-		else { Debug.Log("Not.."); }
 
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere(this.CharacterPosition.position, 0.2f);

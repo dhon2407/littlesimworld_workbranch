@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using Weather;
 
 namespace GameTime
 {
@@ -69,9 +70,9 @@ namespace GameTime
             lightIntensity = lightIntensityCurve.Evaluate(Mathf.Lerp(0, 1, time / OneDayInSeconds));
             light2d.color = lightGradient.Evaluate(Mathf.Lerp(0, 1, time / OneDayInSeconds));
 
-            if (WeatherSystem.Instance.cloudyToday)
+            if (WeatherSystem.CurrentWeather == Weather.Type.Cloudy)
                 light2d.intensity = lightIntensity - cloudyDayLightOffset;
-            if (WeatherSystem.Instance.sunnyToday)
+            if (WeatherSystem.CurrentWeather == Weather.Type.Sunny)
                 light2d.intensity = lightIntensity + sunndyDayLightOffset;
             else
                 light2d.intensity = lightIntensity;

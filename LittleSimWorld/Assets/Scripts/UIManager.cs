@@ -29,29 +29,10 @@ public class UIManager : MonoBehaviour
 
 
     [Header("Status bars")]
-    public float PercentageWhenStartGlowing;
-    public Image HealthBar;
-    public GlowEffect HealthOutline;
-    public Image EnergyBar;
-    public GlowEffect EnergyOutline;
-    public Image FoodBar;
-    public GlowEffect FoodOutline;
-    public Image MoodBar;
-    public GlowEffect MoodOutline;
-    public Image BladderBar;
-    public GlowEffect BladderOutline;
-    public Image HygieneBar;
-    public GlowEffect HygieneOutline;
-    public Image SanityBar;
-    public GlowEffect SanityOutline;
-    public Image ThirstBar;
-    public GlowEffect ThirstOutline;
 
     public TextMeshProUGUI Money;
     public TextMeshProUGUI ActionText;
     public Image actionBar;
-    public int maxCameraSize = 60;
-    public int minCameraSize = 150;
 
     public GameObject XPbarParent;
     public Image XPbar;
@@ -88,8 +69,16 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        Instance = this;
+		if (!Instance) {
+			Instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+		else {
+			Destroy(gameObject);
+			return;
+		}
     }
+
     void Start()
     {
         if (!PlayerPrefs.HasKey("Was tutorial done"))
@@ -101,25 +90,6 @@ public class UIManager : MonoBehaviour
         {
             TutorialUI.GetComponent<GuiPopUpAnim>().CloseWindow();
         }
-
-
-        if (!UIExists)
-        {
-            UIExists = true;
-            DontDestroyOnLoad(transform.gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-       
-
-
-
-
-      
-
 
     }
 
@@ -158,40 +128,6 @@ public class UIManager : MonoBehaviour
             SwitchExit();
         }
 
-        EnergyBar.fillAmount = PlayerStatsManager.Energy.Instance.CurrentAmount / PlayerStatsManager.Energy.Instance.MaxAmount;
-        EnergyBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Energy.Instance.CurrentAmount / PlayerStatsManager.Energy.Instance.MaxAmount);
-        if (EnergyBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            EnergyOutline.keepGoing = true;
-        }
-        else
-        {
-            EnergyOutline.keepGoing = false;
-        }
-
-        FoodBar.fillAmount = PlayerStatsManager.Hunger.Instance.CurrentAmount / PlayerStatsManager.Hunger.Instance.MaxAmount;
-        FoodBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Hunger.Instance.CurrentAmount / PlayerStatsManager.Hunger.Instance.MaxAmount);
-        if (FoodBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            FoodOutline.keepGoing = true;
-        }
-        else
-        {
-            FoodOutline.keepGoing = false;
-        }
-
-
-        MoodBar.fillAmount = PlayerStatsManager.Mood.Instance.CurrentAmount / PlayerStatsManager.Mood.Instance.MaxAmount;
-        MoodBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Mood.Instance.CurrentAmount / PlayerStatsManager.Mood.Instance.MaxAmount);
-        if (MoodBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            MoodOutline.keepGoing = true;
-        }
-        else
-        {
-            MoodOutline.keepGoing = false;
-        }
-
 
         Money.text = "£" + System.Math.Round(PlayerStatsManager.Instance.Money, 2).ToString();
 
@@ -215,78 +151,10 @@ public class UIManager : MonoBehaviour
                 actionBar.transform.parent.gameObject.SetActive(false);
             }
         }
-      
 
+		//VitText.text = "Vitality: " + ThePS.currentLevelVit +"   "+ "exp until next lvl: " + (ThePS.toLevelUpVit[ThePS.currentLevelVit] - ThePS.currentExpVit);
 
-
-        HealthBar.fillAmount = PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount;
-        HealthBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount);
-        if (HealthBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            HealthOutline.keepGoing = true;
-        }
-        else
-        {
-            HealthOutline.keepGoing = false;
-        }
-
-        BladderBar.fillAmount = PlayerStatsManager.Bladder.Instance.CurrentAmount / PlayerStatsManager.Bladder.Instance.MaxAmount;
-        BladderBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Bladder.Instance.CurrentAmount / PlayerStatsManager.Bladder.Instance.MaxAmount);
-        if (BladderBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            BladderOutline.keepGoing = true;
-        }
-        else
-        {
-            BladderOutline.keepGoing = false;
-        }
-
-
-        HygieneBar.fillAmount = PlayerStatsManager.Hygiene.Instance.CurrentAmount / PlayerStatsManager.Hygiene.Instance.MaxAmount;
-        HygieneBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Hygiene.Instance.CurrentAmount /  PlayerStatsManager.Hygiene.Instance.MaxAmount);
-        if (HygieneBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            HygieneOutline.keepGoing = true;
-        }
-        else
-        {
-            HygieneOutline.keepGoing = false;
-        }
-
-      
-
-
-        ThirstBar.fillAmount = PlayerStatsManager.Thirst.Instance.CurrentAmount / PlayerStatsManager.Thirst.Instance.MaxAmount;
-        ThirstBar.color = gradient.Evaluate(StartingColorTime - PlayerStatsManager.Thirst.Instance.CurrentAmount / PlayerStatsManager.Thirst.Instance.MaxAmount);
-        if (ThirstBar.fillAmount <= PercentageWhenStartGlowing)
-        {
-            ThirstOutline.keepGoing = true;
-        }
-        else
-        {
-            ThirstOutline.keepGoing = false;
-        }
-
-
-        //VitText.text = "Vitality: " + ThePS.currentLevelVit +"   "+ "exp until next lvl: " + (ThePS.toLevelUpVit[ThePS.currentLevelVit] - ThePS.currentExpVit);
-        if (!EventSystem.current.IsPointerOverGameObject() && Application.isFocused && Input.GetAxis("Mouse ScrollWheel") != 0)
-        {
-            Camera.main.GetComponent<UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera>().assetsPPU += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel"));
-            CameraFollow.Instance.SetLimits();
-            CameraFollow.Instance.UpdateCamera();
-        }
-
-        if (perfectCamera.assetsPPU >= minCameraSize)
-        {
-            perfectCamera.assetsPPU = minCameraSize;
-            CameraFollow.Instance.SetLimits();
-        }
-        if (perfectCamera.assetsPPU <= maxCameraSize)
-        {
-            perfectCamera.assetsPPU = maxCameraSize;
-            CameraFollow.Instance.SetLimits();
-        }
-    }
+	}
 
 
 

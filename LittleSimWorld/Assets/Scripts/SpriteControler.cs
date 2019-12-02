@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Sirenix.OdinInspector;
 using CharacterData;
+using UI.CharacterCreation;
 
 public class SpriteControler : SerializedMonoBehaviour
 {
@@ -22,31 +23,19 @@ public class SpriteControler : SerializedMonoBehaviour
 	public SpriteRenderer Hand_L;
 	public SpriteRenderer Hand_R;
 
+	[Space, Header("Other")]
+	public Transform RightHand;
+	public Transform LeftHand;
+
 	[Space, Header("Defaults, temporary")]
 	public Dictionary<CharacterPart, CharacterSpriteSet> DefaultVisuals;
 	//[Button, PropertyOrder(-100)] void SetDefauls() => DefaultVisuals = DefaultVisuals.InitializeDefaultValues(false);
 
 
-
-	[Space, Header("Old Compatibility")]
-	public bool UsePreviousSystem;
-
-	public SpriteRenderer Old_Head;
-	public SpriteRenderer Old_Body;
-	public SpriteRenderer Old_Hand_L;
-	public SpriteRenderer Old_Hand_R;
-
-	[Space,Header("Other")]
-    public Transform RightHand;
-    public Transform LeftHand;
-    [Space]
-    public Sprite HeadDown, HeadRight, HeadLeft, HeadUp;
-    public Sprite BodyDown, BodyRight, BodyLeft, BodyUp;
-    public Sprite handSprite;
-    public Transform RightHandDown, LeftHandDown, RightHandRight, LeftHandRight, RightHandLeft, LeftHandLeft, RightHandUp, LeftHandUp;
-    public static SpriteControler Instance;
     [Space]
     public Animator anim;
+    public Transform RightHandDown, LeftHandDown, RightHandRight, LeftHandRight, RightHandLeft, LeftHandLeft, RightHandUp, LeftHandUp;
+    public static SpriteControler Instance;
     //[SerializeField] private bool isFacingSide = false;
     [Space]
     public AudioSource WalkingSource;
@@ -61,15 +50,15 @@ public class SpriteControler : SerializedMonoBehaviour
 
     private void Awake()
     {
+		if (CharacterCreationManager.CurrentCharacterInfo != null) {
+			visuals = CharacterCreationManager.CurrentCharacterInfo;
+			CharacterCreationManager.CurrentCharacterInfo = null;
+		}
         Instance = this;
-		RetainCompatibilityWithPreviousSystem();
     }
 
 	void Start() {
-		for (int i = 0; i < visuals.SpriteSets.Count; i++) {
-			var element = visuals.SpriteSets.ElementAt(i);
-			if (element.Value == null) { visuals.SpriteSets[element.Key] = DefaultVisuals[element.Key]; }
-		}
+		CheckForNullValues();
 		FaceDOWN();
 	}
 
@@ -77,18 +66,14 @@ public class SpriteControler : SerializedMonoBehaviour
     {
         if (!GameLibOfMethods.cantMove && !GameLibOfMethods.doingSomething)
         {
-            anim.SetFloat("Vertical", Input.GetAxis("Vertical"));
-            anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
-            if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
-            {
-                GameTime.Clock.ResetSpeed();
-            }
+			float x = Input.GetAxis("Horizontal");
+			float y = Input.GetAxis("Vertical");
+
+			anim.SetFloat("Vertical", y);
+            anim.SetFloat("Horizontal", x);
+
+			if (x != 0 || y != 0) { GameTime.Clock.ResetSpeed(); }
         }
-        /*else
-        {
-            anim.SetFloat("Vertical", 0);
-            anim.SetFloat("Horizontal", 0);
-        }*/
     }
 
     private void FixedUpdate()
@@ -219,62 +204,29 @@ public class SpriteControler : SerializedMonoBehaviour
 
 	// To do: Make references a <Dictionary<CharacterData.CharacterPart, SpriteRenderer>>
 	void UpdateCharacter(CharacterOrientation orientation) {
-		if (!UsePreviousSystem) {
-			Head.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Head].Get(orientation);
-			Body.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Body].Get(orientation);
-			Hair.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hair].Get(orientation);
-			Shirt.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Top].Get(orientation);
-			Pants.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Bottom].Get(orientation);
-			Hand_L.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hands].Get(orientation);
-			Hand_R.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hands].Get(orientation);
-		}
-		else {
-			switch (orientation) {
-				case CharacterOrientation.Bot:
-					Old_Body.sprite = BodyDown;
-					Old_Head.sprite = HeadDown;
-					break;
-				case CharacterOrientation.Top:
-					Old_Body.sprite = BodyUp;
-					Old_Head.sprite = HeadUp;
-					break;
-				case CharacterOrientation.Right:
-					Old_Body.sprite = BodyRight;
-					Old_Head.sprite = HeadRight;
-					break;
-				case CharacterOrientation.Left:
-					Old_Body.sprite = BodyLeft;
-					Old_Head.sprite = HeadLeft;
-					break;
-				default:
-					break;
-			}
-		}
+		Head.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Head].Get(orientation);
+		Body.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Body].Get(orientation);
+		Hair.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hair].Get(orientation);
+		Shirt.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Top].Get(orientation);
+		Pants.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Bottom].Get(orientation);
+		Hand_L.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hands].Get(orientation);
+		Hand_R.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hands].Get(orientation);
 	}
 
-	void RetainCompatibilityWithPreviousSystem() {
-
-
-		return;
-
-		Old_Body.enabled = UsePreviousSystem;
-		Old_Head.enabled = UsePreviousSystem;
-		Old_Hand_R.enabled = UsePreviousSystem;
-		Old_Hand_L.enabled = UsePreviousSystem;
-
-		try {
-			if (Head != Old_Head)
-			Head.gameObject.SetActive(!UsePreviousSystem);
-			if (Body != Old_Body)
-			Body.gameObject.SetActive(!UsePreviousSystem);
-			Hair.gameObject.SetActive(!UsePreviousSystem);
-			Shirt.gameObject.SetActive(!UsePreviousSystem);
-			Pants.gameObject.SetActive(!UsePreviousSystem);
-
-			Hand_R.gameObject.SetActive(!UsePreviousSystem);
-			Hand_L.gameObject.SetActive(!UsePreviousSystem);
+	void CheckForNullValues() {
+		if (visuals == null) {
+			visuals = new CharacterData.CharacterInfo();
+			visuals.Name = "Bob";
+			visuals.Initialize();
 		}
-		catch { }
+
+		for (int i = 0; i < visuals.SpriteSets.Count; i++) {
+			var element = visuals.SpriteSets.ElementAt(i);
+			if (element.Value == null) {
+				visuals.SpriteSets[element.Key] = DefaultVisuals[element.Key];
+				//Debug.Log($"Filling null value: {element.Key}");
+			}
+		}
 	}
 
     public void PickRandomSound()

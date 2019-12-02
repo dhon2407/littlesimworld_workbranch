@@ -225,10 +225,13 @@ namespace UnityStandardAssets.Water
 
         void UpdateCameraModes(Camera src, Camera dest)
         {
+			return;
+
             if (dest == null)
             {
                 return;
             }
+
             // set water camera to clear the same way as current camera
             dest.clearFlags = src.clearFlags;
             dest.backgroundColor = src.backgroundColor;

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Weather;
 
 namespace GameTime
 {
@@ -103,7 +104,8 @@ namespace GameTime
         {
             if (JobManager.Instance.CurrentJob != null)
                 JobManager.Instance.CurrentJob.WorkedToday = false;
-            WeatherSystem.Instance.ChooseWeatherForTheDay();
+
+            WeatherSystem.ChangeWeather();
             Bank.Instance.AddPercentageToBalance();
         }
     }

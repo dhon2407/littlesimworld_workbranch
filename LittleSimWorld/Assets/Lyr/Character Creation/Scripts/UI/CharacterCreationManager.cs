@@ -17,7 +17,7 @@ namespace UI.CharacterCreation {
 	[DefaultExecutionOrder(-1)]
 	public class CharacterCreationManager : SerializedMonoBehaviour {
 
-		[HideReferenceObjectPicker] public CharacterInfo CurrentCharacterInfo = new CharacterInfo();
+		[HideReferenceObjectPicker] public static CharacterInfo CurrentCharacterInfo = null;
 		[HideReferenceObjectPicker] public SpriteSetCollection Collection = new SpriteSetCollection();
 
 		public static CharacterCreationManager instance;
@@ -30,6 +30,7 @@ namespace UI.CharacterCreation {
 
 		void Awake() {
 			instance = this;
+			CurrentCharacterInfo = new CharacterInfo();
 		}
 
 		public void ChangeGender(ArrowType arrow) {

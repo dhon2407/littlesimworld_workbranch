@@ -25,7 +25,7 @@ public class DebugUtilities : MonoBehaviour
 	}
 
 	void OnDrawGizmosSelected() {
-		Gizmos.color = Color.red;
+		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(HomePos, 0.2f);
 		Gizmos.DrawWireSphere(GroceriesPos, 0.2f);
 	}

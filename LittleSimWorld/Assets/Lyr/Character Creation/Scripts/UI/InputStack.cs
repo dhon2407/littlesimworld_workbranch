@@ -33,11 +33,10 @@ namespace UI.CharacterCreation {
 				// Play UI Success Sound
 				GameManager.Instance.CurrentSaveName = playerName;
 
-				var charInfo = CharacterCreationManager.instance.CurrentCharacterInfo;
+				var charInfo = CharacterCreationManager.CurrentCharacterInfo;
 				charInfo.Gender = CharacterCreationManager.instance.gender;
 				charInfo.Name = playerName;
 
-				GameManager.Instance.CharacterInfo = charInfo;
 				GameManager.Instance.NewGame();
 			}
 		}

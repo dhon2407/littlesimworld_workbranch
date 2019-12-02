@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Runtime.Serialization.Formatters.Binary;
+using Sirenix.Serialization;
 using System.IO;
 using TMPro;
 using System.Linq;
@@ -49,34 +49,39 @@ public class MainMenu : MonoBehaviour
         
         foreach(FileInfo file in files)
         {
-            
+			Debug.Log(file.FullName);
 
-            Debug.Log(file.Name);
-            GameObject save = Instantiate(saveGO as GameObject, WhereToPasteSaveGOs);
-            save.name = file.Name.Replace(".save","");
-            save.GetComponentInChildren<TextMeshProUGUI>().text = save.name;
+			DataFormat format = DataFormat.Binary;
+			var bytes = File.ReadAllBytes(file.FullName);
+			if (bytes == null) {
+				Debug.Log("Null Bytes");
+				continue;
+			}
 
-            BinaryFormatter bf = new BinaryFormatter();
+			Save saveFile = SerializationUtility.DeserializeValue<Save>(bytes, format);
+			if (saveFile == null) { Debug.Log("Failed to Load."); continue; }
 
-            FileStream fs = File.Open(file.FullName, FileMode.Open);
-            fs.Position = 0;
-            Save savefile = (Save)bf.Deserialize(fs);
+			Debug.Log(file.Name);
+			GameObject save = Instantiate(saveGO as GameObject, WhereToPasteSaveGOs);
+			save.name = file.Name.Replace(".save", "");
+			save.GetComponentInChildren<TextMeshProUGUI>().text = save.name;
 
-            save.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Total time spent: "+ TimeSpan.FromSeconds(savefile.RealPlayTime).Hours.ToString() + " hours " + TimeSpan.FromSeconds(savefile.RealPlayTime).Minutes.ToString() + "  minutes.";
+			save.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Total time spent: "+ TimeSpan.FromSeconds(saveFile.RealPlayTime).Hours.ToString() + " hours " + TimeSpan.FromSeconds(saveFile.RealPlayTime).Minutes.ToString() + "  minutes.";
             string totalLvl = (
-                savefile.PlayerSkills[SkillType.Charisma].Level
-                + savefile.PlayerSkills[SkillType.Fitness].Level
-                + savefile.PlayerSkills[SkillType.Intelligence].Level
-                + savefile.PlayerSkills[SkillType.Strength].Level
-                + savefile.PlayerSkills[SkillType.Cooking].Level
-                + savefile.PlayerSkills[SkillType.Repair].Level
+                saveFile.PlayerSkills[SkillType.Charisma].Level
+                + saveFile.PlayerSkills[SkillType.Fitness].Level
+                + saveFile.PlayerSkills[SkillType.Intelligence].Level
+                + saveFile.PlayerSkills[SkillType.Strength].Level
+                + saveFile.PlayerSkills[SkillType.Cooking].Level
+                + saveFile.PlayerSkills[SkillType.Repair].Level
                 ).ToString();
-            if(totalLvl == "0")
-            save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + "-";
-            else
-            {
-                save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + totalLvl;
-            }
+
+			if (totalLvl == "0") {
+				save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + "-";
+			}
+			else {
+				save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + totalLvl;
+			}
 
 
         }
@@ -100,7 +105,6 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
 
-		SpriteControler.Instance.visuals = GameManager.Instance.CharacterInfo;
 		SpriteControler.Instance.FaceDOWN();
     }
     void cursorSet(Texture2D tex)

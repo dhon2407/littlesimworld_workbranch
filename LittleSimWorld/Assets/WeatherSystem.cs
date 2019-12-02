@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UB.Simple2dWeatherEffects.Standard;
 using UnityEngine.UI;
-public class WeatherSystem : MonoBehaviour
+public class WeatherSystem_Old : MonoBehaviour
 {
 
     public List<ParticleSystemRenderer> WeatherRenderers;
-    public static WeatherSystem Instance;
+    public static WeatherSystem_Old Instance;
     public static bool wasWeatherDecidedToday = false;
 
     public Image WeatherIcon;

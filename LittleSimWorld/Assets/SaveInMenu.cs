@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using System.IO;
 using System.Linq;
+using UI.CharacterCreation;
+
 public class SaveInMenu : MonoBehaviour
 {
     public TextMeshProUGUI saveNameFrom;
@@ -22,6 +24,7 @@ public class SaveInMenu : MonoBehaviour
     public void LoadThisSave()
     {
         GameManager.Instance.CurrentSaveName = saveNameFrom.text;
+		CharacterCreationManager.CurrentCharacterInfo = null;
         MainMenu.Instance.LoadMainSceneGame(1);
     }
     public void DeleteThisSave()
