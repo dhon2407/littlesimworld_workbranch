@@ -103,8 +103,6 @@ public class DisplayHandler
 
     private void UpdateDisplayMonitorParameters()
     {
-        Debug.Log("Unity Selected monitor :" + PlayerPrefs.GetInt(CurrentMonitor));
-
         for (int i = 0; i < UnityEngine.Display.displays.Length; i++)
         {
             var dis = UnityEngine.Display.displays[i];
@@ -113,7 +111,7 @@ public class DisplayHandler
             {
                 currentMonitorNative = new Resolution { width = dis.systemWidth, height = dis.systemHeight };
                 nativeResolutionSet = true;
-                Debug.Log(string.Format("Native resolution set ({0},{1})", currentMonitorNative.width, currentMonitorNative.height));
+                break;
             }
         }
     }
@@ -123,10 +121,7 @@ public class DisplayHandler
         if (!newResolution.Same(CurrentGameResolution))
         {
             Screen.SetResolution(newResolution.width, newResolution.height, currentFullScreenMode);
-            
             UpdateCurrentResolution(newResolution);
-
-            Debug.Log(string.Format("Resolution changed to : {0}", newResolution));
             onChangeResolution?.Invoke(newResolution);
         }
 
@@ -135,7 +130,8 @@ public class DisplayHandler
 
     private void UpdateCurrentResolution(Resolution newResolution)
     {
-        currentResolution = new Resolution { width = newResolution.width, height = newResolution.height };
+        currentResolution.width = newResolution.width;
+        currentResolution.height = newResolution.height;
     }
 
     public void ChangeMode(FullScreenMode mode)
@@ -308,6 +304,6 @@ public class DisplayHandler
         public readonly static string AutoDetect = "AutoDetect" + test_value;
         public readonly static string Saved = "DisplaySettingsSaved" + test_value;
 
-        private static string test_value => "v3";
+        private static string test_value => "v6";
     }
 }

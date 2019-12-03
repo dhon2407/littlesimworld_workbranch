@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5df4df8b0a4b034990c914ede9cee9f, type: 3}
-  m_Name: Fufufu
+  m_Name: Importer
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2

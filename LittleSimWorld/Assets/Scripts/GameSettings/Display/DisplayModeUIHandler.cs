@@ -34,7 +34,8 @@ namespace GameSettings
             {
 
 #if UNITY_STANDALONE_WIN
-                if (mode == FullScreenMode.MaximizedWindow)
+                if (mode == FullScreenMode.MaximizedWindow ||
+                    mode == FullScreenMode.ExclusiveFullScreen)
                     continue;
 #endif
 
