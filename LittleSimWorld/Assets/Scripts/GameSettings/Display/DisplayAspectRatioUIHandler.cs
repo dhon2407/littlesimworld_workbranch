@@ -52,12 +52,8 @@ namespace GameSettings
                 dropDownList.options.Add(new DropDownData(string.Format("{0}:{1}",
                     ratio.Item1, ratio.Item2)));
             }
-
-            if (dropDownList.options.Count == 1)
-            {
-                dropDownList.value = -1;
-                Settings.Display.SetAspectRatio(ratios[0]);
-            }
+            
+            Settings.Display.SetAspectRatio(ratios[0]);
         }
 
         public void SetToEnable(bool enable)

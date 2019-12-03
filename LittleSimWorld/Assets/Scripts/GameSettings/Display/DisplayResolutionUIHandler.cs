@@ -32,6 +32,8 @@ namespace GameSettings
             dropDownList.onValueChanged.AddListener(delegate { UpdateResolution(); });
             Settings.Display.onChangeResolution.AddListener(ResolutionChanged);
             Settings.Display.onResolutionListChanged.AddListener(UpdateList);
+
+            UpdateList();
         }
 
         public void UpdateResolution()
@@ -50,8 +52,12 @@ namespace GameSettings
                 resolutions.Add(res);
             }
 
+            if (dropDownList.options.Count == 1)
+                dropDownList.value = -1;
+
             if (!Settings.Display.AutoDetectResolution)
                 SelectFromList(Settings.Display.CurrentGameResolution);
+
         }
 
         private void OnDestroy()

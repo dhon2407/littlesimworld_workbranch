@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class DisplayHandler
 {
     private const int DefaultFPS = 60;
-
+    private const string CurrentMonitor = "UnitySelectMonitor";
     private readonly Dictionary<(int, int), List<Resolution>> AllowAspectRatios =
         new Dictionary<(int, int), List<Resolution>>
     {
@@ -67,8 +67,12 @@ public class DisplayHandler
     private List<Resolution> availableResolutions;
     private List<(int, int)> availableAspectRatio;
     private Resolution currentResolution;
+    private Resolution currentMonitorNative;
+    private FullScreenMode currentFullScreenMode;
+    private bool nativeResolutionSet;
 
     public Resolution CurrentGameResolution => currentResolution;
+    public FullScreenMode CurrentScreenMode => currentFullScreenMode;
     public Resolution[] Resolutions => availableResolutions.ToArray();
     public (int,int)[] AspectRatios => availableAspectRatio.ToArray();
     public FullScreenMode[] Modes => GetDisplayModes();
@@ -93,16 +97,36 @@ public class DisplayHandler
 
         UpdateResolutions();
         LoadSettings();
+
+        UpdateDisplayMonitorParameters();
+    }
+
+    private void UpdateDisplayMonitorParameters()
+    {
+        Debug.Log("Unity Selected monitor :" + PlayerPrefs.GetInt(CurrentMonitor));
+
+        for (int i = 0; i < UnityEngine.Display.displays.Length; i++)
+        {
+            var dis = UnityEngine.Display.displays[i];
+
+            if (i == PlayerPrefs.GetInt(CurrentMonitor))
+            {
+                currentMonitorNative = new Resolution { width = dis.systemWidth, height = dis.systemHeight };
+                nativeResolutionSet = true;
+                Debug.Log(string.Format("Native resolution set ({0},{1})", currentMonitorNative.width, currentMonitorNative.height));
+            }
+        }
     }
 
     public void ChangeResolution(Resolution newResolution, bool autoDetect = false)
     {
         if (!newResolution.Same(CurrentGameResolution))
         {
-            Screen.SetResolution(newResolution.width,
-                                 newResolution.height,
-                                 Screen.fullScreenMode);
+            Screen.SetResolution(newResolution.width, newResolution.height, currentFullScreenMode);
+            
             UpdateCurrentResolution(newResolution);
+
+            Debug.Log(string.Format("Resolution changed to : {0}", newResolution));
             onChangeResolution?.Invoke(newResolution);
         }
 
@@ -116,11 +140,13 @@ public class DisplayHandler
 
     public void ChangeMode(FullScreenMode mode)
     {
-        if (mode != Screen.fullScreenMode)
+        if (mode != currentFullScreenMode)
         {
-            Screen.SetResolution(CurrentGameResolution.width,
-                                 CurrentGameResolution.height,
-                                 mode);
+            currentFullScreenMode = mode;
+            Screen.fullScreenMode = mode;
+
+            if (mode == FullScreenMode.ExclusiveFullScreen || mode == FullScreenMode.FullScreenWindow)
+                UpdateDisplayMonitorParameters();
         }
     }
 
@@ -150,14 +176,22 @@ public class DisplayHandler
 
     public void DetectResolution()
     {
-        availableResolutions.Clear();
-        availableAspectRatio.Clear();
-
-        ChangeResolution(new Resolution
+        if (nativeResolutionSet)
         {
-            height = Screen.currentResolution.height,
-            width = Screen.currentResolution.width
-        }, true);
+            availableResolutions.Clear();
+            availableAspectRatio.Clear();
+
+            ChangeResolution(new Resolution
+            {
+                height = currentMonitorNative.height,
+                width = currentMonitorNative.width
+            }, true);
+        }
+        else
+        {
+            UpdateDisplayMonitorParameters();
+            DetectResolution();
+        }
     }
 
     public void CustomResolution()
@@ -178,7 +212,7 @@ public class DisplayHandler
         PlayerPrefs.SetInt(DataSave.ResolutionHeight, CurrentGameResolution.height);
         PlayerPrefs.SetInt(DataSave.TargetFPS, Application.targetFrameRate);
         PlayerPrefs.SetInt(DataSave.VSync, QualitySettings.vSyncCount);
-        PlayerPrefs.SetInt(DataSave.FullscreenMode, (int)Screen.fullScreenMode);
+        PlayerPrefs.SetInt(DataSave.FullscreenMode, (int)currentFullScreenMode);
         PlayerPrefs.SetInt(DataSave.AutoDetect, AutoDetectResolution ? 1 : 0);
 
         PlayerPrefs.SetInt(DataSave.Saved, 1);
@@ -200,7 +234,7 @@ public class DisplayHandler
     {
         Application.targetFrameRate = PlayerPrefs.GetInt(DataSave.TargetFPS, DefaultFPS);
         QualitySettings.vSyncCount = PlayerPrefs.GetInt(DataSave.VSync, 1);
-        var mode = (FullScreenMode)PlayerPrefs.GetInt(DataSave.FullscreenMode, 1);
+        currentFullScreenMode = (FullScreenMode)PlayerPrefs.GetInt(DataSave.FullscreenMode, 1);
         AutoDetectResolution = PlayerPrefs.GetInt(DataSave.AutoDetect) == 1;
         
         ChangeResolution(new Resolution
@@ -209,7 +243,6 @@ public class DisplayHandler
             height = PlayerPrefs.GetInt(DataSave.ResolutionHeight),
         }, AutoDetectResolution);
 
-        ChangeMode(mode);
         DataLoaded = true;
     }
 
@@ -249,8 +282,8 @@ public class DisplayHandler
     {
         foreach (var aspectRatio in AllowAspectRatios.Keys)
         {
-            if (AllowAspectRatios[aspectRatio].FindIndex(
-                res => res.width == resolution.width && res.height == resolution.height) >= 0)
+            if (AllowAspectRatios[aspectRatio].Exists(
+                res => res.width == resolution.width && res.height == resolution.height))
                 return aspectRatio;
         }
 

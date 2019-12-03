@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GameSettings.Helpers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,11 +32,18 @@ namespace GameSettings
 
             foreach (var mode in Settings.Display.Modes)
             {
+
+#if UNITY_STANDALONE_WIN
+                if (mode == FullScreenMode.MaximizedWindow)
+                    continue;
+#endif
+
                 modes.Add(mode);
-                dropDownList.options.Add(new DropDownData(mode.ToString()));
+                dropDownList.options.Add(new DropDownData(mode.NiceString()));
             }
 
             Settings.Display.onValuesChanged.AddListener(ModeChanged);
+            Settings.Display.onChangeResolution.AddListener(delegate { ModeChanged(); });
 
             ModeChanged();
             dropDownList.onValueChanged.AddListener(delegate{ UpdateMode(); });
@@ -43,10 +51,8 @@ namespace GameSettings
 
         private void ModeChanged()
         {
-            var index = modes.FindIndex(mode => mode == Screen.fullScreenMode);
-
-            if (index >= 0)
-                dropDownList.value = index;
+            if (modes.Contains(Settings.Display.CurrentScreenMode))
+                dropDownList.value = modes.FindIndex(mode => mode == Settings.Display.CurrentScreenMode);
         }
 
         public void UpdateMode()

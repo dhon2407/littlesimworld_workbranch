@@ -9,6 +9,7 @@ namespace GameCamera
     [RequireComponent(typeof(PixelPerfectCamera))]
     public class PixelPerfectZoomManager : MonoBehaviour
     {
+        [SerializeField]
 		new PixelPerfectCamera camera;
 
 		const int defaultMinPPU = 105;
@@ -37,8 +38,8 @@ namespace GameCamera
 		void ForceUpdateCamera() {
 			camera.assetsPPU = Mathf.Clamp(camera.assetsPPU, minPPU, maxPPU);
 
-			CameraFollow.Instance.SetLimits();
-			CameraFollow.Instance.UpdateCamera();
+			CameraFollow.Instance?.SetLimits();
+			CameraFollow.Instance?.UpdateCamera();
 		}
 
 		private void UpdateValues()

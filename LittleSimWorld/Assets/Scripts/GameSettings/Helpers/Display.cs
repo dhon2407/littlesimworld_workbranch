@@ -9,5 +9,21 @@ namespace GameSettings.Helpers
             return (current.height == other.height) && (current.width == other.width);
         }
 
+        public static string NiceString(this FullScreenMode mode)
+        {
+            switch (mode)
+            {
+                case FullScreenMode.ExclusiveFullScreen:
+                    return "Exclusive Fullscreen";
+                case FullScreenMode.FullScreenWindow:
+                    return "Fullscreen Window";
+                case FullScreenMode.MaximizedWindow:
+                    return "Maximize Window";
+                case FullScreenMode.Windowed:
+                    return "Windowed";
+                default:
+                    return "Unknown screenmode.";
+            }
+        }
     }
 }
