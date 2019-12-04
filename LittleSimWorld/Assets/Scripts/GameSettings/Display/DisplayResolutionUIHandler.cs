@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GameSettings.Helpers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +31,6 @@ namespace GameSettings
                 yield return null;
 
             dropDownList.onValueChanged.AddListener(delegate { UpdateResolution(); });
-            Settings.Display.onChangeResolution.AddListener(ResolutionChanged);
             Settings.Display.onResolutionListChanged.AddListener(UpdateList);
 
             UpdateList();
@@ -45,61 +45,43 @@ namespace GameSettings
         private void UpdateList()
         {
             ClearValues();
-            foreach (var res in Settings.Display.Resolutions)
+
+            if (!Settings.Display.AutoDetectResolution && Settings.Display.CurrentAspectRatio != (0,0))
             {
-                dropDownList.options.Add(new DropDownData(string.Format("{0} x {1}",
-                                                          res.width, res.height)));
-                resolutions.Add(res);
+                foreach (var res in Settings.Display.Resolutions)
+                {
+                    dropDownList.options.Add(new DropDownData(string.Format("{0} x {1}",
+                                                              res.width, res.height)));
+                    resolutions.Add(res);
+                }
+
+                SelectCurrentResolution();
             }
+        }
 
-            if (dropDownList.options.Count == 1)
-                dropDownList.value = -1;
-
-            if (!Settings.Display.AutoDetectResolution)
-                SelectFromList(Settings.Display.CurrentGameResolution);
-
+        private void SelectCurrentResolution()
+        {
+            var resolution = Settings.Display.CurrentGameResolution;
+            if (resolutions.Exists(res => res.Same(resolution)))
+            {
+                var index = resolutions.FindIndex(res => res.Same(resolution));
+                dropDownList.value = index == 0 ? -1 : index;
+            }
+            else
+            {
+                dropDownList.value = resolutions.Count == 1 ? -1 : resolutions.Count - 1;
+                UpdateResolution();
+            }
         }
 
         private void OnDestroy()
         {
-            Settings.Display.onChangeResolution.RemoveListener(ResolutionChanged);
             Settings.Display.onResolutionListChanged.RemoveListener(UpdateList);
         }
 
         private void Reset()
         {
             dropDownList = GetComponent<DropDown>();
-        }
-
-        private void ResolutionChanged(Resolution newResolution)
-        {
-            if (Settings.Display.AutoDetectResolution)
-            {
-                ClearValues();
-                dropDownList.options.Add(new DropDownData(string.Format("{0} x {1}",
-                    newResolution.width, newResolution.height)));
-                resolutions.Add(newResolution);
-
-                dropDownList.value = -1;
-            }
-            else
-            {
-                SelectFromList(newResolution);
-            }
-        }
-
-        private void SelectFromList(Resolution newResolution)
-        {
-            int resIndex = resolutions.FindIndex(
-                resolution => (resolution.width == newResolution.width && resolution.height == newResolution.height));
-
-            if (resIndex >= 0)
-            {
-                if (dropDownList.options.Count == 1)
-                    dropDownList.value = -1;
-                else
-                    dropDownList.value = resIndex;
-            }
         }
 
         private void ClearValues()

@@ -28,17 +28,21 @@ namespace GameCamera
 			Settings.Display.onChangeResolution.AddListener(delegate { UpdateValues(); });
 		}
 		void LateUpdate() {
-			if (!EventSystem.current.IsPointerOverGameObject() && Application.isFocused && Input.GetAxis("Mouse ScrollWheel") != 0) {
+			if (CameraFollow.Instance != null && 
+                !EventSystem.current.IsPointerOverGameObject() &&
+                Application.isFocused && Input.GetAxis("Mouse ScrollWheel") != 0) {
 				camera.assetsPPU += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel"));
 				ForceUpdateCamera();
 			}
 		}
 
 		void ForceUpdateCamera() {
-			camera.assetsPPU = Mathf.Clamp(camera.assetsPPU, minPPU, maxPPU);
+            if (CameraFollow.Instance != null) {
+                camera.assetsPPU = Mathf.Clamp(camera.assetsPPU, minPPU, maxPPU);
 
-			CameraFollow.Instance.SetLimits();
-			CameraFollow.Instance.UpdateCamera();
+                CameraFollow.Instance.SetLimits();
+                CameraFollow.Instance.UpdateCamera();
+            }
 		}
 
 		private void UpdateValues()

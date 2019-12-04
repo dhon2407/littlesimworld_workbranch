@@ -29,11 +29,7 @@ namespace GameSettings
             while (!Settings.DataReady)
                 yield return null;
 
-            dropDownList.onValueChanged.AddListener(delegate
-            { 
-                ChangeValue();
-            });
-
+            dropDownList.onValueChanged.AddListener(delegate { ChangeValue(); });
         }
 
         private void ChangeValue()
@@ -43,8 +39,7 @@ namespace GameSettings
 
         private void UpdateList()
         {
-            ratios.Clear();
-            dropDownList.ClearOptions();
+            ClearItems();
 
             foreach (var ratio in Settings.Display.AspectRatios)
             {
@@ -53,8 +48,24 @@ namespace GameSettings
                     ratio.Item1, ratio.Item2)));
             }
 
-            dropDownList.value = -1;
-            Settings.Display.SetAspectRatio(ratios[0]);
+            SetCurrentRatio();
+        }
+
+        private void SetCurrentRatio()
+        {
+            var ratio = Settings.Display.ActualAspectRatio;
+            if (ratios.Contains(ratio))
+            {
+                var index = ratios.IndexOf(ratio);
+                dropDownList.value = index == 0 ? -1 : index;
+                ChangeValue();
+            }
+        }
+
+        private void ClearItems()
+        {
+            ratios.Clear();
+            dropDownList.ClearOptions();
         }
 
         public void SetToEnable(bool enable)
@@ -62,7 +73,7 @@ namespace GameSettings
             if (enable)
                 RefreshList();
             else
-                dropDownList.ClearOptions();
+                ClearItems();
         }
 
         private void RefreshList()

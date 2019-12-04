@@ -14,6 +14,14 @@ namespace GameSettings
         private DropDown dropDownList;
         private List<FullScreenMode> modes = null;
 
+        public void SetToEnable(bool enable)
+        {
+            if (enable)
+                RefreshList();
+            else
+                dropDownList.ClearOptions();
+        }
+
         private void Awake()
         {
             modes = new List<FullScreenMode>();
@@ -30,40 +38,48 @@ namespace GameSettings
             while (!Settings.DataReady)
                 yield return null;
 
-            foreach (var mode in Settings.Display.Modes)
-            {
+            RefreshList();
 
-#if UNITY_STANDALONE_WIN
-                if (mode == FullScreenMode.MaximizedWindow ||
-                    mode == FullScreenMode.ExclusiveFullScreen)
-                    continue;
-#endif
-
-                modes.Add(mode);
-                dropDownList.options.Add(new DropDownData(mode.NiceString()));
-            }
-
-            Settings.Display.onValuesChanged.AddListener(ModeChanged);
-            Settings.Display.onChangeResolution.AddListener(delegate { ModeChanged(); });
-
-            ModeChanged();
-            dropDownList.onValueChanged.AddListener(delegate{ UpdateMode(); });
+            Settings.Display.onValuesChanged.AddListener(RefreshList);
+            
+            dropDownList.onValueChanged.AddListener(delegate { UpdateMode(); });
         }
 
-        private void ModeChanged()
+        private void RefreshList()
         {
-            if (modes.Contains(Settings.Display.CurrentScreenMode))
-                dropDownList.value = modes.FindIndex(mode => mode == Settings.Display.CurrentScreenMode);
+            modes.Clear();
+            dropDownList.options.Clear();
+
+            if (!Settings.Display.AutoDetectResolution)
+            {
+                foreach (var mode in Settings.Display.Modes)
+                {
+
+#if UNITY_STANDALONE_WIN
+                    if (mode == FullScreenMode.MaximizedWindow)
+                        continue;
+#endif
+
+                    modes.Add(mode);
+                    dropDownList.options.Add(new DropDownData(mode.NiceString()));
+                }
+
+                UpdateValue();
+            }
+        }
+
+        private void UpdateValue()
+        {
+            if (modes.Contains(Settings.Display.CurrentFullScreenMode))
+            {
+                var index = modes.IndexOf(Settings.Display.CurrentFullScreenMode);
+                dropDownList.value = index == 0 ? -1 : index;
+            }
         }
 
         public void UpdateMode()
         {
             Settings.Display.ChangeMode(modes[dropDownList.value]);
-        }
-
-        private void OnDestroy()
-        {
-            Settings.Display.onValuesChanged.RemoveListener(ModeChanged);
         }
 
         private void Reset()

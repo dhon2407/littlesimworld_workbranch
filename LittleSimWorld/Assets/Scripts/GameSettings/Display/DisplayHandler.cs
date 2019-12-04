@@ -5,76 +5,27 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DisplayHandler
+public partial class DisplayHandler
 {
     private const int DefaultFPS = 60;
     private const string CurrentMonitor = "UnitySelectMonitor";
-    private readonly Dictionary<(int, int), List<Resolution>> AllowAspectRatios =
-        new Dictionary<(int, int), List<Resolution>>
-    {
-        { (31,9),
-            new List<Resolution>()
-            {
-                new Resolution { width = 3840, height = 1080 },
-                new Resolution { width = 5120, height = 1440 },
-            }
-        },
-
-        { (21,9),
-            new List<Resolution>()
-            {
-                new Resolution { width = 2560, height = 1080 },
-                new Resolution { width = 3440, height = 1440 },
-                new Resolution { width = 5120, height = 2160 },
-            }
-        },
-
-        { (16,9),
-            new List<Resolution>()
-            {
-                new Resolution { width = 1280, height = 720 },
-                new Resolution { width = 1366, height = 768 },
-                new Resolution { width = 1600, height = 900 },
-                new Resolution { width = 1920, height = 1080 },
-                new Resolution { width = 2560, height = 1440 },
-                new Resolution { width = 3840, height = 2160 },
-                new Resolution { width = 5120, height = 2880 },
-                new Resolution { width = 7680, height = 4320 },
-            }
-        },
-
-        { (16,10),
-            new List<Resolution>()
-            {
-                new Resolution { width = 1280, height = 800 },
-                new Resolution { width = 1920, height = 1200 },
-                new Resolution { width = 2560, height = 1600 },
-            }
-        },
-
-        { (4,3),
-            new List<Resolution>()
-            {
-                new Resolution { width = 1400, height = 1050 },
-                new Resolution { width = 1440, height = 1080 },
-                new Resolution { width = 1600, height = 1200 },
-                new Resolution { width = 1920, height = 1440 },
-                new Resolution { width = 2048, height = 1536 },
-            }
-        },
-    };
 
     private List<Resolution> availableResolutions;
     private List<(int, int)> availableAspectRatio;
     private Resolution currentResolution;
     private Resolution currentMonitorNative;
     private FullScreenMode currentFullScreenMode;
+    private bool isFullScreen;
     private bool nativeResolutionSet;
+    private (int, int) currentAspectRatio = (0, 0);
 
     public Resolution CurrentGameResolution => currentResolution;
-    public FullScreenMode CurrentScreenMode => currentFullScreenMode;
+    public FullScreenMode CurrentFullScreenMode => currentFullScreenMode;
     public Resolution[] Resolutions => availableResolutions.ToArray();
-    public (int,int)[] AspectRatios => availableAspectRatio.ToArray();
+    public (int, int)[] AspectRatios => availableAspectRatio.ToArray();
+    public (int, int) CurrentAspectRatio => currentAspectRatio;
+    public (int, int) ActualAspectRatio => GetAspectRatio(currentResolution);
+
     public FullScreenMode[] Modes => GetDisplayModes();
     public bool VSyncOn => QualitySettings.vSyncCount > 0;
 
@@ -85,7 +36,6 @@ public class DisplayHandler
     public OnChangeResolution onChangeResolution;
     public UnityEvent onValuesChanged;
     public UnityEvent onResolutionListChanged;
-    private (int, int) currentAspectRatio;
 
     public DisplayHandler()
     {
@@ -118,10 +68,11 @@ public class DisplayHandler
 
     public void ChangeResolution(Resolution newResolution, bool autoDetect = false)
     {
-        if (!newResolution.Same(CurrentGameResolution))
+        if (!newResolution.Same(CurrentGameResolution) || Screen.fullScreen != isFullScreen)
         {
-            Screen.SetResolution(newResolution.width, newResolution.height, currentFullScreenMode);
+            Screen.SetResolution(newResolution.width, newResolution.height, isFullScreen);
             UpdateCurrentResolution(newResolution);
+            RefreshCursorLock();
             onChangeResolution?.Invoke(newResolution);
         }
 
@@ -132,6 +83,7 @@ public class DisplayHandler
     {
         currentResolution.width = newResolution.width;
         currentResolution.height = newResolution.height;
+        Screen.fullScreen = isFullScreen;
     }
 
     public void ChangeMode(FullScreenMode mode)
@@ -139,10 +91,38 @@ public class DisplayHandler
         if (mode != currentFullScreenMode)
         {
             currentFullScreenMode = mode;
-            Screen.fullScreenMode = mode;
+            UpdateFullScreenStatus();
 
-            if (mode == FullScreenMode.ExclusiveFullScreen || mode == FullScreenMode.FullScreenWindow)
+            if (currentFullScreenMode == FullScreenMode.ExclusiveFullScreen ||
+                currentFullScreenMode == FullScreenMode.FullScreenWindow)
                 UpdateDisplayMonitorParameters();
+
+            Screen.SetResolution(currentResolution.width, currentResolution.height, isFullScreen);
+            UpdateCurrentResolution(currentResolution);
+
+            //Bug with Unity FullScreenMode.ExclusiveFullScreen
+            Screen.fullScreenMode = (currentFullScreenMode == FullScreenMode.ExclusiveFullScreen) ?
+                                    FullScreenMode.FullScreenWindow : currentFullScreenMode;
+
+            RefreshCursorLock();
+        }
+    }
+
+    private void RefreshCursorLock()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        switch (CurrentFullScreenMode)
+        {
+            case FullScreenMode.ExclusiveFullScreen:
+                Cursor.lockState = CursorLockMode.Confined;
+                break;
+            case FullScreenMode.FullScreenWindow:
+            case FullScreenMode.MaximizedWindow:
+            case FullScreenMode.Windowed:
+                Cursor.lockState = CursorLockMode.None;
+                break;
+            default:
+                return;
         }
     }
 
@@ -162,7 +142,7 @@ public class DisplayHandler
         return Application.targetFrameRate;
     }
 
-    public void SetAspectRatio((int,int) ratio)
+    public void SetAspectRatio((int, int) ratio)
     {
         if (AllowAspectRatios.ContainsKey(ratio))
             currentAspectRatio = ratio;
@@ -176,6 +156,8 @@ public class DisplayHandler
         {
             availableResolutions.Clear();
             availableAspectRatio.Clear();
+            currentFullScreenMode = FullScreenMode.ExclusiveFullScreen;
+            isFullScreen = true;
 
             ChangeResolution(new Resolution
             {
@@ -202,6 +184,43 @@ public class DisplayHandler
         QualitySettings.vSyncCount = PlayerPrefs.GetInt(DataSave.VSync);
     }
 
+    private void UpdateResolutions()
+    {
+        availableResolutions.Clear();
+        availableAspectRatio.Clear();
+
+        foreach (var res in Screen.resolutions)
+        {
+            var ratio = GetAspectRatio(res);
+
+            if (ratio != (0, 0) && !availableAspectRatio.Contains(ratio))
+                availableAspectRatio.Add(ratio);
+
+            if (ratio == currentAspectRatio &&
+                !availableResolutions.Exists(listres => listres.height == res.height && listres.width == res.width))
+                availableResolutions.Add(res);
+        }
+
+        onResolutionListChanged.Invoke();
+    }
+
+    private (int, int) GetAspectRatio(Resolution resolution)
+    {
+        foreach (var aspectRatio in AllowAspectRatios.Keys)
+        {
+            if (AllowAspectRatios[aspectRatio].Exists(
+                res => res.width == resolution.width && res.height == resolution.height))
+                return aspectRatio;
+        }
+
+        return (0, 0);
+    }
+
+    private FullScreenMode[] GetDisplayModes()
+    {
+        return Enum.GetValues(typeof(FullScreenMode)).Cast<FullScreenMode>().ToArray();
+    }
+
     public void SaveSettings()
     {
         PlayerPrefs.SetInt(DataSave.ResolutionWidth, CurrentGameResolution.width);
@@ -226,13 +245,20 @@ public class DisplayHandler
         }
     }
 
+    #region DATA FUNCTIONS
     private void LoadDisplaySettings()
     {
         Application.targetFrameRate = PlayerPrefs.GetInt(DataSave.TargetFPS, DefaultFPS);
         QualitySettings.vSyncCount = PlayerPrefs.GetInt(DataSave.VSync, 1);
         currentFullScreenMode = (FullScreenMode)PlayerPrefs.GetInt(DataSave.FullscreenMode, 1);
         AutoDetectResolution = PlayerPrefs.GetInt(DataSave.AutoDetect) == 1;
-        
+
+        if (currentFullScreenMode != FullScreenMode.ExclusiveFullScreen)
+            Screen.fullScreenMode = currentFullScreenMode;
+
+        UpdateFullScreenStatus();
+        RefreshCursorLock();
+
         ChangeResolution(new Resolution
         {
             width = PlayerPrefs.GetInt(DataSave.ResolutionWidth),
@@ -240,6 +266,12 @@ public class DisplayHandler
         }, AutoDetectResolution);
 
         DataLoaded = true;
+    }
+
+    private void UpdateFullScreenStatus()
+    {
+        isFullScreen = (currentFullScreenMode == FullScreenMode.ExclusiveFullScreen) ||
+                       (currentFullScreenMode == FullScreenMode.FullScreenWindow);
     }
 
     public void RestoreDefaults()
@@ -253,43 +285,7 @@ public class DisplayHandler
         onValuesChanged.Invoke();
         DataLoaded = true;
     }
-
-    private void UpdateResolutions()
-    {
-        availableResolutions.Clear();
-        availableAspectRatio.Clear();
-
-        foreach (var res in Screen.resolutions)
-        {
-            var ratio = GetAspectRatio(res);
-
-            if (ratio != (0,0) && !availableAspectRatio.Contains(ratio))
-                availableAspectRatio.Add(ratio);
-
-            if (ratio == currentAspectRatio &&
-                !availableResolutions.Exists(listres => listres.height == res.height && listres.width == res.width))
-                availableResolutions.Add(res);
-        }
-
-        onResolutionListChanged.Invoke();
-    }
-
-    private (int,int) GetAspectRatio(Resolution resolution)
-    {
-        foreach (var aspectRatio in AllowAspectRatios.Keys)
-        {
-            if (AllowAspectRatios[aspectRatio].Exists(
-                res => res.width == resolution.width && res.height == resolution.height))
-                return aspectRatio;
-        }
-
-        return (0, 0);
-    }
-
-    private FullScreenMode[] GetDisplayModes()
-    {
-        return Enum.GetValues(typeof(FullScreenMode)).Cast<FullScreenMode>().ToArray();
-    }
+    #endregion
 
 
     public class OnChangeResolution : UnityEvent<Resolution> { }

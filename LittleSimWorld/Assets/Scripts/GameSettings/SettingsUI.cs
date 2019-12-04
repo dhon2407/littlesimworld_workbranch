@@ -44,6 +44,7 @@ namespace GameSettings
         public void Cancel()
         {
             Settings.Load();
+            UpdateData();
         }
 
         public void LoadDefault()
