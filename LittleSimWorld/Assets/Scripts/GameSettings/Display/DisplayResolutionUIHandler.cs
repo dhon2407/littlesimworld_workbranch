@@ -38,7 +38,7 @@ namespace GameSettings
 
         public void UpdateResolution()
         {
-            if (resolutions.Count > 0)
+            if (resolutions.Count > 0 && !Settings.Display.AutoDetectResolution)
                 Settings.Display.ChangeResolution(resolutions[dropDownList.value]);
         }
 
@@ -46,7 +46,7 @@ namespace GameSettings
         {
             ClearValues();
 
-            if (!Settings.Display.AutoDetectResolution && Settings.Display.CurrentAspectRatio != (0,0))
+            if (Settings.Display.CurrentAspectRatio != (0,0))
             {
                 foreach (var res in Settings.Display.Resolutions)
                 {

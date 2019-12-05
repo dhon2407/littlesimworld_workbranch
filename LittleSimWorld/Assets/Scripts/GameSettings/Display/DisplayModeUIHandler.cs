@@ -50,22 +50,20 @@ namespace GameSettings
             modes.Clear();
             dropDownList.options.Clear();
 
-            if (!Settings.Display.AutoDetectResolution)
+            foreach (var mode in Settings.Display.Modes)
             {
-                foreach (var mode in Settings.Display.Modes)
-                {
 
 #if UNITY_STANDALONE_WIN
-                    if (mode == FullScreenMode.MaximizedWindow)
-                        continue;
+                if (mode == FullScreenMode.MaximizedWindow)
+                    continue;
 #endif
 
-                    modes.Add(mode);
-                    dropDownList.options.Add(new DropDownData(mode.NiceString()));
-                }
-
-                UpdateValue();
+                modes.Add(mode);
+                dropDownList.options.Add(new DropDownData(mode.NiceString()));
             }
+
+            UpdateValue();
+
         }
 
         private void UpdateValue()
@@ -79,7 +77,8 @@ namespace GameSettings
 
         public void UpdateMode()
         {
-            Settings.Display.ChangeMode(modes[dropDownList.value]);
+            if (!Settings.Display.AutoDetectResolution)
+                Settings.Display.ChangeMode(modes[dropDownList.value]);
         }
 
         private void Reset()

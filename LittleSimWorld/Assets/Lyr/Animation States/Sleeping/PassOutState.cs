@@ -21,8 +21,10 @@ public class PassOutState : StateMachineBehaviour {
 	}
 
 	void CheckPassOutReason(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		if (PlayerStatsManager.GetCurrentAmount(StatusBarType.Energy) <= 0) { animator.SetBool("Sleeping", true); }
-		else if (PlayerStatsManager.GetCurrentAmount(StatusBarType.Health) <= 0) { WakeUpHospital().Start(); }
+		if (PlayerStatsManager.GetCurrentAmount(StatusBarType.Health) <= 0)
+            WakeUpHospital().Start();
+		else if (PlayerStatsManager.GetCurrentAmount(StatusBarType.Energy) <= 0)
+            animator.SetBool("Sleeping", true);
 	}
 
 

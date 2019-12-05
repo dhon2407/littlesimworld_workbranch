@@ -154,8 +154,6 @@ public partial class DisplayHandler
     {
         if (nativeResolutionSet)
         {
-            availableResolutions.Clear();
-            availableAspectRatio.Clear();
             currentFullScreenMode = FullScreenMode.ExclusiveFullScreen;
             isFullScreen = true;
 
@@ -164,6 +162,10 @@ public partial class DisplayHandler
                 height = currentMonitorNative.height,
                 width = currentMonitorNative.width
             }, true);
+
+            SetAspectRatio(GetAspectRatio(currentResolution));
+
+            onValuesChanged.Invoke();
         }
         else
         {

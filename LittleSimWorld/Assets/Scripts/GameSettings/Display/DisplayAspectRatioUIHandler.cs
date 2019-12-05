@@ -29,12 +29,14 @@ namespace GameSettings
             while (!Settings.DataReady)
                 yield return null;
 
+            Settings.Display.onValuesChanged.AddListener(UpdateList);
             dropDownList.onValueChanged.AddListener(delegate { ChangeValue(); });
         }
 
         private void ChangeValue()
         {
-            Settings.Display.SetAspectRatio(ratios[dropDownList.value]);
+            if (!Settings.Display.AutoDetectResolution)
+                Settings.Display.SetAspectRatio(ratios[dropDownList.value]);
         }
 
         private void UpdateList()
@@ -72,8 +74,6 @@ namespace GameSettings
         {
             if (enable)
                 RefreshList();
-            else
-                ClearItems();
         }
 
         private void RefreshList()

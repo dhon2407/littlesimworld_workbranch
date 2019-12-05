@@ -14,9 +14,9 @@ namespace GameSettings.Helpers
             switch (mode)
             {
                 case FullScreenMode.ExclusiveFullScreen:
-                    return "Exclusive Fullscreen";
+                    return "Fullscreen";
                 case FullScreenMode.FullScreenWindow:
-                    return "Fullscreen Window";
+                    return "Borderless Window";
                 case FullScreenMode.MaximizedWindow:
                     return "Maximize Window";
                 case FullScreenMode.Windowed:
