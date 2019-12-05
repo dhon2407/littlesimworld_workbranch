@@ -1,4 +1,5 @@
-﻿using GameSettings.Helpers;
+﻿using GameSettings;
+using GameSettings.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,7 @@ public partial class DisplayHandler
 
     public FullScreenMode[] Modes => GetDisplayModes();
     public bool VSyncOn => QualitySettings.vSyncCount > 0;
-
     public bool DataLoaded { get; private set; }
-
     public bool AutoDetectResolution { get; private set; }
 
     public OnChangeResolution onChangeResolution;
@@ -68,22 +67,31 @@ public partial class DisplayHandler
 
     public void ChangeResolution(Resolution newResolution, bool autoDetect = false)
     {
-        if (!newResolution.Same(CurrentGameResolution) || Screen.fullScreen != isFullScreen)
+        if (!newResolution.Same(CurrentGameResolution))
         {
             Screen.SetResolution(newResolution.width, newResolution.height, isFullScreen);
             UpdateCurrentResolution(newResolution);
             RefreshCursorLock();
+
+            UpdateWindowStyle();
             onChangeResolution?.Invoke(newResolution);
         }
 
         AutoDetectResolution = autoDetect;
     }
 
+    private void UpdateWindowStyle()
+    {
+        if (currentFullScreenMode == FullScreenMode.FullScreenWindow)
+            MEC.Timing.CallDelayed(0.05f, delegate { BorderlessMode.SetBorderlessWindow(currentResolution); });
+        else if (currentFullScreenMode != FullScreenMode.ExclusiveFullScreen)
+            MEC.Timing.CallDelayed(0.05f, delegate { BorderlessMode.SetBorderedWindow(currentResolution); });
+    }
+
     private void UpdateCurrentResolution(Resolution newResolution)
     {
         currentResolution.width = newResolution.width;
         currentResolution.height = newResolution.height;
-        Screen.fullScreen = isFullScreen;
     }
 
     public void ChangeMode(FullScreenMode mode)
@@ -100,10 +108,7 @@ public partial class DisplayHandler
             Screen.SetResolution(currentResolution.width, currentResolution.height, isFullScreen);
             UpdateCurrentResolution(currentResolution);
 
-            //Bug with Unity FullScreenMode.ExclusiveFullScreen
-            Screen.fullScreenMode = (currentFullScreenMode == FullScreenMode.ExclusiveFullScreen) ?
-                                    FullScreenMode.FullScreenWindow : currentFullScreenMode;
-
+            UpdateWindowStyle();
             RefreshCursorLock();
         }
     }
@@ -272,8 +277,7 @@ public partial class DisplayHandler
 
     private void UpdateFullScreenStatus()
     {
-        isFullScreen = (currentFullScreenMode == FullScreenMode.ExclusiveFullScreen) ||
-                       (currentFullScreenMode == FullScreenMode.FullScreenWindow);
+        isFullScreen = (currentFullScreenMode == FullScreenMode.ExclusiveFullScreen);
     }
 
     public void RestoreDefaults()
