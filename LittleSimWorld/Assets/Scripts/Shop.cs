@@ -53,7 +53,7 @@ public class Shop : MonoBehaviour
     {
         if (ShopOptionsUI)
         {
-            if ( !shopOutline.Enabled|| GameLibOfMethods.doingSomething || !GameLibOfMethods.canInteract || GameLibOfMethods.cantMove)
+            if (GameLibOfMethods.doingSomething || !GameLibOfMethods.canInteract || GameLibOfMethods.cantMove)
             {
                 ShopOptionsUI.SetActive(false);
             }

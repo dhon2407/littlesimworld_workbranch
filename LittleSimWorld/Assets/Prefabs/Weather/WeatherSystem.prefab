@@ -51,12 +51,8 @@ MonoBehaviour:
   rateToChangeWeather: 90
   weatherAudioSource: {fileID: 0}
   soundTransitionSpeed: 0.01
-  availableWeather:
-  - {fileID: 11400000, guid: e89b1cb069b03dc4c92fce19a8330a0c, type: 2}
-  - {fileID: 11400000, guid: 7100dd289e2f1d54f97b9406c7849528, type: 2}
-  - {fileID: 11400000, guid: b561b2ae69bd4b74aab22b62f527d60b, type: 2}
-  - {fileID: 11400000, guid: 84f9171775aa1ae4fb8c78a4a5d858bb, type: 2}
-  - {fileID: 11400000, guid: 42373c8907cd2df4ab7a2722149423eb, type: 2}
+  weatherChangeHelper: {fileID: 11400000, guid: 86b4c809b26f331408a2cd3da7518d3b,
+    type: 2}
   particleSystemMap:
   - weather: 1
     particleSystem: {fileID: 1072459297538807206}

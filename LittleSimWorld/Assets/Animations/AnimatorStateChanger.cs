@@ -6,50 +6,24 @@ public class AnimatorStateChanger : MonoBehaviour
 {
     public Animator anim;
     public float walkingSpeed;
-    
-   
-    // Start is called before the first frame update
-    void Start()
+	Rigidbody2D rb;
+
+	void Awake() {
+		rb = GetComponent<Rigidbody2D>();	
+	}
+
+	void FixedUpdate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        /*if (Input.GetAxis("Horizontal") < 0)
-            anim.SetBool("Left", true);
-        else
-            anim.SetBool("Left", false);
-
-        if (Input.GetAxis("Vertical") > 0)
-            anim.SetBool("Up", true);
-        else
-            anim.SetBool("Up", false);
-
-        if (Input.GetAxis("Horizontal") > 0)
-            anim.SetBool("Right", true);
-        else
-            anim.SetBool("Right", false);
-        */
-        Vector3 temp = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed,
-                                   Input.GetAxis("Vertical") * walkingSpeed) * PlayerStatsManager.Instance.MovementSpeed;
+		float speedMulti = walkingSpeed * PlayerStatsManager.Instance.MovementSpeed;
+		Vector3 temp = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speedMulti;
         temp = Vector3.ClampMagnitude(temp, walkingSpeed);
-        if (!GameLibOfMethods.cantMove && !GameLibOfMethods.sitting && !SpriteControler.Instance.BeignKnockbacked)
-        {
-            gameObject.GetComponent<Rigidbody2D>().velocity = temp;
-            if(temp.magnitude != 0)
-            anim.SetBool("Walking", true);
-            else
-            {
-                anim.SetBool("Walking", false);
-            }
-                
-        }
-        else
-        {
-            anim.SetBool("Walking", false);
-        }
+
+		if (!GameLibOfMethods.cantMove && !GameLibOfMethods.sitting && !SpriteControler.Instance.BeignKnockbacked) {
+			rb.velocity = temp;
+			if (temp.sqrMagnitude != 0) { anim.SetBool("Walking", true); }
+			else { anim.SetBool("Walking", false); }
+		}
+		else { anim.SetBool("Walking", false); }
         
     }
 }

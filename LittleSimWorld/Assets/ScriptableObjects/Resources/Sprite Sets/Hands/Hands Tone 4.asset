@@ -21,8 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Part: 0
-  Bot: {fileID: 8432751549693318316, guid: e84aa15294009ed4a87a10247c507221, type: 3}
-  Top: {fileID: 8432751549693318316, guid: e84aa15294009ed4a87a10247c507221, type: 3}
-  Right: {fileID: 8432751549693318316, guid: e84aa15294009ed4a87a10247c507221, type: 3}
-  Left: {fileID: 8432751549693318316, guid: e84aa15294009ed4a87a10247c507221, type: 3}
+  Part: 7
+  Bot: {fileID: 4785893250104691602, guid: 3bebd5c2295580a4e8c11cf895a7e913, type: 3}
+  Top: {fileID: 4785893250104691602, guid: 3bebd5c2295580a4e8c11cf895a7e913, type: 3}
+  Right: {fileID: 4785893250104691602, guid: 3bebd5c2295580a4e8c11cf895a7e913, type: 3}
+  Left: {fileID: 4785893250104691602, guid: 3bebd5c2295580a4e8c11cf895a7e913, type: 3}

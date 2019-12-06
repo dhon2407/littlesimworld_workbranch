@@ -30,6 +30,7 @@ namespace UI.CharacterCreation {
 		}
 		public static void SetPants(CharacterSpriteSet set) {
 			instance.Pants.sprite = set.Bot;
+			instance.Pants.gameObject.SetActive(set.Bot != null);
 		}
 		public static void SetHands(CharacterSpriteSet set) {
 			instance.Hand_Left.sprite = set.Bot;

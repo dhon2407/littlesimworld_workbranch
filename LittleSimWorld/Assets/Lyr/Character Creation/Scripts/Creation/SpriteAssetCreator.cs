@@ -14,7 +14,7 @@ namespace CharacterData {
 		[ShowInInspector]
 		CharacterPart SetType { get; set; }
 
-		protected override string SavePath => "Assets/ScriptableObjects/Sprite Assets/" + SetType.ToString();
+		protected override string SavePath => "Assets/ScriptableObjects/Resources/Sprite Sets/" + SetType.ToString();
 
 		protected override void AdditionalInitialization(CharacterSpriteSet obj) { }
 		protected override bool AdditionalValidation() {
@@ -24,6 +24,7 @@ namespace CharacterData {
 			}
 			return true;
 		}
+
 		protected override void AdditionalReset() { }// => SetType = CharacterPart.None;
 
 
@@ -31,44 +32,42 @@ namespace CharacterData {
 		[Header("Mass Import")]
 		[PropertyOrder(999)] public string Prefix;
 		[PropertyOrder(1000)] public int NextIndex;
-		[PropertyOrder(1001)] public List<Sprite> SpriteCollection = new List<Sprite>();
+		[PropertyOrder(1001)] public CharacterPart part;
+		[PropertyOrder(1002)] public List<Sprite> SpriteCollection = new List<Sprite>();
 
 		[Button]
 		[PropertyOrder(1002)]
 		void MassSpawn() {
 
-			int SetAmount = SpriteCollection.Count / 4;
-			for (int i = 0; i < SetAmount; i += 4) {
-				item.Bot = SpriteCollection[i + 0];
-				item.Top = SpriteCollection[i + 1];
-				item.Right = SpriteCollection[i + 2];
-				item.Left = SpriteCollection[i + 3];
+			for (int i = 0; i < 5; i++) {
+				item.Bot = SpriteCollection[i];
+				item.Top = SpriteCollection[i];
+				item.Right = SpriteCollection[i];
+				item.Left = SpriteCollection[i];
 
-				SetType = GetType(i);
+				item.Part = part;
+				SetType = part;
+
 				Name = GetName(i);
 
 				CreateAsset();
+				NextIndex++;
 			}
+
 
 			SpriteCollection.Clear();
 		}
 
 		string GetName(int i) {
-			string s = "";
-			if (i == 0) { s += ""; }
-			if (i == 1) { s += ""; }
-			if (i == 2) { s += ""; }
-			if (i == 3) { s += ""; }
-			if (i == 4) { s += ""; }
+			string s = Prefix + " ";
+
+			if (i == 0) { s += "Tone 1"; }
+			if (i == 1) { s += "Tone 2"; }
+			if (i == 2) { s += "Tone 3"; }
+			if (i == 3) { s += "Tone 4"; }
+			if (i == 4) { s += "Tone 5"; }
 
 			return s;
-		}
-
-		CharacterPart GetType(int i) {
-			if (i == 0) { return CharacterPart.Head; }
-			if (i == 1) { return CharacterPart.Body; }
-			if (i == 2) { return CharacterPart.Hands; }
-			return CharacterPart.None;
 		}
 		
 	}

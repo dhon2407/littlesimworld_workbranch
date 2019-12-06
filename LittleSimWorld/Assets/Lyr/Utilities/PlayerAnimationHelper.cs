@@ -17,9 +17,9 @@ public static class PlayerAnimationHelper
 		//GameLibOfMethods.animator.SetBool("Sitting", false);
 		GameLibOfMethods.animator.SetBool("Drinking", false);
 		GameLibOfMethods.animator.SetBool("Fixing", false);
-		GameLibOfMethods.animator.SetBool("PissingInPants", false);
 		GameLibOfMethods.animator.SetBool("PassOutToSleep", false);
-	}
+        GameLibOfMethods.animator.SetBool("HidePlayer", false);
+    }
 
 	public static void ResetPlayer() {
 		Physics2D.IgnoreLayerCollision(GameLibOfMethods.player.layer, 10, false);
@@ -41,8 +41,9 @@ public static class PlayerAnimationHelper
 		SpriteControler.Instance.RightHand.position = SpriteControler.Instance.RightHandRight.transform.position;
 		SpriteControler.Instance.RightHand.GetComponent<SpriteRenderer>().sortingOrder = 6;
 
+        JobManager.Instance.isWorking = false;
 
-		ResetAnimations();
+        ResetAnimations();
 	}
 
 	public static void HandlePlayerFacing() {

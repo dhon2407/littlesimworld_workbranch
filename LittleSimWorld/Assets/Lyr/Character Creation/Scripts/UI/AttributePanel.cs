@@ -17,19 +17,29 @@ namespace UI.CharacterCreation {
 			references.HeaderText.text = attributeType.ToString();
 			references.MoveLeft.onClick.AddListener(() => PerformAction(ArrowType.Left));
 			references.MoveRight.onClick.AddListener(() => PerformAction(ArrowType.Right));
+
+			// Register Actions to Managers
+			CharacterCreationManager.instance.OnGenderChanged += () => PerformAction(0);
+			CharacterPanel.DoRandomize += ChangeAtRandom;
+
 			// Update the UI
 			PerformAction(0);
-
-			// Register Action to Manager
-			CharacterCreationManager.instance.OnGenderChanged += () => PerformAction(0);
-
-
 		}
 
-		void PerformAction(ArrowType arrowType) {
+		void ChangeAtRandom() {
+			for (int i = 0; i < 30; i++) {
+				int x = Random.Range(-1, 2);
+				if (x == 0) { continue; }
+				PerformAction((ArrowType) x, false);
+			}
+
+			PerformAction(0);
+		}
+
+		void PerformAction(ArrowType arrowType,bool updateText=true) {
 			int targetIndex = 0;
 			CharacterCreationManager.instance.ChangeSprite(attributeType, arrowType, ref targetIndex);
-			references.NumberText.text = (targetIndex + 1).ToString();
+			if (updateText) { references.NumberText.text = (targetIndex + 1).ToString(); }
 		}
 
 

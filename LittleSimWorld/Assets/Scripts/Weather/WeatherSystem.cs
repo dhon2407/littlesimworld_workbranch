@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using GameTime;
+using System.Linq;
 
 namespace Weather
 {
@@ -18,25 +19,25 @@ namespace Weather
         [SerializeField]
         private float soundTransitionSpeed = 0.01f;
 
-        [Header("Available Weather Details")]
-        [SerializeField]
-        private List<WeatherData> availableWeather = null;
+		[Header("Available Weather Details")]
+		[SerializeField]
+		private WeatherChangeHelper weatherChangeHelper;
         [SerializeField]
         private WeatherParticleSystem[] particleSystemMap = null;
 
         private WeatherData currentWeather = null;
 
         public static OnChangeWeatherEvent onChangeWeather;
-        public static Type CurrentWeather => GetCurrentWeatherType();
+        public static WeatherType CurrentWeather => GetCurrentWeatherType();
         public static int CurrentSaveWeather => (int)CurrentWeather;
 
-        private static Type GetCurrentWeatherType()
+        private static WeatherType GetCurrentWeatherType()
         {
             //Null check due to unity editor call from light2dray
             if (instance != null)
-                return instance.currentWeather ? instance.currentWeather.type : Type.Sunny;
+                return instance.currentWeather ? instance.currentWeather.type : WeatherType.Sunny;
 
-            return Type.Sunny;
+            return WeatherType.Sunny;
         }
 
         public static WeatherData CurrentWeatherData => instance.currentWeather;
@@ -45,7 +46,7 @@ namespace Weather
 
         public static void Initialize(int savedWeather)
         {
-            instance.InitializeWeather((Type)savedWeather);
+            instance.InitializeWeather((WeatherType)savedWeather);
         }
 
         private void Awake()
@@ -61,18 +62,14 @@ namespace Weather
             onChangeWeather = new OnChangeWeatherEvent();
         }
 
-        private void Start()
+        private void InitializeWeather(WeatherType weather)
         {
-            foreach (var weather in availableWeather)
-                weather.Initialize(this);
-        }
+			//var initialWeather = availableWeather.Find(w => w.type == weather);
+			var initialWeather = weatherChangeHelper.GetWeather(weather);
+			if (initialWeather != null)
+				ChangeWeather(initialWeather);
 
-        private void InitializeWeather(Type weather)
-        {
-            var initialWeather = availableWeather.Find(w => w.type == weather);
-            if (initialWeather != null)
-                ChangeWeather(initialWeather);
-        }
+		}
 
         private void Update()
         {
@@ -87,26 +84,17 @@ namespace Weather
 
         private void UpdateWeather()
         {
-            SortAvailableWeather(Calendar.CurrentSeason);
+            //SortAvailableWeather(Calendar.CurrentSeason);
 
             int chanceToChangeWeather = Random.Range(0, 100);
-            if (chanceToChangeWeather < rateToChangeWeather)
-            {
-                int rollChance = Random.Range(0, 100);
-
-                foreach (var weather in availableWeather)
-                {
-                    if (rollChance < weather.ChanceOfOccurence(Calendar.CurrentSeason))
-                    {
-                        ResetCurrentWeather();
-                        ChangeWeather(weather);
-                        return;
-                    }
-                }
-            }
+			if (chanceToChangeWeather < rateToChangeWeather) {
+				var targetWeather = weatherChangeHelper.GetRandomWeather();
+				ResetCurrentWeather();
+				ChangeWeather(targetWeather);
+			}
         }
 
-        public ParticleSystem GetParticleSystem(Type weather)
+        public ParticleSystem GetParticleSystem(WeatherType weather)
         {
             foreach (var item in particleSystemMap)
             {
@@ -152,11 +140,11 @@ namespace Weather
             }
         }
 
-        private void SortAvailableWeather(Calendar.Season currentSeason)
-        {
-            availableWeather.Sort((a, b) =>
-                a.ChanceOfOccurence(currentSeason).CompareTo(b.ChanceOfOccurence(currentSeason)));
-        }
+        //private void SortAvailableWeather(Calendar.Season currentSeason)
+        //{
+        //    availableWeather.Sort((a, b) =>
+        //        a.ChanceOfOccurence(currentSeason).CompareTo(b.ChanceOfOccurence(currentSeason)));
+        //}
 
         private void Reset()
         {
@@ -168,7 +156,7 @@ namespace Weather
         [System.Serializable]
         private class WeatherParticleSystem
         {
-            public Type weather;
+            public WeatherType weather;
             public ParticleSystem particleSystem;
         }
     }

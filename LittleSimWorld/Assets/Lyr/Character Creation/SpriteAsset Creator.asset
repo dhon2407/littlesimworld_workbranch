@@ -21,7 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  LastCreatedAsset: {fileID: 11400000, guid: aeb2d8fb58d8b2b44b93a46dd600b5e8, type: 2}
-  Prefix: Test Shirt
-  NextIndex: 4
+  LastCreatedAsset: {fileID: 11400000, guid: c9c655d8911ae394381ac0c61eaae576, type: 2}
+  Prefix: Head
+  NextIndex: 0
+  part: 1
   SpriteCollection: []

@@ -5,7 +5,11 @@ using UnityEngine.UI;
 using CharacterStats;
 using UnityEditor;
 using System.Linq;
-
+using GameTime;
+using GameClock = GameTime.Clock;
+using CharacterData;
+using Sirenix.OdinInspector;
+[System.Serializable]
 public class JobManager : MonoBehaviour
 
 {
@@ -20,14 +24,12 @@ public class JobManager : MonoBehaviour
 
     public Job CurrentJob;
     public static JobManager Instance;
-
+    public bool isWorking;
+    public float CurrentWorkingTime = 0;
+    [SerializeField]
     public Dictionary<JobType, Job> Jobs = new Dictionary<JobType, Job>()
     {
-
-
-    {JobType.Athlete, AthleticJob.Instance },
-         {JobType.Cooking, CookingJob.Instance },
-          {JobType.Journalism, WritingJob.Instance}
+         {JobType.Cooking, CookingJob.Instance }
     };
 
 
@@ -37,38 +39,56 @@ public class JobManager : MonoBehaviour
         if(!Instance)
         Instance = this;
     }
-
+    private void Start()
+    {
+    }
     public void FinishJobCycle(JobType job)
     {
         Jobs[job].Finish();
     }
     public void AssignToJob(JobType job)
     {
+        if (CurrentJob == null || (CurrentJob != null && CurrentJob.JobName != Jobs[job].JobName))
         Jobs[job].AssignToThisJob();
+        CareerUi.Instance.UpdateJobUi();
+    }
+
+    private void Update()
+    {
+
+        if(CurrentJob != null && GameClock.Time >= CurrentJob.JobStartingTime && !CurrentJob.WorkedToday && GameClock.Time <= CurrentJob.JobStartingTime + System.TimeSpan.FromHours(1).TotalSeconds && 
+            CurrentJob.WorkingDays.Contains(Calendar.CurrentWeekday))
+        {
+            JobCar.Instance.CarToPlayerHouse();
+            CurrentJob.WorkedToday = true;
+        }
     }
 
 
-    [System.Serializable]
+   
     public class Job
     {
 
-        public virtual List<PlayerStatsManager.Skill> RequiredSkills { get; set;}
-        public int MoneyPerSkillLevel = 50;
+        virtual public List<SkillType> RequiredSkills { get; set; } = new List<SkillType>();
+        public List<int> DefaultMoneyAtTheEndOfWorkingDay = new List<int>() { 50, 100, 150 };
+        public float WorkingTimeInSeconds = 28800f;
+        public JobType jobType;
 
         public virtual float XPbonus { get; set; }
         public static Job Instance = new Job();
 
-        virtual public string JobName
+        virtual public List<string> JobName
         {
             get; set;
-        }
+        } = new List<string>() { "nothing1", "nothing2", "nothing3" } ;
 
+        public int CurrentPerfomanceLevel  = 3;
+
+        public int CurrentCareerLevel  = 0;
 
         public virtual float JobStartingTime { get; set;}
-        public int MaxPenalizeDays = 3;
-        public int currentPenalizedDays;
 
-        public virtual List<int> WorkingDays { get; set; }
+        public virtual List<Calendar.Weekday> WorkingDays { get; set; }
 
         public float MaxCarWaitTime = 60;
 
@@ -76,100 +96,112 @@ public class JobManager : MonoBehaviour
 
         public virtual void Penalize()
         {
-        }
-        public virtual void Reset()
-        {
-            currentPenalizedDays = 0;
+            CurrentPerfomanceLevel -= 1;
+            if (CurrentPerfomanceLevel == 0)
+            {
+                CurrentPerfomanceLevel = 3;
+                CurrentCareerLevel -= 1;
+                if(CurrentCareerLevel < 0)
+                {
+                    CurrentCareerLevel = 0;
+                    FireFromJob();
+                }
+               
+            }
+            CareerUi.Instance.UpdateJobUi();
         }
         public virtual void FireFromJob()
         {
             GameLibOfMethods.AddChatMessege("You got fired from your job.");
             JobManager.Instance.CurrentJob = null;
+            CareerUi.Instance.UpdateJobUi();
+        }
+        public virtual void PositiveWorkProgress()
+        {
+            CurrentPerfomanceLevel += 1;
+            GameLibOfMethods.AddChatMessege("You are doing well in your job!");
+            if(CurrentPerfomanceLevel > 5)
+            {
+               
+                Promote();
+            }
+            CareerUi.Instance.UpdateJobUi();
+        }
+        public virtual void Promote()
+        {
+            foreach (SkillType skill in RequiredSkills)
+            {
+                if (PlayerStatsManager.Instance.playerSkills[skill].Level >= CurrentCareerLevel * 2)
+                {
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+            CurrentPerfomanceLevel = 3;
+            CurrentCareerLevel += 1;
+            GameLibOfMethods.AddChatMessege("You got promoted on your job!");
+            CareerUi.Instance.UpdateJobUi();
         }
 
         public virtual void Finish()
         {
-            foreach (PlayerStatsManager.Skill skill in RequiredSkills)
+            foreach (SkillType skill in RequiredSkills)
             {
-                PlayerStatsManager.Instance.AddMoney(MoneyPerSkillLevel * skill.Level);
-                skill.AddXP(XPbonus);
-                GameLibOfMethods.AddChatMessege("You got " + (MoneyPerSkillLevel * skill.Level) + " dollars and " + XPbonus + " XP from your " + JobName + " tier " + skill.Level + " job. Level up " + skill.SkillName + " to earn more money.");
+                PlayerStatsManager.Instance.playerSkills[skill].AddXP(XPbonus);
+                
 
             }
+            WorkedToday = true;
+            PlayerStatsManager.Instance.AddMoney(DefaultMoneyAtTheEndOfWorkingDay[CurrentCareerLevel]);
+        }
+        public virtual void ShowUpAtWork()
+        {
+            float PerformanceScore = 0;
+            foreach(PlayerStatsManager.StatusBar type in PlayerStatsManager.PlayerStatusBars.Values)
+            {
+                PerformanceScore += type.CurrentAmount;
+            }
+            if(PerformanceScore > 525)
+            {
+                PositiveWorkProgress();
+            }
+            if(PerformanceScore < 350)
+            {
+                Penalize();
+            }
+            CareerUi.Instance.UpdateJobUi();
         }
         public virtual void AssignToThisJob()
         {
-            JobManager.Instance.CurrentJob = Instance;
-            GameLibOfMethods.AddChatMessege(JobManager.Instance.CurrentJob.JobName);
+            JobManager.Instance.CurrentJob = this;
+            GameLibOfMethods.AddChatMessege("You are working on " + JobManager.Instance.CurrentJob.JobName[JobManager.Instance.CurrentJob.CurrentCareerLevel] + " job now.");
+            CareerUi.Instance.UpdateJobUi();
         }
+
     }
     
 
-
+    [ShowInInspector]
     [System.Serializable]
      public class CookingJob : JobManager.Job
      {
          new public static JobManager.Job Instance = new CookingJob();
-         new public int MoneyPerSkillLevel = 50;
-         override public List <PlayerStatsManager.Skill> RequiredSkills { get; set; }
-         override public string JobName
+         new public List<int> DefaultMoneyAtTheEndOfWorkingDay = new List<int>() { 50, 100, 150 };
+        override public List<SkillType> RequiredSkills { get { return RequiredSkills = new List<SkillType>() { { SkillType.Cooking } }; } }
+         new public JobType jobType = JobType.Cooking;
+
+        override public List<string> JobName{ get { return JobName = new List<string>() { "Dishwasher", "Cook", "Chef" }; ; }}
+
+        //new public int CurrentPerfomanceLevel = 3;
+
+
+        public override float XPbonus { get { return XPbonus = 10; } }
+         override public List<Calendar.Weekday> WorkingDays
          {
-             get { return JobName = "cooking"; }
-         }
-
-
-
-         public override float XPbonus { get { return XPbonus = 10; } }
-         new public int MaxPenalizeDays = 3;
-         new public int currentPenalizedDays = 0;
-         override public List<int> WorkingDays
-         {
-             get { return WorkingDays = new List<int> { 0, 1, 2, 3, 4 }; ; }
-         }
-
-         override public float JobStartingTime
-         {
-             get { return Instance.JobStartingTime = 36000; ; }
-         }
-
-         public override void Finish()
-         {
-
-             foreach (PlayerStatsManager.Skill skill in RequiredSkills)
-             {
-                 PlayerStatsManager.Instance.AddMoney(MoneyPerSkillLevel * skill.Level);
-                 skill.AddXP(XPbonus);
-                 GameLibOfMethods.AddChatMessege("You got " + (MoneyPerSkillLevel * skill.Level) + " dollars and " + XPbonus + " XP from your " + JobName + " tier " + skill.Level + " job. Level up " + skill.SkillName + " to earn more money.");
-
-             }
-
-         }
-
-        public override void AssignToThisJob()
-        {
-            JobManager.Instance.CurrentJob = Instance;
-            GameLibOfMethods.AddChatMessege(JobManager.Instance.CurrentJob.JobName);
-        }
-
-
-
-    }
-     [System.Serializable]
-     public class WritingJob : JobManager.Job
-     {
-         new public static JobManager.Job Instance = new WritingJob();
-         new public int MoneyPerSkillLevel = 50;
-         override public List<PlayerStatsManager.Skill> RequiredSkills { get; set; }
-         override public string JobName
-         {
-             get { return JobName = "Journalist"; }
-         }
-         public override float XPbonus { get { return XPbonus = 10; } }
-         new public int MaxPenalizeDays = 3;
-         new public int currentPenalizedDays = 0;
-         override public List<int> WorkingDays
-         {
-             get { return WorkingDays = new List<int> { 0, 1, 2, 3, 4 }; ; }
+             get { return WorkingDays = new List<Calendar.Weekday> { Calendar.Weekday.Monday, Calendar.Weekday.Tuesday, Calendar.Weekday.Wednesday, Calendar.Weekday.Thursday, Calendar.Weekday.Friday }; ; }
          }
 
          override public float JobStartingTime
@@ -177,68 +209,8 @@ public class JobManager : MonoBehaviour
              get { return Instance.JobStartingTime = 36000; ; }
          }
 
-         public override void Finish()
-         {
-
-
-             foreach (PlayerStatsManager.Skill skill in RequiredSkills)
-             {
-                 PlayerStatsManager.Instance.AddMoney(MoneyPerSkillLevel * skill.Level);
-                 skill.AddXP(XPbonus);
-                 GameLibOfMethods.AddChatMessege("You got " + (MoneyPerSkillLevel * skill.Level) + " dollars and " + XPbonus + " XP from your " + JobName + " tier " + skill.Level + " job. Level up " + skill.SkillName + " to earn more money.");
-
-             }
-         }
-
-        public override void AssignToThisJob()
-        {
-            JobManager.Instance.CurrentJob = Instance;
-            GameLibOfMethods.AddChatMessege(JobManager.Instance.CurrentJob.JobName);
-        }
-
-
-
     }
-     [System.Serializable]
-     public class AthleticJob : JobManager.Job
-     {
-         new public static JobManager.Job Instance = new AthleticJob();
-         new public int MoneyPerSkillLevel = 50;
-         override public List<PlayerStatsManager.Skill> RequiredSkills { get; set; }
-         override public string JobName
-         {
-             get { return JobName = "Athlete"; }
-         }
-         public override float XPbonus { get { return XPbonus = 10; } }
-         new public int MaxPenalizeDays = 3;
-         new public int currentPenalizedDays = 0;
-         override public List<int> WorkingDays
-         {
-             get { return WorkingDays = new List<int> { 0, 1, 2, 3, 4 }; ; }
-         }
-
-         override public float JobStartingTime
-         {
-             get { return Instance.JobStartingTime = 36000; ; }
-         }
-
-         
-         public override void Finish()
-         {
-             foreach (PlayerStatsManager.Skill skill in RequiredSkills)
-             {
-                 PlayerStatsManager.Instance.AddMoney(MoneyPerSkillLevel * skill.Level);
-                 skill.AddXP(XPbonus);
-                 GameLibOfMethods.AddChatMessege("You got " + (MoneyPerSkillLevel * skill.Level) + " dollars and " + XPbonus + " XP from your " + JobName + " tier " + skill.Level + " job. Level up " + skill.SkillName + " to earn more money.");
-
-             }
-         }
-
-        public override void AssignToThisJob()
-        {
-            JobManager.Instance.CurrentJob = Instance;
-            GameLibOfMethods.AddChatMessege(JobManager.Instance.CurrentJob.JobName);
-        }
+   
 
 
 
@@ -246,7 +218,8 @@ public class JobManager : MonoBehaviour
 
 
 
-}
+
+[SerializeField]
 public enum JobType
 {
     Cooking, Journalism, Athlete

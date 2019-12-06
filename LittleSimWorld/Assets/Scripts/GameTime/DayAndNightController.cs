@@ -70,9 +70,9 @@ namespace GameTime
             lightIntensity = lightIntensityCurve.Evaluate(Mathf.Lerp(0, 1, time / OneDayInSeconds));
             light2d.color = lightGradient.Evaluate(Mathf.Lerp(0, 1, time / OneDayInSeconds));
 
-            if (WeatherSystem.CurrentWeather == Weather.Type.Cloudy)
+            if (WeatherSystem.CurrentWeather == Weather.WeatherType.Cloudy)
                 light2d.intensity = lightIntensity - cloudyDayLightOffset;
-            if (WeatherSystem.CurrentWeather == Weather.Type.Sunny)
+            if (WeatherSystem.CurrentWeather == Weather.WeatherType.Sunny)
                 light2d.intensity = lightIntensity + sunndyDayLightOffset;
             else
                 light2d.intensity = lightIntensity;

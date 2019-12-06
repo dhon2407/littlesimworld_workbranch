@@ -30,7 +30,7 @@ public class StatusUIUpdater : SerializedMonoBehaviour
 	public static void UpdateEverything() { instance.UpdateNow(); }
 	void UpdateNow() {
 		NameText.text = SpriteControler.Instance.visuals.Name;
-		JobText.text = JobManager.Instance.CurrentJob?.JobName ?? "Unemployed";
+		JobText.text = JobManager.Instance.CurrentJob?.JobName[JobManager.Instance.CurrentJob.CurrentCareerLevel] ?? "Unemployed";
 
 		// TODO: enable when we switch to this.
 		//portraitUI.Update();
@@ -64,7 +64,6 @@ public class StatusUIUpdater : SerializedMonoBehaviour
 
 		public StatusBarUIUpdater() {
 			StatusBarSlots = StatusBarSlots.InitializeDefaultValues(true);
-			_cachedPercentages = _cachedPercentages.InitializeDefaultValues(-1f);
 		}
 
 		public void Initialize() {

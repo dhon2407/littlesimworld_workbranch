@@ -24,18 +24,14 @@ namespace UI.CharacterCreation {
 			originalPanelPos = SelectionPanel.transform.localPosition;
 		}
 
-		void Randomize() {
-			// We don't use this
-			int _unused = 2;
+		public delegate void RandomizeEvent();
+		public static event RandomizeEvent DoRandomize;
 
-			foreach (var enumValue in System.Enum.GetValues(typeof(UIAttributeType))) {
-				for (int i = 0; i < 30; i++) {
-					int arrowInt = Random.Range(-1, 2);
-					CharacterCreationManager.instance.ChangeSprite((UIAttributeType) enumValue, (ArrowType) arrowInt, ref _unused);
-				}
-			}
-			var rnd = Random.Range(-1, 2);
-			if (rnd == 0) { ChangeGender(); }
+		void Randomize() {
+			DoRandomize();
+			// We don't want it to randomize gender either.
+			//var rnd = Random.Range(-1, 2);
+			//if (rnd == 0) { ChangeGender(); }
 		}
 
 		void ChangeGender() {

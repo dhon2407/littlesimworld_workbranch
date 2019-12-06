@@ -14,11 +14,13 @@ namespace GameCamera
 		const int defaultMinPPU = 105;
 		const int defaultMaxPPU = 170;
 		const float defaultScreenHeight = 1080f;
+		const int defaultZoomSpeed = 60;
+
+
+		float ZoomSpeed = 60;
 
 		int minPPU = 105;
 		int maxPPU = 170;
-
-
 
 		void Awake() {
 			camera = GetComponent<PixelPerfectCamera>();
@@ -28,18 +30,21 @@ namespace GameCamera
 			Settings.Display.onChangeResolution.AddListener(delegate { UpdateValues(); });
 		}
 		void LateUpdate() {
-			if (CameraFollow.Instance != null && 
-                !EventSystem.current.IsPointerOverGameObject() &&
-                Application.isFocused && Input.GetAxis("Mouse ScrollWheel") != 0) {
-				camera.assetsPPU += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel"));
-				ForceUpdateCamera();
-			}
+			// Check for mousewheel first for optimization
+			if (Input.GetAxis("Mouse ScrollWheel") == 0 || !Application.isFocused) { return; }
+			if (!CameraFollow.Instance || EventSystem.current.IsPointerOverGameObject()) { return; }
+
+			float zoomAdj = Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed * Time.deltaTime;
+			ForceUpdateCamera(camera.assetsPPU + Mathf.RoundToInt(zoomAdj));
 		}
 
-		void ForceUpdateCamera() {
+		void ForceUpdateCamera(int targetPPU, bool forceRecalculation = false) {
             if (CameraFollow.Instance != null) {
-                camera.assetsPPU = Mathf.Clamp(camera.assetsPPU, minPPU, maxPPU);
-
+				var currentPPU = camera.assetsPPU;
+				if (forceRecalculation || targetPPU != currentPPU) {
+					var recalculatedTargetPPU = Mathf.Clamp(targetPPU, minPPU, maxPPU);
+					if (recalculatedTargetPPU != currentPPU) { camera.assetsPPU = recalculatedTargetPPU; }
+				}
                 CameraFollow.Instance.SetLimits();
                 CameraFollow.Instance.UpdateCamera();
             }
@@ -53,21 +58,22 @@ namespace GameCamera
 
 			float ratio = Settings.Display.CurrentGameResolution.height / defaultScreenHeight;
 
+			float previousZoomPercentage = (camera.assetsPPU - minPPU) / (float)(maxPPU - minPPU);
+
 			// Update value range
 			minPPU = (int) (defaultMinPPU * ratio);
 			maxPPU = (int) (defaultMaxPPU * ratio);
+			
+			ZoomSpeed = defaultZoomSpeed * ratio;
 
-			// Set zoom to be the middle of the zoom range allowed
-			var medium = minPPU + (minPPU - maxPPU) / 2;
-			camera.assetsPPU = (int) medium;
+			// // Set current zoom to be the middle of the zoom range allowed
+			// int newZoom = minPPU + (maxPPU - minPPU) / 2;
+			
+			// Set zoom to match previous' zoom amount
+			float newZoom = minPPU + (maxPPU - minPPU) * previousZoomPercentage;
 
-			ForceUpdateCamera();
+			ForceUpdateCamera((int)newZoom, true);
 #endif
 		}
-
-		private void Reset()
-        {
-            camera = GetComponent<PixelPerfectCamera>();
-        }
     }
 }

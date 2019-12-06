@@ -31,6 +31,7 @@ namespace UI.CharacterCreation {
 		void Awake() {
 			instance = this;
 			CurrentCharacterInfo = new CharacterInfo();
+			CurrentCharacterInfo.Gender = Collection.gender = gender = Gender.Male;
 		}
 
 		public void ChangeGender(ArrowType arrow) {

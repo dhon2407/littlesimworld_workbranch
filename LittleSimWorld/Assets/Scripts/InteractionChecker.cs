@@ -11,7 +11,7 @@ public class InteractionChecker : MonoBehaviour
     public static InteractionChecker Instance;
     public AnimationCurve jumpCurve;
     private int currentFrames;
-    public GameObject lastHighlightedObject;
+    public Outline lastHighlightedObject;
 	public float JumpSpeed = 1.8f; // Per Second
 
     private void Awake()
@@ -21,66 +21,72 @@ public class InteractionChecker : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyToInteract) && !GameLibOfMethods.isSleeping && GameLibOfMethods.canInteract && !GameLibOfMethods.doingSomething)
-        {
-            GameTime.Clock.ResetSpeed();
-            GameObject interactableObject = GameLibOfMethods.CheckInteractable();
+		if (Input.GetKeyUp(KeyToInteract)) { CheckClickedInteractable(); }
 
-            if (interactableObject)
-            {
-                if (interactableObject.GetComponent<BreakableFurniture>() && !interactableObject.GetComponent<BreakableFurniture>().isBroken && !GameLibOfMethods.doingSomething)
-                {
-                    interactableObject.GetComponent<BreakableFurniture>().PlayEnterAndLoopSound();
-                }
-                if (interactableObject.GetComponent<BreakableFurniture>() && interactableObject.GetComponent<BreakableFurniture>().isBroken)
-                {
-                    StartCoroutine(interactableObject.GetComponent<BreakableFurniture>().Fix());
-                }
-				else if (interactableObject.GetComponent<IInteractable>() != null) { 
-					interactableObject.GetComponent<IInteractable>().Interact(); 
-				}
-                else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>())
-                {
-                    AtommInventory.Instance.CheckRaycast();
-                }
-                else if (interactableObject.GetComponent<Shop>())
-                {
-                    AtommInventory.Instance.CheckRaycast();
-                }
-                else if (interactableObject.GetComponent<UpgradesShop>())
-                {
-                    AtommInventory.Instance.CheckRaycast();
-                }
-			}
-        }
-
-        currentFrames += 1;
-        if (currentFrames >= 20)
-        {
-            GameObject tempObject = GameLibOfMethods.CheckInteractable();
-            if (tempObject &&
-                tempObject.GetComponent<Outline>() &&
-                tempObject.GetComponent<Outline>().RendererOfOutlinedObject &&
-                GameLibOfMethods.player &&
-                !GameLibOfMethods.doingSomething &&
-                GameLibOfMethods.canInteract)
-            {
-                if (lastHighlightedObject && tempObject && lastHighlightedObject != tempObject)
-                    lastHighlightedObject.GetComponent<Outline>().DisableOutline();
-                lastHighlightedObject = tempObject;
-                tempObject.GetComponent<Outline>().EnableOutline();
-            }
-            else
-            {
-                if (lastHighlightedObject)
-                {
-                    lastHighlightedObject.GetComponent<Outline>().DisableOutline();
-                }
-                lastHighlightedObject = null;
-            }
-            currentFrames = 0;
-        }
+		CheckHighlights();
     }
+
+
+	void CheckHighlights() {
+
+		if (!GameLibOfMethods.player || GameLibOfMethods.doingSomething || !GameLibOfMethods.canInteract) {
+			if (lastHighlightedObject) {
+				lastHighlightedObject.isMouseOver = false;
+				lastHighlightedObject = null;
+			}
+
+			return;
+		}
+
+		//currentFrames++;
+		//
+		//if (currentFrames <= 20) { return; }
+
+		var highlight = GameLibOfMethods.CheckInteractable()?.GetComponent<Outline>();
+		if (highlight) {
+
+			if (lastHighlightedObject && lastHighlightedObject != highlight) { lastHighlightedObject.isMouseOver = false; }
+
+			highlight.isMouseOver = true;
+			lastHighlightedObject = highlight;
+		}
+		else if (lastHighlightedObject) {
+			lastHighlightedObject.isMouseOver = false;
+			lastHighlightedObject = null;
+		}
+
+		//currentFrames = 0;
+	}
+
+	void CheckClickedInteractable() {
+
+		if (GameLibOfMethods.isSleeping || !GameLibOfMethods.canInteract || GameLibOfMethods.doingSomething) { return; }
+
+		GameTime.Clock.ResetSpeed();
+		GameObject interactableObject = GameLibOfMethods.CheckInteractable();
+
+		if (interactableObject) {
+			if (interactableObject.GetComponent<BreakableFurniture>() && !interactableObject.GetComponent<BreakableFurniture>().isBroken && !GameLibOfMethods.doingSomething) {
+				interactableObject.GetComponent<BreakableFurniture>().PlayEnterAndLoopSound();
+			}
+			if (interactableObject.GetComponent<BreakableFurniture>() && interactableObject.GetComponent<BreakableFurniture>().isBroken) {
+				StartCoroutine(interactableObject.GetComponent<BreakableFurniture>().Fix());
+			}
+			else if (interactableObject.GetComponent<IInteractable>() != null) {
+				interactableObject.GetComponent<IInteractable>().Interact();
+			}
+			else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>()) {
+				AtommInventory.Instance.CheckRaycast();
+			}
+			else if (interactableObject.GetComponent<Shop>()) {
+				AtommInventory.Instance.CheckRaycast();
+			}
+			else if (interactableObject.GetComponent<UpgradesShop>()) {
+				AtommInventory.Instance.CheckRaycast();
+			}
+		}
+	}
+
 
     //public void TurnOnAnimator()
     //{

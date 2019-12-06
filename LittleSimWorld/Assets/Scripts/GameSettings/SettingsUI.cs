@@ -55,6 +55,7 @@ namespace GameSettings
 
         public void Open()
         {
+			this.gameObject.SetActive(true);
             if (transform.localScale == Vector3.zero)
                 GetComponent<GuiPopUpAnim>().OpenWindow();
             else

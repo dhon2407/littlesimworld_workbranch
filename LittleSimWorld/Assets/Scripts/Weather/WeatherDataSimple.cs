@@ -17,13 +17,13 @@ namespace Weather
 
         public override void Cast()
         {
-            if (type == Type.Foggy)
+            if (type == WeatherType.Foggy)
                 AdjustFog();
         }
 
         public override void Reset()
         {
-            if (type == Type.Foggy)
+            if (type == WeatherType.Foggy)
                 RemoveFog();
         }
 

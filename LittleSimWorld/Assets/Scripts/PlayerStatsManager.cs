@@ -44,7 +44,7 @@ public class PlayerStatsManager : MonoBehaviour
 	public static int GetSkillLevel(SkillType skill) => Instance.playerSkills[skill].Level;
 	public static float GetCurrentAmount(StatusBarType status) => Instance.playerStatusBars[status].CurrentAmount;
 
-
+    public UnityAction OnLevelUp;
 
 	public  float Money = 2000;
     public  float PriceMultiplier = 1;
@@ -61,16 +61,18 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+		Instance = this;
     }
+
     private void Start()
     {
         UpdateTotalLevel();
+        OnLevelUp += CareerUi.Instance.UpdateJobUi;
     }
 
     public void InitializeSkillsAndStatusBars()
     {
-        if (GameManager.Instance.IsStartingNewGame)
+        if (!GameManager.Instance || GameManager.Instance.IsStartingNewGame)
         {
 
        
@@ -156,16 +158,47 @@ public class PlayerStatsManager : MonoBehaviour
         public static StatusBar Instance;
 
 
-        public virtual void Add(float amount)
+        public virtual void Add(float amount)        // used both for incrementing and adding amount
         {
-
-            if (CurrentAmount + amount < MaxAmount)
+            if (JobManager.Instance.isWorking)
             {
-                CurrentAmount += amount;
+
+
+                if (CurrentAmount + amount < MaxAmount && CurrentAmount + amount >= 0.1f * MaxAmount)
+                {
+                    CurrentAmount += amount;
+                }
+                else
+                {
+                    if (amount >= 0)
+                    {
+                        CurrentAmount = MaxAmount;
+                    }
+                    else
+                    {
+                        CurrentAmount = MaxAmount * 0.1f;
+                    }
+
+                }
             }
             else
             {
-                CurrentAmount = MaxAmount;
+                if (CurrentAmount + amount < MaxAmount && CurrentAmount + amount >= 0)
+                {
+                    CurrentAmount += amount;
+                }
+                else
+                {
+                    if (amount >= 0)
+                    {
+                        CurrentAmount = MaxAmount;
+                    }
+                    else
+                    {
+                        CurrentAmount = 0;
+                    }
+
+                }
             }
         }
          public static StatusBar Initialize()
@@ -331,6 +364,7 @@ public class PlayerStatsManager : MonoBehaviour
             {
                 XP = 0;
                 Level += 1;
+                PlayerStatsManager.Instance.OnLevelUp();
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
             }
@@ -338,12 +372,21 @@ public class PlayerStatsManager : MonoBehaviour
         
         public virtual void Effect()
         {
+           
             PlayerStatsManager.Instance.levelUpParticles.Play();
             Debug.Log("Nothing");
         }
         public static Skill Initialize()
         {
             return Instance = new Skill();
+        }
+        public static Skill GetCurrentInstanceStatic()
+        {
+            return Instance;
+        }
+         public virtual Skill GetCurrentInstance()
+        {
+            return Instance;
         }
 
     }
@@ -372,6 +415,7 @@ public class PlayerStatsManager : MonoBehaviour
             }
 
         }
+       
 
         public override void Effect()
         {
@@ -393,6 +437,7 @@ public class PlayerStatsManager : MonoBehaviour
             {
                 XP = 0;
                 Level += 1;
+                PlayerStatsManager.Instance.OnLevelUp();
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                
@@ -441,6 +486,7 @@ public class PlayerStatsManager : MonoBehaviour
             {
                 XP = 0;
                 Level += 1;
+                PlayerStatsManager.Instance.OnLevelUp();
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                 
@@ -490,6 +536,7 @@ public class PlayerStatsManager : MonoBehaviour
             {
                 XP = 0;
                 Level += 1;
+                PlayerStatsManager.Instance.OnLevelUp();
                 Effect();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                
@@ -539,6 +586,7 @@ public class PlayerStatsManager : MonoBehaviour
             {
                 XP = 0;
                 Level += 1;
+                PlayerStatsManager.Instance.OnLevelUp();
                 Effect();
                 PlayerStatsManager.Instance.PriceMultiplier -= 0.02f;
                 GameLibOfMethods.CreateFloatingText("Items now costs only " + PlayerStatsManager.Instance.PriceMultiplier.ToString() + "% of their price!", 2);
@@ -590,10 +638,19 @@ public class PlayerStatsManager : MonoBehaviour
                 Instance.XP = 0;
                 Level += 1;
                 Effect();
+                PlayerStatsManager.Instance.OnLevelUp();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                 Debug.Log(amount);
                
             }
+        }
+        new public static Skill GetCurrentInstanceStatic()
+        {
+            return Instance;
+        }
+        public override Skill GetCurrentInstance()
+        {
+            return Instance;
         }
 
     }
@@ -639,6 +696,7 @@ public class PlayerStatsManager : MonoBehaviour
                 Instance.XP = 0;
                 Level += 1;
                 Effect();
+                PlayerStatsManager.Instance.OnLevelUp();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                 
             }
@@ -688,6 +746,7 @@ public class PlayerStatsManager : MonoBehaviour
                 Instance.XP = 0;
                 Level += 1;
                 Effect();
+                PlayerStatsManager.Instance.OnLevelUp();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
 
             }
@@ -706,7 +765,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     
 
-    public void AddMoney(int amount)
+    public void AddMoney(float amount)
     {
         Money += amount;
     }
@@ -782,13 +841,13 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (Hunger.Instance.CurrentAmount > 0)
         {
-            if (GameLibOfMethods.isSleeping)
+            if (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking)
             {
-                Hunger.Instance.CurrentAmount -= (((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2;
+                Hunger.Instance.Add((((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Hunger.Instance.CurrentAmount -= ((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier;
+                Hunger.Instance.Add (((Hunger.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
 
         }
@@ -799,9 +858,9 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (Health.Instance.CurrentAmount > 0)
         {
-            if (GameLibOfMethods.isSleeping)
+            if (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking)
             {
-                Health.Instance.CurrentAmount -= (((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2;
+                Health.Instance.Add((((Health.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
@@ -816,7 +875,7 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (Bladder.Instance.CurrentAmount > 0)
         {
-            if (GameLibOfMethods.isSleeping)
+            if (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking)
             {
                 Bladder.Instance.Add((((Bladder.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
@@ -827,14 +886,13 @@ public class PlayerStatsManager : MonoBehaviour
         }
         if (Bladder.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
         {
-            Bladder.Instance.CurrentAmount = Bladder.Instance.MaxAmount;
-            Hygiene.Instance.CurrentAmount = 0;
-            GameLibOfMethods.animator.SetBool("PissingInPants", true);
+            
+            GameLibOfMethods.animator.SetTrigger("PissingInPants");
         }
 
         if (Hygiene.Instance.CurrentAmount > 0)
         {
-            if (GameLibOfMethods.isSleeping)
+            if (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking)
             {
                 Hygiene.Instance.Add((((Hygiene.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
@@ -849,13 +907,13 @@ public class PlayerStatsManager : MonoBehaviour
         }
         if (Thirst.Instance.CurrentAmount > 0)
         {
-            if (GameLibOfMethods.isSleeping)
+            if (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking)
             {
                 Thirst.Instance.Add((((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier) / 2);
             }
             else
             {
-                Thirst.Instance.CurrentAmount -= ((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier;
+                Thirst.Instance.Add(((Thirst.Instance.DrainSpeedPerHour) * (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             }
         }
         if (Thirst.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)

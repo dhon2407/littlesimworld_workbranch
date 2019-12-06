@@ -36,7 +36,7 @@ public class LightRays2D:LightRays2DAbstract{
 			_orderInLayer=orderInLayer;
 		}
 
-        if (WeatherSystem.CurrentWeather == Type.Sunny)
+        if (WeatherSystem.CurrentWeather == WeatherType.Sunny)
         {
             float intensity = dayAndNightController.GetLightIntensityUpperBoundRatio();
             color1.a = intensity;

@@ -17,6 +17,16 @@ public class GameManager : MonoBehaviour
     public List<string> UpgradableGOsNames = new List<string>();
     public Save CurrentSave;
 
+	#if UNITY_EDITOR
+	[Sirenix.OdinInspector.Button]
+	public void ToggleAllowSaving() {
+		bool currentState = UnityEditor.EditorPrefs.GetBool("ShouldGameSave", true);
+		UnityEditor.EditorPrefs.SetBool("ShouldGameSave", !currentState);
+		Debug.Log("Save/Load allowed: " + !currentState);
+	}
+	#endif
+
+
     //public List<string> UpgradeTiers = new List<string>();
     
     private Save CreateSaveGameObject()
@@ -57,20 +67,21 @@ public class GameManager : MonoBehaviour
         save.playerX = GameLibOfMethods.player.transform.position.x;
         save.playerY = GameLibOfMethods.player.transform.position.y;
 
-        foreach (string name in UpgradableGOsNames)
-        {
-            save.Upgrades.Add(name);
-        }
 
-        for(int p = 0; p < UpgradableGOsNames.Count; p++)
-        {
-            save.UpgradesTier.Add(GameObject.Find(UpgradableGOsNames[p]).transform.GetChild(0).gameObject.name);
-            Debug.Log(UpgradableGOsNames[p] + save.UpgradesTier[p]);
-        }
-     
-        
+		Debug.Log("Upgradeable objects are not implemented yet.");
 
-        save.CompletedMissions = new List<string>( MissionHandler.CompletedMissions);
+		//foreach (string name in UpgradableGOsNames)
+		//{
+		//    save.Upgrades.Add(name);
+		//}
+		//
+		//for(int p = 0; p < UpgradableGOsNames.Count; p++)
+		//{
+		//    save.UpgradesTier.Add(GameObject.Find(UpgradableGOsNames[p]).transform.GetChild(0).gameObject.name);
+		//    Debug.Log(UpgradableGOsNames[p] + save.UpgradesTier[p]);
+		//}
+
+		save.CompletedMissions = new List<string>( MissionHandler.CompletedMissions);
         save.CurrentMissions = new List<string>( MissionHandler.CurrentMissions);
 
         save.moneyInBank = Bank.Instance.MoneyInBank;
@@ -83,6 +94,7 @@ public class GameManager : MonoBehaviour
 
         return save;
     }
+
     private void Awake()
     {
         if (Instance != null)
@@ -124,11 +136,19 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        if (IsStartingNewGame)
-        {
-            PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
-        }
-        IsStartingNewGame = false;
+
+#if UNITY_EDITOR
+		// Specific so game won't save/load for Lyrcaxis
+		if (!UnityEditor.EditorPrefs.GetBool("ShouldGameSave", false)) {
+			Debug.Log("Not Saving :)");
+			return;
+		}
+#endif
+
+		if (IsStartingNewGame) {
+			PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
+		}
+		IsStartingNewGame = false;
         Save save = CreateSaveGameObject();
 
 		// 2
@@ -146,9 +166,19 @@ public class GameManager : MonoBehaviour
 
         CurrentSave = save;
         Debug.Log("Game Saved");
+        CareerUi.Instance.UpdateJobUi();
     }
     public void LoadGame()
     {
+
+#if UNITY_EDITOR
+		// Specific so game won't save/load for Lyrcaxis
+		if (!UnityEditor.EditorPrefs.GetBool("ShouldGameSave", true)) {
+			Debug.Log("Not Loading :)");
+			return;
+		}
+#endif
+
 		// 1
 		var filePath = Application.persistentDataPath + "/" + CurrentSaveName + ".save";
 
@@ -200,26 +230,28 @@ public class GameManager : MonoBehaviour
 
             JobManager.Instance.CurrentJob = save.CurrentJob;
 
-            for (int p = 0; p < UpgradableGOsNames.Count; p++)
-            {
-               // UpgradeTiers.Add(save.UpgradesTier[p]);
-            }
+			Debug.Log("Upgradeable objects are not implemented yet.");
 
-            for (int i = 0; i < UpgradableGOsNames.Count; i++)
-            {
-                //Debug.Log("Upgradable Bed".Replace("Upgradable ", ""));
-                if (Resources.Load<GameObject>("Upgrades/"+ UpgradableGOsNames[i].Replace("Upgradable ","") + "/" + save.UpgradesTier[i]))
-                {
-                    
-                    Destroy(GameObject.Find(UpgradableGOsNames[i]).transform.GetChild(0).gameObject);
-                    GameObject temp = Instantiate(Resources.Load<GameObject>("Upgrades/" + UpgradableGOsNames[i].Replace("Upgradable ", "") + "/" + save.UpgradesTier[i]),
-                    GameObject.Find(UpgradableGOsNames[i]).transform);
-                    temp.name = save.UpgradesTier[i];
-                }
-            }
-
-			SpriteControler.Instance.visuals = save.characterVisuals.GetVisuals();
-			//Debug.Log($"Loaded : {save.characterVisuals.GetVisuals()}");
+			// for (int p = 0; p < UpgradableGOsNames.Count; p++)
+			// {
+			//    // UpgradeTiers.Add(save.UpgradesTier[p]);
+			// }
+			// 
+			// for (int i = 0; i < UpgradableGOsNames.Count; i++)
+			// {
+			//     //Debug.Log("Upgradable Bed".Replace("Upgradable ", ""));
+			//     if (Resources.Load<GameObject>("Upgrades/"+ UpgradableGOsNames[i].Replace("Upgradable ","") + "/" + save.UpgradesTier[i]))
+			//     {
+			//         
+			//         Destroy(GameObject.Find(UpgradableGOsNames[i]).transform.GetChild(0).gameObject);
+			//         GameObject temp = Instantiate(Resources.Load<GameObject>("Upgrades/" + UpgradableGOsNames[i].Replace("Upgradable ", "") + "/" + save.UpgradesTier[i]),
+			//         GameObject.Find(UpgradableGOsNames[i]).transform);
+			//         temp.name = save.UpgradesTier[i];
+			//     }
+			// }
+			// 
+			// SpriteControler.Instance.visuals = save.characterVisuals.GetVisuals();
+			// //Debug.Log($"Loaded : {save.characterVisuals.GetVisuals()}");
 
 
 			Bank.Instance.MoneyInBank = save.moneyInBank;
@@ -228,6 +260,7 @@ public class GameManager : MonoBehaviour
 
             Debug.Log("Game Loaded");
             PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
+            CareerUi.Instance.UpdateJobUi();
         }
         else
         {
@@ -263,6 +296,7 @@ public class GameManager : MonoBehaviour
 		CurrentSave = save;
 		Debug.Log("New Game");
         MainMenu.Instance.LoadMainSceneGame(1);
+        CareerUi.Instance.UpdateJobUi();
     }
 
 }

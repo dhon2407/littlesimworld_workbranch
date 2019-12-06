@@ -1,0 +1,640 @@
+fileFormatVersion: 2
+guid: 98222803348b86a4e87d70e0345db6fc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5681753549049677557
+    second: Player house 2_0
+  - first:
+      213: -9029566490859559431
+    second: Player house 2_1
+  - first:
+      213: 577658421580465806
+    second: Player house 2_2
+  - first:
+      213: -2267259766086440170
+    second: Player house 2_3
+  - first:
+      213: 640892841608763139
+    second: Player house 2_4
+  - first:
+      213: 7054388705537785960
+    second: Player house 2_5
+  - first:
+      213: 7532669960142863908
+    second: Player house 2_6
+  - first:
+      213: -2236333643927889629
+    second: Player house 2_7
+  - first:
+      213: -8277572003970134856
+    second: Player house 2_8
+  - first:
+      213: 4645182394096712113
+    second: Player house 2_9
+  - first:
+      213: 4806667354147793588
+    second: Player house 2_10
+  - first:
+      213: -8655201859670706415
+    second: Player house 2_11
+  - first:
+      213: 1850105858603089772
+    second: Player house 2_12
+  - first:
+      213: -2148114682947685666
+    second: Player house 2_13
+  - first:
+      213: 7270782402966478905
+    second: Player house 2_14
+  - first:
+      213: 438635162297035417
+    second: Player house 2_15
+  - first:
+      213: 37923397829097061
+    second: Player house 2_16
+  - first:
+      213: -2830291421281706850
+    second: Player house 2_17
+  - first:
+      213: 3153637452540947705
+    second: Player house 2_18
+  - first:
+      213: -5741852857094109015
+    second: Shirts_0
+  - first:
+      213: 6670199133451418763
+    second: Shirts_1
+  - first:
+      213: 8914497156774600812
+    second: Shirts_2
+  - first:
+      213: -158316914962243977
+    second: Shirts_3
+  - first:
+      213: -1165303021735204019
+    second: Shirts_4
+  - first:
+      213: -6492821971623082603
+    second: Shirts_5
+  - first:
+      213: -9088660143370054313
+    second: Shirts_6
+  - first:
+      213: 470310674972780070
+    second: Shirts_7
+  - first:
+      213: 8190463373582280733
+    second: Shirts_8
+  - first:
+      213: -3761272301071695071
+    second: Shirts_9
+  - first:
+      213: -4360076979259857634
+    second: Shirts_10
+  - first:
+      213: 2767143798076058107
+    second: Shirts_11
+  - first:
+      213: 5817739373168205165
+    second: Shirts_12
+  - first:
+      213: -4454309389039152962
+    second: Shirts_13
+  - first:
+      213: -2651762129787647096
+    second: Shirts_14
+  - first:
+      213: -7384551415706930155
+    second: Shirts_15
+  - first:
+      213: -8746260070241962250
+    second: Shirts_16
+  - first:
+      213: -509395614126485509
+    second: Shirts_17
+  - first:
+      213: 1032274231313438567
+    second: Shirts_18
+  - first:
+      213: -5369226523458034421
+    second: Shirts_19
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 850
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Shirts_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9095dc39c17ef6845bfa5438b4949b3e
+      internalID: -5741852857094109015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_1
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 4670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76442e33d0901ea43ab0e9faa18ac12d
+      internalID: 6670199133451418763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_2
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 4670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c85c9e576827a2b4cbbe0eab8180d1a0
+      internalID: 8914497156774600812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_3
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 4670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 389254703a7d8934495c88947aebf105
+      internalID: -158316914962243977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_4
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 4670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f78118874bae09c48a61b272d24dc664
+      internalID: -1165303021735204019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53b1ad7a0980d3d4099eb00c3849dd06
+      internalID: -6492821971623082603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_6
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 3170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83bb5b69305d07f428b33ed2b5339a2e
+      internalID: -9088660143370054313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_7
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 3170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf35cd502b183d947aae49eb7c692876
+      internalID: 470310674972780070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_8
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 3170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd8712fe798fafb4597236256a99f895
+      internalID: 8190463373582280733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_9
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 3170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 886cb518474ed784e8a822f329f9873f
+      internalID: -3761272301071695071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c6efe481bb294943a21a94f0feb9db5
+      internalID: -4360076979259857634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_11
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab187c85726417640ae2c6d21aa495ab
+      internalID: 2767143798076058107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_12
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 1670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fb2990deb192f045ab1e6d7e2bcf21c
+      internalID: 5817739373168205165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_13
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 1670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 066e905d31f2536418b3f76977ab2bba
+      internalID: -4454309389039152962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_14
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 1670
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dab65009aa384a4490f9c8363456f78
+      internalID: -2651762129787647096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40e11e4ee15dd0c489144411fbd7d8f0
+      internalID: -7384551415706930155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_16
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a698afa0e628714499a5c6771caf6563
+      internalID: -8746260070241962250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_17
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e275c36cd22d893438c43f6758c21c41
+      internalID: -509395614126485509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_18
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e520a1ff96a442418d52bb786b395c6
+      internalID: 1032274231313438567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shirts_19
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 170
+        width: 1000
+        height: 1330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd7dc63552364394c950931a7cae41b8
+      internalID: -5369226523458034421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 8046cd2b8a5bebc47ad6455006afc60d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: Objects
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

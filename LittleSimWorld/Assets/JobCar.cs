@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class JobCar : MonoBehaviour, IInteractable
+using GameClock = GameTime.Clock;
+public class JobCar : MonoBehaviour, IInteractable, IUseable
 {
-    public JobCar Instance;
+    public static JobCar Instance;
     public Animator anim;
     private GameObject car;
+
+    public bool CarReadyToInteract = false;
+
     public float interactionRange = 2;
-    public float InteractionRange => InteractionRange;
+    public float customSpeedToPosition = 0.1f;
+    public float InteractionRange => interactionRange;
+    public float CustomSpeedToPosition=> customSpeedToPosition;
+    public Vector3 PlayerStandPosition => gameObject.transform.position;
     private void Awake()
     {
-        if (Instance = null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -25,16 +31,23 @@ public class JobCar : MonoBehaviour, IInteractable
     
     void Start()
     {
-        CarDriveFromHouseToLeft();
     }
     void Update()
     {
-        
+
+    }
+    public void Use()
+    {
+
     }
 
     public void Interact()
     {
-
+        if (CarReadyToInteract)
+        {
+            GoInCar();
+        }
+       
     }
     public void CarToPlayerHouse()
     {
@@ -47,20 +60,63 @@ public class JobCar : MonoBehaviour, IInteractable
     public void CarDriveFromHouseToLeft()
     {
         anim.SetTrigger("CarDriveFromHouseToLeft");
+
     }
-    public void WorkCurrentJob()
+    public void GoInCar()
     {
-        GameLibOfMethods.TempPos = GameLibOfMethods.player.transform.position;
-        GameLibOfMethods.cantMove = true;
-        GameLibOfMethods.canInteract = false;
-        /*switch (jobjobType)
+        PlayerCommands.MoveTo(PlayerStandPosition,delegate { CarDriveFromHouseToLeft(); GameLibOfMethods.animator.SetBool("HidePlayer", true); });
+        anim.SetBool("PlayerIsInCar", true);
+        JobManager.Instance.isWorking = true;
+    }
+    public void UnloadFromCar()
+    {
+        if(anim.GetBool("PlayerIsInCar") == true)
         {
-            case JobType.CookingJob:
-                JobManager.Instance.SetJobToCooker();
-                StartCoroutine(InteractionChecker.Instance.JumpTo(playerWorkPlace.position, delegate { StartCoroutine(JobManager.Instance.DoJob("Cooking")); }));
-                break;
-        }*/
+            PlayerAnimationHelper.ResetPlayer();
+            PlayerCommands.MoveTo(PlayerCommands.LastPositionBeforeWalk, PlayerAnimationHelper.ResetPlayer);
+            anim.SetBool("PlayerIsInCar", false);
+            JobManager.Instance.isWorking = false;
+            CarDriveFromHouseToLeft();
+
+        }
+      
+    }
+   
+    public IEnumerator<float> DoingJob()
+    {
+        //PlayerAnimationHelper.ResetPlayer();
+        Debug.Log("StartedWork");
+        JobManager.Instance.CurrentJob.ShowUpAtWork();
+        Physics2D.IgnoreLayerCollision(GameLibOfMethods.player.layer, 10, true);
+       
+        GameLibOfMethods.cantMove = true;
+        
+        GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
+        GameClock.ChangeSpeedToSleepingSpeed();
 
 
+        while (JobManager.Instance.CurrentJob != null && JobManager.Instance.CurrentWorkingTime <= JobManager.Instance.CurrentJob.WorkingTimeInSeconds && !Input.GetKeyDown(InteractionChecker.Instance.KeyToInteract))
+        {
+            JobManager.Instance.CurrentWorkingTime += (Time.deltaTime * GameClock.TimeMultiplier) * GameClock.Speed;
+            GameLibOfMethods.progress = JobManager.Instance.CurrentWorkingTime / JobManager.Instance.CurrentJob.WorkingTimeInSeconds  ;
+           // Debug.Log("Current job progress is " + GameLibOfMethods.progress + ". Working time in seconds: " + JobManager.Instance.CurrentWorkingTime + ". And required work time is " + JobManager.Instance.CurrentJob.WorkingTimeInSeconds);
+            yield return 0f;
+        }
+
+
+        GameLibOfMethods.progress = 0;
+        if (JobManager.Instance.CurrentJob != null)
+        {
+            JobManager.Instance.CurrentJob.Finish();
+            JobManager.Instance.CurrentWorkingTime = 0;
+        }
+        
+        Debug.Log("Called car back from work");
+        CarToPlayerHouse();
+       
+        yield return 0f;
+
+        GameClock.ResetSpeed();
     }
 }
