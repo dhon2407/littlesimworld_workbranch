@@ -306,6 +306,6 @@ public partial class DisplayHandler
         public readonly static string AutoDetect = "AutoDetect" + test_value;
         public readonly static string Saved = "DisplaySettingsSaved" + test_value;
 
-        private static string test_value => "v6";
+        private static string test_value => "v7";
     }
 }

@@ -30,12 +30,9 @@ namespace GameSettings
         private static readonly int WS_MINIMIZEBOX = 0x00020000;
         private static readonly int WS_MAXIMIZEBOX = 0x00010000;
 
-        private static readonly int WS_OVERLAPPEDWINDOW = WS_OVERLAPPED |
-                                                          WS_CAPTION |
+        private static readonly int WS_OVERLAPPEDWINDOW = WS_CAPTION |
                                                           WS_SYSMENU |
-                                                          WS_THICKFRAME |
-                                                          WS_MINIMIZEBOX |
-                                                          WS_MAXIMIZEBOX;
+                                                          WS_MINIMIZEBOX;
 
         public static void SetBorderlessWindow(Resolution resolution)
         {
