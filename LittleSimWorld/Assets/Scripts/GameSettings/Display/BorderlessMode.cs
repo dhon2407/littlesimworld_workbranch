@@ -23,12 +23,9 @@ namespace GameSettings
         private static readonly int GWL_STYLE = -16;
         private static readonly int WS_BORDER = 1;
 
-        private static readonly int WS_OVERLAPPED = 0x00000000;
         private static readonly int WS_CAPTION = 0x00C00000;
         private static readonly int WS_SYSMENU = 0x00080000;
-        private static readonly int WS_THICKFRAME = 0x00040000;
         private static readonly int WS_MINIMIZEBOX = 0x00020000;
-        private static readonly int WS_MAXIMIZEBOX = 0x00010000;
 
         private static readonly int WS_OVERLAPPEDWINDOW = WS_CAPTION |
                                                           WS_SYSMENU |
