@@ -30,3 +30,59 @@ void CheckIfEdgeCoord_float(Texture2D txt, float Width, float2 uv, float2 Texel,
 	
 	IsEdge = (hasHitEdge ? 1 : 0);	
 }
+
+
+float2 RemapUV(float2 size1, float2 size2, float2 uv)
+{
+    float2 ratio = size1 / size2;
+    float2 minUV = (size1 - size2) / size1 / 2;
+    
+    float2 tarUV = (uv - minUV) * ratio;
+    return clamp(tarUV, 0, 1);
+}
+
+void CheckIfShouldDraw_float(Texture2D txt, float Width, float2 uv, float2 size1, float2 size2, SamplerState Sampler, out float IsEdge, out float edgeDistance)
+{
+    float edge = 0;
+    bool hasHitEdge;
+    
+    float2 uvStep = 1 / size1;
+    
+    for (float i = 1; i <= Width; i++)
+    {
+        for (float x = -1; x <= 1; x++)
+        {
+            for (float y = -1; y <= 1; y++)
+            {
+                float2 checkUV = uv + float2(x, y) * uvStep * i;
+                float2 remappedUV = RemapUV(size1, size2, checkUV);
+                float4 clr = SAMPLE_TEXTURE2D(txt, Sampler, remappedUV);
+
+                if (clr.a >= 0.8 && !hasHitEdge)
+                {
+                    edgeDistance = i;
+                    hasHitEdge = true;
+                }
+            }
+        }
+    }
+    
+    IsEdge = (hasHitEdge ? 1 : 0);
+    
+}
+
+
+
+void DrawRemapped_float(Texture2D txt, float Width, float2 uv, float2 size1, float2 size2, SamplerState Sampler, out float4 color)
+{
+    float edge = 0;
+    bool hasHitEdge;
+    
+    float2 uvStep = 1 / size2;
+    
+    float2 remappedUV = RemapUV(size1, size2, uv);
+    float4 clr = SAMPLE_TEXTURE2D(txt, Sampler, remappedUV);
+    
+    color = clr;
+    
+}

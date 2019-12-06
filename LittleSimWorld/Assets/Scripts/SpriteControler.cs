@@ -16,7 +16,9 @@ public class SpriteControler : SerializedMonoBehaviour
 	[Header("In-game References for Visuals")]
     public SpriteRenderer Head;
 	public SpriteRenderer Hair;
+	public SpriteRenderer Face;
 
+	[Space]
     public SpriteRenderer Body;
 	public SpriteRenderer Shirt;
 	public SpriteRenderer Pants;
@@ -211,6 +213,7 @@ public class SpriteControler : SerializedMonoBehaviour
 		Pants.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Bottom].Get(orientation);
 		Hand_L.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hands].Get(orientation);
 		Hand_R.sprite = visuals.SpriteSets[CharacterData.CharacterPart.Hands].Get(orientation);
+		Face.sprite = visuals.SpriteSets[CharacterPart.Face].Get(orientation);
 	}
 
 	void CheckForNullValues() {

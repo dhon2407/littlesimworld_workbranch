@@ -60,10 +60,10 @@ public class GuiPopUpAnim : MonoBehaviour
 			StartCoroutine(PopOut());
 	}
 
-    public void OpenWindow()
+    public void OpenWindow(float targetAlpha = 1f)
     {
         if (!isSliding || !CheckIfSliding)
-            StartCoroutine(PopIn());
+            StartCoroutine(PopIn(targetAlpha));
     }
     public void SwitchWindow()
     {
@@ -93,12 +93,12 @@ public class GuiPopUpAnim : MonoBehaviour
 
     private void OnEnable()
     {
-        if(CloseWindowOnEnable)
-        StartCoroutine(PopIn());
+		if (CloseWindowOnEnable)
+			StartCoroutine(PopIn(1));
 
     }
 
-    private IEnumerator PopIn()
+    private IEnumerator PopIn(float targetAlpha)
     {
 
         isSliding = true;
@@ -155,7 +155,7 @@ public class GuiPopUpAnim : MonoBehaviour
                 LeanTween.move(mainWindow, popInVector, delay);
                 LeanTween.scale(mainWindow, popInScale, delay).setEase(typeIn);
 
-                LeanTween.alpha(mainWindow, 1f, delay);
+                LeanTween.alpha(mainWindow, targetAlpha, delay);
             }
             else
             {

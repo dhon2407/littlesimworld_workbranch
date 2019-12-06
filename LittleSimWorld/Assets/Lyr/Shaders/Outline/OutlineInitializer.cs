@@ -13,21 +13,38 @@ namespace InternalUtils {
 
 		public GameObject OutlinePrefab;
 
+		[InlineEditor, PreviewField, ShowInInspector, System.NonSerialized] public List<Sprite> sprites;
+
+
+
 		[Button]
 		public void InitializeAllOutlines() {
-			DoStuff();
-		}
-
-		void DoStuff() {
 			var outlines = FindObjectsOfType<Outline>();
+			sprites = new List<Sprite>();
 
 			var _initializeRenderer = typeof(Outline).GetMethod("InitializeRenderer", BindingFlags.NonPublic | BindingFlags.Instance);
 			var _destroyOldComponents = typeof(Outline).GetMethod("DestroyOldComponents", BindingFlags.NonPublic | BindingFlags.Instance);
 
 			foreach (var outlineObj in outlines) {
 
-				_destroyOldComponents.Invoke(outlineObj,null);
+				_destroyOldComponents.Invoke(outlineObj, null);
 				_initializeRenderer.Invoke(outlineObj, new[] { OutlinePrefab });
+
+				EditorUtility.SetDirty(outlineObj.gameObject);
+				EditorUtility.SetDirty(outlineObj);
+
+				//sprites.Add(outlineObj.spr);
+			}
+		}
+
+		[Button]
+		void CacheStuff() {
+			var outlines = FindObjectsOfType<Outline>();
+
+			var _cacheAssets = typeof(Outline).GetMethod("CacheAssets", BindingFlags.NonPublic | BindingFlags.Instance);
+
+			foreach (var outlineObj in outlines) {
+				_cacheAssets.Invoke(outlineObj, null);
 
 				EditorUtility.SetDirty(outlineObj.gameObject);
 				EditorUtility.SetDirty(outlineObj);
@@ -36,19 +53,6 @@ namespace InternalUtils {
 
 		[Button]
 		void Unload() {
-			//var outlines = FindObjectsOfType<Outline>();
-			//
-			//var _destroyOldComponents = typeof(Outline).GetMethod("DestroyOldComponents", BindingFlags.NonPublic | BindingFlags.Instance);
-			//
-			//foreach (var outlineObj in outlines) {
-			//
-			//	_destroyOldComponents.Invoke(outlineObj, null);
-			//	EditorUtility.SetDirty(outlineObj.gameObject);
-			//	EditorUtility.SetDirty(outlineObj);
-			//
-			//}
-			//
-			//return;
 
 			var f = FindObjectsOfType<Object>();
 			foreach (var ff in f) {

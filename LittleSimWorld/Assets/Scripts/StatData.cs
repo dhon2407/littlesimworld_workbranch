@@ -20,10 +20,7 @@ namespace CharacterStats
             else
                 StatsTooltip.Instance.ShowDescription(description);
         }
-        private void Update()
-        {
-            
-        }
+
         public void OnPointerExit(PointerEventData eventData)
         {
             StatsTooltip.Instance.HideDescription();

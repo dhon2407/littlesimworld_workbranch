@@ -26,7 +26,7 @@ namespace UI.CharacterCreation {
 
 		[HideInInspector] public Gender gender = Gender.Male;
 		int HairStyleIndex = 0, HairColorIndex = 0, ShirtIndex = 0, PantsIndex = 0;
-		int BodyToneIndex = 0;
+		int BodyToneIndex = 0, FaceIndex = 0;
 
 		void Awake() {
 			instance = this;
@@ -71,7 +71,10 @@ namespace UI.CharacterCreation {
 					break;
 
 				case UIAttributeType.Face:
+					ClampInt(ref FaceIndex, Collection.SpriteSets[SpriteSetCollection.GeneralCharacterPart.Face].Count, sign, out index);
 
+					//PreviewManager.SetHair(Collection.Hairstyles[HairStyleIndex]);
+					CurrentCharacterInfo.SpriteSets[CharacterPart.Face] = Collection.SpriteSets[SpriteSetCollection.GeneralCharacterPart.Face][0];
 					break;
 
 				case UIAttributeType.Facial:

@@ -6,6 +6,7 @@ using TMPro;
 namespace CharacterStats
 {
 
+[DefaultExecutionOrder(99999)]
     public class StatsTooltip : MonoBehaviour
 
     {

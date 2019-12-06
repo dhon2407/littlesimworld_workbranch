@@ -66,7 +66,16 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateTotalLevel();
+#if UNITY_EDITOR
+		// Specific so game won't save/load for Lyrcaxis
+		if (!UnityEditor.EditorPrefs.GetBool("ShouldGameSave", false)) {
+			Debug.Log("Initializing from PlayerStatsManager :) Game doesn't load.");
+			GameManager.Instance.IsStartingNewGame = true;
+			InitializeSkillsAndStatusBars();
+			return;
+		}
+#endif
+		UpdateTotalLevel();
         OnLevelUp += CareerUi.Instance.UpdateJobUi;
     }
 

@@ -77,8 +77,7 @@ namespace GameSettings
 
         public void UpdateMode()
         {
-            if (!Settings.Display.AutoDetectResolution)
-                Settings.Display.ChangeMode(modes[dropDownList.value]);
+            Settings.Display.ChangeMode(modes[dropDownList.value]);
         }
 
         private void Reset()
