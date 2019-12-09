@@ -73,7 +73,6 @@ namespace UI.Cooking {
 
 		public void OnPointerDown(PointerEventData eventData) {
 			OnClick();
-			Debug.Log("ASDF");
 
 		}
 

@@ -53,7 +53,7 @@ public class AtommInventory : MonoBehaviour
 
         canvas = GameObject.Find("Canvas").transform;
         inv = Instantiate(Resources.Load<GameObject>("Core/AIS/AtommInventory"), canvas);
-        documents = inv.transform.Find("Docs");
+        documents = inv.transform.Find("Docs");//unused
         items = inv.transform.Find("Items");
         itemSlot = Resources.Load<GameObject>("Core/AIS/AtommSlot");
         purchasableItemSlot = Resources.Load<GameObject>("ShopUi/ShopItem");
@@ -95,7 +95,7 @@ public class AtommInventory : MonoBehaviour
     {
          
         
-        if(InteractionChecker.Instance.lastHighlightedObject != curentContainerWindowSource)
+        if(InteractionChecker.Instance.lastHighlightedObject?.gameObject != curentContainerWindowSource)
         {
             DestroyWindows();
         }
@@ -112,86 +112,15 @@ public class AtommInventory : MonoBehaviour
                 cell.UpdateMyItem();
             }
         }
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (inventory[0].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[0].consumableItem.Consume, inventory[0].consumableItem.ConsuptionTime, inventory[0].consumableItem));
-
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (inventory[1].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[1].consumableItem.Consume, inventory[1].consumableItem.ConsuptionTime, inventory[1].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            if (inventory[2].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[2].consumableItem.Consume, inventory[2].consumableItem.ConsuptionTime, inventory[2].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            if (inventory[3].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[3].consumableItem.Consume, inventory[3].consumableItem.ConsuptionTime, inventory[3].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            if (inventory[4].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[4].consumableItem.Consume, inventory[4].consumableItem.ConsuptionTime, inventory[4].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            if (inventory[5].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[5].consumableItem.Consume, inventory[5].consumableItem.ConsuptionTime, inventory[5].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            if (inventory[6].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[6].consumableItem.Consume, inventory[6].consumableItem.ConsuptionTime, inventory[6].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            if (inventory[7].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[7].consumableItem.Consume, inventory[7].consumableItem.ConsuptionTime, inventory[3].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            if (inventory[8].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[8].consumableItem.Consume, inventory[8].consumableItem.ConsuptionTime, inventory[8].consumableItem));
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            if (inventory[9].consumableItem != null)
-            {
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(inventory[9].consumableItem.Consume, inventory[9].consumableItem.ConsuptionTime, inventory[9].consumableItem));
-            }
-        }*/
+      
     }
 
     public void CheckRaycast()
     {
-        //gameObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(2));
 
-
+        
         GameObject interactable = GameLibOfMethods.CheckInteractable();
-
+        Debug.Log(interactable);
 
         if (!AtommInventory.Instance.currentContainer && !AtommInventory.Instance.currentUpgradesShop)
         {
@@ -369,10 +298,12 @@ public class AtommInventory : MonoBehaviour
         if (currentUpgradesShop)
         {
             Destroy(currentUpgradesShop);
+            Debug.Log("destroyed upgrades shop window");
         }
         if (currentContainer)
         {
             Destroy(currentContainer);
+            Debug.Log("destroyed container window");
         }
         curentContainerWindowSource = null;
     }

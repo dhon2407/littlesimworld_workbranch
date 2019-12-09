@@ -20,6 +20,8 @@ public class CareerUi : SerializedMonoBehaviour
     public GuiPopUpAnim anim;
     public Slider PerformanceSlider;
     public KeyCode Switch = KeyCode.F2;
+
+    public TMPro.TextMeshProUGUI CurrentEmplymentStatus;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,7 +78,8 @@ public class CareerUi : SerializedMonoBehaviour
             RequiredLevel.text = "Level " + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString() + " " + string.Join (", ",job.RequiredSkills);
 
             ProgressLevel.text = PlayerStatsManager.Instance.playerSkills[job.RequiredSkills[0]].Level + "/" + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString();
-            
+
+            CurrentEmplymentStatus.text = job.JobName[job.CurrentCareerLevel];
 
             Debug.Log(JobManager.Instance.CurrentJob.CurrentPerfomanceLevel);
         }
@@ -92,9 +95,10 @@ public class CareerUi : SerializedMonoBehaviour
 
             WorkingDaysText.text = "-";
 
-            RequiredLevel.text = "-";
+            RequiredLevel.text = "";
             ProgressLevel.text = "-";
 
+            CurrentEmplymentStatus.text = "Unemployed";
 
         }
       

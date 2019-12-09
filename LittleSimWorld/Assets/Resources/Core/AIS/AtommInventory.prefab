@@ -492,6 +492,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: cellType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
 --- !u!224 &2639302494845567655 stripped
@@ -510,46 +514,6 @@ PrefabInstance:
     - target: {fileID: 149246, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
       propertyPath: m_Name
       value: Cell
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: empty.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: empty.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: empty.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: empty.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: full.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: full.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: full.g
-      value: 0.8225807
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: full.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: ChangeColorOfBackground
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
-      propertyPath: cellType
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
       propertyPath: m_LocalPosition.x
@@ -675,6 +639,46 @@ PrefabInstance:
     - target: {fileID: 11420388, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
       propertyPath: m_Color.b
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: empty.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: empty.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: empty.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: empty.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: full.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: full.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: full.g
+      value: 0.8225807
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: full.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: ChangeColorOfBackground
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415054, guid: 209652346e247bf45b578fe0c5906b74, type: 3}
+      propertyPath: cellType
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 209652346e247bf45b578fe0c5906b74, type: 3}

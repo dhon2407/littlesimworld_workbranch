@@ -17,10 +17,12 @@ namespace GameCamera
 		const int defaultZoomSpeed = 60;
 
 
-		float ZoomSpeed = 60;
+		[SerializeField] float ZoomSpeed = 60;
 
-		int minPPU = 105;
-		int maxPPU = 170;
+		[Space]
+
+		[SerializeField] int minPPU = 105;
+		[SerializeField] int maxPPU = 170;
 
 		void Awake() {
 			camera = GetComponent<PixelPerfectCamera>();

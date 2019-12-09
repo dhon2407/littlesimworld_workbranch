@@ -62,6 +62,12 @@ namespace Weather
             onChangeWeather = new OnChangeWeatherEvent();
         }
 
+        private void Start()
+        {
+			weatherChangeHelper.InitializeCalculators();
+            weatherChangeHelper.SetSystem(this);
+        }
+
         private void InitializeWeather(WeatherType weather)
         {
 			//var initialWeather = availableWeather.Find(w => w.type == weather);

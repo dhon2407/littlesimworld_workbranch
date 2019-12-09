@@ -6,7 +6,7 @@ public class Shop : MonoBehaviour
 {
     public List<Item> SellingItems;
 
-    [HideInInspector]
+
     public List<AtommInventory.Purchasable> purchasableItems;
 
     public AudioClip open, close;
@@ -25,11 +25,7 @@ public class Shop : MonoBehaviour
 
     public PlayerStatsManager playerStatsManager;
 
-    public enum JobType
-    {
-        CookingJob
-    }
-    public JobType jobType = JobType.CookingJob;
+   
 
     private void OnValidate()
     {

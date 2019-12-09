@@ -138,6 +138,7 @@ public class SpriteControler : SerializedMonoBehaviour
 		Head.sortingOrder = tar;
 		Body.sortingOrder = tar;
 		Hair.sortingOrder = tar;
+		Face.sortingOrder = tar;
 		Shirt.sortingOrder = tar;
 		Pants.sortingOrder = tar;
 	}

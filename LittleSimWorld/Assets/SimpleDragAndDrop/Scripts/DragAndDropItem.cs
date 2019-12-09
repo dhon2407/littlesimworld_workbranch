@@ -92,7 +92,7 @@ public class DragAndDropItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 	/// <param name="data"></param>
 	public void OnDrag(PointerEventData data)
 	{
-       
+        Debug.Log("Hover data count " + (data.hovered.Count));
             if (icon != null && !GameLibOfMethods.doingSomething && GameLibOfMethods.canInteract && !GameLibOfMethods.cantMove)
 		{
 			icon.transform.position = Input.mousePosition;                          // Item's icon follows to cursor in screen pixels

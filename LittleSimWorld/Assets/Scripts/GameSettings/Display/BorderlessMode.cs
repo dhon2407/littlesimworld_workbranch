@@ -14,7 +14,7 @@ namespace GameSettings
         static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
+        static extern IntPtr GetActiveWindow();
 
         private static IntPtr window;
 
@@ -33,7 +33,7 @@ namespace GameSettings
 
         public static void SetBorderlessWindow(Resolution resolution)
         {
-            window = GetForegroundWindow();
+            window = GetActiveWindow();
             var screenPosition = new Rect(0f, 0f, resolution.width, resolution.height);
             SetWindowLong(window, GWL_STYLE, WS_BORDER);
             SetWindowPos(window, 0,
@@ -46,7 +46,7 @@ namespace GameSettings
 
         public static void SetBorderedWindow(Resolution resolution)
         {
-            window = GetForegroundWindow();
+            window = GetActiveWindow();
             var screenPosition = new Rect(0f, 0f, resolution.width, resolution.height);
             SetWindowLong(window, GWL_STYLE, WS_OVERLAPPEDWINDOW);
             SetWindowPos(window, 0,

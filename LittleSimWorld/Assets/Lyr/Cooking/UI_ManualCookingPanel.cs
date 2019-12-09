@@ -53,6 +53,7 @@ namespace UI.Cooking {
 
 		void ConfirmCooking() {
 			_CookingStove.instance.Cook(GetIngredients());
+			ClearSlots();
 		}
 
 		public MenuState ChangePanelState(MenuState? TargetMenuState = null) {

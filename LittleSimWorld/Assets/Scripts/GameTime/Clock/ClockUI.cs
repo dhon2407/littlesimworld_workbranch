@@ -6,8 +6,6 @@ namespace GameTime
 {
     public class ClockUI : MonoBehaviour
     {
-        private const int MinutesToUpdate = 10;
-
         [SerializeField]
         private Clock gameClock = null;
 
@@ -35,7 +33,7 @@ namespace GameTime
         private void Update()
         {
             currentTime = TimeSpan.FromSeconds(Clock.Time);
-            if (currentTime.TotalMinutes > lastTimeCheck.TotalMinutes + MinutesToUpdate)
+            if (currentTime.TotalMinutes != lastTimeCheck.TotalMinutes)
             {
                 UpdateTimeDisplay();
                 lastTimeCheck = currentTime;

@@ -17,7 +17,7 @@ public static class PlayerAnimationHelper
 		//GameLibOfMethods.animator.SetBool("Sitting", false);
 		GameLibOfMethods.animator.SetBool("Drinking", false);
 		GameLibOfMethods.animator.SetBool("Fixing", false);
-		GameLibOfMethods.animator.SetBool("PassOutToSleep", false);
+		GameLibOfMethods.animator.ResetTrigger("PassOutToSleep");
         GameLibOfMethods.animator.SetBool("HidePlayer", false);
     }
 

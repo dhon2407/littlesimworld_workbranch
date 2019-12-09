@@ -16,7 +16,8 @@ MonoBehaviour:
   upgradesInto: {fileID: 6840703514980504247, guid: 3d7c59b7d65e15245b3bd1c71a1c45e9,
     type: 3}
   nextShopUpgrade:
-    upgradableGO: {fileID: 0}
+    upgradableGO: {fileID: 3964632349994853581, guid: e1b21795f3a0b904f9c963e85aeb6d0f,
+      type: 3}
     upgradesInto: {fileID: 0}
     currentUpgradeSO: {fileID: 0}
     nextUpgradeSO: {fileID: 0}

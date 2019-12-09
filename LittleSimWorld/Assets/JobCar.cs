@@ -14,7 +14,8 @@ public class JobCar : MonoBehaviour, IInteractable, IUseable
     public float customSpeedToPosition = 0.1f;
     public float InteractionRange => interactionRange;
     public float CustomSpeedToPosition=> customSpeedToPosition;
-    public Vector3 PlayerStandPosition => gameObject.transform.position;
+    public Transform playerStandPosition;
+    public Vector3 PlayerStandPosition => playerStandPosition.transform.position;
     private void Awake()
     {
         if (Instance == null)
@@ -96,7 +97,7 @@ public class JobCar : MonoBehaviour, IInteractable, IUseable
         GameClock.ChangeSpeedToSleepingSpeed();
 
 
-        while (JobManager.Instance.CurrentJob != null && JobManager.Instance.CurrentWorkingTime <= JobManager.Instance.CurrentJob.WorkingTimeInSeconds && !Input.GetKeyDown(InteractionChecker.Instance.KeyToInteract))
+        while (JobManager.Instance.CurrentJob != null && JobManager.Instance.CurrentWorkingTime <= JobManager.Instance.CurrentJob.WorkingTimeInSeconds && !Input.GetKeyDown(KeyCode.P))
         {
             JobManager.Instance.CurrentWorkingTime += (Time.deltaTime * GameClock.TimeMultiplier) * GameClock.Speed;
             GameLibOfMethods.progress = JobManager.Instance.CurrentWorkingTime / JobManager.Instance.CurrentJob.WorkingTimeInSeconds  ;

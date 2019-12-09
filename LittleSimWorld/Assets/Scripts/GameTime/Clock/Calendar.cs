@@ -65,6 +65,7 @@ namespace GameTime
         private void Start()
         {
             Clock.onDayPassed.AddListener(DayPassed);
+            UpdateCalendar();
         }
 
         private void DayPassed()

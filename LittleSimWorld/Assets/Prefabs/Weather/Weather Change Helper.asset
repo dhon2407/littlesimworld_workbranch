@@ -69,9 +69,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 0
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 17
+      Data: 15
     - Name: 
       Entry: 8
       Data: 
@@ -81,9 +81,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 1
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 24
+      Data: 15
     - Name: 
       Entry: 8
       Data: 
@@ -93,9 +93,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 2
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 22
+      Data: 15
     - Name: 
       Entry: 8
       Data: 
@@ -105,7 +105,7 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 3
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
       Data: 0
     - Name: 
@@ -117,9 +117,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 4
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 70
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -129,6 +129,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: TotalLootChance
+      Entry: 3
+      Data: 145
+    - Name: TotalDropChance
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -157,9 +163,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 0
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 37
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -169,9 +175,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 1
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 23
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -181,9 +187,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 2
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 30
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -193,9 +199,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 3
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 9
+      Data: 25
     - Name: 
       Entry: 8
       Data: 
@@ -205,9 +211,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 4
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 54
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -217,6 +223,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: TotalLootChance
+      Entry: 3
+      Data: 425
+    - Name: TotalDropChance
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -245,9 +257,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 0
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 60
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -257,9 +269,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 1
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 54
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -269,7 +281,7 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 2
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
       Data: 100
     - Name: 
@@ -281,9 +293,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 3
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 35
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -293,9 +305,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 4
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 28
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -305,6 +317,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: TotalLootChance
+      Entry: 3
+      Data: 400
+    - Name: TotalDropChance
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -333,9 +351,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 0
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 29
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -345,9 +363,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 1
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 6
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -357,9 +375,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 2
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 28
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -369,9 +387,9 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 3
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
-      Data: 6
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -381,7 +399,7 @@ MonoBehaviour:
     - Name: Weather
       Entry: 10
       Data: 4
-    - Name: Rarity
+    - Name: Occurence
       Entry: 3
       Data: 100
     - Name: 
@@ -393,6 +411,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: TotalLootChance
+      Entry: 3
+      Data: 165
+    - Name: TotalDropChance
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

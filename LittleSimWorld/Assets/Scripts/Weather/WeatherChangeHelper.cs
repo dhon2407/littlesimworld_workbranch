@@ -3,25 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using GameTime;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Weather {
 
 	public class WeatherChangeHelper : SerializedScriptableObject {
 
+        private WeatherSystem weatherSystem = null;
+
 		public Dictionary<Calendar.Season, WeatherChanceCalculator> WeatherTable;
 
 		[HideInInspector] public List<WeatherData> weatherList;
 
-		public WeatherData GetRandomWeather() => WeatherTable[Calendar.CurrentSeason].GetRandomWeather();
+		public void InitializeCalculators() => WeatherTable.ForEach(x => x.Value.Initialize());
+		public WeatherData GetRandomWeather() => GetWeatherInitialized();
 		public WeatherData GetRandomWeather(Calendar.Season season) => WeatherTable[season].GetRandomWeather();
 
 		public WeatherData GetWeather(WeatherType weatherType) => weatherList.Find(x => x.type == weatherType);
 
+        public void SetSystem(WeatherSystem system)
+        {
+            weatherSystem = system;
+        }
+
+        private WeatherData GetWeatherInitialized()
+        {
+            var newWeather = WeatherTable[Calendar.CurrentSeason].GetRandomWeather();
+            newWeather.Initialize(weatherSystem);
+            return newWeather;
+        }
+
+
 		#region Editor Initialization
 #if UNITY_EDITOR
 		//[Button]
-		public void Initialize() {
+		void Initialize() {
 
 			WeatherTable = WeatherTable.InitializeDefaultValues(false);
 			weatherList = new List<WeatherData>();
@@ -74,7 +91,7 @@ namespace Weather {
 				int counter = 0;
 
 				foreach (var item in WeatherChanceTable) {
-					counter += item.Rarity;
+					counter += item.Occurence;
 					if (counter >= RandomChance) { return item.Weather; }
 				}
 
@@ -86,18 +103,19 @@ namespace Weather {
 			void CalculateItemChances() {
 				CalculateTotalRarity();
 				foreach (var item in WeatherChanceTable) {
-					item.ChanceToDrop = (item.Rarity / (float) TotalLootChance) * 100;
+					if (TotalLootChance == 0) { item.ChanceToDrop = 0; }
+					else { item.ChanceToDrop = (item.Occurence / (float) TotalLootChance) * 100; }
 				}
 			}
 
-			int TotalLootChance = 0;
-			int TotalDropChance = 0;
+			[SerializeField, HideInInspector] int TotalLootChance = 0;
+			[SerializeField, HideInInspector] int TotalDropChance = 0;
 
 			void CalculateTotalRarity() {
 				TotalLootChance = 0;
 				TotalDropChance = 0;
 
-				foreach (var item in WeatherChanceTable) { TotalLootChance += item.Rarity; }
+				foreach (var item in WeatherChanceTable) { TotalLootChance += item.Occurence; }
 			}
 		}
 
@@ -105,12 +123,11 @@ namespace Weather {
 		public class WeatherChanceWrapper {
 			[FitLabelWidth] public WeatherData Weather;
 
-			[Space, Range(0, 100), FitLabelWidth] public int Rarity = 0;
+			[Space, Range(0, 100), FitLabelWidth] public int Occurence = 0;
+
 			public float ChanceToDrop { get; set; }
 
-			string ShowString => $"Chance to drop : {ChanceToDrop:0.##}%";
-			[DisplayAsString, ShowInInspector, LabelText("$ShowString"), ReadOnly, FitLabelWidth]
-			string dummy { get; } = "";
+			[ShowInInspector, HideLabel] string ShowString => $"Chance to drop : {ChanceToDrop:0.##}%";
 		}
 
 		#endregion

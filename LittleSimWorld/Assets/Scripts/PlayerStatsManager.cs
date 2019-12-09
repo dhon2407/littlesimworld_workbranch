@@ -7,9 +7,10 @@ using CharacterStats;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using GameClock = GameTime.Clock;
+using Sirenix.OdinInspector;
 
 [System.Serializable,DefaultExecutionOrder(0)]
-public class PlayerStatsManager : MonoBehaviour
+public class PlayerStatsManager : SerializedMonoBehaviour
 {
     public static PlayerStatsManager Instance;
 
@@ -161,7 +162,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         public float CurrentAmount = 100;
         public float MaxAmount = 100;
-        public float DrainSpeedPerHour = -10;
+        public virtual float DrainSpeedPerHour { get; set; } = -10;
         public float DrainSpeedPerHourIfPunished = -30;
         public virtual StatusBarType statusBarType { get; set; }
         public static StatusBar Instance;
@@ -223,7 +224,8 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Health: StatusBar
     {
-       new public static StatusBar Instance;
+        public override float DrainSpeedPerHour { get; set; } = -0.4166667f;
+        new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Health; } }
         new public static StatusBar Initialize()
         {
@@ -241,6 +243,7 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Bladder : StatusBar
     {
+        public override float DrainSpeedPerHour { get; set; } = -2.083333f;
         new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Bladder; } }
         new public static StatusBar Initialize()
@@ -259,6 +262,7 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Energy : StatusBar
     {
+        public override float DrainSpeedPerHour { get; set; } = -8.333333f;
         new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Energy; } }
         new public static StatusBar Initialize()
@@ -278,6 +282,7 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Thirst : StatusBar
     {
+        public override float DrainSpeedPerHour { get; set; } = -8.333333f;
         new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Thirst; } }
         new public static StatusBar Initialize()
@@ -297,6 +302,7 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Hunger: StatusBar
     {
+        public override float DrainSpeedPerHour { get; set; } = -4.166667f;
         new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Hunger; } }
         new public static StatusBar Initialize()
@@ -316,6 +322,7 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Mood : StatusBar
     {
+        public override float DrainSpeedPerHour { get; set; } = -2.083333f;
         new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Mood; } }
         new public static StatusBar Initialize()
@@ -335,6 +342,7 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class Hygiene : StatusBar
     {
+        public override float DrainSpeedPerHour { get; set; } = -4.166667f;
         new public static StatusBar Instance;
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Hygiene; } }
         new public static StatusBar Initialize()
@@ -647,7 +655,7 @@ public class PlayerStatsManager : MonoBehaviour
                 Instance.XP = 0;
                 Level += 1;
                 Effect();
-                PlayerStatsManager.Instance.OnLevelUp();
+                PlayerStatsManager.Instance.OnLevelUp?.Invoke();
                 GameLibOfMethods.CreateFloatingText("Leveled UP!", 3);
                 Debug.Log(amount);
                
@@ -942,7 +950,7 @@ public class PlayerStatsManager : MonoBehaviour
         }
         if (Energy.Instance.CurrentAmount <= 0 && !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf)
         {
-            GameLibOfMethods.animator.SetBool("PassOutToSleep", true);
+            GameLibOfMethods.animator.SetTrigger("PassOutToSleep");
 
         }
         if (Mood.Instance.CurrentAmount > 0)

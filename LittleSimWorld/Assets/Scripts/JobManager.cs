@@ -10,17 +10,15 @@ using GameClock = GameTime.Clock;
 using CharacterData;
 using Sirenix.OdinInspector;
 [System.Serializable]
-public class JobManager : MonoBehaviour
+public class JobManager : SerializedMonoBehaviour
 
 {
     public float currentJobProgres = 0;
     public float currentJobTime = 0;
     public float requiredJobTime = 10;
-    public int MoneyGainPerCycleOfWork = 5;
+   
     [Space]
-    public float healthDrainPerHour = 0.1f;
-    public float energyDrainPerHour = 0.1f;
-    public float moodDrainPerHour = 0.1f;
+  
 
     public Job CurrentJob;
     public static JobManager Instance;
@@ -48,7 +46,7 @@ public class JobManager : MonoBehaviour
     }
     public void AssignToJob(JobType job)
     {
-        if (CurrentJob == null || (CurrentJob != null && CurrentJob.JobName != Jobs[job].JobName))
+        if (CurrentJob == null || (CurrentJob != null && CurrentJob.JobName[0] != Jobs[job].JobName[0]))
         Jobs[job].AssignToThisJob();
         CareerUi.Instance.UpdateJobUi();
     }
@@ -65,7 +63,7 @@ public class JobManager : MonoBehaviour
     }
 
 
-   
+   [SerializeField]
     public class Job
     {
 
@@ -96,6 +94,7 @@ public class JobManager : MonoBehaviour
 
         public virtual void Penalize()
         {
+            GameLibOfMethods.AddChatMessege("You performing badly on your job.");
             CurrentPerfomanceLevel -= 1;
             if (CurrentPerfomanceLevel == 0)
             {

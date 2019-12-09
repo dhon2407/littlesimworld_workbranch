@@ -15,7 +15,7 @@ public partial class DisplayHandler
     private List<(int, int)> availableAspectRatio;
     private Resolution currentResolution;
     private Resolution currentMonitorNative;
-    private FullScreenMode currentFullScreenMode;
+    private FullScreenMode currentFullScreenMode = FullScreenMode.ExclusiveFullScreen;
     private bool isFullScreen;
     private bool nativeResolutionSet;
     private (int, int) currentAspectRatio = (0, 0);
@@ -67,7 +67,7 @@ public partial class DisplayHandler
 
     public void ChangeResolution(Resolution newResolution, bool autoDetect = false)
     {
-        if (!newResolution.Same(CurrentGameResolution))
+        if (!newResolution.Same(CurrentGameResolution) || Screen.fullScreen != isFullScreen)
         {
             Screen.SetResolution(newResolution.width, newResolution.height, isFullScreen);
             UpdateCurrentResolution(newResolution);
@@ -92,6 +92,7 @@ public partial class DisplayHandler
     {
         currentResolution.width = newResolution.width;
         currentResolution.height = newResolution.height;
+        Screen.fullScreen = isFullScreen;
     }
 
     public void ChangeMode(FullScreenMode mode)
@@ -260,9 +261,6 @@ public partial class DisplayHandler
         currentFullScreenMode = (FullScreenMode)PlayerPrefs.GetInt(DataSave.FullscreenMode, 1);
         AutoDetectResolution = PlayerPrefs.GetInt(DataSave.AutoDetect) == 1;
 
-        if (currentFullScreenMode != FullScreenMode.ExclusiveFullScreen)
-            Screen.fullScreenMode = currentFullScreenMode;
-
         UpdateFullScreenStatus();
         RefreshCursorLock();
 
@@ -271,6 +269,8 @@ public partial class DisplayHandler
             width = PlayerPrefs.GetInt(DataSave.ResolutionWidth),
             height = PlayerPrefs.GetInt(DataSave.ResolutionHeight),
         }, AutoDetectResolution);
+
+        UpdateWindowStyle();
 
         DataLoaded = true;
     }

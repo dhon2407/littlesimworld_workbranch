@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stove Tier 2
   m_EditorClassIdentifier: 
   upgradableGO: {fileID: 0}
-  upgradesInto: {fileID: 7645038017712707702, guid: 6c136126af7e88140ae85878469d322f,
+  upgradesInto: {fileID: 3964632349994853581, guid: 2c11aa0b6aca80147bd4de6b8039caa2,
     type: 3}
   nextShopUpgrade:
     upgradableGO: {fileID: 0}
