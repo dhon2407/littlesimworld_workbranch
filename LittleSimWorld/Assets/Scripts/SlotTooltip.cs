@@ -35,10 +35,10 @@ public class SlotTooltip : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
 
-        ItemTooltip.Instance.ShowTooltip(consumable);
+        ItemTooltip.Instance?.ShowTooltip(consumable);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        ItemTooltip.Instance.HideTooltip();
+        ItemTooltip.Instance?.HideTooltip();
     }
 }

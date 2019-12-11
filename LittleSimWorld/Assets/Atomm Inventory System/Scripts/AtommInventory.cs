@@ -70,7 +70,7 @@ public class AtommInventory : MonoBehaviour
 
 
 
-        inv.SetActive(true);
+        inv.SetActive(!InventorySystem.Inventory.Ready);
         statsUI.SetActive(false);
         //slotTooltip = Instantiate(Resources.Load<GameObject>("Core/AIS/SlotTooltip"), canvas);
         //slotTooltip.SetActive(false);
@@ -375,7 +375,7 @@ public class AtommInventory : MonoBehaviour
         //inv.SetActive(false);
 
 
-        ItemTooltip.Instance.HideTooltip();
+        ItemTooltip.Instance?.HideTooltip();
         if (inv.activeSelf && docView == null && canvasContainer == null)
         {
 
@@ -1038,7 +1038,11 @@ public class AtommInventory : MonoBehaviour
             if (tempCons != null)
             {
                 
-                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(delegate { tempCons.Use(slot.ID); }, tempCons.UsageTime, tempCons, tempCons.AnimationToPlayName));
+                GameLibOfMethods.StaticCoroutine.Start(GameLibOfMethods.DoAction(
+                    delegate { tempCons.Use(slot.ID); },
+                    tempCons.UsageTime,
+                    tempCons,
+                    tempCons.AnimationToPlayName));
                 
                 
                

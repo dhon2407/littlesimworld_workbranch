@@ -74,7 +74,7 @@ namespace CharacterStats
 
 		public void HideTooltip()
 		{
-            PopUpScript.CloseWindow();
+            PopUpScript?.CloseWindow();
         }
 
 		private void AddStatText(float statBonus, string statName)

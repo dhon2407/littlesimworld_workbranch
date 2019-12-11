@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InventorySystem;
 using UnityEngine.Events;
 
 [DefaultExecutionOrder(-1)]
@@ -75,7 +76,15 @@ public class InteractionChecker : MonoBehaviour
 			else if (interactableObject.GetComponent<IInteractable>() != null) {
 				interactableObject.GetComponent<IInteractable>().Interact();
 			}
-			else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>()) {
+            else if (Inventory.Ready && interactableObject.GetComponent<ItemList>())
+            {
+                Inventory.OpenContainer(interactableObject.GetComponent<ItemList>(), interactableObject.name);
+            }
+            else if (InventorySystem.Shop.Ready && interactableObject.GetComponent<ShopList>())
+            {
+                InventorySystem.Shop.Open(interactableObject.GetComponent<ShopList>(), interactableObject.name);
+            }
+            else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>()) {
 				AtommInventory.Instance.CheckRaycast();
 			}
 			else if (interactableObject.GetComponent<Shop>()) {
@@ -86,6 +95,10 @@ public class InteractionChecker : MonoBehaviour
 			}
 		}
 	}
+    public void ResetPlayer()
+    {
+        PlayerAnimationHelper.ResetPlayer();
+    }
 
 
     //public void TurnOnAnimator()

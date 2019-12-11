@@ -284,8 +284,11 @@ public class GameLibOfMethods : MonoBehaviour
             doingSomething = true;
             canInteract = false;
             requiredActionTime = SecondsToComplete;
-            CooldownManager.PutOnCooldown(itemToPutOnCooldown);
-            AtommInventory.Instance.FoodInHandRenderer.sprite = Resources.Load<GameObject>("Prefabs/" + itemToPutOnCooldown.ItemName).GetComponent<SpriteRenderer>().sprite;
+            if (itemToPutOnCooldown != null)
+            {
+                CooldownManager.PutOnCooldown(itemToPutOnCooldown);
+                AtommInventory.Instance.FoodInHandRenderer.sprite = Resources.Load<GameObject>("Prefabs/" + itemToPutOnCooldown.ItemName).GetComponent<SpriteRenderer>().sprite;
+            }
 
             GameLibOfMethods.animator.SetBool(animationToPlay, true);
 

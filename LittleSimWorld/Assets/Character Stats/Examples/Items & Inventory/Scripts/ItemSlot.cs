@@ -81,7 +81,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            ItemTooltip.Instance.ShowTooltip(itemSO);
+            ItemTooltip.Instance?.ShowTooltip(itemSO);
         }
     }
 
@@ -93,7 +93,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            ItemTooltip.Instance.HideTooltip();
+            ItemTooltip.Instance?.HideTooltip();
         }
 
 
@@ -107,7 +107,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            ItemTooltip.Instance.HideTooltip();
+            ItemTooltip.Instance?.HideTooltip();
         }
     }
     private void OnDisable()
@@ -118,7 +118,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            ItemTooltip.Instance.HideTooltip();
+            ItemTooltip.Instance?.HideTooltip();
         }
 
     }
