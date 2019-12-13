@@ -6,6 +6,7 @@ namespace InventorySystem
     public class ItemData : ScriptableObject
     {
         public ItemCode code;
+        public ItemKind kind;
         public new string name;
         public Sprite icon;
         public string Description;
@@ -15,12 +16,19 @@ namespace InventorySystem
         [Space]
         public int price;
         
-        public virtual ItemType Type => ItemType.Passive;
+        public virtual ItemState State => ItemState.Passive;
 
-        public enum ItemType
+        public enum ItemState
         {
             Active,
-            Passive
+            Passive,
+        }
+
+        public enum ItemKind
+        {
+            None,
+            Ingredient,
+            Furniture,
         }
     }
 }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8418b782ad61c34bb786a68243a1c91, type: 3}
+  m_Name: Shower 3
+  m_EditorClassIdentifier: 
+  code: 42
+  kind: 2
+  name: Shower 3
+  icon: {fileID: -3677694984339333608, guid: 77466f25f007dd64093af69bde7b48e3, type: 3}
+  Description: 
+  isStackable: 0
+  maxStack: 1
+  price: 200
+  type: 4
+  upgradeLevel: 3
+  upgradeRequirement: 41
+  upgradesInto: {fileID: 3633915321419218057, guid: 317e230a34dbd9d48ab4243f7fdda903,
+    type: 3}

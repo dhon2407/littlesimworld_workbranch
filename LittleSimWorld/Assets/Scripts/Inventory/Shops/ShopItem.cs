@@ -23,7 +23,7 @@ namespace InventorySystem
         {
             currentItem = item;
             this.price.text = "£ " + price.ToString("0.00");
-            name.text = currentItem.name;
+            name.text = currentItem.Data.name;
             icon.sprite = currentItem.Data.icon;
 
             return this;

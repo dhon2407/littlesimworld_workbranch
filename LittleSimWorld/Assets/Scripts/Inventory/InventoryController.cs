@@ -12,6 +12,8 @@ namespace InventorySystem
         private static ItemList currentContainerData = null;
         private bool containerOpen;
 
+        public bool ContainerOpen => containerOpen;
+
         [SerializeField]
         private Transform canvasTransform = null;
         [SerializeField]
@@ -53,6 +55,18 @@ namespace InventorySystem
             ShowBag();
         }
 
+        public void CloseContainer()
+        {
+            currentContainerData = currentContainer.Itemlist;
+            currentContainer.Close();
+            currentContainerData = null;
+            containerOpen = false;
+
+            playerInventory.UpdateSlotUseActions();
+
+            HideBag();
+        }
+
         public void PutInBag(ItemSlot itemSlot)
         {
             playerInventory.AddItem(itemSlot);
@@ -63,10 +77,16 @@ namespace InventorySystem
 
         public void PutInBag(List<ItemList.ItemInfo> itemlist)
         {
+            ShowBag();
             playerInventory.AddItems(itemlist);
 
             if (containerOpen)
                 playerInventory.UpdateSlotActions(PutInCurrentContainer);
+        }
+
+        public void RemoveInBag(List<ItemList.ItemInfo> itemlist)
+        {
+            playerInventory.RemoveItems(itemlist);
         }
 
         public void PlaySFX(Inventory.Sound sound)
@@ -130,21 +150,10 @@ namespace InventorySystem
             {
                 var container = GameLibOfMethods.CheckInteractable()?.GetComponent<ItemList>();
                 if (container == null || !container.Equals(currentContainerData))
-                    CloseCurrentContainer();
+                    CloseContainer();
             }
         }
 
-        private void CloseCurrentContainer()
-        {
-            currentContainerData = currentContainer.Itemlist;
-            currentContainer.Close();
-            currentContainerData = null;
-            containerOpen = false;
-
-            playerInventory.UpdateSlotUseActions();
-
-            HideBag();
-        }
 
         private void Initialize()
         {
@@ -183,6 +192,7 @@ namespace InventorySystem
         }
 
         public static bool Ready => (controller != null);
+        public static bool ContainerOpen => (controller.ContainerOpen);
 
         public static Sprite FoodInHand { set => controller.SetFoodInHand(value); }
 
@@ -191,9 +201,12 @@ namespace InventorySystem
             controller = inventoryController;
         }
 
-        public static void OpenContainer(ItemList containerItems, string name)
+        public static void OpenCloseContainer(ItemList containerItems, string name)
         {
-            controller.OpenContainer(containerItems, name);
+            if (ContainerOpen)
+                controller.CloseContainer();
+            else
+                controller.OpenContainer(containerItems, name);
         }
 
         public static ItemSlot CreateSlot(Transform slotLocation)
@@ -226,6 +239,11 @@ namespace InventorySystem
             controller.PutInBag(itemlist);
 
             return true;
+        }
+
+        public static void RemoveInBag(List<ItemList.ItemInfo> itemlist)
+        {
+            controller.RemoveInBag(itemlist);
         }
 
         public static void ShowBag()

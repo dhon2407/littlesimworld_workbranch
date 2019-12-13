@@ -36,13 +36,13 @@ namespace UI.Cooking {
 
 		void EvaluateSlotState() {
 			Slot1.gameObject.SetActive(true);
-			Slot2.gameObject.SetActive(Slot1.isAvailableForPlayer);
-			Slot3.gameObject.SetActive(Slot2.isAvailableForPlayer);
+			Slot2.gameObject.SetActive(Slot2.isAvailableForPlayer);
+			Slot3.gameObject.SetActive(Slot3.isAvailableForPlayer);
 		}
-		void ClearSlots() {
-			Slot1.SetItem(null);
-			Slot2.SetItem(null);
-			Slot3.SetItem(null);
+		public void ClearSlots() {
+			Slot1.ClearSlot();
+			Slot2.ClearSlot();
+			Slot3.ClearSlot();
 		}
 
 		void FastClosePanel() {
@@ -51,31 +51,58 @@ namespace UI.Cooking {
 			BasePanel.SetActive(false);
 		}
 
-		void ConfirmCooking() {
-			_CookingStove.instance.Cook(GetIngredients());
-			ClearSlots();
+		void ConfirmCooking()
+        {
+            var ingredients = GetIngredients();
+
+            if (ingredients.Count > 0)
+            {
+                _CookingStove.instance.Cook(GetIngredients());
+                ClearSlots();
+            }
+            else
+            {
+                GameLibOfMethods.CreateFloatingText("Stove is empty.", 1.5f);
+            }
 		}
 
 		public MenuState ChangePanelState(MenuState? TargetMenuState = null) {
-			if (TargetMenuState == null) {
-				if (CurrentMenuState == MenuState.Closed) { CurrentMenuState = MenuState.Open; }
-				else { CurrentMenuState = MenuState.Closed; }
+			if (TargetMenuState == null)
+            {
+				if (CurrentMenuState == MenuState.Closed)
+                    CurrentMenuState = MenuState.Open;
+				else
+                    CurrentMenuState = MenuState.Closed;
 			}
-			else { CurrentMenuState = TargetMenuState.Value; }
-			StartCoroutine(AnimateMenu(CurrentMenuState));
+			else
+            {
+                CurrentMenuState = TargetMenuState.Value;
+            }
+
+            if (CurrentMenuState == MenuState.Open)
+                InventorySystem.Inventory.SetBagItemActions(StoveManager.instance.PlaceItemOnSlot);
+            else
+                InventorySystem.Inventory.SetBagItemActions(null);
+
+            ClearSlots();
+
+            StartCoroutine(AnimateMenu(CurrentMenuState));
 			UI_IngredientPanel.Despawn();
 			return CurrentMenuState;
 		}
 
-		List<Item> GetIngredients() {
+		List<InventorySystem.ItemCode> GetIngredients() {
 
-			List<Item> ingredients = new List<Item>(3);
+			var ingredients = new List<InventorySystem.ItemCode>();
 
-			if (Slot1.holdingItem) { ingredients.Add(Slot1.holdingItem); }
-			if (Slot2.holdingItem) { ingredients.Add(Slot2.holdingItem); }
-			if (Slot3.holdingItem) { ingredients.Add(Slot3.holdingItem); }
+            if (!Slot1.Empty)
+                ingredients.Add(Slot1.ItemCode);
+            if (!Slot2.Empty)
+                ingredients.Add(Slot2.ItemCode);
+            if (!Slot3.Empty)
+                ingredients.Add(Slot3.ItemCode);
 
-			return ingredients;
+            return ingredients;
 		}
 
 

@@ -23,7 +23,7 @@ namespace UI.Cooking {
 			ItemImage.sprite = ItemsManager.GetSpriteOfItem(item);
 		}
 		public void SetParent(UI_ManualCookingSlot slot) {
-			OnClick = () => slot.SetItem(HoldingItem);
+			//OnClick = () => slot.SetItem(HoldingItem);
 			OnClick += () => UI_IngredientPanel.Despawn();
 		}
 

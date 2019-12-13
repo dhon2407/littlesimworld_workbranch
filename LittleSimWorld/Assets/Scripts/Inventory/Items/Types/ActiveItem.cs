@@ -5,7 +5,7 @@ namespace InventorySystem
 {
     public abstract class ActiveItem : ItemData
     {
-        public override ItemType Type => ItemType.Active;
+        public override ItemState State => ItemState.Active;
         [Space]
         public AudioClip UsageSound;
         public float UsageTime;

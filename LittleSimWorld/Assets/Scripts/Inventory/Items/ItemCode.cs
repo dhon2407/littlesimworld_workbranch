@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace InventorySystem
 {
-    // !!!! DO NOT ADD NEW CODE IN MIDDLE, INSTEAD ADD IT ON LAST !!!!
+    // TO AVOID PROBLEMS WITH EXISTING SCRIPTABLE OBJECT 
+    // DO NOT ADD NEW CODE IN MIDDLE, INSTEAD ADD IT ON LAST !!!!
     public enum ItemCode
     {
         BURGER,
@@ -43,5 +44,25 @@ namespace InventorySystem
         VEGETABLE,
         VEGGY_SANDWICH,
         BEER,
+
+        BED1,
+        BED2,
+        BED3,
+        DESK1,
+        DESK2,
+        DESK3,
+        SHOWER1,
+        SHOWER2,
+        SHOWER3,
+        STOVE1,
+        STOVE2,
+        STOVE3,
+        TOILET1,
+        TOILET2,
+        TOILET3,
+        FRIDGE1,
+        FRIDGE2,
+        FRIDGE3,
+        NONE,
     }
 }

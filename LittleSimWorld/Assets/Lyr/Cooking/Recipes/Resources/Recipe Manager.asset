@@ -13,16 +13,22 @@ MonoBehaviour:
   m_Name: Recipe Manager
   m_EditorClassIdentifier: 
   recipes:
-  - {fileID: 11400000, guid: 7c2486378339fb149a5f61dd4c7e5994, type: 2}
-  - {fileID: 11400000, guid: 1c2865ccd7cabc542948a30a580c6599, type: 2}
-  - {fileID: 11400000, guid: 1e72aa2e4b4a5e747907ee70342c78a7, type: 2}
-  - {fileID: 11400000, guid: 0143f89815348804b9114a1173e73d6d, type: 2}
-  - {fileID: 11400000, guid: 6f4592fba2def9d44b23d1410623c174, type: 2}
-  - {fileID: 11400000, guid: 609fc90ae7b5fa44d8198580a89ce010, type: 2}
-  - {fileID: 11400000, guid: afa275b6ddb5449469c5da4284e40695, type: 2}
-  - {fileID: 11400000, guid: 3425834d3719e124bbca60200950bf9a, type: 2}
-  - {fileID: 11400000, guid: 49bd3ed30d9c2674186e2eb4b95d168d, type: 2}
-  - {fileID: 11400000, guid: fa36141af375dc749ab8f8270ad5a792, type: 2}
-  - {fileID: 11400000, guid: ff382353d9484b741a974da3ef719f34, type: 2}
-  - {fileID: 11400000, guid: e9ca2fcbeb99f9a4a8ba0e653db28be4, type: 2}
-  - {fileID: 11400000, guid: 8190f7081fda6f34aa5816b4fcd831c7, type: 2}
+  - {fileID: 11400000, guid: 56219946b9ea0f5449c39974c226cc60, type: 2}
+  - {fileID: 11400000, guid: 8ac96c7101554b84d89eb8fd705f9f11, type: 2}
+  - {fileID: 11400000, guid: 938edb24285893c4697812b1314388bd, type: 2}
+  - {fileID: 11400000, guid: 149359bc242e5fd4c850f279bb4273a4, type: 2}
+  - {fileID: 11400000, guid: b7d755b677783d24c8af51f1740cefb6, type: 2}
+  - {fileID: 11400000, guid: f23ec18f23cf47d49813b9fd107a6a08, type: 2}
+  - {fileID: 11400000, guid: 8cbcbe134825ca34e9936fe19aaeaa33, type: 2}
+  - {fileID: 11400000, guid: 007ec26f6a912a14588ce6e640cdadf2, type: 2}
+  - {fileID: 11400000, guid: 92528d7c3c17f3e4ab418572cd94e576, type: 2}
+  - {fileID: 11400000, guid: 2e9b88d7a463678439ac4f9e436180e1, type: 2}
+  - {fileID: 11400000, guid: d4de0d92f45950d4c9f70a67314ae945, type: 2}
+  - {fileID: 11400000, guid: 2da067f5ec8379e4ab764ee711be4769, type: 2}
+  - {fileID: 11400000, guid: 44b4ae95ca38f71459f406d6c058154e, type: 2}
+  - {fileID: 11400000, guid: 2ae788c425143d34eb0519aa514afb95, type: 2}
+  - {fileID: 11400000, guid: fc4f3bbd394e6594e9a8f94e5d3cb917, type: 2}
+  - {fileID: 11400000, guid: 163fa0695ec075e47a982a869e3064a2, type: 2}
+  - {fileID: 11400000, guid: 3d3f04114cf831640852179a1b1968b9, type: 2}
+  - {fileID: 11400000, guid: 4883f6d7e29da084c8c6dd0172709440, type: 2}
+  - {fileID: 11400000, guid: 42487924a37588e49b02bb7ea9d13ce2, type: 2}

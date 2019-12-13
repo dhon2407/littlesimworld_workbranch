@@ -33,7 +33,6 @@ namespace InventorySystem
             PlayerStatsManager.Health.Instance.Add(Health);
             PlayerStatsManager.Mood.Instance.Add(Mood);
             PlayerStatsManager.Thirst.Instance.Add(Thirst);
-
         }
 
         private void ApplyBonusGains()

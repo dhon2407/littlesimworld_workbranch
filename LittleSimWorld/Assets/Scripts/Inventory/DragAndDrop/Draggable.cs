@@ -61,10 +61,7 @@ namespace InventorySystem
                 iconImage.preserveAspect = true;
                 icon.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
-                //if (OnItemDragStartEvent != null)
-                //{
-                //    OnItemDragStartEvent(this);                                         // Notify all items about drag start for raycast disabling
-                //}
+                GetSlot()?.SetButtonEnable(false);
 
                 Inventory.SFX(Inventory.Sound.StartDrag);
             }
@@ -83,10 +80,7 @@ namespace InventorySystem
             {
                 icon.transform.position = Input.mousePosition;
             }
-            else
-            {
-                //ResetConditions();
-            }
+
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -112,6 +106,8 @@ namespace InventorySystem
             draggedItem = null;
             icon = null;
             sourceCell = null;
+
+            GetSlot()?.SetButtonEnable(true);
         }
 
         public Droppable GetCell()

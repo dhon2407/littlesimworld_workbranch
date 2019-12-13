@@ -52,6 +52,16 @@ namespace InventorySystem
                     case ItemCode.BURGER:                   return Resourcelocation + "Food/Burger";
                     case ItemCode.WATER:                    return Resourcelocation + "Food/Water";
                     case ItemCode.BEER:                    return Resourcelocation + "Food/Beer";
+                    case ItemCode.BED2:                    return Resourcelocation + "Furnitures/Bed2";
+                    case ItemCode.BED3:                    return Resourcelocation + "Furnitures/Bed3";
+                    case ItemCode.STOVE2:                    return Resourcelocation + "Furnitures/Stove2";
+                    case ItemCode.STOVE3:                    return Resourcelocation + "Furnitures/Stove3";
+                    case ItemCode.DESK2:                    return Resourcelocation + "Furnitures/Desk2";
+                    case ItemCode.DESK3:                    return Resourcelocation + "Furnitures/Desk3";
+                    case ItemCode.SHOWER2:                    return Resourcelocation + "Furnitures/Shower2";
+                    case ItemCode.SHOWER3:                    return Resourcelocation + "Furnitures/Shower3";
+                    case ItemCode.TOILET2:                    return Resourcelocation + "Furnitures/Toilet2";
+                    case ItemCode.TOILET3:                    return Resourcelocation + "Furnitures/Toilet3";
 
                     default:
                         throw new UnityException("Unknow itemCode, unable to build item.");

@@ -8,7 +8,7 @@ namespace InventorySystem
 {
     public class ItemSlot : MonoBehaviour
     {
-        private const ItemData.ItemType ActiveItem = ItemData.ItemType.Active;
+        private const ItemData.ItemState ActiveItem = ItemData.ItemState.Active;
 
         [SerializeField]
         private TMPro.TextMeshProUGUI quantity = null;
@@ -27,16 +27,10 @@ namespace InventorySystem
         public ItemData CurrentItemData => itemInside.Data;
         public int Quantity => currentQty;
 
-        public void SetClickAction(UnityAction action)
-        {
-            ClearActions();
-            button.onClick.AddListener(action);
-        }
-
         public void SetSelfAction(UnityAction<ItemSlot> action)
         {
             ClearActions();
-            button.onClick.AddListener(()=> action(this));
+            button.onClick.AddListener(()=> action?.Invoke(this));
         }
 
         public void SetUseAction()
@@ -103,9 +97,24 @@ namespace InventorySystem
             Destroy(gameObject);
         }
 
+        public void SetButtonEnable(bool value)
+        {
+            button.enabled = value;
+        }
+
+        public void Consume(int amount)
+        {
+            currentQty -= amount;
+
+            if (currentQty <= 0)
+                Destroy(gameObject);
+            else
+                UpdateQtyDisplay();
+        }
+
         private void UseItem()
         {
-            if (itemInside.Data.Type == ActiveItem && !onCoolDown)
+            if (itemInside.Data.State == ActiveItem && !onCoolDown)
             {
                 ActiveItem itemParams = (ActiveItem)itemInside.Data;
                 if (!GameLibOfMethods.animator.GetBool("Walking"))
@@ -124,16 +133,6 @@ namespace InventorySystem
                     Inventory.FoodInHand = itemParams.icon;
                 }
             }
-        }
-
-        private void Consume(int amount)
-        {
-            currentQty -= amount;
-
-            if (currentQty <= 0)
-                Destroy(gameObject);
-            else
-                UpdateQtyDisplay();
         }
 
         private IEnumerator StartCooldown(float cooldownTime)

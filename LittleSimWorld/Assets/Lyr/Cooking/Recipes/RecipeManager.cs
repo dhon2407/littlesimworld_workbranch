@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class RecipeManager : ScriptableObject
 {
-	public static List<Recipe> Recipes => instance.recipes;
+	private static RecipeManager _instance;
+	public static List<Cooking.NewRecipe> Recipes => instance.recipes;
+	
+    public List<Cooking.NewRecipe> recipes;
 
-	static RecipeManager _instance;
 	static RecipeManager instance {
 		get {
 			if (_instance == null) { _instance = Resources.Load<RecipeManager>("Recipe Manager"); }
 			return _instance;
 		}
 	}
-
-	public List<Recipe> recipes;
 }

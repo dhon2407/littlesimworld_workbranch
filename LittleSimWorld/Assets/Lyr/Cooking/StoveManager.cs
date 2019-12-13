@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using InventorySystem;
+using System;
 
 namespace UI.Cooking {
 
@@ -55,12 +57,68 @@ namespace UI.Cooking {
 				if (CurrentMenuState == MenuState.Closed) { CurrentMenuState = MenuState.Open; }
 				else { CurrentMenuState = MenuState.Closed; }
 			}
-			StopAllCoroutines();
+
+            if (CurrentMenuState == MenuState.Open)
+            {
+                Inventory.ShowBag();
+                Inventory.SetBagItemActions(null);
+
+                UpdateSlotsAvailability();
+            }
+            else
+            {
+                ManualCookingPanel.ClearSlots();
+                Inventory.HideBag();
+                Inventory.ResetBagItemActions();
+            }
+
+            StopAllCoroutines();
 			StartCoroutine(AnimateMenu(CurrentMenuState));
 		}
 
-		void AutoCook() {
-			_CookingStove.instance.Cook(null);
+        public void PlaceItemOnSlot(InventorySystem.ItemSlot inventoryItem)
+        {
+            if (inventoryItem.CurrentItemData.kind != ItemData.ItemKind.Ingredient)
+            {
+                GameLibOfMethods.CreateFloatingText("I can't cook this.", 1.5f);
+                return;
+            }
+
+            var lastAvailableSlot = GetAvailableSlot();
+            lastAvailableSlot.PlaceItem(inventoryItem);
+        }
+
+        private UI_ManualCookingSlot GetAvailableSlot()
+        {
+            var slots = new List<UI_ManualCookingSlot>()
+            {
+                ManualCookingPanel.Slot1,
+                ManualCookingPanel.Slot2,
+                ManualCookingPanel.Slot3,
+            };
+
+            foreach (var slot in slots)
+                if (slot.Empty && slot.isAvailableForPlayer)
+                    return slot;
+
+            slots.Reverse();
+
+            foreach (var slot in slots)
+                if (slot.isAvailableForPlayer)
+                    return slot;
+
+            return ManualCookingPanel.Slot1;
+        }
+
+        private void UpdateSlotsAvailability()
+        {
+            ManualCookingPanel.Slot1.CheckAvailability();
+            ManualCookingPanel.Slot2.CheckAvailability();
+            ManualCookingPanel.Slot3.CheckAvailability();
+        }
+
+        void AutoCook() {
+			_CookingStove.instance.Cook(new List<ItemCode>());
 			CloseMenu();
 		}
 

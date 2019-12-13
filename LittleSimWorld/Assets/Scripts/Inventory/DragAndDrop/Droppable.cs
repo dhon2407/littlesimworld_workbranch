@@ -15,14 +15,14 @@ namespace InventorySystem
 
         public OnDropEvent onDropEvent;
 
-        public void OnDrop(PointerEventData eventData)
+        public virtual void OnDrop(PointerEventData eventData)
         {
             if (Draggable.Ongoing)
             {
                 var item = Draggable.Item;
-                var itemCell = item.GetCell();
+                var sourceCell = item.GetCell();
 
-                if (itemCell.Equals(this))
+                if (sourceCell.Equals(this))
                     item.Dropped();
                 else if (Empty)
                     SetNewItem(item);

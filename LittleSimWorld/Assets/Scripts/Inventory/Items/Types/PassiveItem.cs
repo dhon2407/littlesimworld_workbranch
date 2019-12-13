@@ -8,6 +8,6 @@ namespace InventorySystem
 {
     public class PassiveItem : ItemData
     {
-        public override ItemType Type => ItemType.Passive;
+        public override ItemState State => ItemState.Passive;
     }
 }

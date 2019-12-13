@@ -9,7 +9,14 @@ namespace InventorySystem
         private static ShoppingWindow shoppingWindow = null;
         private static ShopList currentShoplist = null;
 
+        private static UpgradesShop upgradesShop = null;
+        private static UpgradeList currentUpgradelist = null;
+
         private bool shopOpen;
+        private bool upgradeShopOpen;
+
+        public bool ShopOpen => shopOpen;
+        public bool UpgradeShopOpen => upgradeShopOpen;
 
         [SerializeField]
         private Transform canvasTransform = null;
@@ -32,6 +39,17 @@ namespace InventorySystem
             Inventory.ShowBag();
 
             shopOpen = true;
+        }
+
+        public void OpenUpgradesShop(UpgradeList upgradeList, string name)
+        {
+            currentUpgradelist = upgradeList;
+            upgradesShop.SetName(name);
+            upgradesShop.Open(upgradeList);
+
+            Inventory.ShowBag();
+
+            upgradeShopOpen = true;
         }
 
         private void Awake()
@@ -57,11 +75,18 @@ namespace InventorySystem
             {
                 var shopList = GameLibOfMethods.CheckInteractable()?.GetComponent<ShopList>();
                 if (shopList == null || !shopList.Equals(currentShoplist))
-                    CloseCurrentShop();
+                    CloseShop();
+            }
+
+            if (upgradeShopOpen)
+            {
+                var upgradeList = GameLibOfMethods.CheckInteractable()?.GetComponent<UpgradeList>();
+                if (upgradeList == null || !upgradeList.Equals(currentUpgradelist))
+                    CloseUpgradeShop();
             }
         }
 
-        private void CloseCurrentShop()
+        public void CloseShop()
         {
             shoppingWindow.Close();
             currentShoplist = null;
@@ -71,10 +96,23 @@ namespace InventorySystem
             shopOpen = false;
         }
 
+        public void CloseUpgradeShop()
+        {
+            upgradesShop.Close();
+            currentUpgradelist = null;
+
+            Inventory.HideBag();
+
+            upgradeShopOpen = false;
+        }
+
         private void Initialize()
         {
             shoppingWindow = Instantiate(Resources.Load<GameObject>("Inventory/Shops/ShoppingWindow"), canvasTransform).
                 GetComponent<ShoppingWindow>();
+
+            upgradesShop = Instantiate(Resources.Load<GameObject>("Inventory/Shops/UpgradeShop"), canvasTransform).
+                GetComponent<UpgradesShop>();
         }
     }
 
@@ -85,15 +123,28 @@ namespace InventorySystem
         private static ShopsManager manager;
 
         public static bool Ready => (manager != null);
+        public static bool IsShopOpen => manager.ShopOpen;
+        public static bool IsUpgradeShopOpen => manager.UpgradeShopOpen;
 
         public static void SetManager(ShopsManager shopsManager)
         {
             manager = shopsManager;
         }
 
-        public static void Open(ShopList shoplist, string name)
+        public static void OpenCloseShop(ShopList shoplist, string name)
         {
-            manager.OpenShop(shoplist, name);
+            if (IsShopOpen)
+                manager.CloseShop();
+            else
+                manager.OpenShop(shoplist, name);
+        }
+
+        public static void OpenCloseUpgradeShop(UpgradeList upgradeList, string name)
+        {
+            if (IsUpgradeShopOpen)
+                manager.CloseUpgradeShop();
+            else
+                manager.OpenUpgradesShop(upgradeList, name);
         }
 
         public static ShopItem CreateShopItem(Transform holder)
@@ -105,6 +156,12 @@ namespace InventorySystem
         public static BasketItem CreateBasketItem(Transform holder)
         {
             return Object.Instantiate(Resources.Load<GameObject>("Inventory/Shops/BasketSlot"), holder)?.
+                GetComponent<BasketItem>();
+        }
+
+        public static BasketItem CreateUpgradeItem(Transform holder)
+        {
+            return Object.Instantiate(Resources.Load<GameObject>("Inventory/Shops/UpgradeSlot"), holder)?.
                 GetComponent<BasketItem>();
         }
     }

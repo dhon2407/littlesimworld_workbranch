@@ -1,25 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UI.Cooking;
+using InventorySystem;
 
 public class _CookingStove : MonoBehaviour, IInteractable {
 
 	public static _CookingStove instance;
 
-	public float MenuPopupDistance = 1;
+    private ItemCode defaultProduct = ItemCode.JELLY;
+
+    public float MenuPopupDistance = 1;
 
 	[Header("Stove Settings")]
 	public float TimeToCook = 10;
-	public int EXPAfterCooking = 5;
+	public int DefaultCookingEXP = 5;
 	public int EXPWhileCooking = 4;
 
 	public Transform ZoneToStand;
 	public GameObject FryingPan;
-	public Item Jelly;
 
 	bool isPlayerCooking;
 	bool isOpen;
+
+    public bool Open => isOpen;
 
 	public float InteractionRange => MenuPopupDistance;
 
@@ -51,13 +54,16 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 
 	#region Cooking Logic
 
-	public void Cook(List<Item> ingredients) {
-		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 5 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 5) { return; }
-		GameLibOfMethods.doingSomething = true;
-		PlayerCommands.MoveTo(ZoneToStand.position, () => StartCooking(ingredients).Start());
+	public void Cook(List<ItemCode> ingredients) {
+        if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount > 5 &&
+            PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount > 5)
+        {
+            GameLibOfMethods.doingSomething = true;
+            PlayerCommands.MoveTo(ZoneToStand.position, () => StartCooking(ingredients).Start());
+        }
 	}
 
-	IEnumerator<float> StartCooking(List<Item> ingredients) {
+	IEnumerator<float> StartCooking(List<ItemCode> ingredients) {
 
 		isPlayerCooking = true;
 		StoveManager.instance.CloseMenu();
@@ -112,53 +118,62 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 			yield return 0f;
 
 		}
-		else {
-			var recipeOutcome = GetRecipeOutcome(ingredients, out int expEarned);
+		else
+        {
+            var recipeOutcome = GetRecipeOutcome(ingredients, out int expEarned);
 
-			PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].AddXP(expEarned);
+            PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].AddXP(expEarned);
 
-			RemoveIngredientsFromInventory(ingredients);
-			AddItemToInventory(recipeOutcome);
+            Inventory.RemoveInBag(GetIngredientItemList(ingredients));
+            yield return 0f;
+
+            Inventory.PlaceOnBag(new List<ItemList.ItemInfo>()
+            {
+                new ItemList.ItemInfo { count = 1, itemCode = recipeOutcome }
+            });
 
 
-			// Call this again, if it is AUTO-Cooking
-			if (ingredients == null) { StartCooking(null).Start(); }
-			// If it is not auto-cooking, Reset the player
-			else {
-				PlayerAnimationHelper.ResetPlayer();
-				yield return 0f;
+			PlayerAnimationHelper.ResetPlayer();
+			yield return 0f;
 				
-				StoveManager.instance.CloseMenu();
-			}
+			StoveManager.instance.CloseMenu();
+
+            Inventory.ShowBag();
 		}
-
-
 	}
 
-	Item GetRecipeOutcome(List<Item> ingredients, out int EXP) {
+    private List<ItemList.ItemInfo> GetIngredientItemList(List<ItemCode> ingredients)
+    {
+        var list = new List<ItemList.ItemInfo>();
+        foreach (var item in ingredients)
+        {
+            list.Add(new ItemList.ItemInfo
+            {
+                count = 1,
+                itemCode = item
+            });
+        }
+        
+        return list;
+    }
 
-		// Assign default EXP Awarded
-		EXP = EXPAfterCooking;
+	private ItemCode GetRecipeOutcome(List<ItemCode> ingredients, out int EXP)
+    {
+		EXP = DefaultCookingEXP;
 
-		if (ingredients == null) { return Jelly; }
-		else if (ingredients.Count == 1) {
-			if (!ingredients[0].CooksInto) { return Jelly; }
-			else {
-				EXP *= 2;
-				return ingredients[0].CooksInto;
+		if (ingredients == null)
+            return defaultProduct;
+		
+		foreach (Cooking.NewRecipe recipe in RecipeManager.Recipes)
+        {
+			if (recipe.IsMatch(ingredients))
+            {
+				EXP = recipe.EXPAwarded;
+				return recipe.RecipeOutcome;
 			}
 		}
-		else {
-			foreach (Recipe recipe in RecipeManager.Recipes) {
-				if (recipe.IsMatch(ingredients)) {
-					EXP = recipe.EXPAwarded;
-					return recipe.RecipeOutcome;
-				}
-			}
-		}
 
-		// Return Jelly in case none of the recipes match the ingredients
-		return Jelly;
+		return defaultProduct;
 	}
 
 	void AddItemToInventory(Item itemToAdd) {

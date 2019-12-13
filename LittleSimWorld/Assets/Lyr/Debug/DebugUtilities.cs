@@ -19,7 +19,7 @@ public class DebugUtilities : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad2)) { PlayerStatsManager.Instance.Money += 100f; }
 		if (Input.GetKeyDown(KeyCode.Keypad9)) { player.position = TestViewPos; }
 		if (Input.GetKeyDown(KeyCode.Keypad3)) {
-			_CookingStove.instance.EXPAfterCooking = Cheated3 ? 5 : 100;
+			_CookingStove.instance.DefaultCookingEXP = Cheated3 ? 5 : 100;
 			_CookingStove.instance.TimeToCook = Cheated3 ? 10 : 5;
 
 			Cheated3 = !Cheated3;

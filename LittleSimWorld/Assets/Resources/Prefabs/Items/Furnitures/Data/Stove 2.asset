@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8418b782ad61c34bb786a68243a1c91, type: 3}
+  m_Name: Stove 2
+  m_EditorClassIdentifier: 
+  code: 44
+  kind: 2
+  name: Stove 2
+  icon: {fileID: 313920273031389104, guid: 77466f25f007dd64093af69bde7b48e3, type: 3}
+  Description: 
+  isStackable: 0
+  maxStack: 1
+  price: 50
+  type: 1
+  upgradeLevel: 2
+  upgradeRequirement: 43
+  upgradesInto: {fileID: 3964632349994853581, guid: 2c11aa0b6aca80147bd4de6b8039caa2,
+    type: 3}

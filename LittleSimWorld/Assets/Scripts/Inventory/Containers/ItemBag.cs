@@ -10,6 +10,7 @@ namespace InventorySystem
     {
         [SerializeField]
         private KeyCode functionKey = KeyCode.I;
+        private UnityAction<ItemSlot> openBagSlotAction;
 
         public int FreeSlot => GetFreeSlot();
 
@@ -34,8 +35,12 @@ namespace InventorySystem
 
         public void AddItem(ItemList.ItemInfo itemInfo)
         {
-            NextEmptyCell().SetItem(Inventory.CreateItem(itemInfo.itemCode), itemInfo.count).
-                SetUseAction();
+            var newItem = NextEmptyCell().SetItem(Inventory.CreateItem(itemInfo.itemCode), itemInfo.count);
+            if (openBagSlotAction != null)
+                newItem.SetSelfAction(openBagSlotAction);
+            else
+                newItem.SetUseAction();
+                
         }
 
         public bool CanFit(List<ItemList.ItemInfo> itemlist)
@@ -60,8 +65,18 @@ namespace InventorySystem
             }
         }
 
+        public void RemoveItems(List<ItemList.ItemInfo> itemlist)
+        {
+            foreach (var item in itemlist)
+            {
+                if (Contains(item.itemCode))
+                    SlotOf(item.itemCode).Consume(item.count);
+            }
+        }
+
         public void UpdateSlotActions(UnityAction<ItemSlot> slotAction)
         {
+            openBagSlotAction = slotAction;
             foreach (var cell in itemCells)
                 if (!cell.Empty)
                     cell.GetSlot().SetSelfAction(slotAction);
@@ -69,6 +84,7 @@ namespace InventorySystem
 
         public void UpdateSlotUseActions()
         {
+            openBagSlotAction = null;
             foreach (var cell in itemCells)
                 if (!cell.Empty)
                     cell.GetSlot().SetUseAction();
@@ -85,10 +101,13 @@ namespace InventorySystem
 
         private void EnableAction(Droppable cell)
         {
-            if (cell.Type != Droppable.CellType.TrashBin)
-                cell.GetSlot().SetUseAction();
+            var cellSlot = cell.GetSlot();
+            if (cell.Type == Droppable.CellType.TrashBin)
+                cellSlot.ClearActions();
+            else if (Inventory.ContainerOpen || Shop.IsShopOpen || _CookingStove.instance.Open)
+                cellSlot.SetSelfAction(openBagSlotAction);
             else
-                cell.GetSlot().ClearActions();
+                cellSlot.SetUseAction();
         }
 
         private int GetFreeSlot()

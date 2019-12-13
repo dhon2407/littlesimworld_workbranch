@@ -76,13 +76,17 @@ public class InteractionChecker : MonoBehaviour
 			else if (interactableObject.GetComponent<IInteractable>() != null) {
 				interactableObject.GetComponent<IInteractable>().Interact();
 			}
+            else if (InventorySystem.Shop.Ready && interactableObject.GetComponent<UpgradeList>())
+            {
+                InventorySystem.Shop.OpenCloseUpgradeShop(interactableObject.GetComponent<UpgradeList>(), interactableObject.name);
+            }
             else if (Inventory.Ready && interactableObject.GetComponent<ItemList>())
             {
-                Inventory.OpenContainer(interactableObject.GetComponent<ItemList>(), interactableObject.name);
+                Inventory.OpenCloseContainer(interactableObject.GetComponent<ItemList>(), interactableObject.name);
             }
             else if (InventorySystem.Shop.Ready && interactableObject.GetComponent<ShopList>())
             {
-                InventorySystem.Shop.Open(interactableObject.GetComponent<ShopList>(), interactableObject.name);
+                InventorySystem.Shop.OpenCloseShop(interactableObject.GetComponent<ShopList>(), interactableObject.name);
             }
             else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>()) {
 				AtommInventory.Instance.CheckRaycast();

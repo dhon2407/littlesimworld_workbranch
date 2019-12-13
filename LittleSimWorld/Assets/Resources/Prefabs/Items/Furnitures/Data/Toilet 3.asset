@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8418b782ad61c34bb786a68243a1c91, type: 3}
+  m_Name: Toilet 3
+  m_EditorClassIdentifier: 
+  code: 48
+  kind: 2
+  name: Toilet 3
+  icon: {fileID: -6011334812398999886, guid: 77466f25f007dd64093af69bde7b48e3, type: 3}
+  Description: 
+  isStackable: 0
+  maxStack: 1
+  price: 200
+  type: 5
+  upgradeLevel: 3
+  upgradeRequirement: 47
+  upgradesInto: {fileID: 4205835665627779198, guid: 69512ce58f3c1b043ad881cb5384a03d,
+    type: 3}

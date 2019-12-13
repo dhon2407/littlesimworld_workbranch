@@ -1,45 +1,62 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using InventorySystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Cooking {
-	public class UI_ManualCookingSlot : MonoBehaviour, IPointerDownHandler {
-		public Item holdingItem;
-		Image SlotImage;
+	public class UI_ManualCookingSlot : MonoBehaviour
+    { 
+        [SerializeField]
+        private Image ingredientIcon = null;
+        [SerializeField]
+		private int requiredCookingLevel = 0;
+        
+        private ItemData currentItemInfo;
 
-		public int RequiredCookingLevel;
+        public bool Empty => (currentItemInfo == null);
+        public ItemCode ItemCode => currentItemInfo.code;
 
-		[HideInInspector] public bool isAvailableForPlayer;
+        [HideInInspector] public bool isAvailableForPlayer;
 
-		void Awake() {
-			SlotImage = transform.GetChild(0).GetComponent<Image>();
+		public void CheckAvailability() {
+			if (isAvailableForPlayer)
+                return;
+
+			isAvailableForPlayer = PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].Level >= requiredCookingLevel;
 		}
 
-		void Update() {
-			CheckAvailability();
-		}
+        public void PlaceItem(InventorySystem.ItemSlot itemSlot)
+        {
+            if (currentItemInfo != null)
+                ReturnItemToInventory();
 
-		void CheckAvailability() {
-			if (isAvailableForPlayer) { return; }
+            currentItemInfo = itemSlot.CurrentItemData;
+            ingredientIcon.sprite = currentItemInfo.icon;
+            itemSlot.Consume(1);
+        }
 
-			isAvailableForPlayer = PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].Level >= RequiredCookingLevel;
-			// To be swapped with sprite
-			SlotImage.color = isAvailableForPlayer ? Color.white : Color.grey;
-		}
+        public void ClearSlot()
+        {
+            ReturnItemToInventory();
+            currentItemInfo = null;
+            ingredientIcon.sprite = null;
+        }
 
-		public void SetItem(Item item) {
-			Sprite spr = item != null ? ItemsManager.GetSpriteOfItem(item) : null;
-			if (!SlotImage) { Awake(); }
-			SlotImage.sprite = spr;
-			holdingItem = item;
-		}
-
-		public void OnPointerDown(PointerEventData eventData) {
-			if (!isAvailableForPlayer) { return; }
-
-			UI_IngredientPanel.SpawnFor(transform);
-		}
-	}
+        private void ReturnItemToInventory()
+        {
+            if (currentItemInfo != null)
+            {
+                Inventory.PlaceOnBag(new List<ItemList.ItemInfo>()
+                {
+                    new ItemList.ItemInfo
+                    {
+                        itemCode = currentItemInfo.code,
+                        count = 1
+                    }
+                });
+            }
+        }
+    }
 }
