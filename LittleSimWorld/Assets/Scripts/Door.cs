@@ -8,6 +8,9 @@ public class Door : MonoBehaviour, IInteractable {
 	public Sprite ClosedDoor;
 
 	public float InteractionRange => 1;
+
+	public Vector3 PlayerStandPosition => transform.position;
+
 	public void Interact() {
 		if (!isOpen) {
 			isOpen = true;

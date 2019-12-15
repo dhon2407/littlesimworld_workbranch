@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4514573259751653577}
   - component: {fileID: 5677268741153028609}
-  - component: {fileID: 6546444065787668453}
+  - component: {fileID: -7094667954694454740}
   - component: {fileID: 4858366980336711362}
   - component: {fileID: 2649244332682572308}
   - component: {fileID: -319188031459821652}
   m_Layer: 10
-  m_Name: Fish OLD
+  m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &6546444065787668453
-PolygonCollider2D:
+--- !u!61 &-7094667954694454740
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,51 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.39638847, y: 0.5671499}
-      - {x: 0.34130612, y: 0.6092717}
-      - {x: -0.31644186, y: 0.6092717}
-      - {x: -0.35532352, y: 0.58011043}
-      - {x: -0.3715242, y: 0.53798866}
-      - {x: -0.39420515, y: 0.42458382}
-      - {x: -0.39420515, y: 0.26257694}
-      - {x: -0.37476435, y: 0.120010875}
-      - {x: -0.33912283, y: 0.032527156}
-      - {x: -0.28728062, y: 0.00012577683}
-      - {x: 0.315385, y: 0.00012577683}
-      - {x: 0.35102654, y: 0.02604688}
-      - {x: 0.39638847, y: 0.10057005}
-    - - {x: -0.2937609, y: 0.061688397}
-      - {x: 0.27650335, y: 0.03900743}
-      - {x: 0.27650335, y: 0.032527156}
-      - {x: -0.25487924, y: 0.035767294}
-    - - {x: -0.3358827, y: 0.12973128}
-      - {x: -0.33264256, y: 0.14593197}
-      - {x: -0.32940242, y: 0.10705032}
-      - {x: -0.32616228, y: 0.11029046}
-    - - {x: 0.3575068, y: 0.19453405}
-      - {x: 0.36074695, y: 0.19453405}
-      - {x: 0.3575068, y: 0.13621156}
-      - {x: 0.3575068, y: 0.12325101}
-      - {x: 0.35426667, y: 0.1135306}
-      - {x: 0.3575068, y: 0.1135306}
-    - - {x: -0.3358827, y: 0.5315084}
-      - {x: -0.33264256, y: 0.5347485}
-      - {x: -0.32616228, y: 0.5509492}
-      - {x: -0.28080034, y: 0.57363015}
-      - {x: -0.29700103, y: 0.56390977}
-      - {x: -0.32616228, y: 0.5315084}
-      - {x: -0.33264256, y: 0.51530766}
-      - {x: -0.3358827, y: 0.41810355}
-      - {x: -0.3358827, y: 0.4148634}
-    - - {x: -0.28404048, y: 0.49262673}
-      - {x: -0.27107993, y: 0.51206756}
-      - {x: -0.15119483, y: 0.48614645}
-      - {x: -0.15119483, y: 0.4731859}
-      - {x: -0.28404048, y: 0.4731859}
-      - {x: -0.28728062, y: 0.46994576}
-      - {x: -0.28404048, y: 0.46994576}
+  serializedVersion: 2
+  m_Size: {x: 0.6372346, y: 0.49047053}
+  m_EdgeRadius: 0
 --- !u!50 &4858366980336711362
 Rigidbody2D:
   serializedVersion: 4
@@ -164,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.09471487
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -206,4 +164,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fc6be985fb44a4dbbc6831d059b696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 6108824fd280cec48b96de275e701821, type: 2}
+  itemData: {fileID: 11400000, guid: 50f698047a26e7d47a7894cff54533aa, type: 2}

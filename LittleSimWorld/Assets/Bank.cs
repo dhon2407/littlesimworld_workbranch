@@ -14,6 +14,9 @@ public class Bank : MonoBehaviour, IInteractable
     public GameObject CanvasGO;
 
 	public float InteractionRange => 1;
+
+	public Vector3 PlayerStandPosition => transform.position;
+
 	public void Interact() => SwitchBankUI();
 
 	void Awake()

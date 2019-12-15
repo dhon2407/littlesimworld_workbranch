@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5386344877216157450}
   - component: {fileID: 4228718981933282754}
-  - component: {fileID: 3368547815989159974}
+  - component: {fileID: -7367241393125036353}
   - component: {fileID: 5042761868851102644}
   - component: {fileID: 8426777138453578827}
   - component: {fileID: -8728253056939023407}
   m_Layer: 10
-  m_Name: Jelly OLD
+  m_Name: Jelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &3368547815989159974
-PolygonCollider2D:
+--- !u!61 &-7367241393125036353
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,41 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.30032936, y: 0.10997958}
-      - {x: 0.33597088, y: 0.1553415}
-      - {x: 0.35865185, y: 0.20394358}
-      - {x: 0.36837226, y: 0.23634495}
-      - {x: 0.36837226, y: 0.33678922}
-      - {x: 0.35865185, y: 0.38215116}
-      - {x: 0.32625046, y: 0.4372335}
-      - {x: 0.26468787, y: 0.49555597}
-      - {x: 0.21932593, y: 0.5247172}
-      - {x: 0.16100344, y: 0.5538785}
-      - {x: 0.09944083, y: 0.56683904}
-      - {x: 0.067039445, y: 0.5733193}
-      - {x: -0.07552662, y: 0.5733193}
-      - {x: -0.1338491, y: 0.5571186}
-      - {x: -0.1856913, y: 0.54091793}
-      - {x: -0.24725392, y: 0.5020363}
-      - {x: -0.28613558, y: 0.47287503}
-      - {x: -0.33797777, y: 0.40807226}
-      - {x: -0.35417846, y: 0.37243074}
-      - {x: -0.36065874, y: 0.33030894}
-      - {x: -0.36389887, y: 0.29466742}
-      - {x: -0.36065874, y: 0.22662455}
-      - {x: -0.35093832, y: 0.19422317}
-      - {x: -0.3120567, y: 0.13266054}
-      - {x: -0.26345462, y: 0.08405848}
-      - {x: -0.22133282, y: 0.0516571}
-      - {x: -0.13060896, y: 0.012775445}
-      - {x: -0.06904634, y: 0.0030550323}
-      - {x: -0.05284565, y: -0.00018510553}
-      - {x: 0.08, y: -0.00018510553}
-      - {x: 0.16748372, y: 0.025735997}
-      - {x: 0.22904634, y: 0.054897238}
-      - {x: 0.27116814, y: 0.08405848}
+  serializedVersion: 2
+  m_Size: {x: 0.4810057, y: 0.37640226}
+  m_EdgeRadius: 0
 --- !u!50 &5042761868851102644
 Rigidbody2D:
   serializedVersion: 4
@@ -154,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.07088013
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

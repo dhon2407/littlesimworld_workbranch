@@ -25,6 +25,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
     public bool Open => isOpen;
 
 	public float InteractionRange => MenuPopupDistance;
+	public Vector3 PlayerStandPosition => ZoneToStand.position;
 
 	void Awake() {
 		instance = this;

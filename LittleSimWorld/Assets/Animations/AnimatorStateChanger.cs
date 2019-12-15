@@ -14,16 +14,17 @@ public class AnimatorStateChanger : MonoBehaviour
 
 	void FixedUpdate()
     {
-		float speedMulti = walkingSpeed * PlayerStatsManager.Instance.MovementSpeed;
-		Vector3 temp = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speedMulti;
-        temp = Vector3.ClampMagnitude(temp, walkingSpeed);
-
 		if (!GameLibOfMethods.cantMove && !GameLibOfMethods.sitting && !SpriteControler.Instance.BeignKnockbacked) {
+			float speedMulti = walkingSpeed * PlayerStatsManager.Instance.MovementSpeed;
+			Vector3 temp = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+			if (temp.sqrMagnitude >= 1) { temp.Normalize(); }
+			temp *= speedMulti;
+
 			rb.velocity = temp;
 			if (temp.sqrMagnitude != 0) { anim.SetBool("Walking", true); }
 			else { anim.SetBool("Walking", false); }
 		}
-		else { anim.SetBool("Walking", false); }
+		else if (!GameLibOfMethods.doingSomething) { anim.SetBool("Walking", false); }
         
     }
 }

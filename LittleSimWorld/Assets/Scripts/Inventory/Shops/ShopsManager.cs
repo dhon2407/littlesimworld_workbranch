@@ -147,6 +147,12 @@ namespace InventorySystem
                 manager.OpenUpgradesShop(upgradeList, name);
         }
 
+        public static void CloseUpgradeShop()
+        {
+            if (IsUpgradeShopOpen)
+                manager.CloseUpgradeShop();
+        }
+
         public static ShopItem CreateShopItem(Transform holder)
         {
             return Object.Instantiate(Resources.Load<GameObject>("Inventory/Shops/ShopSlot"), holder)?.

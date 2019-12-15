@@ -14,9 +14,6 @@ public class JobOfferUi : SerializedMonoBehaviour
     public TMPro.TextMeshProUGUI PaymentText;
     public TMPro.TextMeshProUGUI WorkingTimeText;
     public TMPro.TextMeshProUGUI WorkingDaysText;
-    public Image JobIcon;
-    [SerializeField]
-    public Dictionary<JobType, Sprite> JobIconSprites;
     public Button AcceptButton;
     public GuiPopUpAnim anim;
     
@@ -55,9 +52,6 @@ public class JobOfferUi : SerializedMonoBehaviour
         {
             WorkingDaysText.text += ((Calendar.Weekday)workingDay).ToString()[0];
         }
-
-
-        JobIcon.sprite = JobIconSprites[job.jobType];
 
         AcceptButton.onClick.RemoveAllListeners();
         AcceptButton.onClick.AddListener(delegate { JobManager.Instance.AssignToJob(job.jobType); });

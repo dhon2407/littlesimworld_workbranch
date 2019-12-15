@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3860948352538663699}
   - component: {fileID: 6996701514811517696}
-  - component: {fileID: 3393516701486187669}
+  - component: {fileID: -6401383899035749301}
   - component: {fileID: 5683118448215430083}
   - component: {fileID: 1340770432720461739}
   - component: {fileID: 6486505582886964741}
   m_Layer: 10
-  m_Name: Omelette OLD
+  m_Name: Omelette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &3393516701486187669
-PolygonCollider2D:
+--- !u!61 &-6401383899035749301
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,47 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.32721564, y: 0.107725486}
-      - {x: 0.3660973, y: 0.14984728}
-      - {x: 0.40497896, y: 0.20492962}
-      - {x: 0.42117965, y: 0.24381128}
-      - {x: 0.42765993, y: 0.26649225}
-      - {x: 0.4341402, y: 0.2956535}
-      - {x: 0.4341402, y: 0.39609775}
-      - {x: 0.42117965, y: 0.4414597}
-      - {x: 0.39525855, y: 0.49654204}
-      - {x: 0.37905785, y: 0.519223}
-      - {x: 0.32721564, y: 0.57430536}
-      - {x: 0.2624129, y: 0.6196673}
-      - {x: 0.19112986, y: 0.6553088}
-      - {x: 0.14900808, y: 0.66826934}
-      - {x: 0.09068559, y: 0.6779897}
-      - {x: 0.07772504, y: 0.6812299}
-      - {x: -0.09076212, y: 0.6812299}
-      - {x: -0.13612406, y: 0.66826934}
-      - {x: -0.22360778, y: 0.64234823}
-      - {x: -0.28841054, y: 0.60670674}
-      - {x: -0.36617383, y: 0.5386638}
-      - {x: -0.38561466, y: 0.5095026}
-      - {x: -0.4147759, y: 0.45442024}
-      - {x: -0.42449632, y: 0.42849913}
-      - {x: -0.4309766, y: 0.40257803}
-      - {x: -0.43421674, y: 0.39609775}
-      - {x: -0.43421674, y: 0.2794528}
-      - {x: -0.42125618, y: 0.24705142}
-      - {x: -0.39857522, y: 0.1952092}
-      - {x: -0.36941397, y: 0.14984728}
-      - {x: -0.28841054, y: 0.07856424}
-      - {x: -0.2171275, y: 0.042922728}
-      - {x: -0.18796626, y: 0.029962178}
-      - {x: -0.14908461, y: 0.020241763}
-      - {x: -0.07456144, y: 0.0040410752}
-      - {x: 0.0744849, y: 0.0040410752}
-      - {x: 0.13928767, y: 0.013761489}
-      - {x: 0.20085028, y: 0.033202317}
-      - {x: 0.2624129, y: 0.062363558}
+  serializedVersion: 2
+  m_Size: {x: 0.5937813, y: 0.46204406}
+  m_EdgeRadius: 0
 --- !u!50 &5683118448215430083
 Rigidbody2D:
   serializedVersion: 4
@@ -160,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.09929658
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

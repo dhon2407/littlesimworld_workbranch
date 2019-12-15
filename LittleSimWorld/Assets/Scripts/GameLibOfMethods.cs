@@ -235,13 +235,8 @@ public class GameLibOfMethods : MonoBehaviour
     public static void AddChatMessege(string text)
     {
         GameObject chatMessege = Instantiate(ChatMessege, ChatContent);
-        chatMessege.GetComponent<TextMeshProUGUI>().text = "[" + GameTime.Clock.CurrentTimeFormat+ "]" + text;
-        StaticCoroutine.Start(GameLibOfMethods.ResetChat());
-    }
-    public static IEnumerator ResetChat()
-    {
-        yield return new WaitForEndOfFrame();
-        ChatContent.transform.parent.parent.GetComponentInChildren<Scrollbar>().value = 0;
+        chatMessege.GetComponentInChildren<TextMeshProUGUI>().text = "[" + GameTime.Clock.CurrentTimeFormat+ "]" + text;
+        PlayerChatLog.Instance.Reset();
     }
 
     public static IEnumerator WakeUpHospital()

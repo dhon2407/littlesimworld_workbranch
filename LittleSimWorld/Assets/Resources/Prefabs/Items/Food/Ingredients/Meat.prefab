@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3677589716585468470}
   - component: {fileID: 4856611021547612414}
-  - component: {fileID: 6302282007685739802}
+  - component: {fileID: 1121283348898643457}
   - component: {fileID: 3555186301267245542}
   - component: {fileID: 536913348569712853}
   - component: {fileID: -8656026511052493231}
   m_Layer: 10
-  m_Name: Meat OLD
+  m_Name: Meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &6302282007685739802
-PolygonCollider2D:
+--- !u!61 &1121283348898643457
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,19 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.3851016, y: 0.5541893}
-      - {x: 0.3429798, y: 0.6092717}
-      - {x: -0.3309689, y: 0.6092717}
-      - {x: -0.3666104, y: 0.58011043}
-      - {x: -0.37633082, y: 0.5574295}
-      - {x: -0.3828111, y: 0.53798866}
-      - {x: -0.3828111, y: 0.07464895}
-      - {x: -0.3244886, y: 0.00012577683}
-      - {x: 0.30409813, y: 0.00012577683}
-      - {x: 0.3527002, y: 0.035767294}
-      - {x: 0.3851016, y: 0.11677074}
+  serializedVersion: 2
+  m_Size: {x: 0.58852774, y: 0.46565828}
+  m_EdgeRadius: 0
 --- !u!50 &3555186301267245542
 Rigidbody2D:
   serializedVersion: 4
@@ -132,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.10218918
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -174,4 +164,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fc6be985fb44a4dbbc6831d059b696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 04addfee21f9ccb499f092ffc2f751fc, type: 2}
+  itemData: {fileID: 11400000, guid: 0a3f06ddeb1c11d4f811b23ac8bf4fd2, type: 2}

@@ -30,8 +30,6 @@ namespace InventorySystem
                     RemoveCurrentItemWith(item);
                 else
                     PlaceItem(item);
-
-                onDropEvent.Invoke(this);
             }
         }
 
@@ -51,7 +49,7 @@ namespace InventorySystem
             var currentItemSlot = GetSlot();
             var newItemSlot = item.GetSlot();
 
-            if (currentItemSlot.Same(newItemSlot))
+            if (currentItemSlot.Same(newItemSlot) && currentItemSlot.Stackable && !currentItemSlot.MaxStack)
                 currentItemSlot.Add(newItemSlot);
             else
             {
@@ -71,6 +69,7 @@ namespace InventorySystem
             slot.transform.SetParent(transform);
             
             item.Dropped();
+            onDropEvent.Invoke(this);
         }
 
         private bool isEmpty()

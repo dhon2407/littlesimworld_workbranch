@@ -30,14 +30,10 @@ namespace UI.Cooking {
 			ClearAllButton.onClick.AddListener(ClearSlots);
 		}
 
-		void Update() {
-			EvaluateSlotState();	
-		}
-
 		void EvaluateSlotState() {
-			Slot1.gameObject.SetActive(true);
-			Slot2.gameObject.SetActive(Slot2.isAvailableForPlayer);
-			Slot3.gameObject.SetActive(Slot3.isAvailableForPlayer);
+			Slot1.GreyedOut(true);
+			Slot2.GreyedOut(Slot2.isAvailableForPlayer);
+			Slot3.GreyedOut(Slot3.isAvailableForPlayer);
 		}
 		public void ClearSlots() {
 			Slot1.ClearSlot();
@@ -80,9 +76,14 @@ namespace UI.Cooking {
             }
 
             if (CurrentMenuState == MenuState.Open)
+            {
+                EvaluateSlotState();
                 InventorySystem.Inventory.SetBagItemActions(StoveManager.instance.PlaceItemOnSlot);
+            }
             else
+            {
                 InventorySystem.Inventory.SetBagItemActions(null);
+            }
 
             ClearSlots();
 

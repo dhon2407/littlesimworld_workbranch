@@ -12,59 +12,85 @@ public class InteractionChecker : MonoBehaviour
     public static InteractionChecker Instance;
     public AnimationCurve jumpCurve;
     private int currentFrames;
-    public Outline lastHighlightedObject;
+
+    public Outline lastHighlightedObject_Closest;
+	public Outline lastHighlightedObject_Mouse;
+
 	public float JumpSpeed = 1.8f; // Per Second
+
+	ContactFilter2D contactFilter;
+	Camera mainCamera;
 
     private void Awake()
     {
-        Instance = this;
+		Instance = this;
     }
 
-    void Update()
+	void Start() {
+		mainCamera = Camera.main;
+		contactFilter = new ContactFilter2D();
+		contactFilter.SetLayerMask(GameLibOfMethods.Instance.InteractablesLayer);
+	}
+
+	void Update()
     {
-		if (Input.GetKeyUp(KeyToInteract)) { CheckClickedInteractable(); }
+		if (Input.GetKeyUp(KeyToInteract)) {
+			if (GameLibOfMethods.isSleeping || !GameLibOfMethods.canInteract || GameLibOfMethods.doingSomething) { return; }
+			GameObject interactableObject = GameLibOfMethods.CheckInteractable();
+			InteractWith(interactableObject);
+		}
 
-		CheckHighlights();
+		ApplyHighlights();
     }
 
 
-	void CheckHighlights() {
+	void ApplyHighlights() {
+		HighlightClosest();
+		HighlightMouseOver();
+	}
 
+	void HighlightClosest() {
 		if (!GameLibOfMethods.player || GameLibOfMethods.doingSomething || !GameLibOfMethods.canInteract) {
-			if (lastHighlightedObject) {
-				lastHighlightedObject.isMouseOver = false;
-				lastHighlightedObject = null;
+			if (lastHighlightedObject_Closest) {
+				lastHighlightedObject_Closest.isMouseOver = false;
+				lastHighlightedObject_Closest = null;
 			}
-
 			return;
 		}
 
-		//currentFrames++;
-		//
-		//if (currentFrames <= 20) { return; }
-
-		var highlight = GameLibOfMethods.CheckInteractable()?.GetComponent<Outline>();
+		// Check for CLOSEST Interactables
+		var highlight = CheckClosestInteractable();
 		if (highlight) {
-
-			if (lastHighlightedObject && lastHighlightedObject != highlight) { lastHighlightedObject.isMouseOver = false; }
+			if (lastHighlightedObject_Closest && lastHighlightedObject_Closest != highlight) { lastHighlightedObject_Closest.isMouseOver = false; }
 
 			highlight.isMouseOver = true;
-			lastHighlightedObject = highlight;
+			lastHighlightedObject_Closest = highlight;
 		}
-		else if (lastHighlightedObject) {
-			lastHighlightedObject.isMouseOver = false;
-			lastHighlightedObject = null;
+		else if (lastHighlightedObject_Closest) {
+			lastHighlightedObject_Closest.isMouseOver = false;
+			lastHighlightedObject_Closest = null;
 		}
-
-		//currentFrames = 0;
 	}
 
-	void CheckClickedInteractable() {
+	void HighlightMouseOver() {
+		// Check for MOUSE Interactables
+		var highlight_mouse = CheckMouseOverInteractable();
+		if (highlight_mouse) {
+			if (lastHighlightedObject_Mouse && lastHighlightedObject_Mouse != highlight_mouse) { lastHighlightedObject_Mouse.isMouseOver = false; }
 
-		if (GameLibOfMethods.isSleeping || !GameLibOfMethods.canInteract || GameLibOfMethods.doingSomething) { return; }
+			highlight_mouse.isMouseOver = true;
+			lastHighlightedObject_Mouse = highlight_mouse;
+
+		}
+		else if (lastHighlightedObject_Mouse) {
+			lastHighlightedObject_Mouse.isMouseOver = false;
+			lastHighlightedObject_Mouse = null;
+		}
+	}
+
+	public void InteractWith(GameObject interactableObject) {
 
 		GameTime.Clock.ResetSpeed();
-		GameObject interactableObject = GameLibOfMethods.CheckInteractable();
 
 		if (interactableObject) {
 			if (interactableObject.GetComponent<BreakableFurniture>() && !interactableObject.GetComponent<BreakableFurniture>().isBroken && !GameLibOfMethods.doingSomething) {
@@ -88,6 +114,10 @@ public class InteractionChecker : MonoBehaviour
             {
                 InventorySystem.Shop.OpenCloseShop(interactableObject.GetComponent<ShopList>(), interactableObject.name);
             }
+            else if (interactableObject.GetComponent<InventorySystem.Item>())
+            {
+                Inventory.PlaceOnBag(interactableObject.GetComponent<InventorySystem.Item>());
+            }
             else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>()) {
 				AtommInventory.Instance.CheckRaycast();
 			}
@@ -99,7 +129,55 @@ public class InteractionChecker : MonoBehaviour
 			}
 		}
 	}
-    public void ResetPlayer()
+
+	Outline CheckClosestInteractable() {
+
+		int layerMask = 1 << 10 | 1 << 11;
+
+		var player = GameLibOfMethods.player;
+		var playerPos = player.transform.position;
+
+		var colliders = new List<Collider2D>();
+
+		Physics2D.OverlapCircle(player.transform.position + (GameLibOfMethods.facingDir * 0.3f), 0.5f, contactFilter, colliders);
+
+		colliders.Sort(delegate (Collider2D a, Collider2D b) {
+			return Vector2.Distance(playerPos, a.transform.position).CompareTo(Vector2.Distance(playerPos, b.transform.position));
+		});
+
+		RaycastHit2D hit = new RaycastHit2D();
+
+		foreach (Collider2D collider in colliders) {
+			hit = Physics2D.Raycast(GameLibOfMethods.checkRaycastOrigin.transform.position, (collider.bounds.ClosestPoint(playerPos) - playerPos).normalized, 1000, layerMask);
+
+			if (hit.collider == collider) {
+				var interactable = collider.GetComponent<Outline>();
+				if (interactable == null) { continue; }
+
+				return interactable;
+			}
+		}
+
+		return null;
+	}
+
+	Outline CheckMouseOverInteractable() {
+
+		var pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+		var colliders = new List<Collider2D>();
+
+		Physics2D.OverlapCircle(pos, 0.1f, contactFilter, colliders);
+
+		foreach (Collider2D collider in colliders) {
+			var interactable = collider.GetComponent<Outline>();
+			if (interactable == null) { continue; }
+
+			return interactable;
+		}
+		return null;
+	}
+
+	public void ResetPlayer()
     {
         PlayerAnimationHelper.ResetPlayer();
     }

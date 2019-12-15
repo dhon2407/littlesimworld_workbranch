@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Fish Omelette
   m_EditorClassIdentifier: 
   code: 16
+  kind: 0
   name: Fish Omelette
   icon: {fileID: -1140808029566774319, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Yummy!
-  isStackable: 0
-  maxStack: 0
+  Description: You can't go wrong with tuna or salmon in an omelette.
+  droppable: 1
+  isStackable: 1
+  maxStack: 99
   price: 0
   UsageSound: {fileID: 8300000, guid: a6f2bab243e01d347b95f4958a61a706, type: 3}
   UsageTime: 4.5

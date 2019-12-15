@@ -81,7 +81,7 @@ namespace InventorySystem
 
             ExecuteUpgrades();
 
-            Close();
+            Shop.CloseUpgradeShop();
         }
 
         private void ExecuteUpgrades()

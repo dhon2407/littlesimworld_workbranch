@@ -97,7 +97,6 @@ namespace InventorySystem
                 audioSource.clip = clip;
                 audioSource.Play();
             }
-
         }
 
         public void SetFoodInHand(Sprite sprite)
@@ -117,7 +116,8 @@ namespace InventorySystem
 
         public void HideBag()
         {
-            playerInventory.Hide();
+            //Hiding inventory not on design
+            //playerInventory.Hide();
         }
 
         public void SetBagItemActions(UnityEngine.Events.UnityAction<ItemSlot> action)
@@ -128,6 +128,11 @@ namespace InventorySystem
         public void ResetBagActions()
         {
             playerInventory.UpdateSlotUseActions();
+        }
+
+        public void PickupItem(Item item)
+        {
+            playerInventory.PickupItem(item);
         }
 
         private void PutInCurrentContainer(ItemSlot itemSlot)
@@ -178,7 +183,6 @@ namespace InventorySystem
                     throw new UnityException("No sound clip for " + sound);
             }
         }
-
     }
 
     public static class Inventory
@@ -274,6 +278,11 @@ namespace InventorySystem
         public static void SFX(Sound sound)
         {
             controller.PlaySFX(sound);
+        }
+
+        public static void PlaceOnBag(Item item)
+        {
+            controller.PickupItem(item);
         }
 
         public enum Sound

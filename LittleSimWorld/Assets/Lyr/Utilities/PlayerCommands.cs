@@ -86,6 +86,8 @@ public static class PlayerCommands {
 		GameLibOfMethods.canInteract = false;
 		GameLibOfMethods.cantMove = true;
 
+		GameLibOfMethods.animator.SetBool("Walking", true);
+
 		float T = 0;
 
 		Vector2 temp = GameLibOfMethods.player.transform.position;
@@ -108,6 +110,8 @@ public static class PlayerCommands {
 
 			yield return 0f;
 		}
+
+		GameLibOfMethods.animator.SetBool("Walking", false);
 
 		callback?.Invoke();
 		LastPositionBeforeWalk = StartPosition;

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Beer
   m_EditorClassIdentifier: 
   code: 33
+  kind: 0
   name: Beer
   icon: {fileID: -6571421674158897374, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
   Description: Cheers!
+  droppable: 1
   isStackable: 1
-  maxStack: 6
+  maxStack: 99
   price: 1
   UsageSound: {fileID: 8300000, guid: f9d7c46f480806f4889a25feaa80de9a, type: 3}
   UsageTime: 4.5

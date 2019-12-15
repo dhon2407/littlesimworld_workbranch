@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1875562777964022461}
   - component: {fileID: 7667413318568439925}
-  - component: {fileID: 9113049429580508561}
+  - component: {fileID: -9112287842715266456}
   - component: {fileID: 4368114374393320957}
   - component: {fileID: 6043748102045442197}
   - component: {fileID: 8378539692032652673}
   m_Layer: 10
-  m_Name: Coke Diet OLD
+  m_Name: Cork Diet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &9113049429580508561
-PolygonCollider2D:
+--- !u!61 &-9112287842715266456
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,28 +109,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.24454235, y: 0.17174263}
-      - {x: 0.24454235, y: 0.44067407}
-      - {x: 0.21862125, y: 0.49251628}
-      - {x: 0.13113753, y: 0.5897204}
-      - {x: 0.076055184, y: 0.60916126}
-      - {x: 0.04365381, y: 0.61240137}
-      - {x: -0.05355033, y: 0.61240137}
-      - {x: -0.09567212, y: 0.602681}
-      - {x: -0.17667556, y: 0.5411183}
-      - {x: -0.22851777, y: 0.45363462}
-      - {x: -0.23499805, y: 0.4277135}
-      - {x: -0.23499805, y: 0.16202222}
-      - {x: -0.21555722, y: 0.11666029}
-      - {x: -0.14427419, y: 0.035656843}
-      - {x: -0.072991155, y: 0.0032554644}
-      - {x: -0.05355033, y: 0.00001532658}
-      - {x: 0.06633477, y: 0.00001532658}
-      - {x: 0.10845657, y: 0.012975878}
-      - {x: 0.15057835, y: 0.03889698}
-      - {x: 0.21862125, y: 0.11018001}
+  serializedVersion: 2
+  m_Size: {x: 0.32621625, y: 0.41492507}
+  m_EdgeRadius: 0
 --- !u!50 &4368114374393320957
 Rigidbody2D:
   serializedVersion: 4
@@ -142,8 +123,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.052888438
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

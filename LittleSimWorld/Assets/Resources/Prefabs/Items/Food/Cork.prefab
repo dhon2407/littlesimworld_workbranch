@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4437698358148628649}
   - component: {fileID: 5618968994899556961}
-  - component: {fileID: 6479139866906847109}
+  - component: {fileID: 7743682160316939888}
   - component: {fileID: 801035884931909997}
   - component: {fileID: 1596567969616072668}
   - component: {fileID: -7758933731371056695}
   m_Layer: 10
-  m_Name: Coke OLD
+  m_Name: Cork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &6479139866906847109
-PolygonCollider2D:
+--- !u!61 &7743682160316939888
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,28 +109,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.2420069, y: 0.17460045}
-      - {x: 0.2420069, y: 0.45001215}
-      - {x: 0.18368441, y: 0.53425574}
-      - {x: 0.12536193, y: 0.58609796}
-      - {x: 0.07351972, y: 0.61201906}
-      - {x: -0.049605515, y: 0.61201906}
-      - {x: -0.08848717, y: 0.6022986}
-      - {x: -0.12736882, y: 0.5796177}
-      - {x: -0.16625048, y: 0.540736}
-      - {x: -0.20513213, y: 0.49213395}
-      - {x: -0.22457296, y: 0.45973256}
-      - {x: -0.23753351, y: 0.4176108}
-      - {x: -0.23753351, y: 0.16488004}
-      - {x: -0.21485254, y: 0.10331741}
-      - {x: -0.1338491, y: 0.022313967}
-      - {x: -0.0658062, y: -0.0003669974}
-      - {x: 0.067039445, y: -0.0003669974}
-      - {x: 0.10916124, y: 0.009353416}
-      - {x: 0.18368441, y: 0.061195623}
-      - {x: 0.22256607, y: 0.1195181}
+  serializedVersion: 2
+  m_Size: {x: 0.32165456, y: 0.41158006}
+  m_EdgeRadius: 0
 --- !u!50 &801035884931909997
 Rigidbody2D:
   serializedVersion: 4
@@ -142,8 +123,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.05298733
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

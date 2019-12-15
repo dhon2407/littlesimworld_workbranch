@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Roast Dinner
   m_EditorClassIdentifier: 
   code: 26
+  kind: 0
   name: Roast Dinner
   icon: {fileID: 5071580899070854353, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Yummy!
-  isStackable: 0
-  maxStack: 0
+  Description: The perfect roast dinner, absolutely delicious!
+  droppable: 1
+  isStackable: 1
+  maxStack: 99
   price: 0
   UsageSound: {fileID: 8300000, guid: a6f2bab243e01d347b95f4958a61a706, type: 3}
   UsageTime: 4.5

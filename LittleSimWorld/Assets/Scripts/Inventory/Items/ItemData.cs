@@ -11,6 +11,8 @@ namespace InventorySystem
         public Sprite icon;
         public string Description;
         [Space]
+        public bool droppable;
+        [Space]
         public bool isStackable;
         public int maxStack;
         [Space]

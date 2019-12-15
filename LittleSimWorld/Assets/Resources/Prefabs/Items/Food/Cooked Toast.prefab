@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 857461010978412096}
   - component: {fileID: 8901674303951400072}
-  - component: {fileID: 8041467936182432108}
+  - component: {fileID: -893266679596497387}
   - component: {fileID: 7536500158310711289}
   - component: {fileID: 3607292269378437060}
   - component: {fileID: -6675821876385793225}
   m_Layer: 10
-  m_Name: Cooked Toast OLD
+  m_Name: Cooked Toast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &8041467936182432108
-PolygonCollider2D:
+--- !u!61 &-893266679596497387
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,47 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.30194944, y: 0.08810351}
-      - {x: 0.3311107, y: 0.11078447}
-      - {x: 0.38619304, y: 0.16586682}
-      - {x: 0.40563384, y: 0.19502805}
-      - {x: 0.43155494, y: 0.25659066}
-      - {x: 0.43803522, y: 0.29871246}
-      - {x: 0.43803522, y: 0.38943633}
-      - {x: 0.42507467, y: 0.4477588}
-      - {x: 0.38619304, y: 0.51256156}
-      - {x: 0.35055152, y: 0.5546833}
-      - {x: 0.29546916, y: 0.59680516}
-      - {x: 0.26306778, y: 0.6194861}
-      - {x: 0.19826503, y: 0.6518875}
-      - {x: 0.15938337, y: 0.6616079}
-      - {x: 0.12374186, y: 0.6713283}
-      - {x: 0.084860206, y: 0.6778086}
-      - {x: 0.058939103, y: 0.68104875}
-      - {x: -0.057705857, y: 0.68104875}
-      - {x: -0.09658751, y: 0.6745685}
-      - {x: -0.14518958, y: 0.6680882}
-      - {x: -0.2326733, y: 0.6356868}
-      - {x: -0.2845155, y: 0.60652554}
-      - {x: -0.36227882, y: 0.53524256}
-      - {x: -0.39144006, y: 0.49636087}
-      - {x: -0.41412103, y: 0.46071935}
-      - {x: -0.4303217, y: 0.39915675}
-      - {x: -0.4303217, y: 0.27279136}
-      - {x: -0.41736117, y: 0.23066957}
-      - {x: -0.38171965, y: 0.1723471}
-      - {x: -0.3525584, y: 0.13346544}
-      - {x: -0.29099578, y: 0.081623234}
-      - {x: -0.25535426, y: 0.062182404}
-      - {x: -0.19703178, y: 0.0362613}
-      - {x: -0.16139027, y: 0.020060614}
-      - {x: -0.06742627, y: 0.0006197871}
-      - {x: 0.06217924, y: 0.0006197871}
-      - {x: 0.12050172, y: 0.007100063}
-      - {x: 0.21446572, y: 0.0362613}
-      - {x: 0.2727882, y: 0.06866268}
+  serializedVersion: 2
+  m_Size: {x: 0.573698, y: 0.44809723}
+  m_EdgeRadius: 0
 --- !u!50 &7536500158310711289
 Rigidbody2D:
   serializedVersion: 4
@@ -160,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.0995196
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

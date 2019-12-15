@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3168193452318511737}
   - component: {fileID: 6600278736036866225}
-  - component: {fileID: 5731102569626645845}
+  - component: {fileID: 2565195750068758030}
   - component: {fileID: 746072157029625896}
   - component: {fileID: 3614954226844437067}
   - component: {fileID: -3925833335340658720}
   m_Layer: 10
-  m_Name: Bread OLD
+  m_Name: Bread
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &5731102569626645845
-PolygonCollider2D:
+--- !u!61 &2565195750068758030
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,44 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.2119954, y: 0.8647608}
-      - {x: -0.2541172, y: 0.8161588}
-      - {x: -0.2541172, y: 0.061206646}
-      - {x: -0.21523553, y: 0.0061243037}
-      - {x: -0.1957947, y: -0.00035597218}
-      - {x: 0.22218308, y: -0.00035597218}
-      - {x: 0.2578246, y: 0.05148623}
-      - {x: 0.2578246, y: 0.8096785}
-      - {x: 0.22218308, y: 0.8647608}
-    - - {x: -0.22171581, y: 0.1000883}
-      - {x: -0.22171581, y: 0.7545961}
-      - {x: -0.19255456, y: 0.8161588}
-      - {x: -0.16663347, y: 0.8291193}
-      - {x: 0.17034087, y: 0.8291193}
-      - {x: 0.22542322, y: 0.7578363}
-      - {x: 0.22866336, y: 0.7578363}
-      - {x: 0.22542322, y: 0.106568575}
-      - {x: 0.19626197, y: 0.048246097}
-      - {x: 0.15738031, y: 0.032045405}
-      - {x: -0.14719264, y: 0.032045405}
-    - - {x: 0.21246266, y: 0.76755667}
-      - {x: 0.15414017, y: 0.8161588}
-      - {x: 0.12821908, y: 0.8161588}
-      - {x: 0.10553811, y: 0.8193989}
-      - {x: -0.13099195, y: 0.8193989}
-      - {x: -0.14719264, y: 0.8096785}
-      - {x: -0.17311375, y: 0.79671794}
-      - {x: -0.19903484, y: 0.77079684}
-      - {x: -0.21847567, y: 0.73515534}
-      - {x: -0.21847567, y: 0.11628899}
-      - {x: -0.20227498, y: 0.07092706}
-      - {x: -0.16987361, y: 0.04500596}
-      - {x: 0.173581, y: 0.04500596}
-      - {x: 0.19950211, y: 0.0741672}
-      - {x: 0.22218308, y: 0.11628899}
-      - {x: 0.22218308, y: 0.73839545}
+  serializedVersion: 2
+  m_Size: {x: 0.41663635, y: 0.7058684}
+  m_EdgeRadius: 0
 --- !u!50 &746072157029625896
 Rigidbody2D:
   serializedVersion: 4
@@ -157,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.08841922
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -199,4 +164,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fc6be985fb44a4dbbc6831d059b696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 913c9f6eff141f24584ffc4b706d25e2, type: 2}
+  itemData: {fileID: 11400000, guid: cb96cfc92b996bc47a7b250187c0dde5, type: 2}

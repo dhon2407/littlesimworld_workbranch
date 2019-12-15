@@ -35,17 +35,36 @@ namespace InventorySystem
 
         public void AddItem(ItemList.ItemInfo itemInfo)
         {
-            var newItem = NextEmptyCell().SetItem(Inventory.CreateItem(itemInfo.itemCode), itemInfo.count);
-            if (openBagSlotAction != null)
-                newItem.SetSelfAction(openBagSlotAction);
-            else
-                newItem.SetUseAction();
-                
+            int maxStack = Inventory.CreateItem(itemInfo.itemCode).Data.maxStack;
+            int remainingCount = itemInfo.count;
+
+            while (remainingCount > 0)
+            {
+                int bundleCount = Mathf.Clamp(remainingCount, 0, maxStack);
+                var newItem = NextEmptyCell().SetItem(Inventory.CreateItem(itemInfo.itemCode), bundleCount);
+                if (openBagSlotAction != null)
+                    newItem.SetSelfAction(openBagSlotAction);
+                else
+                    newItem.SetUseAction();
+
+                remainingCount -= bundleCount;
+            }
         }
 
         public bool CanFit(List<ItemList.ItemInfo> itemlist)
         {
-            int slotToTake = itemlist.Count;
+            int slotToTake = 0;
+
+            foreach (var item in itemlist)
+            {
+                slotToTake++;
+                int maxStack = Inventory.CreateItem(item.itemCode).Data.maxStack;
+                if (item.count > maxStack)
+                {
+                    int extra = item.count - maxStack;
+                    slotToTake += Mathf.CeilToInt((float)extra / maxStack);
+                }
+            }
 
             foreach (var item in itemlist)
                 if (Contains(item.itemCode))
@@ -63,6 +82,25 @@ namespace InventorySystem
                 else
                     AddItem(item);
             }
+        }
+
+        public void PickupItem(Item item)
+        {
+            if (IsFull(item.Code) && !Contains(item.Code))
+            {
+                GameLibOfMethods.CreateFloatingText("Not enough space in inventory", 2);
+            }
+            else
+            {
+                AddItem(new ItemList.ItemInfo
+                {
+                    itemCode = item.Code,
+                    count = item.Count
+                });
+
+                Destroy(item.gameObject);
+            }
+                
         }
 
         public void RemoveItems(List<ItemList.ItemInfo> itemlist)
@@ -115,10 +153,17 @@ namespace InventorySystem
             return itemCells.Count(cell => cell.Type != Droppable.CellType.TrashBin && cell.Empty);
         }
 
+        protected override void Start()
+        {
+            base.Start();
+            Show();
+        }
+
         private void Update()
         {
+#if ITEM_INVENTORY_HIDE_SUPPORTED
             if (!Inventory.Ready) return;
-             
+
             if (Input.GetKeyDown(functionKey))
             {
                 if (closed)
@@ -126,6 +171,7 @@ namespace InventorySystem
                 else
                     Hide();
             }
+#endif
         }
     }
 }

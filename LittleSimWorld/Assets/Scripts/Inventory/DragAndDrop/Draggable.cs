@@ -87,7 +87,18 @@ namespace InventorySystem
         {
             if (icon != null)
             {
-                Inventory.SFX(Inventory.Sound.Cancelled);
+                if (eventData.hovered.Count == 0)
+                {
+                    var slot = GetSlot();
+                    if (slot != null && slot.Droppable)
+                        slot.DropItem().transform.position = GameLibOfMethods.player.transform.position;
+
+                    Inventory.SFX(Inventory.Sound.Drop);
+                }
+                else
+                {
+                    Inventory.SFX(Inventory.Sound.Cancelled);
+                }
                 Clear();
             }
         }

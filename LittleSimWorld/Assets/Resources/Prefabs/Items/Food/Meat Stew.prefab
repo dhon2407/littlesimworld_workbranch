@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1018804278903234414}
   - component: {fileID: 9100874049777542566}
-  - component: {fileID: 7664244055691868226}
+  - component: {fileID: -7739082511589141551}
   - component: {fileID: 4985573002202735495}
   - component: {fileID: 2630721861186626365}
   - component: {fileID: 844153674209854051}
   m_Layer: 10
-  m_Name: Meat Stew OLD
+  m_Name: Meat Stew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &7664244055691868226
-PolygonCollider2D:
+--- !u!61 &-7739082511589141551
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,38 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.2987093, y: 0.16911645}
-      - {x: 0.3311107, y: 0.25336003}
-      - {x: 0.33435082, y: 0.28900155}
-      - {x: 0.33435082, y: 0.37324512}
-      - {x: 0.31166986, y: 0.44128802}
-      - {x: 0.25334737, y: 0.5093309}
-      - {x: 0.20798545, y: 0.53849214}
-      - {x: 0.14318268, y: 0.5676534}
-      - {x: 0.09458062, y: 0.580614}
-      - {x: 0.052458826, y: 0.58709425}
-      - {x: -0.051225584, y: 0.58709425}
-      - {x: -0.0868671, y: 0.580614}
-      - {x: -0.14518958, y: 0.56441325}
-      - {x: -0.20027192, y: 0.53849214}
-      - {x: -0.2326733, y: 0.5222915}
-      - {x: -0.30395633, y: 0.44452816}
-      - {x: -0.32339716, y: 0.39916623}
-      - {x: -0.3266373, y: 0.36676484}
-      - {x: -0.3266373, y: 0.27280086}
-      - {x: -0.31691688, y: 0.22743893}
-      - {x: -0.28775564, y: 0.16911645}
-      - {x: -0.26183453, y: 0.13347493}
-      - {x: -0.22295289, y: 0.088113}
-      - {x: -0.16787055, y: 0.04599121}
-      - {x: -0.1127882, y: 0.01682997}
-      - {x: -0.05446572, y: 0.0038694176}
-      - {x: 0.068659514, y: 0.0038694176}
-      - {x: 0.13670242, y: 0.023310244}
-      - {x: 0.20798545, y: 0.065432034}
-      - {x: 0.2727882, y: 0.1302348}
+  serializedVersion: 2
+  m_Size: {x: 0.4297515, y: 0.37867713}
+  m_EdgeRadius: 0
 --- !u!50 &4985573002202735495
 Rigidbody2D:
   serializedVersion: 4
@@ -151,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.0650162
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

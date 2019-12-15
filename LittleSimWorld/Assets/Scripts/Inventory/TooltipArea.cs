@@ -6,7 +6,7 @@ namespace InventorySystem
 {
     public class TooltipArea : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private const float ShowDelay = 0.6f;
+        private const float ShowDelay = 0.2f;
         private bool onHover;
 
         new private string name = "Name";

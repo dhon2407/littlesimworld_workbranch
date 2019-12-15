@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1977777524667076672}
   - component: {fileID: 5764577601045471315}
-  - component: {fileID: 143714183098830790}
+  - component: {fileID: 1956124689674176234}
   - component: {fileID: 8272378751469666135}
   - component: {fileID: 5822488819173933777}
   - component: {fileID: 6349090251363168414}
   m_Layer: 10
-  m_Name: Egg on Toast OLD
+  m_Name: Egg on Toast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &143714183098830790
-PolygonCollider2D:
+--- !u!61 &1956124689674176234
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,48 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.2736117, y: 0.06768732}
-      - {x: 0.3351743, y: 0.116289385}
-      - {x: 0.3772961, y: 0.16165131}
-      - {x: 0.39997706, y: 0.1940527}
-      - {x: 0.4291383, y: 0.25561532}
-      - {x: 0.43561858, y: 0.27829626}
-      - {x: 0.43561858, y: 0.3917011}
-      - {x: 0.43237844, y: 0.40466166}
-      - {x: 0.42265803, y: 0.43706304}
-      - {x: 0.39997706, y: 0.48890522}
-      - {x: 0.38053623, y: 0.51806647}
-      - {x: 0.32869402, y: 0.57314885}
-      - {x: 0.29953277, y: 0.5990699}
-      - {x: 0.21852934, y: 0.6444318}
-      - {x: 0.163447, y: 0.66387266}
-      - {x: 0.111604795, y: 0.6735931}
-      - {x: 0.05004217, y: 0.6833135}
-      - {x: -0.060122512, y: 0.6833135}
-      - {x: -0.10872458, y: 0.6735931}
-      - {x: -0.1702872, y: 0.66063255}
-      - {x: -0.20916885, y: 0.647672}
-      - {x: -0.2966526, y: 0.5990699}
-      - {x: -0.3225737, y: 0.57638896}
-      - {x: -0.38089615, y: 0.51482636}
-      - {x: -0.40681726, y: 0.46946442}
-      - {x: -0.4197778, y: 0.4500236}
-      - {x: -0.43273836, y: 0.39818138}
-      - {x: -0.43273836, y: 0.27505612}
-      - {x: -0.4197778, y: 0.24265476}
-      - {x: -0.39709684, y: 0.1940527}
-      - {x: -0.36469546, y: 0.14869076}
-      - {x: -0.32581383, y: 0.11304925}
-      - {x: -0.27721176, y: 0.074167594}
-      - {x: -0.1800076, y: 0.025565526}
-      - {x: -0.10548444, y: 0.006124699}
-      - {x: -0.06336265, y: 0.0028845612}
-      - {x: 0.072723135, y: 0.0028845612}
-      - {x: 0.12780549, y: 0.009364837}
-      - {x: 0.163447, y: 0.022325387}
-      - {x: 0.2152892, y: 0.041766215}
+  serializedVersion: 2
+  m_Size: {x: 0.5820081, y: 0.45725936}
+  m_EdgeRadius: 0
 --- !u!50 &8272378751469666135
 Rigidbody2D:
   serializedVersion: 4
@@ -161,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.09936798
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

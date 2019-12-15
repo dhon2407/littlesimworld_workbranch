@@ -46,6 +46,12 @@ public static class PlayerAnimationHelper
         ResetAnimations();
 	}
 
+	public static void StopPlayer() {
+		GameLibOfMethods.cantMove = true;
+		GameLibOfMethods.canInteract = false;
+		GameLibOfMethods.doingSomething = true;
+	}
+
 	public static void HandlePlayerFacing() {
 		if (GameLibOfMethods.animator.GetFloat("Vertical") < 0) {
 			SpriteControler.Instance.FaceDOWN();

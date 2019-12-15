@@ -8,8 +8,7 @@ namespace CharacterStats
 {
     public class StatData : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-
-        [SerializeField] string description;
+        public string description;
         public bool showXp;
         public TextMeshProUGUI XpText;
       

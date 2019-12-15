@@ -26,6 +26,10 @@ namespace InventorySystem
         public ItemCode CurrentItemCode => itemInside.Code;
         public ItemData CurrentItemData => itemInside.Data;
         public int Quantity => currentQty;
+        public Item ItemInside => itemInside;
+        public bool Droppable => CurrentItemData.droppable;
+        public bool Stackable => CurrentItemData.isStackable;
+        public bool MaxStack => currentQty >= CurrentItemData.maxStack;
 
         public void SetSelfAction(UnityAction<ItemSlot> action)
         {
@@ -65,27 +69,27 @@ namespace InventorySystem
         {
             name = itemInside.name;
             icon.sprite = itemInside.Data.icon;
-            UpdateQtyDisplay();
+            UpdateQty();
             UpdateTooltip();
         }
 
         public void Add(ItemSlot newItemSlot)
         {
             currentQty += newItemSlot.currentQty;
-            UpdateQtyDisplay();
+            UpdateQty();
             newItemSlot.Delete();
         }
 
         public void Add(int quantity)
         {
             currentQty += quantity;
-            UpdateQtyDisplay();
+            UpdateQty();
         }
 
         public ItemSlot SetItem(Item item, int quantity)
         {
             itemInside = item;
-            currentQty = quantity;
+            currentQty = Mathf.Clamp(quantity, 1, item.Data.maxStack);
 
             RefreshItem();
 
@@ -109,7 +113,7 @@ namespace InventorySystem
             if (currentQty <= 0)
                 Destroy(gameObject);
             else
-                UpdateQtyDisplay();
+                UpdateQty();
         }
 
         private void UseItem()
@@ -135,6 +139,15 @@ namespace InventorySystem
             }
         }
 
+        public Item DropItem()
+        {
+            Item newItem = Instantiate(itemInside);
+            newItem.SetQuantity(currentQty);
+            Destroy(gameObject);
+
+            return newItem;
+        }
+
         private IEnumerator StartCooldown(float cooldownTime)
         {
             if (currentQty <= 0) yield return null;
@@ -153,8 +166,10 @@ namespace InventorySystem
             onCoolDown = false;
         }
 
-        private void UpdateQtyDisplay()
+        private void UpdateQty()
         {
+            itemInside.SetQuantity(currentQty);
+
             quantity.text = (currentQty > 1) ? currentQty.ToString("0") : string.Empty;
             quantity.transform.parent.localScale = (quantity.text == string.Empty) ? Vector3.zero : Vector3.one;
         }

@@ -29,7 +29,10 @@ namespace InventorySystem
                         ItemUpgradable newItemData = tierlist.Find(tier => tier.code == itemCode);
                         GameObject currentItemObject = ItemGameObjects.Find(itemObj => itemObj.type == itemType).targetItem;
                         GameObject newItemObject = Instantiate(newItemData.upgradesInto, currentItemObject.transform);
-                        newItemObject.name = currentItemObject.name;
+
+                        var oldObject = currentItemObject.transform.GetChild(0);
+                        if (oldObject != null)
+                            Destroy(oldObject.gameObject);
 
                         currentUpgrades[GetUpgradeType(itemCode)] = itemCode;
 

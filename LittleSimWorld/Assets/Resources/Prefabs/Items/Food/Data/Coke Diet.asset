@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Coke Diet
   m_EditorClassIdentifier: 
   code: 4
+  kind: 0
   name: Cork Diet
   icon: {fileID: 1338130529679900382, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Refreshing!
-  isStackable: 0
-  maxStack: 0
+  Description: A 'healthier' soft drink that is apparently low on calories.
+  droppable: 1
+  isStackable: 1
+  maxStack: 99
   price: 0
   UsageSound: {fileID: 8300000, guid: f9d7c46f480806f4889a25feaa80de9a, type: 3}
   UsageTime: 4.5

@@ -8,11 +8,19 @@ namespace InventorySystem
     {
         [SerializeField]
         private ItemData itemData = null;
+        private int quantity = 1;
+
+        public int Count => quantity;
 
         public Sprite Icon => itemData.icon;
         public string Name => itemData.name;
         public ItemCode Code => itemData.code;
         public ItemData Data => itemData;
+
+        public void SetQuantity(int currentQty)
+        {
+            quantity = currentQty;
+        }
 
         private void Awake()
         {

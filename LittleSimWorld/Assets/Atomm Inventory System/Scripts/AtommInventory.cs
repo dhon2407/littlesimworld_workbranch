@@ -95,7 +95,7 @@ public class AtommInventory : MonoBehaviour
     {
          
         
-        if(InteractionChecker.Instance.lastHighlightedObject?.gameObject != curentContainerWindowSource)
+        if(InteractionChecker.Instance.lastHighlightedObject_Closest?.gameObject != curentContainerWindowSource)
         {
             DestroyWindows();
         }

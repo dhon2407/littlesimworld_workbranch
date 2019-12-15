@@ -13,7 +13,7 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 
 	public float JumpOffSpeed = 5;
 
-	bool CanPlayerSleep => !GameLibOfMethods.doingSomething && PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
+	bool CanPlayerSleep => PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
 												PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
 												PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
 												PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f;
@@ -33,6 +33,8 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		var anim = GameLibOfMethods.animator;
 		anim.Play("PrepareToSleep");
 		GameLibOfMethods.animator.SetBool("Sleeping", true);
+		PlayerAnimationHelper.StopPlayer();
+		SpriteControler.Instance.FaceDOWN();
 
 		yield return 0f;
 

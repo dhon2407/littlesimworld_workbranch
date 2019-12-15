@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Veggy Sandwich
   m_EditorClassIdentifier: 
   code: 32
-  name: Veggy Sandwich
+  kind: 0
+  name: Veggie Sandwich
   icon: {fileID: 21300056, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Yummy!
-  isStackable: 0
-  maxStack: 0
+  Description: " This veggie sandwich is so packed with flavor you won\u2019t even
+    miss the meat!"
+  droppable: 1
+  isStackable: 1
+  maxStack: 99
   price: 0
   UsageSound: {fileID: 8300000, guid: a6f2bab243e01d347b95f4958a61a706, type: 3}
   UsageTime: 4.5

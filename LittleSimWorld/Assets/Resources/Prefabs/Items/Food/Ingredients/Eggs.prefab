@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 279345442791106252}
   - component: {fileID: 8326916644237696004}
-  - component: {fileID: 7466747694262075872}
+  - component: {fileID: -1926463193638174053}
   - component: {fileID: 4721634557909748307}
   - component: {fileID: 857149827366542609}
   - component: {fileID: 7368987646146592442}
   m_Layer: 10
-  m_Name: Eggs OLD
+  m_Name: Eggs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &7466747694262075872
-PolygonCollider2D:
+--- !u!61 &-1926463193638174053
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,27 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.35913062, y: 0.15221132}
-      - {x: 0.35913062, y: 0.5539884}
-      - {x: 0.35265037, y: 0.58962995}
-      - {x: 0.26840678, y: 0.64795244}
-      - {x: 0.21008429, y: 0.660913}
-      - {x: -0.17549211, y: 0.660913}
-      - {x: -0.2273343, y: 0.6576728}
-      - {x: -0.30833775, y: 0.62203133}
-      - {x: -0.3472194, y: 0.5863898}
-      - {x: -0.35693982, y: 0.5604687}
-      - {x: -0.35693982, y: 0.14249091}
-      - {x: -0.3472194, y: 0.1068494}
-      - {x: -0.21761389, y: 0.019365678}
-      - {x: -0.18521252, y: 0.01612554}
-      - {x: -0.0977288, y: -0.000075149685}
-      - {x: 0.090199195, y: -0.000075149685}
-      - {x: 0.16148223, y: 0.006405126}
-      - {x: 0.2619265, y: 0.04528678}
-      - {x: 0.34292996, y: 0.11656981}
+  serializedVersion: 2
+  m_Size: {x: 0.5255493, y: 0.484585}
+  m_EdgeRadius: 0
 --- !u!50 &4721634557909748307
 Rigidbody2D:
   serializedVersion: 4
@@ -140,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.09245369
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -182,4 +164,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fc6be985fb44a4dbbc6831d059b696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 5b1f16f1eb7edda4aa2ea5cc32c86e64, type: 2}
+  itemData: {fileID: 11400000, guid: f44f739398ef4f147a5b0284f19ca608, type: 2}

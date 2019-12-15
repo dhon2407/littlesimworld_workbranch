@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7818238888586551103}
   - component: {fileID: 4103456832556494636}
-  - component: {fileID: 8571229423047164089}
+  - component: {fileID: -8501500520010854517}
   - component: {fileID: 945527970656185635}
   - component: {fileID: 3948463178698577760}
   - component: {fileID: 1103629034418588816}
   m_Layer: 10
-  m_Name: Salad Supreme OLD
+  m_Name: Salad Supreme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &8571229423047164089
-PolygonCollider2D:
+--- !u!61 &-8501500520010854517
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,51 +109,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.26611254, y: 0.06483074}
-      - {x: 0.31795475, y: 0.09723212}
-      - {x: 0.3665568, y: 0.14259405}
-      - {x: 0.41515887, y: 0.21387708}
-      - {x: 0.43783984, y: 0.28516012}
-      - {x: 0.43783984, y: 0.37264383}
-      - {x: 0.42811942, y: 0.42448604}
-      - {x: 0.418399, y: 0.46012756}
-      - {x: 0.3762772, y: 0.52817047}
-      - {x: 0.32767516, y: 0.5735324}
-      - {x: 0.2887935, y: 0.6026936}
-      - {x: 0.25639212, y: 0.62213445}
-      - {x: 0.18186896, y: 0.65777594}
-      - {x: 0.13974716, y: 0.6674964}
-      - {x: 0.1429873, y: 0.68369704}
-      - {x: 0.11382606, y: 0.7225787}
-      - {x: 0.100865506, y: 0.7258189}
-      - {x: 0.061983854, y: 0.7258189}
-      - {x: 0.013381785, y: 0.7031379}
-      - {x: -0.019019593, y: 0.68369704}
-      - {x: -0.08058221, y: 0.67721677}
-      - {x: -0.11622373, y: 0.6707365}
-      - {x: -0.15834552, y: 0.6610161}
-      - {x: -0.22638841, y: 0.6383351}
-      - {x: -0.27499047, y: 0.61241406}
-      - {x: -0.37219462, y: 0.52817047}
-      - {x: -0.40135586, y: 0.48604867}
-      - {x: -0.4305171, y: 0.41476563}
-      - {x: -0.43375725, y: 0.39856493}
-      - {x: -0.43375725, y: 0.3110812}
-      - {x: -0.4305171, y: 0.2657193}
-      - {x: -0.41431642, y: 0.2235975}
-      - {x: -0.39163545, y: 0.18471584}
-      - {x: -0.35923406, y: 0.14259405}
-      - {x: -0.310632, y: 0.09723212}
-      - {x: -0.26202992, y: 0.06483074}
-      - {x: -0.18102649, y: 0.025949085}
-      - {x: -0.15510538, y: 0.016228672}
-      - {x: -0.05466111, y: 0.000027983368}
-      - {x: 0.042543024, y: 0.000027983368}
-      - {x: 0.09438523, y: 0.006508259}
-      - {x: 0.1429873, y: 0.016228672}
-      - {x: 0.20130979, y: 0.0356695}
+  serializedVersion: 2
+  m_Size: {x: 0.5604538, y: 0.46638197}
+  m_EdgeRadius: 0
 --- !u!50 &945527970656185635
 Rigidbody2D:
   serializedVersion: 4
@@ -165,8 +123,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.100666694
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

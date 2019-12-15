@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Salad
   m_EditorClassIdentifier: 
   code: 28
+  kind: 0
   name: Salad
   icon: {fileID: 21300044, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Yummy!
-  isStackable: 0
-  maxStack: 0
+  Description: 'Whoever said salads are boring? To enable screen reader support,
+    press Ctrl+Alt+Z To learn about keyboard shortcuts, press Ctrl+slash '
+  droppable: 1
+  isStackable: 1
+  maxStack: 99
   price: 0
   UsageSound: {fileID: 8300000, guid: a6f2bab243e01d347b95f4958a61a706, type: 3}
   UsageTime: 4.5

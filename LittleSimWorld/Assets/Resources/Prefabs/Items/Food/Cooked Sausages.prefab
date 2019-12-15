@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 698161951058374511}
   - component: {fileID: 8781763338983200167}
-  - component: {fileID: 7912550616172480579}
+  - component: {fileID: -616195071506189407}
   - component: {fileID: 5305190664437479017}
   - component: {fileID: 6681828226383989233}
   - component: {fileID: -1411290236898421585}
   m_Layer: 10
-  m_Name: Cooked Sausages OLD
+  m_Name: Cooked Sausages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &7912550616172480579
-PolygonCollider2D:
+--- !u!61 &-616195071506189407
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,43 +108,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.36270025, y: 0.13994572}
-      - {x: 0.39510164, y: 0.18530764}
-      - {x: 0.43074313, y: 0.2598308}
-      - {x: 0.4372234, y: 0.27927163}
-      - {x: 0.4372234, y: 0.4023969}
-      - {x: 0.41778257, y: 0.45423907}
-      - {x: 0.39834177, y: 0.49312073}
-      - {x: 0.38214108, y: 0.5158017}
-      - {x: 0.32705873, y: 0.57412416}
-      - {x: 0.26225597, y: 0.6194861}
-      - {x: 0.1877328, y: 0.65512764}
-      - {x: 0.12293004, y: 0.6745685}
-      - {x: 0.08404839, y: 0.68104875}
-      - {x: -0.06499795, y: 0.68104875}
-      - {x: -0.08119864, y: 0.6778086}
-      - {x: -0.116840154, y: 0.6713283}
-      - {x: -0.15896195, y: 0.6616079}
-      - {x: -0.20432387, y: 0.64864737}
-      - {x: -0.29828787, y: 0.60004526}
-      - {x: -0.38253146, y: 0.51904184}
-      - {x: -0.42141312, y: 0.44451866}
-      - {x: -0.4311335, y: 0.39915675}
-      - {x: -0.4311335, y: 0.28899205}
-      - {x: -0.42141312, y: 0.2501104}
-      - {x: -0.39549202, y: 0.19178791}
-      - {x: -0.3760512, y: 0.16262668}
-      - {x: -0.301528, y: 0.09134365}
-      - {x: -0.25616607, y: 0.05894227}
-      - {x: -0.18488304, y: 0.02654089}
-      - {x: -0.09091905, y: 0.0038599249}
-      - {x: -0.055277534, y: 0.0006197871}
-      - {x: 0.054887153, y: 0.0006197871}
-      - {x: 0.12941033, y: 0.010340201}
-      - {x: 0.19421308, y: 0.033021167}
-      - {x: 0.2816968, y: 0.07190282}
+  serializedVersion: 2
+  m_Size: {x: 0.5841837, y: 0.4555368}
+  m_EdgeRadius: 0
 --- !u!50 &5305190664437479017
 Rigidbody2D:
   serializedVersion: 4
@@ -156,8 +122,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.0994438
+  m_UseAutoMass: 0
+  m_Mass: 20
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0

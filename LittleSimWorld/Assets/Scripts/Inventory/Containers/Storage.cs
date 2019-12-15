@@ -73,7 +73,10 @@ namespace InventorySystem
                 if (cell.Type == Droppable.CellType.TrashBin)
                     continue;
 
-                if (!cell.Empty && itemCode == cell.GetSlot().CurrentItemCode)
+                var itemSlot = cell.GetSlot();
+
+                if (!cell.Empty && itemCode == itemSlot.CurrentItemCode &&
+                    itemSlot.Stackable && !itemSlot.MaxStack)
                     cellsContaining.Add(cell);
             }
 
@@ -82,12 +85,15 @@ namespace InventorySystem
 
         protected bool Contains(ItemCode itemCode)
         {
-            foreach (var item in itemCells)
+            foreach (var cell in itemCells)
             {
-                if (item.Type == Droppable.CellType.TrashBin)
+                if (cell.Type == Droppable.CellType.TrashBin)
                     continue;
 
-                if (!item.Empty && itemCode == item.GetSlot().CurrentItemCode)
+                var itemSlot = cell.GetSlot();
+
+                if (!cell.Empty && itemCode == itemSlot.CurrentItemCode &&
+                    itemSlot.Stackable && !itemSlot.MaxStack)
                     return true;
             }
 
