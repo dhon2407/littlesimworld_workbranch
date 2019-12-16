@@ -176,19 +176,5 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 
 		return defaultProduct;
 	}
-
-	void AddItemToInventory(Item itemToAdd) {
-		GameObject loadedItem = Resources.Load<GameObject>("Prefabs/" + itemToAdd.ItemName);
-		GameObject item = Instantiate<GameObject>(loadedItem, transform.position, GameLibOfMethods.player.transform.rotation, null);
-		AtommInventory.GatherItem(item.GetComponent<AtommItem>());
-	}
-
-	void RemoveIngredientsFromInventory(List<Item> ingredientsToRemove) {
-		if (ingredientsToRemove != null) {
-			foreach (var ingredient in ingredientsToRemove) {
-				AtommInventory.LookForAndRemove(ingredient.ItemName, 1);
-			}
-		}
-	}
 	#endregion
 }

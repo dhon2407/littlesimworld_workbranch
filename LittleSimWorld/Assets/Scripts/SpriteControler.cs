@@ -256,7 +256,7 @@ public class SpriteControler : SerializedMonoBehaviour
              Debug.Log(collisionForce);
 
              */
-            AtommInventory.Instance.SpawnFX(BumpingSound);
+            //AtommInventory.Instance.SpawnFX(BumpingSound);
         }
 
     }

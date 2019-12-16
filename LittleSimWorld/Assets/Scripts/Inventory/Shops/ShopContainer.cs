@@ -7,7 +7,6 @@ namespace InventorySystem
     public class ShopContainer : MonoBehaviour
     {
         public List<Item> SellingItems;
-        public List<AtommInventory.Purchasable> purchasableItems;
         public GameObject ShopOptionsUI;
         public Transform playerWorkPlace;
         public string WorkingAnimationName;

@@ -7,9 +7,6 @@ using UnityEngine;
 [System.Serializable]
 public class Save
 {
-    [SerializeField]
-    public List<AtommInventory.Slot> itemsInInventory = new List<AtommInventory.Slot>();
-
     public float Money = 2000;
     public float XPmultiplayer = 1;
     public float PriceMultiplayer = 1;

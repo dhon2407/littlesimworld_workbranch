@@ -56,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 663843103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -65,8 +65,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300010, guid: a32348433bd897a4196f731ac2271ab0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -76,6 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &663843105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +84,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 663843103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -99,17 +98,20 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_HighlightedColor: {r: 0, g: 1, b: 0.076129675, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0, g: 1, b: 0.076129675, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
+    m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 663843106}
@@ -127,8 +129,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1611563965
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611563965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611563965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -338,14 +338,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Work here
 
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials:
   - {fileID: 0}
   m_fontMaterial: {fileID: 0}
@@ -353,7 +351,7 @@ MonoBehaviour:
   - {fileID: 0}
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288585374
+    rgba: 4288651167
   m_fontColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -380,7 +378,6 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_textAlignment: 514
-  m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -407,6 +404,7 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvLineOffset: 0
   m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
@@ -421,12 +419,9 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 114388862297177032}
-  m_isInputParsingRequired: 0
-  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -515,14 +510,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Shop
 
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials:
   - {fileID: 0}
   m_fontMaterial: {fileID: 0}
@@ -530,7 +523,7 @@ MonoBehaviour:
   - {fileID: 0}
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288585374
+    rgba: 4288651167
   m_fontColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -557,7 +550,6 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_textAlignment: 514
-  m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -584,6 +576,7 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvLineOffset: 0
   m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
@@ -598,12 +591,9 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 114737340732403600}
-  m_isInputParsingRequired: 0
-  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -684,7 +674,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891613707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -693,8 +683,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300010, guid: a32348433bd897a4196f731ac2271ab0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -704,6 +692,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &1891613709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,7 +702,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891613707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -727,17 +716,20 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_HighlightedColor: {r: 0, g: 1, b: 0.076129675, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0, g: 1, b: 0.076129675, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
+    m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1891613710}
@@ -755,8 +747,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &8530455422783797427
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +760,6 @@ GameObject:
   - component: {fileID: 159492448128890497}
   - component: {fileID: 6751725866750048111}
   - component: {fileID: 51435204}
-  - component: {fileID: 51435203}
   m_Layer: 10
   m_Name: Bar table
   m_TagString: Untagged
@@ -807,6 +796,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -818,6 +808,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -858,7 +849,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 3.1105883, y: 1.9258823}
+    oldSize: {x: 3.1105883, y: 1.9264942}
     newSize: {x: 5.51, y: 2.886}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -884,7 +875,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 3.1105883, y: 1.9258823}
+    oldSize: {x: 3.1105883, y: 1.9264942}
     newSize: {x: 5.51, y: 2.886}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -910,7 +901,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 3.1105883, y: 1.9258823}
+    oldSize: {x: 3.1105883, y: 1.9264942}
     newSize: {x: 5.51, y: 2.886}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -919,74 +910,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.284078, y: 2.7480392}
   m_EdgeRadius: 0
---- !u!114 &51435203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8530455422783797427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174925b33afc96e4a868ab4494d94a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SellingItems:
-  - {fileID: 11400000, guid: f1f14ccc844371b4e84db3ae78be03ef, type: 2}
-  - {fileID: 11400000, guid: dbfff2b83a848f047a59afc46267a173, type: 2}
-  - {fileID: 11400000, guid: 31ceba66600aa444fb5ee421c2c74b88, type: 2}
-  - {fileID: 11400000, guid: 238bc055a20cf1b46b4c05b2aaa256f9, type: 2}
-  - {fileID: 11400000, guid: 5946223fe4da48743a52243fac0bf35a, type: 2}
-  - {fileID: 11400000, guid: 33fc246daeabaa34cb79cb9568e923a9, type: 2}
-  - {fileID: 11400000, guid: 5a18b017f15684e47a691215c8b6e92b, type: 2}
-  - {fileID: 11400000, guid: 939f9bcbbc37e894786a87594f455503, type: 2}
-  - {fileID: 11400000, guid: bf56a67efa2627244b1a8e429c5d1c64, type: 2}
-  - {fileID: 11400000, guid: ead85b4623eb22f43ac73919d19a5f31, type: 2}
-  purchasableItems:
-  - itemName: Vege Sandwich
-    quantity: 1
-    price: 18
-    consumableItem: {fileID: 11400000, guid: f1f14ccc844371b4e84db3ae78be03ef, type: 2}
-  - itemName: Burger
-    quantity: 1
-    price: 5
-    consumableItem: {fileID: 11400000, guid: dbfff2b83a848f047a59afc46267a173, type: 2}
-  - itemName: English Breakfast
-    quantity: 1
-    price: 37
-    consumableItem: {fileID: 11400000, guid: 31ceba66600aa444fb5ee421c2c74b88, type: 2}
-  - itemName: Fried Egg
-    quantity: 1
-    price: 9
-    consumableItem: {fileID: 11400000, guid: 238bc055a20cf1b46b4c05b2aaa256f9, type: 2}
-  - itemName: Gourmet Sandwich
-    quantity: 1
-    price: 37
-    consumableItem: {fileID: 11400000, guid: 5946223fe4da48743a52243fac0bf35a, type: 2}
-  - itemName: Omelette
-    quantity: 1
-    price: 18
-    consumableItem: {fileID: 11400000, guid: 33fc246daeabaa34cb79cb9568e923a9, type: 2}
-  - itemName: Roast Dinner
-    quantity: 1
-    price: 0
-    consumableItem: {fileID: 11400000, guid: 5a18b017f15684e47a691215c8b6e92b, type: 2}
-  - itemName: Meat Stew
-    quantity: 1
-    price: 18
-    consumableItem: {fileID: 11400000, guid: 939f9bcbbc37e894786a87594f455503, type: 2}
-  - itemName: Water
-    quantity: 1
-    price: 1
-    consumableItem: {fileID: 11400000, guid: bf56a67efa2627244b1a8e429c5d1c64, type: 2}
-  - itemName: Cock
-    quantity: 1
-    price: 2
-    consumableItem: {fileID: 11400000, guid: ead85b4623eb22f43ac73919d19a5f31, type: 2}
-  open: {fileID: 0}
-  close: {fileID: 0}
-  ShopOptionsUI: {fileID: 1611563965}
-  playerWorkPlace: {fileID: 0}
-  WorkingAnimationName: Cooking
-  ShopZone: {fileID: 51435204}
-  jobType: 0

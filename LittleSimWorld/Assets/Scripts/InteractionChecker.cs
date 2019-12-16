@@ -102,31 +102,22 @@ public class InteractionChecker : MonoBehaviour
 			else if (interactableObject.GetComponent<IInteractable>() != null) {
 				interactableObject.GetComponent<IInteractable>().Interact();
 			}
-            else if (InventorySystem.Shop.Ready && interactableObject.GetComponent<UpgradeList>())
+            else if (Shop.Ready && interactableObject.GetComponent<UpgradeList>())
             {
-                InventorySystem.Shop.OpenCloseUpgradeShop(interactableObject.GetComponent<UpgradeList>(), interactableObject.name);
+                Shop.OpenCloseUpgradeShop(interactableObject.GetComponent<UpgradeList>(), interactableObject.name);
             }
             else if (Inventory.Ready && interactableObject.GetComponent<ItemList>())
             {
                 Inventory.OpenCloseContainer(interactableObject.GetComponent<ItemList>(), interactableObject.name);
             }
-            else if (InventorySystem.Shop.Ready && interactableObject.GetComponent<ShopList>())
+            else if (Shop.Ready && interactableObject.GetComponent<ShopList>())
             {
-                InventorySystem.Shop.OpenCloseShop(interactableObject.GetComponent<ShopList>(), interactableObject.name);
+                Shop.OpenCloseShop(interactableObject.GetComponent<ShopList>(), interactableObject.name);
             }
-            else if (interactableObject.GetComponent<InventorySystem.Item>())
+            else if (interactableObject.GetComponent<Item>())
             {
-                Inventory.PlaceOnBag(interactableObject.GetComponent<InventorySystem.Item>());
+                Inventory.PlaceOnBag(interactableObject.GetComponent<Item>());
             }
-            else if (interactableObject.GetComponent<AtommItem>() || interactableObject.GetComponent<AtommContainer>()) {
-				AtommInventory.Instance.CheckRaycast();
-			}
-			else if (interactableObject.GetComponent<Shop>()) {
-				AtommInventory.Instance.CheckRaycast();
-			}
-			else if (interactableObject.GetComponent<UpgradesShop>()) {
-				AtommInventory.Instance.CheckRaycast();
-			}
 		}
 	}
 

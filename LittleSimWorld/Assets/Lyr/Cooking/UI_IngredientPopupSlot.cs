@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 namespace UI.Cooking {
 	public class UI_IngredientPopupSlot : MonoBehaviour, IPointerDownHandler {
-		public Item HoldingItem;
 		public Image ItemImage;
 
 		[Header("Popup Settings")]
@@ -17,11 +16,6 @@ namespace UI.Cooking {
 
 		Action OnClick;
 
-		public void SetItem(Item item) {
-			if (item == null) { return; }
-			HoldingItem = item;
-			ItemImage.sprite = ItemsManager.GetSpriteOfItem(item);
-		}
 		public void SetParent(UI_ManualCookingSlot slot) {
 			OnClick += () => UI_IngredientPanel.Despawn();
 		}
@@ -43,7 +37,7 @@ namespace UI.Cooking {
 				yield return 0f;
 			}
 
-			if (HoldingItem == null) { StartCoroutine(PoofWithStyle()); }
+			StartCoroutine(PoofWithStyle());
 		}
 
 		IEnumerator PoofWithStyle() {

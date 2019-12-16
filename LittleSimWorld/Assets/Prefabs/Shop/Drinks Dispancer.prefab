@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2800655298366028305}
   - component: {fileID: 2800655298366028334}
   - component: {fileID: 2800655298366028307}
-  - component: {fileID: 2800655298366028304}
   - component: {fileID: 4553458915196863457}
   m_Layer: 10
   m_Name: Drinks Dispancer
@@ -110,43 +109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.72117645, y: 0.5847194}
   m_EdgeRadius: 0
---- !u!114 &2800655298366028304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2800655298366028335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174925b33afc96e4a868ab4494d94a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SellingItems:
-  - {fileID: 11400000, guid: ead85b4623eb22f43ac73919d19a5f31, type: 2}
-  - {fileID: 11400000, guid: 888e10ce144f8c449bf8ad111ee119bf, type: 2}
-  - {fileID: 11400000, guid: bf56a67efa2627244b1a8e429c5d1c64, type: 2}
-  purchasableItems:
-  - itemName: Cock
-    quantity: 1
-    price: 2
-    consumableItem: {fileID: 11400000, guid: ead85b4623eb22f43ac73919d19a5f31, type: 2}
-  - itemName: Diet Cock
-    quantity: 1
-    price: 2
-    consumableItem: {fileID: 11400000, guid: 888e10ce144f8c449bf8ad111ee119bf, type: 2}
-  - itemName: Water
-    quantity: 1
-    price: 1
-    consumableItem: {fileID: 11400000, guid: bf56a67efa2627244b1a8e429c5d1c64, type: 2}
-  open: {fileID: 0}
-  close: {fileID: 0}
-  ShopOptionsUI: {fileID: 0}
-  playerWorkPlace: {fileID: 0}
-  WorkingAnimationName: 
-  ShopZone: {fileID: 0}
-  shopOutline: {fileID: 0}
-  playerStatsManager: {fileID: 0}
 --- !u!114 &4553458915196863457
 MonoBehaviour:
   m_ObjectHideFlags: 0

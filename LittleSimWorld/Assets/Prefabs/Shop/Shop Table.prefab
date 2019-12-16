@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -56,6 +57,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -124,6 +126,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -135,6 +138,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -169,7 +173,6 @@ GameObject:
   - component: {fileID: 2059764440422561382}
   - component: {fileID: 2059764440422561369}
   - component: {fileID: 2059764440422561368}
-  - component: {fileID: 1592173178}
   m_Layer: 10
   m_Name: Shop Table
   m_TagString: Untagged
@@ -207,6 +210,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -218,6 +222,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -258,7 +263,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 2.1376472, y: 1.1682353}
+    oldSize: {x: 2.1386893, y: 1.1682353}
     newSize: {x: 2.1376472, y: 1.1682353}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -267,49 +272,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.3840723, y: 0.9741535}
   m_EdgeRadius: 0
---- !u!114 &1592173178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2059764440422561371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174925b33afc96e4a868ab4494d94a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SellingItems:
-  - {fileID: 11400000, guid: 6ace779cf32b67b488d26fb016f858c5, type: 2}
-  - {fileID: 11400000, guid: aee800a7413173444ab81d691ea5673b, type: 2}
-  - {fileID: 11400000, guid: fd9365232fc08fc40bbe33592a7f0d62, type: 2}
-  - {fileID: 11400000, guid: b077c927fc3a18d4898366e7044bc21b, type: 2}
-  - {fileID: 11400000, guid: 714f1b4a0bda59e45831ffad84cecdd3, type: 2}
-  purchasableItems:
-  - itemName: Bread
-    quantity: 1
-    price: 5
-    consumableItem: {fileID: 11400000, guid: 6ace779cf32b67b488d26fb016f858c5, type: 2}
-  - itemName: Fish
-    quantity: 1
-    price: 10
-    consumableItem: {fileID: 11400000, guid: aee800a7413173444ab81d691ea5673b, type: 2}
-  - itemName: Meat
-    quantity: 1
-    price: 5
-    consumableItem: {fileID: 11400000, guid: fd9365232fc08fc40bbe33592a7f0d62, type: 2}
-  - itemName: Vegetable
-    quantity: 1
-    price: 5
-    consumableItem: {fileID: 11400000, guid: b077c927fc3a18d4898366e7044bc21b, type: 2}
-  - itemName: Eggs
-    quantity: 1
-    price: 5
-    consumableItem: {fileID: 11400000, guid: 714f1b4a0bda59e45831ffad84cecdd3, type: 2}
-  open: {fileID: 0}
-  close: {fileID: 0}
-  ShopOptionsUI: {fileID: 0}
-  playerWorkPlace: {fileID: 0}
-  WorkingAnimationName: 
-  ShopZone: {fileID: 0}
-  jobType: 0

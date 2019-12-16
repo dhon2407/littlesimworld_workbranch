@@ -32,16 +32,17 @@ public class GameManager : MonoBehaviour
     private Save CreateSaveGameObject()
     {
         Save save = new Save();
-        
-        int i = 0;
-        foreach (AtommInventory.Slot slot in AtommInventory.inventory)
-        {
+
+        //Will be replace with new inventory system
+        //int i = 0;
+        //foreach (AtommInventory.Slot slot in AtommInventory.inventory)
+        //{
 
 
-            save.itemsInInventory.Add(slot);
-                i++;
+        //    save.itemsInInventory.Add(slot);
+        //        i++;
 
-        }
+        //}
         save.PlayerSkills = PlayerStatsManager.Instance.playerSkills;
 
         save.PlayerStatusBars = PlayerStatsManager.Instance.playerStatusBars;
@@ -194,10 +195,12 @@ public class GameManager : MonoBehaviour
 
 			CurrentSave = save;
             // 3
-            for (int i = 0; i < save.itemsInInventory.Count; i++)
-            {
-                AtommInventory.inventory.Add(save.itemsInInventory[i]);
-            }
+
+            //Will be replace with new inventory system
+            //for (int i = 0; i < save.itemsInInventory.Count; i++)
+            //{
+            //    AtommInventory.inventory.Add(save.itemsInInventory[i]);
+            //}
 
             PlayerStatsManager.Instance.playerStatusBars = save.PlayerStatusBars;
             PlayerStatsManager.Instance.playerSkills = save.PlayerSkills;

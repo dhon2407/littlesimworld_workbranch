@@ -269,21 +269,16 @@ public class GameLibOfMethods : MonoBehaviour
         yield break;
     }
 
-    public static IEnumerator DoAction(UnityAction action, float SecondsToComplete, Item itemToPutOnCooldown, string animationToPlay)
+    public static IEnumerator DoAction(UnityAction action, float SecondsToComplete, string animationToPlay)
     {
 
         GameTime.Clock.ResetSpeed();
-        if (!GameLibOfMethods.doingSomething && !CooldownManager.ItemsOnCooldown.Contains(itemToPutOnCooldown) && !isSleeping && canInteract)
+        if (!GameLibOfMethods.doingSomething && !isSleeping && canInteract)
         {
             cantMove = true;
             doingSomething = true;
             canInteract = false;
             requiredActionTime = SecondsToComplete;
-            if (itemToPutOnCooldown != null)
-            {
-                CooldownManager.PutOnCooldown(itemToPutOnCooldown);
-                AtommInventory.Instance.FoodInHandRenderer.sprite = Resources.Load<GameObject>("Prefabs/" + itemToPutOnCooldown.ItemName).GetComponent<SpriteRenderer>().sprite;
-            }
 
             GameLibOfMethods.animator.SetBool(animationToPlay, true);
 
@@ -327,7 +322,7 @@ public class GameLibOfMethods : MonoBehaviour
     {
         if (clip == null)
             return;
-        GameObject newFX = Instantiate(AtommInventory.fx, position, Quaternion.Euler(Vector2.zero));
+        GameObject newFX = Instantiate(Resources.Load<GameObject>("Core/AIS/_FX"), position, Quaternion.Euler(Vector2.zero));
         newFX.GetComponent<AudioSource>().clip = clip;
         newFX.GetComponent<AudioSource>().Play();
         Destroy(newFX, clip.length);

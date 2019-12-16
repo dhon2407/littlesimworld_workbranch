@@ -52,10 +52,6 @@ namespace CharacterStats
 
         public void ShowDescription(string Description)
         {
-
-
-            //ConsumableItem item = FindObjectOfType<AtommInventory>().inventory[inventoryNumber].consumableItem;
-
             transform.position = new Vector2(Mathf.Clamp(Input.mousePosition.x, Screen.width * MinWidth, Screen.width * MaxWidth),
                  Mathf.Clamp(Input.mousePosition.y, Screen.height * MinHeight, Screen.height * MaxHeight));
 

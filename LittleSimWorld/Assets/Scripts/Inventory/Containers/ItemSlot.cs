@@ -131,7 +131,6 @@ namespace InventorySystem
                             StartCoroutine(StartCooldown(itemParams.cooldown));
                         },
                         itemParams.UsageTime,
-                        null,
                         itemParams.AnimationToPlayName));
 
                     Inventory.FoodInHand = itemParams.icon;

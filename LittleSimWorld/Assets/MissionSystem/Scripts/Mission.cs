@@ -16,8 +16,6 @@ public class Mission : MonoBehaviour
 
     public MissionHandler handler;
 
-    public AtommInventory inventory;
-
     public Button GetRewardButton;
 
 
@@ -31,8 +29,6 @@ public class Mission : MonoBehaviour
     public bool accomplished;
     private void Awake()
     {
-        inventory = FindObjectOfType<AtommInventory>();
-
         handler = FindObjectOfType<MissionHandler>();
     }
     private void Start()

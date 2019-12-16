@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2470604817948210804}
   - component: {fileID: 2470604817948210802}
   - component: {fileID: 2470604817948210801}
-  - component: {fileID: 2470604816831999842}
   m_Layer: 10
   m_Name: Angles_thick_line_0
   m_TagString: Untagged
@@ -48,6 +47,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -130,25 +130,3 @@ MonoBehaviour:
   - {fileID: 21300006, guid: 3ef1d2837c8b80d42aa017bd2fb348b5, type: 3}
   - {fileID: 21300000, guid: 3ef1d2837c8b80d42aa017bd2fb348b5, type: 3}
   currentMoveDirection: 0
---- !u!114 &2470604816831999842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2470604817948210800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174925b33afc96e4a868ab4494d94a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SellingItems: []
-  purchasableItems: []
-  open: {fileID: 0}
-  close: {fileID: 0}
-  ShopOptionsUI: {fileID: 0}
-  playerWorkPlace: {fileID: 0}
-  WorkingAnimationName: 
-  ShopZone: {fileID: 0}
-  shopOutline: {fileID: 0}
-  jobType: 0

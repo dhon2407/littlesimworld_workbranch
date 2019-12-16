@@ -26,7 +26,6 @@ namespace UI.Cooking {
 			instance = this;
 		}
 
-		public static void SpawnFor(Transform target) => instance.SpawnOnTarget(target);
 		public static void Despawn() => instance.Disappear();
 
 		void Disappear() {
@@ -45,19 +44,6 @@ namespace UI.Cooking {
 			ClearList();
 		}
 
-		void SpawnOnTarget(Transform target) {
-			
-			var targetPos = target.position + Vector3.up * OffsetY;
-			if (transform.position == targetPos) { ClearList(); }
-			transform.position = targetPos;
-			transform.localScale = Vector3.zero;
-
-			this.gameObject.SetActive(true);
-			StopAllCoroutines();
-			StartCoroutine(StartExpanding());
-			StartCoroutine(PopupItems(target.GetComponent<UI_ManualCookingSlot>()));
-		}
-
 		IEnumerator StartExpanding() {
 			float t = 0;
 			while (t < TotalExpandTime) {
@@ -66,33 +52,5 @@ namespace UI.Cooking {
 				yield return null;
 			}
 		}
-
-		IEnumerator PopupItems(UI_ManualCookingSlot parent) {
-			// var items = Inventory.GetItems(item => item.isIngredient);
-			// if (items.Count == 0) {
-			// ...
-			ClearList();
-
-			bool spawnedAtleastOne = false;
-
-			foreach (var itemSlot in AtommInventory.inventory) {
-				Item item = ItemsManager.GetItemWithName(itemSlot.itemName);
-
-				if (!item || !item.Description.ToLower().Contains("ingridient")) { continue; }
-				var popup = Instantiate(PopupSlotPrefab, transform);
-
-				popup.SetItem(item);
-				popup.SetParent(parent);
-
-				spawnedSlots.Add(popup);
-				spawnedAtleastOne = true;
-				yield return new WaitForSeconds(TimeBetweenNewSpawns);
-			}
-
-			if (!spawnedAtleastOne) { Instantiate(PopupSlotPrefab, transform); }
-			yield return null;
-		}
-
-
 	}
 }

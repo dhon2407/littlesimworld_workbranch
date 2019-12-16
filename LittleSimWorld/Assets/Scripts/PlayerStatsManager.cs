@@ -488,7 +488,6 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override void Effect()
         {
             PlayerStatsManager.Instance.levelUpParticles.Play();
-            GameLibOfMethods.CreateFloatingText("Now you have " + AtommInventory.InventoryCapacity.ToString() + " slots in your inventory!", 2);
         }
         
          public override void AddXP(float amount)
