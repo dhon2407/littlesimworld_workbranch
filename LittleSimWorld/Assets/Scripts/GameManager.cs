@@ -235,29 +235,29 @@ public class GameManager : MonoBehaviour
 
 			Debug.Log("Upgradeable objects are not implemented yet.");
 
-			// for (int p = 0; p < UpgradableGOsNames.Count; p++)
-			// {
-			//    // UpgradeTiers.Add(save.UpgradesTier[p]);
-			// }
-			// 
-			// for (int i = 0; i < UpgradableGOsNames.Count; i++)
-			// {
-			//     //Debug.Log("Upgradable Bed".Replace("Upgradable ", ""));
-			//     if (Resources.Load<GameObject>("Upgrades/"+ UpgradableGOsNames[i].Replace("Upgradable ","") + "/" + save.UpgradesTier[i]))
-			//     {
-			//         
-			//         Destroy(GameObject.Find(UpgradableGOsNames[i]).transform.GetChild(0).gameObject);
-			//         GameObject temp = Instantiate(Resources.Load<GameObject>("Upgrades/" + UpgradableGOsNames[i].Replace("Upgradable ", "") + "/" + save.UpgradesTier[i]),
-			//         GameObject.Find(UpgradableGOsNames[i]).transform);
-			//         temp.name = save.UpgradesTier[i];
-			//     }
-			// }
-			// 
-			// SpriteControler.Instance.visuals = save.characterVisuals.GetVisuals();
-			// //Debug.Log($"Loaded : {save.characterVisuals.GetVisuals()}");
+            // for (int p = 0; p < UpgradableGOsNames.Count; p++)
+            // {
+            //    // UpgradeTiers.Add(save.UpgradesTier[p]);
+            // }
+            // 
+            // for (int i = 0; i < UpgradableGOsNames.Count; i++)
+            // {
+            //     //Debug.Log("Upgradable Bed".Replace("Upgradable ", ""));
+            //     if (Resources.Load<GameObject>("Upgrades/"+ UpgradableGOsNames[i].Replace("Upgradable ","") + "/" + save.UpgradesTier[i]))
+            //     {
+            //         
+            //         Destroy(GameObject.Find(UpgradableGOsNames[i]).transform.GetChild(0).gameObject);
+            //         GameObject temp = Instantiate(Resources.Load<GameObject>("Upgrades/" + UpgradableGOsNames[i].Replace("Upgradable ", "") + "/" + save.UpgradesTier[i]),
+            //         GameObject.Find(UpgradableGOsNames[i]).transform);
+            //         temp.name = save.UpgradesTier[i];
+            //     }
+            // }
+            // 
+            SpriteControler.Instance.visuals = save.characterVisuals.GetVisuals();
+            //Debug.Log($"Loaded : {save.characterVisuals.GetVisuals()}");
 
 
-			Bank.Instance.MoneyInBank = save.moneyInBank;
+            Bank.Instance.MoneyInBank = save.moneyInBank;
             Bank.Instance.PercentagePerDay = save.percentagePerDay;
             Bank.Instance.UpdateBalance();
 

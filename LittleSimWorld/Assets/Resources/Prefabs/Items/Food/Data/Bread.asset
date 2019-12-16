@@ -16,7 +16,7 @@ MonoBehaviour:
   kind: 1
   name: Bread
   icon: {fileID: 21300022, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Ingredient for cooking
+  Description: Bread is a staple food all over the world.
   droppable: 1
   isStackable: 1
   maxStack: 99
