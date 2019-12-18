@@ -8,29 +8,38 @@ using System.IO;
 using TMPro;
 using System.Linq;
 using System;
+using GameFile;
+
 public class MainMenu : MonoBehaviour
 {
-
-    public int MainGameSceneNumber;
+    private static MainMenu instance;
+    private const int GameSceneIndex = 1;
+    
     public GameObject loadingPanal;
     public Slider loadingSlider;
     public TextMeshProUGUI loadingText;
-    public static MainMenu Instance;
     public GameObject saveGO;
-    public Transform WhereToPasteSaveGOs;
-    public Texture2D cursor;
+    public GameObject noSaveGO;
+    public ScrollSnap loadPreview;
+    public GameObject loadMenu;
 
-    public LevelLoader ll;
+    [SerializeField]
+    private Texture2D cursor = null;
 
     private void Awake()
     {
-        Instance = this;
-        cursorSet(cursor);
+        instance = this;
+        CursorSet(cursor);
     }
-    public void LoadMainSceneGame(int sceneIndex)
+    public static void LoadGameScene(int sceneIndex = GameSceneIndex)
     {
-        loadingPanal.SetActive(true);
-        StartCoroutine(LoadAsyncronously(sceneIndex));
+        instance.loadingPanal.SetActive(true);
+        instance.StartCoroutine(instance.LoadAsyncronously(sceneIndex));
+    }
+
+    public void LoadSaveFiles()
+    {
+        LoadSaves();
     }
 
     public void ExitGame()
@@ -38,55 +47,61 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void LoadSaves()
+    public static void LoadSaves()
     {
-        foreach(Transform child in WhereToPasteSaveGOs)
-        {
-            Destroy(child.gameObject);
-        }
-        DirectoryInfo di = new DirectoryInfo(Application.persistentDataPath);
-        var files = di.GetFiles().Where(obj => obj.Name.EndsWith(".save"));
-        
-        foreach(FileInfo file in files)
-        {
-			Debug.Log(file.FullName);
+        instance.loadPreview.ClearElements();
 
-			DataFormat format = DataFormat.Binary;
-			var bytes = File.ReadAllBytes(file.FullName);
-			if (bytes == null) {
-				Debug.Log("Null Bytes");
-				continue;
-			}
+        DirectoryInfo dir = new DirectoryInfo(Application.persistentDataPath);
+        var files = dir.GetFiles().Where(obj => obj.Name.EndsWith(".save"));
 
-			Save saveFile = SerializationUtility.DeserializeValue<Save>(bytes, format);
-			if (saveFile == null) { Debug.Log("Failed to Load."); continue; }
-
-			Debug.Log(file.Name);
-			GameObject save = Instantiate(saveGO as GameObject, WhereToPasteSaveGOs);
-			save.name = file.Name.Replace(".save", "");
-			save.GetComponentInChildren<TextMeshProUGUI>().text = save.name;
-
-			save.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Total time spent: "+ TimeSpan.FromSeconds(saveFile.RealPlayTime).Hours.ToString() + " hours " + TimeSpan.FromSeconds(saveFile.RealPlayTime).Minutes.ToString() + "  minutes.";
-            string totalLvl = (
-                saveFile.PlayerSkills[SkillType.Charisma].Level
-                + saveFile.PlayerSkills[SkillType.Fitness].Level
-                + saveFile.PlayerSkills[SkillType.Intelligence].Level
-                + saveFile.PlayerSkills[SkillType.Strength].Level
-                + saveFile.PlayerSkills[SkillType.Cooking].Level
-                + saveFile.PlayerSkills[SkillType.Repair].Level
-                ).ToString();
-
-			if (totalLvl == "0") {
-				save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + "-";
-			}
-			else {
-				save.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Total character level: " + totalLvl;
-			}
-
-
-        }
+        if (files.Count() == 0)
+            instance.NoSavePreview();
+        else
+            instance.PopulateSavePreview(files);
     }
-    IEnumerator LoadAsyncronously(int sceneIndex)
+
+    private void NoSavePreview()
+    {
+        var nodata = Instantiate(noSaveGO).GetComponent<NoDataPreview>();
+        nodata.SetBackButtonAction(() => loadMenu.SetActive(false));
+        nodata.name = "No save files";
+        loadPreview.PushLayoutElement(nodata.GetComponent<LayoutElement>());
+
+        loadPreview.SnapToIndex(0);
+    }
+
+    private void PopulateSavePreview(IEnumerable<FileInfo> files)
+    {
+        foreach (FileInfo file in files)
+        {
+            DataFormat format = DataFormat.Binary;
+            var bytes = File.ReadAllBytes(file.FullName);
+            if (bytes == null)
+            {
+                Debug.LogWarning($"Failed reading file: {file.Name}.");
+                continue;
+            }
+
+            SaveData saveFile = SerializationUtility.DeserializeValue<SaveData>(bytes, format);
+            if (saveFile == null)
+            {
+                Debug.LogWarning($"Failed serializing file: {file.Name}.");
+                continue;
+            }
+
+            LoadDataPreview save = Instantiate(saveGO).GetComponent<LoadDataPreview>();
+            save.name = file.Name.Replace(".save", "");
+
+            save.Initialize(save.name, saveFile);
+            save.SetBackAction(() => loadMenu.SetActive(false));
+            
+            loadPreview.PushLayoutElement(save.GetComponent<LayoutElement>());
+        }
+
+        loadPreview.SnapToIndex(0);
+    }
+
+    private IEnumerator LoadAsyncronously(int sceneIndex)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
@@ -107,7 +122,7 @@ public class MainMenu : MonoBehaviour
 
 		SpriteControler.Instance.FaceDOWN();
     }
-    void cursorSet(Texture2D tex)
+    private void CursorSet(Texture2D tex)
     {
         CursorMode mode = CursorMode.Auto;
         var xspot = 0;

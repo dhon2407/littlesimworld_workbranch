@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
+
 using GameClock = GameTime.Clock;
 
 public class Bed : BreakableFurniture, IInteractable, IUseable {
@@ -23,7 +23,8 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 			return;
 		}
 
-		JumpToBed().Start();
+        GameFile.Data.Save();
+        JumpToBed().Start();
 	}
 
 	public void Use() => Sleeping().Start();
@@ -131,9 +132,6 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		PlayerCommands.JumpOff(JumpOffSpeed);
 
         GameClock.ResetSpeed();
-
-		//Debug.Log("Saving not implemented");
-		GameManager.Instance.SaveGame();
 	}
 
 	void HandlePlayerSprites(bool enable) {

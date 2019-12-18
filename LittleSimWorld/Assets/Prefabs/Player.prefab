@@ -179,7 +179,7 @@ MonoBehaviour:
   - {x: -0.56428576, y: 1.6270831, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 30064
+  m_InstanceId: 407088
 --- !u!1 &1002120274846512733
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +579,7 @@ MonoBehaviour:
   - {x: -0.19, y: 0.28, z: 0}
   m_ShapePathHash: 746762103
   m_Mesh: {fileID: 0}
-  m_InstanceId: 30034
+  m_InstanceId: 407118
 --- !u!1 &1002120275041885192
 GameObject:
   m_ObjectHideFlags: 0
@@ -5832,7 +5832,7 @@ MonoBehaviour:
   - {x: -0.56428576, y: 1.6270831, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29912
+  m_InstanceId: 407172
 --- !u!1 &1002120275626460301
 GameObject:
   m_ObjectHideFlags: 0
@@ -6225,7 +6225,7 @@ MonoBehaviour:
   - {x: 0.27, y: 1.02, z: 0}
   m_ShapePathHash: -785560985
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29950
+  m_InstanceId: 407206
 --- !u!1 &1002120275820364309
 GameObject:
   m_ObjectHideFlags: 0
@@ -6724,7 +6724,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lastHighlightedObject: {fileID: 0}
+  lastHighlightedObject_Closest: {fileID: 0}
+  lastHighlightedObject_Mouse: {fileID: 0}
   JumpSpeed: 1.8
 --- !u!82 &8913004962790575929
 AudioSource:
@@ -7459,7 +7460,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4802055649954251029}
   - component: {fileID: 2516633280326681103}
-  - component: {fileID: 2516633280326681088}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -7475,7 +7475,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516633280326681102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.58, y: -1.41, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.74, y: 0.74, z: 1}
   m_Children:
   - {fileID: 1002120275820364329}
@@ -7497,37 +7497,6 @@ MonoBehaviour:
   HomePos: {x: -2.5, y: -1, z: 0}
   GroceriesPos: {x: -10, y: -29, z: 0}
   TestViewPos: {x: 0, y: 0, z: 0}
---- !u!114 &2516633280326681088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2516633280326681102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18617d45d8a044b45b18d1fa0c513160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  action: 105
-  interaction: 101
-  skillsToggle: 0
-  open: {fileID: 8300000, guid: f57336ae8972bcd40b9e3517e398373c, type: 3}
-  close: {fileID: 8300000, guid: 854a0a378660cb744b61c70f9bb1de48, type: 3}
-  itemPickUp: {fileID: 8300000, guid: f57336ae8972bcd40b9e3517e398373c, type: 3}
-  itemDrop: {fileID: 8300000, guid: e11efd21b36cdeb4796fd8dbac5db59f, type: 3}
-  PickUpRadius: 2
-  invActions: {fileID: 0}
-  statsUI: {fileID: 0}
-  interactionChecker: {fileID: 1002120275820364335}
-  latestItemContainer: {fileID: 0}
-  slotTooltip: {fileID: 8527959377568946383, guid: 4b78d06867a615d489378b4d5d32afe6,
-    type: 3}
-  currentContainer: {fileID: 0}
-  currentUpgradesShop: {fileID: 0}
-  curentContainerWindowSource: {fileID: 0}
-  lastContainer: {fileID: 0}
-  FoodInHandRenderer: {fileID: 8913004962850201579}
 --- !u!1 &2846132024352511237
 GameObject:
   m_ObjectHideFlags: 0

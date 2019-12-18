@@ -30,6 +30,7 @@ namespace InventorySystem
         [Space]
         [SerializeField]
         private SpriteRenderer foodInHand = null;
+        private Dictionary<int, List<ItemList.ItemInfo>> containersContents;
 
         private void Awake()
         {
@@ -40,15 +41,43 @@ namespace InventorySystem
             }
 
             instance = this;
+
+            Initialize();
             Inventory.SetController(this);
         }
 
-        public void OpenContainer(ItemList items, string name)
+        public void InitializeBag(List<ItemList.ItemInfo> list)
+        {
+           playerInventory.InitializeItems(list);
+        }
+
+        public List<ItemList.ItemInfo> GetBagItems()
+        {
+            return playerInventory.Itemlist.Items;
+        }
+
+        public void InitializeContainers(Dictionary<int, List<ItemList.ItemInfo>> contents)
+        {
+            containersContents = contents ?? new Dictionary<int, List<ItemList.ItemInfo>>();
+        }
+
+        public Dictionary<int, List<ItemList.ItemInfo>> GetContainersContents()
+        {
+            return containersContents;
+        }
+
+        public void OpenContainer(ItemList list, string name)
         {
             containerOpen = true;
-            currentContainerData = items;
             currentContainer.SetName(name);
-            currentContainer.Open(items);
+
+            if (!containersContents.ContainsKey(list.ID))
+                containersContents[list.ID] = list.Items;
+            else
+                list.UpdateItems(containersContents[list.ID]);
+         
+            currentContainerData = list;
+            currentContainer.Open(list);
 
             playerInventory.UpdateSlotActions(PutInCurrentContainer);
 
@@ -58,6 +87,9 @@ namespace InventorySystem
         public void CloseContainer()
         {
             currentContainerData = currentContainer.Itemlist;
+
+            containersContents[currentContainerData.ID] = currentContainerData.Items;
+            
             currentContainer.Close();
             currentContainerData = null;
             containerOpen = false;
@@ -141,12 +173,6 @@ namespace InventorySystem
                 currentContainer.AddItem(itemSlot);
             else
                 Debug.LogWarning("No open container.");
-
-        }
-
-        private void Start()
-        {
-            Initialize();
         }
 
         private void Update()
@@ -198,11 +224,21 @@ namespace InventorySystem
         public static bool Ready => (controller != null);
         public static bool ContainerOpen => (controller.ContainerOpen);
 
+        public static List<ItemList.ItemInfo> BagItems => controller.GetBagItems();
+
+        public static Dictionary<int, List<ItemList.ItemInfo>> ContainerContents => controller.GetContainersContents();
+
         public static Sprite FoodInHand { set => controller.SetFoodInHand(value); }
 
         public static void SetController(InventoryController inventoryController)
         {
             controller = inventoryController;
+        }
+
+        public static void Initialize(List<ItemList.ItemInfo> bagContents, Dictionary<int, List<ItemList.ItemInfo>> containersContents)
+        {
+            controller.InitializeBag(bagContents);
+            controller.InitializeContainers(containersContents);
         }
 
         public static void OpenCloseContainer(ItemList containerItems, string name)

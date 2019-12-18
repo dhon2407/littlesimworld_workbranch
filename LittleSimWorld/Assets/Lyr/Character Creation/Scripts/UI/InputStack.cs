@@ -31,14 +31,15 @@ namespace UI.CharacterCreation {
 			}
 			else {
 				// Play UI Success Sound
-				GameManager.Instance.CurrentSaveName = playerName;
-
 				var charInfo = CharacterCreationManager.CurrentCharacterInfo;
 				charInfo.Gender = CharacterCreationManager.instance.gender;
 				charInfo.Name = playerName;
 
-				GameManager.Instance.NewGame();
-			}
+				GameFile.Data.Create(playerName, charInfo);
+
+                MainMenu.LoadGameScene();
+                CareerUi.Instance?.UpdateJobUi();
+            }
 		}
 
 		void Cancel() {

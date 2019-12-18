@@ -11,7 +11,7 @@ public class PlayerNameDisplay : MonoBehaviour
         NameText = GetComponent<TMPro.TextMeshProUGUI>() != null ? NameText = GetComponent<TMPro.TextMeshProUGUI>() : NameText = null;
         if (NameText)
         {
-            NameText.text = GameManager.Instance.CurrentSaveName;
+            NameText.text = GameFile.Data.Filename;
         }
     }
 

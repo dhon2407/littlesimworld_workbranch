@@ -28,10 +28,11 @@ namespace InventorySystem
             closed = true;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             itemCells = new List<Droppable>();
             showScale = transform.localScale;
+            UpdateItemCells();
             Hide();
         }
 
@@ -51,7 +52,6 @@ namespace InventorySystem
 
         protected virtual void Start()
         {
-            UpdateItemCells();
             SetupDropEvents();
         }
 

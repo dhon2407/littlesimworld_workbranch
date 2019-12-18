@@ -9,14 +9,18 @@ namespace InventorySystem
     {
         [SerializeField]
         private List<UpgradableItem> ItemGameObjects = null;
-
         [SerializeField]
         private List<UpgradableItemData> ItemUpgradeData = null;
 
         private Dictionary<UpgradeType, ItemCode> currentUpgrades;
 
+        public Dictionary<UpgradeType, ItemCode> CurrentUpgrades => currentUpgrades;
+
         public void UpgradeItem(ItemCode itemCode)
         {
+            if (currentUpgrades[GetUpgradeType(itemCode)] == itemCode)
+                return;
+
             UpgradeType itemType = GetUpgradeType(itemCode);
 
             if (ItemGameObjects.Exists(itemObj => itemObj.type == itemType))
@@ -92,18 +96,11 @@ namespace InventorySystem
 
         }
 
-        private void Awake()
+        public void UpdateUpgradesData(Dictionary<UpgradeType, ItemCode> data)
         {
-            currentUpgrades = new Dictionary<UpgradeType, ItemCode>()
-            {
-                [UpgradeType.BED] = ItemCode.BED1,
-                [UpgradeType.DESK] = ItemCode.DESK1,
-                [UpgradeType.STOVE] = ItemCode.STOVE1,
-                [UpgradeType.SHOWER] = ItemCode.SHOWER1,
-                [UpgradeType.TOILET] = ItemCode.TOILET1,
-            };
-
-            Upgrades.SetManager(this);
+            if (data != null)
+                foreach (var itemCode in data.Values)
+                    UpgradeItem(itemCode);
         }
 
         [System.Serializable]
@@ -119,6 +116,20 @@ namespace InventorySystem
             public UpgradeType type;
             public List<ItemUpgradable> itemsTier;
         }
+
+        private void Awake()
+        {
+            currentUpgrades = new Dictionary<UpgradeType, ItemCode>()
+            {
+                [UpgradeType.BED] = ItemCode.BED1,
+                [UpgradeType.DESK] = ItemCode.DESK1,
+                [UpgradeType.STOVE] = ItemCode.STOVE1,
+                [UpgradeType.SHOWER] = ItemCode.SHOWER1,
+                [UpgradeType.TOILET] = ItemCode.TOILET1,
+            };
+
+            Upgrades.SetManager(this);
+        }
     }
 
     public static class Upgrades
@@ -126,10 +137,16 @@ namespace InventorySystem
         private static UpgradesManager manager;
 
         public static bool Ready => (manager != null);
+        public static Dictionary<UpgradeType, ItemCode> GetData => manager.CurrentUpgrades;
 
         public static void SetManager(UpgradesManager upgradesManager)
         {
             manager = upgradesManager;
+        }
+
+        public static void SetData(Dictionary<UpgradeType, ItemCode> data)
+        {
+            manager.UpdateUpgradesData(data);
         }
 
         public static int GetUpgradeLevel(ItemCode itemCode)

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InventorySystem
 {
@@ -35,10 +34,7 @@ namespace InventorySystem
             {
                 var itemSlot = item.GetComponentInChildren<ItemSlot>();
                 if (itemSlot != null)
-                {
-                    Debug.Log("Slot removed with item " + itemSlot.name);
                     Destroy(itemSlot.gameObject);
-                }
             }
 
             Hide();

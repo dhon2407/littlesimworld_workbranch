@@ -12,6 +12,23 @@ using Sirenix.OdinInspector;
 [System.Serializable,DefaultExecutionOrder(0)]
 public class PlayerStatsManager : SerializedMonoBehaviour
 {
+    private const SkillType INTELLIGENCE = SkillType.Intelligence;
+    private const SkillType STRENGTH = SkillType.Strength;
+    private const SkillType FITNESS = SkillType.Fitness;
+    private const SkillType CHARISMA = SkillType.Charisma;
+    private const SkillType COOKING = SkillType.Cooking;
+    private const SkillType WRITING = SkillType.Writing;
+    private const SkillType REPAIR = SkillType.Repair;
+
+    private const StatusBarType BLADDER = StatusBarType.Bladder;
+    private const StatusBarType ENERGY = StatusBarType.Energy;
+    private const StatusBarType HEALTH = StatusBarType.Health;
+    private const StatusBarType HUNGER = StatusBarType.Hunger;
+    private const StatusBarType HYGIENE = StatusBarType.Hygiene;
+    private const StatusBarType MOOD = StatusBarType.Mood;
+    private const StatusBarType THIRST = StatusBarType.Thirst;
+
+
     public static PlayerStatsManager Instance;
 
     public TextMeshProUGUI PhysicsLVLText;
@@ -67,72 +84,68 @@ public class PlayerStatsManager : SerializedMonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ODIN_SUPPORTED
 		// Specific so game won't save/load for Lyrcaxis
 		if (!UnityEditor.EditorPrefs.GetBool("ShouldGameSave", false)) {
 			Debug.Log("Initializing from PlayerStatsManager :) Game doesn't load.");
-			GameManager.Instance.IsStartingNewGame = true;
+			//GameManager.Instance.IsStartingNewGame = true;
 			InitializeSkillsAndStatusBars();
 			return;
 		}
 #endif
-		UpdateTotalLevel();
+        UpdateTotalLevel();
         OnLevelUp += CareerUi.Instance.UpdateJobUi;
     }
 
     public void InitializeSkillsAndStatusBars()
     {
-        if (!GameManager.Instance || GameManager.Instance.IsStartingNewGame)
-        {
-
-       
         playerSkills = new Dictionary<SkillType, Skill>()
         {
-        { SkillType.Intelligence, Intelligence.Initialize()},
-         { SkillType.Strength, Strength.Initialize()},
-          { SkillType.Fitness, Fitness.Initialize()},
-         { SkillType.Charisma, Charisma.Initialize()},
-         { SkillType.Cooking, Cooking.Initialize()},
-          { SkillType.Writing, Writing.Initialize()},
-           { SkillType.Repair, Repair.Initialize()}
+            [INTELLIGENCE] = Intelligence.Initialize(),
+            [STRENGTH] = Strength.Initialize(),
+            [FITNESS] = Fitness.Initialize(),
+            [CHARISMA] = Charisma.Initialize(),
+            [COOKING] = Cooking.Initialize(),
+            [WRITING] = Writing.Initialize(),
+            [REPAIR] = Repair.Initialize(),
         };
+
         playerStatusBars = new Dictionary<StatusBarType, StatusBar>()
         {
-        { StatusBarType.Bladder, Bladder.Initialize() },
-         { StatusBarType.Energy, Energy.Initialize()},
-          { StatusBarType.Health, Health.Initialize()},
-         { StatusBarType.Hunger, Hunger.Initialize()},
-         { StatusBarType.Hygiene, Hygiene.Initialize()},
-          { StatusBarType.Mood, Mood.Initialize()},
-           { StatusBarType.Thirst, Thirst.Initialize()}
+            [BLADDER] = Bladder.Initialize(),
+            [ENERGY] = Energy.Initialize(),
+            [HEALTH] = Health.Initialize(),
+            [HUNGER] = Hunger.Initialize(),
+            [HYGIENE] = Hygiene.Initialize(),
+            [MOOD] = Mood.Initialize(),
+            [THIRST] = Thirst.Initialize(),
         };
-            Debug.Log("Creating new status objects");
-        }
-        else
-        {
+       
+    }
 
-            playerSkills = new Dictionary<SkillType, Skill>()
+    public void InitializeSkillsAndStatusBars(GameFile.SaveData saveData)
+    {
+        playerSkills = new Dictionary<SkillType, Skill>()
         {
-        { SkillType.Intelligence, Intelligence.Initialize()},
-         { SkillType.Strength, Strength.Initialize()},
-          { SkillType.Fitness, Fitness.Initialize()},
-         { SkillType.Charisma, Charisma.Initialize()},
-         { SkillType.Cooking, Cooking.Initialize()},
-          { SkillType.Writing, Writing.Initialize()},
-           { SkillType.Repair, Repair.Initialize()}
+            [INTELLIGENCE] = saveData.PlayerSkills[INTELLIGENCE],
+            [STRENGTH] = saveData.PlayerSkills[STRENGTH],
+            [FITNESS] = saveData.PlayerSkills[FITNESS],
+            [CHARISMA] = saveData.PlayerSkills[CHARISMA],
+            [COOKING] = saveData.PlayerSkills[COOKING],
+            [WRITING] = saveData.PlayerSkills[WRITING],
+            [REPAIR] = saveData.PlayerSkills[REPAIR],
         };
-            playerStatusBars = new Dictionary<StatusBarType, StatusBar>()
+        
+        playerStatusBars = new Dictionary<StatusBarType, StatusBar>()
         {
-        { StatusBarType.Bladder, Bladder.Initialize() },
-         { StatusBarType.Energy, Energy.Initialize()},
-          { StatusBarType.Health, Health.Initialize()},
-         { StatusBarType.Hunger, Hunger.Initialize()},
-         { StatusBarType.Hygiene, Hygiene.Initialize()},
-          { StatusBarType.Mood, Mood.Initialize()},
-           { StatusBarType.Thirst, Thirst.Initialize()}
+            [BLADDER] = saveData.PlayerStatusBars[BLADDER],
+            [ENERGY] = saveData.PlayerStatusBars[ENERGY],
+            [HEALTH] = saveData.PlayerStatusBars[HEALTH],
+            [HUNGER] = saveData.PlayerStatusBars[HUNGER],
+            [HYGIENE] = saveData.PlayerStatusBars[HYGIENE],
+            [MOOD] = saveData.PlayerStatusBars[MOOD],
+            [THIRST] = saveData.PlayerStatusBars[THIRST],
         };
-            Debug.Log("Loading old status objects");
-        }
     }
 
     public void UpdateTotalLevel()
@@ -229,14 +242,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Health; } }
         new public static StatusBar Initialize()
         {
-            if(GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Health();
-            }else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Health];
-            }
-           
+            return Instance = new Health();
         }
 
     }
@@ -248,15 +254,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Bladder; } }
         new public static StatusBar Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Bladder();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Bladder];
-            }
-
+            return Instance = new Bladder();
         }
     }
     [System.Serializable]
@@ -267,15 +265,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Energy; } }
         new public static StatusBar Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Energy();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Energy];
-            }
-
+            return Instance = new Energy();
         }
 
     }
@@ -287,15 +277,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Thirst; } }
         new public static StatusBar Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Thirst();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Thirst];
-            }
-
+            return Instance = new Thirst();
         }
 
     }
@@ -307,15 +289,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Hunger; } }
         new public static StatusBar Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Hunger();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Hunger];
-            }
-
+            return Instance = new Hunger();
         }
 
     }
@@ -327,15 +301,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Mood; } }
         new public static StatusBar Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Mood();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Mood];
-            }
-
+            return Instance = new Mood();
         }
 
     }
@@ -347,15 +313,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         public override StatusBarType statusBarType { set { statusBarType = StatusBarType.Hygiene; } }
         new public static StatusBar Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Hygiene();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerStatusBars[StatusBarType.Hygiene];
-            }
-
+            return Instance = new Hygiene();
         }
 
     }
@@ -422,15 +380,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Intelligence();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Intelligence];
-            }
-
+            return Instance = new Intelligence();
         }
        
 
@@ -475,16 +425,9 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Strength();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Strength];
-            }
-
+            return Instance = new Strength();
         }
+
         public override void Effect()
         {
             PlayerStatsManager.Instance.levelUpParticles.Play();
@@ -523,15 +466,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Fitness();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Fitness];
-            }
-
+            return Instance = new Fitness();
         }
 
         public override void Effect()
@@ -572,16 +507,9 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Charisma();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Charisma];
-            }
-
+            return Instance = new Charisma();
         }
+
         public override void Effect()
         {
             PlayerStatsManager.Instance.levelUpParticles.Play();
@@ -624,15 +552,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Cooking();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Cooking];
-            }
-
+            return Instance = new Cooking();
         }
 
         public override void Effect()
@@ -682,16 +602,9 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Repair();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Repair];
-            }
-
+            return Instance = new Repair();
         }
+
         public override void Effect()
         {
             PlayerStatsManager.Instance.RepairSpeed += 0.05f;
@@ -731,15 +644,7 @@ public class PlayerStatsManager : SerializedMonoBehaviour
         }
         new public static Skill Initialize()
         {
-            if (GameManager.Instance.IsStartingNewGame)
-            {
-                return Instance = new Writing();
-            }
-            else
-            {
-                return Instance = GameManager.Instance.CurrentSave.PlayerSkills[SkillType.Writing];
-            }
-
+            return Instance = new Writing();
         }
 
         public override void Effect()

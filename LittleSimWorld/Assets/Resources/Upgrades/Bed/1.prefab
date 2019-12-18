@@ -99,7 +99,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32567
 --- !u!114 &7802908388890628453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,11 +406,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RendererOfOutlinedObject: {fileID: 0}
-  OutlineGO: {fileID: 0}
-  outlineThickness: 10
-  OutlineColor: {r: 0.05789665, g: 1, b: 0.042452812, a: 0.23529412}
-  Enabled: 0
+  ShowCachedSettings: 0
+  spr: {fileID: 0}
+  outlineRenderer: {fileID: 0}
+  outlineMaterial: {fileID: 0}
+  AutoSolveWidth: 1
+  MaxWidthInPixels: 0
+  Speed: 0
+  isMouseOver: 0
 --- !u!82 &-7257067474089267829
 AudioSource:
   m_ObjectHideFlags: 0

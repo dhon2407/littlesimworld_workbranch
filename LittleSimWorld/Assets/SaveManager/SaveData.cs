@@ -1,22 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using System;
 
 
- [Serializable]
-public class SaveData
-{
-    public PlayerData MyPlayerData { get; set; }
+// [Serializable]
+//public class SaveData
+//{
+//    public PlayerData MyPlayerData { get; set; }
 
-    public SaveData()
-    {
+//    public SaveData()
+//    {
 
-    }
+//    }
 
-}
- [Serializable]
-public class PlayerData
-{
-    public int MyLevel { get; set; }
-}
+//}
+// [Serializable]
+//public class PlayerData
+//{
+//    public int MyLevel { get; set; }
+//}

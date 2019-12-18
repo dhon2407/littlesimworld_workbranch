@@ -14,9 +14,35 @@ namespace InventorySystem
 
         public int FreeSlot => GetFreeSlot();
 
-        public override void Open(ItemList data) { }
-
         public override void Close() { }
+
+        public override void Open(ItemList data)
+        {
+            if (data == null)
+                return;
+
+            itemList = data;
+
+            int currentSlot = 0;
+            foreach (var itemData in data.Items)
+            {
+                Inventory.CreateSlot(itemCells[currentSlot].transform).
+                    SetItem(Inventory.CreateItem(itemData), itemData.count).
+                    SetSelfAction(Inventory.PlaceOnBag);
+
+                currentSlot++;
+            }
+        }
+
+        public void InitializeItems(List<ItemList.ItemInfo> list)
+        {
+            if (list == null)
+                return;
+
+            itemList.UpdateItems(list);
+
+            Open(itemList);
+        }
 
         public bool AddItem(ItemSlot itemSlot)
         {
@@ -156,6 +182,13 @@ namespace InventorySystem
         protected override void Start()
         {
             base.Start();
+            Show();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            itemList = GetComponent<ItemList>();
             Show();
         }
 
