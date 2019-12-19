@@ -6,28 +6,32 @@ namespace PlayerStats
     public class PlayerStatsDisplay : MonoBehaviour
     {
         [SerializeField]
-        private TextMeshProUGUI PhysicsLVLText;
+        private TextMeshProUGUI PhysicsLVLText = null;
         [SerializeField]
-        private TextMeshProUGUI PhysicsXPText;
+        private TextMeshProUGUI PhysicsXPText = null;
         [SerializeField]
-        private TextMeshProUGUI StrengthLVLText;
+        private TextMeshProUGUI StrengthLVLText = null;
         [SerializeField]
-        private TextMeshProUGUI StrengthXPText;
+        private TextMeshProUGUI StrengthXPText = null;
         [SerializeField]
-        private TextMeshProUGUI CharismaLVLText;
+        private TextMeshProUGUI CharismaLVLText = null;
         [SerializeField]
-        private TextMeshProUGUI CharismaXPText;
+        private TextMeshProUGUI CharismaXPText = null;
         [SerializeField]
-        private TextMeshProUGUI FitnessLVLText;
+        private TextMeshProUGUI FitnessLVLText = null;
         [SerializeField]
-        private TextMeshProUGUI FitnessXPText;
+        private TextMeshProUGUI FitnessXPText = null;
         [SerializeField]
-        private TextMeshProUGUI CookingLVLText;
+        private TextMeshProUGUI CookingLVLText = null;
         [SerializeField]
-        private TextMeshProUGUI CookingXPText;
+        private TextMeshProUGUI CookingXPText = null;
         [SerializeField]
-        private TextMeshProUGUI RepairLVLText;
+        private TextMeshProUGUI RepairLVLText = null;
         [SerializeField]
-        private TextMeshProUGUI RepairXPText;
+        private TextMeshProUGUI RepairXPText = null;
+
+        [Space]
+        [SerializeField]
+        private TextMeshProUGUI TotalLevelText = null;
     }
 }

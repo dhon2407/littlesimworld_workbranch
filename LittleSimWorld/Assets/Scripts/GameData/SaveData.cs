@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using CharacterVisual = CharacterData.Wrappers.CharacterInfoWrapper;
 using ItemList = System.Collections.Generic.List<InventorySystem.ItemList.ItemInfo>;
+using PlayerSkillsData = System.Collections.Generic.Dictionary<PlayerStats.Skill.Type, PlayerStats.Skill.Data>;
+using PlayerStatusData = System.Collections.Generic.Dictionary<PlayerStats.Status.Type, PlayerStats.Status.Data>;
 
 namespace GameFile
 {
@@ -33,8 +35,14 @@ namespace GameFile
         public Dictionary<int, ItemList> containerItems;
 
         public JobManager.Job currentJob;
+        
+        public PlayerSkillsData playerSkillsData;
+        public PlayerStatusData playerStatusData;
+
+        //TODO REMOVE
         public Dictionary<SkillType, PlayerStatsManager.Skill> PlayerSkills;
         public Dictionary<StatusBarType, PlayerStatsManager.StatusBar> PlayerStatusBars;
+        
         public List<string> CompletedMissions = new List<string>();
         public List<string> CurrentMissions = new List<string>();
 
