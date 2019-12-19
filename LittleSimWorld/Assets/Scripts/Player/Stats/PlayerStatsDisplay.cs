@@ -1,8 +1,12 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace PlayerStats
 {
+    using Type = Skill.Type;
+
     public class PlayerStatsDisplay : MonoBehaviour
     {
         [SerializeField]
@@ -33,5 +37,63 @@ namespace PlayerStats
         [Space]
         [SerializeField]
         private TextMeshProUGUI TotalLevelText = null;
+
+        private void Start()
+        {
+            StartCoroutine(RegisterSkillChanges());
+        }
+
+        private IEnumerator RegisterSkillChanges()
+        {
+            while (!Stats.Ready)
+                yield return null;
+
+            Stats.OnSkillUpdate.AddListener(UpdateSkillDisplay);
+        }
+
+        private void UpdateSkillDisplay(Type type)
+        {
+            TextMeshProUGUI lvlText = null;
+            TextMeshProUGUI xpText = null;
+
+            switch (type)
+            {
+                case Type.Strength:
+                    lvlText = StrengthLVLText;
+                    xpText = StrengthXPText;
+                    break;
+                case Type.Fitness:
+                    lvlText = FitnessLVLText;
+                    xpText = FitnessXPText;
+                    break;
+                case Type.Intelligence:
+                    lvlText = PhysicsLVLText;
+                    xpText = PhysicsXPText;
+                    break;
+                case Type.Cooking:
+                    lvlText = CookingLVLText;
+                    xpText = CookingXPText;
+                    break;
+                case Type.Charisma:
+                    lvlText = CharismaLVLText;
+                    xpText = CharismaXPText;
+                    break;
+                case Type.Repair:
+                    lvlText = RepairLVLText;
+                    xpText = RepairXPText;
+                    break;
+
+                case Type.Writing:
+                default:
+                    Debug.LogWarning($"No dedicated text display for {type}");
+                    break;
+            }
+
+            if (lvlText != null & xpText != null)
+            {
+                lvlText.text = (Stats.SkillLevel(type) == 0) ? "-" : Stats.SkillLevel(type).ToString("0");
+                xpText.text = (Stats.SkillLevel(type) == 0) ? "-" : Stats.SkillLevel(type).ToString("0");
+            }
+        }
     }
 }

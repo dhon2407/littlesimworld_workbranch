@@ -20,7 +20,8 @@ namespace PlayerStats
         private PlayerStatus playerStatus;
         private PlayerStatsUpdater statsUpdater;
         
-        public OnSkillLevelUp onSkillLevelup { get; private set; }
+        public OnSkillChange onSkillLevelup { get; private set; }
+        public OnSkillChange onSkillUpdate { get; private set; }
 
         public float money { get; private set; } = 2000;
         public float priceMultiplier { get; private set; } = 1;
@@ -66,7 +67,8 @@ namespace PlayerStats
                 return;
             }
 
-            onSkillLevelup = new OnSkillLevelUp();
+            onSkillLevelup = new OnSkillChange();
+            onSkillUpdate = new OnSkillChange();
             statsUpdater = new PlayerStatsUpdater();
 
             instance = this;
@@ -150,7 +152,7 @@ namespace PlayerStats
             return playerStatus[type].MaxAmount;
         }
 
-        public class OnSkillLevelUp : UnityEvent<Skill.Type> { }
+        public class OnSkillChange : UnityEvent<Skill.Type> { }
 
         public void AddStatusAmount(Status.Type type, float amount)
         {
@@ -165,6 +167,7 @@ namespace PlayerStats
         public void AddSkillXP(Skill.Type type, float amount)
         {
             playerSkills[type].AddXP(amount);
+            onSkillUpdate.Invoke(type);
         }
 
         public int GetSkillLevel(Skill.Type type)
@@ -179,7 +182,8 @@ namespace PlayerStats
 
         public static bool Ready => (manager != null);
         public static float Money  => (manager.money);
-        public static PlayerStatsManager.OnSkillLevelUp OnSkillLevelUp => manager.onSkillLevelup;
+        public static PlayerStatsManager.OnSkillChange OnSkillLevelUp => manager.onSkillLevelup;
+        public static PlayerStatsManager.OnSkillChange OnSkillUpdate => manager.onSkillLevelup;
 
         public static float PriceMultiplier { set => manager.PriceMultiplier(value); get => manager.priceMultiplier; }
         public static float XpMultiplier { set => manager.XpMultiplier(value); get => manager.xpMultiplier; }
