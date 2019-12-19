@@ -83,7 +83,7 @@ namespace PlayerStats
         private void Update()
         {
             if (playerStatus != null)
-                statsUpdater.UpdateStatus(playerStatus, (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier);
+                statsUpdater.Update(playerStatus, (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier);
         }
 
         private PlayerSkills InitializeSkills(PlayerSkillsData data)

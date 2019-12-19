@@ -1,13 +1,11 @@
-﻿using PlayerSkills = System.Collections.Generic.Dictionary<PlayerStats.Skill.Type, PlayerStats.Skill>;
-using PlayerStatus = System.Collections.Generic.Dictionary<PlayerStats.Status.Type, PlayerStats.Status>;
+﻿using PlayerStatus = System.Collections.Generic.Dictionary<PlayerStats.Status.Type, PlayerStats.Status>;
 
 namespace PlayerStats
 {
     public class PlayerStatsUpdater
     {
-        public void UpdateStatus(PlayerStatus playerStats, float timeScale)
+        public void Update(PlayerStatus playerStats, float timeScale)
         {
-            //timeScale = (Time.deltaTime / GameClock.Speed)) * GameClock.TimeMultiplier);
             bool notPassOutAndActive = !GameLibOfMethods.passedOut && GameLibOfMethods.player.gameObject.activeSelf;
 
             foreach (var item in playerStats)
