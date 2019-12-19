@@ -9,6 +9,11 @@
             data = existingData;
         }
 
+        public override void ZeroPenalty(float timeScale)
+        {
+            GameLibOfMethods.animator.SetTrigger("PassOutToSleep");
+        }
+
         protected override void InitializeData()
         {
             type = Type.Energy;

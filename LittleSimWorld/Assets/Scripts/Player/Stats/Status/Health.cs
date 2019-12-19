@@ -11,8 +11,6 @@
 
         public override void ZeroPenalty(float timeScale)
         {
-            //Move to proper place to indicate passing out.
-            passingOut = true;
             GameLibOfMethods.PassOut();
         }
 

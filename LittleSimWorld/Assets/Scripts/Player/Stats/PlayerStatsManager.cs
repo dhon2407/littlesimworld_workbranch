@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
+using GameClock = GameTime.Clock;
 using PlayerSkillsData = System.Collections.Generic.Dictionary<PlayerStats.Skill.Type, PlayerStats.Skill.Data>;
 using PlayerStatusData = System.Collections.Generic.Dictionary<PlayerStats.Status.Type, PlayerStats.Status.Data>;
 using PlayerSkills = System.Collections.Generic.Dictionary<PlayerStats.Skill.Type, PlayerStats.Skill>;
@@ -18,6 +18,7 @@ namespace PlayerStats
 
         private PlayerSkills playerSkills;
         private PlayerStatus playerStatus;
+        private PlayerStatsUpdater statsUpdater;
         
         public OnSkillLevelUp onSkillLevelup { get; private set; }
 
@@ -66,6 +67,7 @@ namespace PlayerStats
             }
 
             onSkillLevelup = new OnSkillLevelUp();
+            statsUpdater = new PlayerStatsUpdater();
 
             instance = this;
             Stats.SetManager(this);
@@ -74,6 +76,12 @@ namespace PlayerStats
         private void Start()
         {
             onSkillLevelup.AddListener((type) => CareerUi.Instance.UpdateJobUi());
+        }
+
+        private void Update()
+        {
+            if (playerStatus != null)
+                statsUpdater.UpdateStatus(playerStatus, (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier);
         }
 
         private PlayerSkills InitializeSkills(PlayerSkillsData data)
