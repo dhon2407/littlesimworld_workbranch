@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PlayerStats
 {
@@ -16,8 +17,11 @@ namespace PlayerStats
 
         protected Data data = defaultData;
         public Type type { get; protected set; }
+        public float CurrentAmount => data.amount;
+        public float MaxAmount => data.maxAmount;
 
         protected abstract void InitializeData();
+        public abstract void ZeroPenalty(float timeScale);
 
         public Status()
         {
@@ -30,6 +34,18 @@ namespace PlayerStats
             data.amount = Mathf.Clamp(data.amount + amount, minValue, data.maxAmount);
         }
 
+        public virtual void Drain(float timeScale)
+        {
+            float multiplier = (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking) ? 0.5f : 1;
+            Add(data.drainPerHour * timeScale * multiplier);
+        }
+
+        public virtual void AddMax(float amount)
+        {
+            data.maxAmount += amount;
+        }
+
+        [System.Serializable]
         public struct Data
         {
             public float amount;
@@ -38,6 +54,7 @@ namespace PlayerStats
             public float drainPerHourPunished;
         }
 
+        [System.Serializable]
         public enum Type
         {
             Health,

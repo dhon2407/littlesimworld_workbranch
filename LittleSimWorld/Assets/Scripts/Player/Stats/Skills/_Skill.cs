@@ -13,6 +13,8 @@ namespace PlayerStats
         };
 
         protected Data data = defaultData;
+
+        public int CurrentLevel => data.level;
         public Type type { get; protected set; }
         public string name { get; protected set; }
 
@@ -55,6 +57,7 @@ namespace PlayerStats
             GameLibOfMethods.AddChatMessege(name + " level UP!");
         }
 
+        [System.Serializable]
         public struct Data
         {
             public int level;
@@ -63,6 +66,7 @@ namespace PlayerStats
             public float requiredXP;
         }
 
+        [System.Serializable]
         public enum Type
         {
             Strength,

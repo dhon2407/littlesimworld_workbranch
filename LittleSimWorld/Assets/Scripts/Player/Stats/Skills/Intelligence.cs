@@ -4,6 +4,13 @@ namespace PlayerStats
 {
     public class Intelligence : Skill
     {
+        public Intelligence() { }
+
+        public Intelligence(Data existingData)
+        {
+            data = existingData;
+        }
+
         protected override void Initialize()
         {
             name = nameof(Intelligence);

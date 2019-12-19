@@ -4,6 +4,13 @@ namespace PlayerStats
 {
     public class Charisma : Skill
     {
+        public Charisma() {}
+
+        public Charisma(Data existingData)
+        {
+            data = existingData;
+        }
+
         protected override void Initialize()
         {
             name = nameof(Charisma);

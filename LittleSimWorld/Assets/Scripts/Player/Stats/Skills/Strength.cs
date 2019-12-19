@@ -4,6 +4,13 @@ namespace PlayerStats
 {
     public class Strength : Skill
     {
+        public Strength() { }
+
+        public Strength(Data existingData)
+        {
+            data = existingData;
+        }
+
         protected override void Initialize()
         {
             name = nameof(Strength);

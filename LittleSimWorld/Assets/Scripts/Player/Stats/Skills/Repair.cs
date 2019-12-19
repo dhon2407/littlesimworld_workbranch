@@ -4,6 +4,13 @@ namespace PlayerStats
 {
     public class Repair : Skill
     {
+        public Repair() { }
+
+        public Repair(Data existingData)
+        {
+            data = existingData;
+        }
+
         protected override void Initialize()
         {
             name = nameof(Repair);

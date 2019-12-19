@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 using PlayerSkillsData = System.Collections.Generic.Dictionary<PlayerStats.Skill.Type, PlayerStats.Skill.Data>;
 using PlayerStatusData = System.Collections.Generic.Dictionary<PlayerStats.Status.Type, PlayerStats.Status.Data>;
 using PlayerSkills = System.Collections.Generic.Dictionary<PlayerStats.Skill.Type, PlayerStats.Skill>;
 using PlayerStatus = System.Collections.Generic.Dictionary<PlayerStats.Status.Type, PlayerStats.Status>;
-using UnityEngine.Events;
 
 namespace PlayerStats
 {
@@ -76,14 +76,50 @@ namespace PlayerStats
             onSkillLevelup.AddListener((type) => CareerUi.Instance.UpdateJobUi());
         }
 
-        private PlayerSkills InitializeSkills(PlayerSkillsData playerSkillsData)
+        private PlayerSkills InitializeSkills(PlayerSkillsData data)
         {
-            throw new NotImplementedException();
+            var playerSkills = new PlayerSkills()
+            {
+                [Skill.Type.Charisma] =
+                    (data == null) ? new Charisma() : new Charisma(data[Skill.Type.Charisma]),
+                [Skill.Type.Cooking] =
+                    (data == null) ? new Cooking() : new Cooking(data[Skill.Type.Cooking]),
+                [Skill.Type.Fitness] =
+                    (data == null) ? new Fitness() : new Fitness(data[Skill.Type.Fitness]),
+                [Skill.Type.Intelligence] =
+                    (data == null) ? new Intelligence() : new Intelligence(data[Skill.Type.Intelligence]),
+                [Skill.Type.Repair] =
+                    (data == null) ? new Repair() : new Repair(data[Skill.Type.Repair]),
+                [Skill.Type.Strength] =
+                    (data == null) ? new Strength() : new Strength(data[Skill.Type.Strength]),
+                [Skill.Type.Writing] =
+                    (data == null) ? new Writing() : new Writing(data[Skill.Type.Writing]),
+            };
+
+            return playerSkills;
         }
 
-        private PlayerStatus InitializeStatus(PlayerStatusData playerStatusData)
+        private PlayerStatus InitializeStatus(PlayerStatusData data)
         {
-            throw new NotImplementedException();
+            var playerStatus = new PlayerStatus()
+            {
+                [Status.Type.Bladder] =
+                    (data == null) ? new Bladder() : new Bladder(data[Status.Type.Bladder]),
+                [Status.Type.Energy] =
+                    (data == null) ? new Energy() : new Energy(data[Status.Type.Energy]),
+                [Status.Type.Health] =
+                    (data == null) ? new Health() : new Health(data[Status.Type.Health]),
+                [Status.Type.Hunger] =
+                    (data == null) ? new Hunger() : new Hunger(data[Status.Type.Hunger]),
+                [Status.Type.Hygiene] =
+                    (data == null) ? new Hygiene() : new Hygiene(data[Status.Type.Hygiene]),
+                [Status.Type.Mood] =
+                    (data == null) ? new Mood() : new Mood(data[Status.Type.Mood]),
+                [Status.Type.Thirst] =
+                    (data == null) ? new Thirst() : new Thirst(data[Status.Type.Thirst]),
+            };
+
+            return playerStatus;
         }
 
         public void PlayLevelUpEffects()
@@ -98,15 +134,35 @@ namespace PlayerStats
 
         public void IncreaseStatusMaxAmount(Status.Type type, float amount)
         {
-            throw new NotImplementedException();
+            playerStatus[type].AddMax(amount);
         }
 
         public float GetStatusMaxAmount(Status.Type type)
         {
-            throw new NotImplementedException();
+            return playerStatus[type].MaxAmount;
         }
 
-        public class OnSkillLevelUp : UnityEvent<Skill.Type> { };
+        public class OnSkillLevelUp : UnityEvent<Skill.Type> { }
+
+        public void AddStatusAmount(Status.Type type, float amount)
+        {
+            playerStatus[type].Add(amount);
+        }
+
+        public float GetStatusAmount(Status.Type type)
+        {
+            return playerStatus[type].CurrentAmount;
+        }
+
+        public void AddSkillXP(Skill.Type type, float amount)
+        {
+            playerSkills[type].AddXP(amount);
+        }
+
+        public int GetSkillLevel(Skill.Type type)
+        {
+            return playerSkills[type].CurrentLevel;
+        }
     }
  
     public static class Stats
@@ -133,35 +189,64 @@ namespace PlayerStats
             manager.UpdateData(playerSkills, playerStatus);
         }
 
+        public static void PlayLevelUpEffects()
+        {
+            manager.PlayLevelUpEffects();
+        }
+
+        #region Skills Functions
         public static Skill Skill(Skill.Type type)
         {
             return manager.GetSkill(type);
         }
 
-        public static Status Status(Status.Type type)
+        public static void AddXP(Skill.Type type, float amount)
         {
-            return manager.GetStatus(type);
+            manager.AddSkillXP(type, amount);
         }
 
-        public static void PlayLevelUpEffects()
+        public static int SkillLevel(Skill.Type type)
         {
-            manager.PlayLevelUpEffects();
+            return manager.GetSkillLevel(type);
         }
 
         public static void SkillLevelUp(Skill.Type type)
         {
             manager.SkillLevelUp(type);
         }
+        #endregion
 
-        public static void IncreaseMaxAmount(Status.Type type, float amount)
+        #region Status Functions
+        public static Status Status(Status.Type type)
         {
-            manager.IncreaseStatusMaxAmount(type, amount);
+            return manager.GetStatus(type);
+        }
+
+        public static void Add(Status.Type type, float amount)
+        {
+            manager.AddStatusAmount(type, Mathf.Abs(amount));
+        }
+
+        public static void Remove(Status.Type type, float amount)
+        {
+            manager.AddStatusAmount(type, -1 * Mathf.Abs(amount));
+        }
+
+        public static float GetAmount(Status.Type type)
+        {
+            return manager.GetStatusAmount(type);
         }
 
         public static float MaxAmount(Status.Type type)
         {
             return manager.GetStatusMaxAmount(type);
         }
+
+        public static void IncreaseMaxAmount(Status.Type type, float amount)
+        {
+            manager.IncreaseStatusMaxAmount(type, amount);
+        }
+        #endregion
 
         public static void AddMoney(float amount)
         {

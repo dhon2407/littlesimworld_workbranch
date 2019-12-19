@@ -4,6 +4,13 @@ namespace PlayerStats
 {
     public class Fitness : Skill
     {
+        public Fitness() { }
+
+        public Fitness(Data existingData)
+        {
+            data = existingData;
+        }
+
         protected override void Initialize()
         {
             name = nameof(Fitness);
