@@ -23,12 +23,10 @@ namespace Cooking
                     return;
                 }
                 
-                if (itemCell.Equals(this))
-                    item.Dropped();
-                else
+                if (!itemCell.Equals(this))
                     slot.PlaceItem(item.GetSlot());
 
-
+                item.Dropped();
                 onDropEvent.Invoke(this);
             }
         }

@@ -1,5 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
 
 namespace InventorySystem
 {
@@ -70,14 +72,14 @@ namespace InventorySystem
         {
             if (basket.Empty) return;
 
-            if (PlayerStatsManager.Instance.Money < basket.TotalCost)
+            if (Stats.Money < basket.TotalCost)
             {
                 GameLibOfMethods.CreateFloatingText("Not enough money", 2);
                 return;
             }
 
-            PlayerStatsManager.Instance.Money = Mathf.Clamp(PlayerStatsManager.Instance.Money - basket.TotalCost, 0, float.MaxValue);
-            PlayerStatsManager.Instance.playerSkills[SkillType.Charisma].AddXP(basket.TotalCost * 0.2f);
+            Stats.GetMoney(basket.TotalCost);
+            Stats.AddXP(Type.Charisma, basket.TotalCost * 0.2f);
 
             ExecuteUpgrades();
 

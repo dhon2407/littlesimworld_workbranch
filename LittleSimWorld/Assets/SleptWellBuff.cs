@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Stats = PlayerStats.Stats;
 
 public class SleptWellBuff : Buffs
 
@@ -11,7 +12,7 @@ public class SleptWellBuff : Buffs
 
     void Start()
     {
-        PlayerStatsManager.Instance.BonusXPMultiplier += XPmodifier;
+        Stats.BonusXpMultiplier += XPmodifier;
     }
 
     void FixedUpdate()
@@ -26,6 +27,6 @@ public class SleptWellBuff : Buffs
     }
     private void OnDestroy()
     {
-        PlayerStatsManager.Instance.BonusXPMultiplier -= XPmodifier;
+        Stats.BonusXpMultiplier -= XPmodifier;
     }
 }

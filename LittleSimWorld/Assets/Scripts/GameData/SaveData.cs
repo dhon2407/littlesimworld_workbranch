@@ -1,5 +1,6 @@
 ﻿using InventorySystem;
 using System.Collections.Generic;
+using GameTime;
 
 using CharacterVisual = CharacterData.Wrappers.CharacterInfoWrapper;
 using ItemList = System.Collections.Generic.List<InventorySystem.ItemList.ItemInfo>;
@@ -17,9 +18,9 @@ namespace GameFile
         public float playerY;
         
         public float time;
-        public int days;
-        public int season;
-        public int weekday;
+        public int days = 1;
+        public Calendar.Season season;
+        public Calendar.Weekday weekday;
         public int weather;
 
         public float money = 2000;
@@ -38,14 +39,15 @@ namespace GameFile
         
         public PlayerSkillsData playerSkillsData;
         public PlayerStatusData playerStatusData;
-
-        //TODO REMOVE
-        public Dictionary<SkillType, PlayerStatsManager.Skill> PlayerSkills;
-        public Dictionary<StatusBarType, PlayerStatsManager.StatusBar> PlayerStatusBars;
-        
+      
         public List<string> CompletedMissions = new List<string>();
         public List<string> CurrentMissions = new List<string>();
 
         public Dictionary<ItemUpgradable.UpgradeType, ItemCode> upgrades;
+    }
+
+    public static class Save
+    {
+        public static readonly string fileExtension = ".save_test";
     }
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cooking;
 
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
+
+
 namespace UI.Cooking {
 	public class UI_ManualCookingSlot : MonoBehaviour
     { 
@@ -29,7 +33,7 @@ namespace UI.Cooking {
 			if (isAvailableForPlayer)
                 return;
 
-			isAvailableForPlayer = PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].Level >= requiredCookingLevel;
+			isAvailableForPlayer = Stats.Skill(Type.Cooking).CurrentLevel >= requiredCookingLevel;
 		}
 
         public void GreyedOut(bool enable)

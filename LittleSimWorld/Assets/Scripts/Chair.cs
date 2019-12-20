@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerStats;
 using GameClock = GameTime.Clock;
 public class Chair : BreakableFurniture, IInteractable, IUseable {
     public Canvas LaptopOptionsCanvas;
@@ -28,7 +29,7 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
 
 		ActivateChoices();
 
-		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut) {
+		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !GameLibOfMethods.passedOut) {
 			yield return 0f;
 		}
 
@@ -57,13 +58,13 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
 		float xpGainSpeed = XpGainGetHour;
 		yield return new WaitForEndOfFrame();
 
-		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut) {
+		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !GameLibOfMethods.passedOut) {
 
 			GameLibOfMethods.animator.SetBool("Learning", true);
 			float multi = (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier;
-			PlayerStatsManager.Intelligence.Instance.AddXP(xpGainSpeed * multi);
-			PlayerStatsManager.Energy.Instance.CurrentAmount -= (energyDrainSpeed * multi);
-			PlayerStatsManager.Mood.Instance.CurrentAmount -= (moodDrainSpeed * multi);
+            Stats.AddXP(Skill.Type.Intelligence, xpGainSpeed * multi);
+            Stats.Status(Status.Type.Energy).Remove(energyDrainSpeed * multi);
+            Stats.Status(Status.Type.Mood).Remove(energyDrainSpeed * multi);
 
 			/*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 

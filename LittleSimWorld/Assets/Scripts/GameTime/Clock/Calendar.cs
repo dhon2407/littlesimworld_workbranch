@@ -26,16 +26,6 @@ namespace GameTime
         public static Weekday CurrentWeekday => instance.weekday;
         public static Season CurrentSeason => instance.season;
 
-        #region OLD INTERFACE
-        public static int CurrentWkDay => (int)CurrentWeekday;
-        public static int CurrentSson => (int)CurrentSeason;
-
-        public static void Initialize(int days, int weekDays, int season)
-        {
-            Initialize(days, (Weekday)weekDays, (Season)season);
-        }
-        #endregion
-
         public static void Initialize(int day, Weekday weekDays, Season season)
         {
             if (instance == null)
@@ -94,11 +84,13 @@ namespace GameTime
             Clock.onDayPassed.RemoveListener(DayPassed);
         }
 
+        [System.Serializable]
         public enum Weekday
         {
             Monday = 0, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
         }
 
+        [System.Serializable]
         public enum Season
         {
             Summer = 0, Autumn, Winter, Spring

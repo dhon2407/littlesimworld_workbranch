@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Stats = PlayerStats.Stats;
+
 public class SleptPoorDebuff : Buffs
 {
 
     void Start()
     {
-        PlayerStatsManager.Instance.BonusXPMultiplier -= XPmodifier;
+        Stats.BonusXpMultiplier -= XPmodifier;
     }
 
     void FixedUpdate()
@@ -22,6 +24,6 @@ public class SleptPoorDebuff : Buffs
     }
     private void OnDestroy()
     {
-        PlayerStatsManager.Instance.BonusXPMultiplier += XPmodifier;
+        Stats.BonusXpMultiplier += XPmodifier;
     }
 }

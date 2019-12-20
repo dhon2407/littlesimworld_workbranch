@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class Shower : BreakableFurniture, IUseable, IInteractable {
 	public Vector3 PlayerStandPosition => CharacterPosition.position;
@@ -44,10 +46,10 @@ public class Shower : BreakableFurniture, IUseable, IInteractable {
 
 			float timeWithFullBar = 0;
 
-			while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut && !isBroken) {
+			while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !GameLibOfMethods.passedOut && !isBroken) {
 
 
-				PlayerStatsManager.Hygiene.Instance.Add(HygieneGainAmount * Time.fixedDeltaTime);
+                Stats.Status(Type.Hygiene).Add(HygieneGainAmount * Time.fixedDeltaTime);
 
 				float chance = Random.Range(0f, 100f);
 				if (chance <= breakChancePerSecond / 60) {
@@ -56,7 +58,7 @@ public class Shower : BreakableFurniture, IUseable, IInteractable {
 				}
 
 
-				if (PlayerStatsManager.Hygiene.Instance.CurrentAmount >= PlayerStatsManager.Hygiene.Instance.MaxAmount) {
+				if (Stats.Status(Type.Hygiene).CurrentAmount >= Stats.Status(Type.Hygiene).MaxAmount) {
 					timeWithFullBar += Time.deltaTime;
 
 					if (timeWithFullBar >= 2) {

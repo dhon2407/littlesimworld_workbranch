@@ -47,7 +47,7 @@
 
 //        save.PlayerStatusBars = PlayerStatsManager.Instance.playerStatusBars;
 
-//        save.Money = PlayerStatsManager.Instance.Money;
+//        save.Money = Stats.Money;
 //        save.XPmultiplayer = PlayerStatsManager.Instance.XPMultiplier;
 //        save.PriceMultiplayer = PlayerStatsManager.Instance.PriceMultiplier;
 
@@ -205,7 +205,7 @@
 //            PlayerStatsManager.Instance.playerStatusBars = save.PlayerStatusBars;
 //            PlayerStatsManager.Instance.playerSkills = save.PlayerSkills;
 
-//            PlayerStatsManager.Instance.Money = save.Money;
+//            Stats.Money = save.Money;
 //            PlayerStatsManager.Instance.XPMultiplier = save.XPmultiplayer;
 //            PlayerStatsManager.Instance.PriceMultiplier = save.PriceMultiplayer;
 

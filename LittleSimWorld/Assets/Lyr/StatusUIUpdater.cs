@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
+using PlayerStats;
 
 public class StatusUIUpdater : SerializedMonoBehaviour
 {
@@ -59,8 +59,8 @@ public class StatusUIUpdater : SerializedMonoBehaviour
 		[HideReferenceObjectPicker] public Gradient gradient;
 		[FitLabelWidth] public float MinimumPercentageToActivateGlowEffects;
 
-		public Dictionary<StatusBarType, StatusImageGlowEffectPair> StatusBarSlots;
-		Dictionary<StatusBarType, float> _cachedPercentages;
+		public Dictionary<Status.Type, StatusImageGlowEffectPair> StatusBarSlots;
+		Dictionary<Status.Type, float> _cachedPercentages;
 
 		public StatusBarUIUpdater() {
 			StatusBarSlots = StatusBarSlots.InitializeDefaultValues(true);
@@ -74,8 +74,8 @@ public class StatusUIUpdater : SerializedMonoBehaviour
 			var keys = StatusBarSlots.Keys;
 
 			foreach (var key in keys) {
-				var maxAmount = PlayerStatsManager.PlayerStatusBars[key].MaxAmount;
-				var T = PlayerStatsManager.GetCurrentAmount(key) / maxAmount;
+				var maxAmount = Stats.Status(key).MaxAmount;
+				var T = Stats.Status(key).CurrentAmount / maxAmount;
 
 				// Only update if needed for performance.
 				if (T == _cachedPercentages[key]) { continue; }

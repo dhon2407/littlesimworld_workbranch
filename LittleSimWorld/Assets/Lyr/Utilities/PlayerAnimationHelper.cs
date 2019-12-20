@@ -29,7 +29,7 @@ public static class PlayerAnimationHelper
 		GameLibOfMethods.cantMove = false;
 		GameLibOfMethods.canInteract = true;
 		GameLibOfMethods.doingSomething = false;
-		PlayerStatsManager.Instance.passingOut = false;
+        GameLibOfMethods.passedOut = false;
 
 		GameLibOfMethods.player.transform.rotation = Quaternion.Euler(Vector3.zero);
 		GameLibOfMethods.animator.enabled = true;

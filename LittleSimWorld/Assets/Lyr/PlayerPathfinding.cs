@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PathFinding;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Stats = PlayerStats.Stats;
 
 public class PlayerPathfinding : MonoBehaviour {
 
@@ -94,7 +95,7 @@ public class PlayerPathfinding : MonoBehaviour {
 		if (path.Count == 0) { yield break; }
 		yield return 0f;
 		anim.SetBool("Walking", true);
-		Speed *= PlayerStatsManager.Instance.MovementSpeed;
+        Speed *= Stats.MoveSpeed;
 		float _spd = 0;
 		int index = 0;
 

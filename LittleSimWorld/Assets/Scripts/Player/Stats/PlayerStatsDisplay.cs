@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -49,6 +48,8 @@ namespace PlayerStats
                 yield return null;
 
             Stats.OnSkillUpdate.AddListener(UpdateSkillDisplay);
+
+            Stats.UpdateSkillsData();
         }
 
         private void UpdateSkillDisplay(Type type)
@@ -85,14 +86,14 @@ namespace PlayerStats
 
                 case Type.Writing:
                 default:
-                    Debug.LogWarning($"No dedicated text display for {type}");
+                    Debug.LogWarning($"No dedicated text display for skill {type}");
                     break;
             }
 
             if (lvlText != null & xpText != null)
             {
                 lvlText.text = (Stats.SkillLevel(type) == 0) ? "-" : Stats.SkillLevel(type).ToString("0");
-                xpText.text = (Stats.SkillLevel(type) == 0) ? "-" : Stats.SkillLevel(type).ToString("0");
+                xpText.text = $" XP: {Stats.Skill(type).GetData().xp}/{Stats.Skill(type).GetData().requiredXP}";
             }
         }
     }

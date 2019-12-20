@@ -20,9 +20,6 @@ namespace PlayerStats
         private PlayerStatus playerStatus;
         private PlayerStatsUpdater statsUpdater;
         
-        public OnSkillChange onSkillLevelup { get; private set; }
-        public OnSkillChange onSkillUpdate { get; private set; }
-
         public float money { get; private set; } = 2000;
         public float priceMultiplier { get; private set; } = 1;
         public float xpMultiplier { get; private set; } = 1;
@@ -37,6 +34,8 @@ namespace PlayerStats
         public void BonusXpMultiplier(float value) => bonusXpMultiplier = value;
         public void MoveSpeed(float value) => moveSpeed = value;
         public void RepairSpeed(float value) => repairSpeed = value;
+        public PlayerStatus PlayerStatus => playerStatus;
+        public PlayerSkills PlayerSkills => playerSkills;
 
         public Skill GetSkill(Skill.Type type)
         {
@@ -67,8 +66,6 @@ namespace PlayerStats
                 return;
             }
 
-            onSkillLevelup = new OnSkillChange();
-            onSkillUpdate = new OnSkillChange();
             statsUpdater = new PlayerStatsUpdater();
 
             instance = this;
@@ -77,7 +74,7 @@ namespace PlayerStats
 
         private void Start()
         {
-            onSkillLevelup.AddListener((type) => CareerUi.Instance.UpdateJobUi());
+            
         }
 
         private void Update()
@@ -137,11 +134,6 @@ namespace PlayerStats
             levelUpParticles.Play();
         }
 
-        public void SkillLevelUp(Skill.Type type)
-        {
-            onSkillLevelup.Invoke(type);
-        }
-
         public void IncreaseStatusMaxAmount(Status.Type type, float amount)
         {
             playerStatus[type].AddMax(amount);
@@ -167,12 +159,29 @@ namespace PlayerStats
         public void AddSkillXP(Skill.Type type, float amount)
         {
             playerSkills[type].AddXP(amount);
-            onSkillUpdate.Invoke(type);
         }
 
         public int GetSkillLevel(Skill.Type type)
         {
             return playerSkills[type].CurrentLevel;
+        }
+
+        public PlayerSkillsData CreateSkillsData()
+        {
+            var data = new PlayerSkillsData();
+            foreach (var skills in playerSkills)
+                data[skills.Key] = skills.Value.GetData();
+
+            return data;
+        }
+
+        public PlayerStatusData CreateStatusData()
+        {
+            var data = new PlayerStatusData();
+            foreach (var stat in playerStatus)
+                data[stat.Key] = stat.Value.GetData();
+
+            return data;
         }
     }
  
@@ -182,18 +191,29 @@ namespace PlayerStats
 
         public static bool Ready => (manager != null);
         public static float Money  => (manager.money);
-        public static PlayerStatsManager.OnSkillChange OnSkillLevelUp => manager.onSkillLevelup;
-        public static PlayerStatsManager.OnSkillChange OnSkillUpdate => manager.onSkillLevelup;
+        public static PlayerStatsManager.OnSkillChange OnSkillLevelUp;
+        public static PlayerStatsManager.OnSkillChange OnSkillUpdate;
+        public static PlayerStatus PlayerStatus => manager.PlayerStatus;
+        public static PlayerSkills PlayerSkills => manager.PlayerSkills;
+
+        public static PlayerSkillsData SkillsData => manager.CreateSkillsData();
+        public static PlayerStatusData StatusData => manager.CreateStatusData();
 
         public static float PriceMultiplier { set => manager.PriceMultiplier(value); get => manager.priceMultiplier; }
         public static float XpMultiplier { set => manager.XpMultiplier(value); get => manager.xpMultiplier; }
         public static float BonusXpMultiplier { set => manager.BonusXpMultiplier(value); get => manager.bonusXpMultiplier; }
         public static float MoveSpeed { set => manager.MoveSpeed(value); get => manager.moveSpeed; }
         public static float RepairSpeed { set => manager.RepairSpeed(value); get => manager.repairSpeed; }
+        public static float SetMoney { set => manager.Money(value); }
 
         public static void SetManager(PlayerStatsManager statsManager)
         {
             manager = statsManager;
+            InitializeEvents();
+        }
+        public static void Initialize()
+        {
+            manager.UpdateData(null, null);
         }
 
         public static void Initialize(PlayerSkillsData playerSkills, PlayerStatusData playerStatus)
@@ -215,6 +235,7 @@ namespace PlayerStats
         public static void AddXP(Skill.Type type, float amount)
         {
             manager.AddSkillXP(type, amount);
+            OnSkillUpdate.Invoke(type);
         }
 
         public static int SkillLevel(Skill.Type type)
@@ -222,9 +243,9 @@ namespace PlayerStats
             return manager.GetSkillLevel(type);
         }
 
-        public static void SkillLevelUp(Skill.Type type)
+        public static void InvokeLevelUp(Skill.Type type)
         {
-            manager.SkillLevelUp(type);
+            OnSkillLevelUp.Invoke(type);
         }
         #endregion
 
@@ -262,7 +283,28 @@ namespace PlayerStats
 
         public static void AddMoney(float amount)
         {
+            amount = Mathf.Abs(amount);
             manager.Money(Mathf.Clamp(Money + amount, 0, float.MaxValue));
+        }
+
+        public static void GetMoney(float amount)
+        {
+            amount = Mathf.Abs(amount);
+            manager.Money(Mathf.Clamp(Money - amount, 0, float.MaxValue));
+        }
+
+        public static void UpdateSkillsData()
+        {
+            foreach (var skillType in PlayerSkills.Keys)
+                OnSkillUpdate.Invoke(skillType);
+        }
+
+        private static void InitializeEvents()
+        {
+            OnSkillLevelUp = new PlayerStatsManager.OnSkillChange();
+            OnSkillUpdate = new PlayerStatsManager.OnSkillChange();
+
+            OnSkillLevelUp.AddListener((type) => CareerUi.Instance.UpdateJobUi());
         }
     }
 }

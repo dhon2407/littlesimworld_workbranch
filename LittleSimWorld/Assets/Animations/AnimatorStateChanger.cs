@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stats = PlayerStats.Stats;
 
 public class AnimatorStateChanger : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class AnimatorStateChanger : MonoBehaviour
 	void FixedUpdate()
     {
 		if (!GameLibOfMethods.cantMove && !GameLibOfMethods.sitting && !SpriteControler.Instance.BeignKnockbacked) {
-			float speedMulti = walkingSpeed * PlayerStatsManager.Instance.MovementSpeed;
+			float speedMulti = walkingSpeed * Stats.MoveSpeed;
 			Vector3 temp = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 			if (temp.sqrMagnitude >= 1) { temp.Normalize(); }
 			temp *= speedMulti;

@@ -2,11 +2,11 @@
 using UnityEngine;
 using Sirenix.Serialization;
 using System.IO;
-using System.Linq;
 using UnityEngine.SceneManagement;
+using InventorySystem;
+using PlayerStats;
 
 using CharacterVisual = CharacterData.Wrappers.CharacterInfoWrapper;
-using InventorySystem;
 
 namespace GameFile
 {
@@ -14,7 +14,6 @@ namespace GameFile
     public class SaveManager : MonoBehaviour
     {
         private readonly int MainGameBuildIndex = 1;
-        private const string fileExtension = ".save";
         private static SaveManager instance;
 
         public float PlayTime;
@@ -25,7 +24,7 @@ namespace GameFile
         private SaveData CurrentSaveData = null;
         private bool onPlay;
 
-        private string filePath => Application.persistentDataPath + "/" + CurrentSaveName + fileExtension;
+        private string filePath => Application.persistentDataPath + "/" + CurrentSaveName + Save.fileExtension;
 
 #if UNITY_EDITOR && ODIN_SUPPORTED
         [Sirenix.OdinInspector.Button]
@@ -40,32 +39,6 @@ namespace GameFile
         {
             CurrentSaveName = filename;
             CurrentSaveData = data;
-        }
-
-        public List<SaveData> GetAvailableSaves()
-        {
-            var saveFiles = new List<SaveData>();
-
-            DirectoryInfo di = new DirectoryInfo(Application.persistentDataPath);
-            var files = di.GetFiles().Where(obj => obj.Name.EndsWith(fileExtension));
-
-            foreach (FileInfo file in files)
-            {
-                DataFormat format = DataFormat.Binary;
-                var bytes = File.ReadAllBytes(file.FullName);
-
-                if (bytes == null)
-                    continue;
-
-                Save saveFile = SerializationUtility.DeserializeValue<Save>(bytes, format);
-                if (saveFile == null)
-                {
-                    Debug.LogWarning($"Failed serialize file data from file {file.Name}");
-                    continue;
-                }
-            }
-
-            return saveFiles;
         }
 
         public void LoadGame()
@@ -89,13 +62,13 @@ namespace GameFile
                 GameTime.Calendar.Initialize(CurrentSaveData.days, CurrentSaveData.weekday, CurrentSaveData.season);
                 Weather.WeatherSystem.Initialize(CurrentSaveData.weather);
 
-                PlayerStatsManager.Instance.Money = CurrentSaveData.money;
+                Stats.SetMoney = CurrentSaveData.money;
                 Bank.Instance.MoneyInBank = CurrentSaveData.moneyInBank;
                 Bank.Instance.PercentagePerDay = CurrentSaveData.percentagePerDay;
                 Bank.Instance.UpdateBalance();
-                PlayerStatsManager.Instance.XPMultiplier = CurrentSaveData.xpMultiplayer;
-                PlayerStatsManager.Instance.PriceMultiplier = CurrentSaveData.priceMultiplayer;
-                PlayerStatsManager.Instance.RepairSpeed = CurrentSaveData.repairSpeed;
+                Stats.XpMultiplier = CurrentSaveData.xpMultiplayer;
+                Stats.PriceMultiplier = CurrentSaveData.priceMultiplayer;
+                Stats.RepairSpeed = CurrentSaveData.repairSpeed;
 
                 SpriteControler.Instance.visuals = CurrentSaveData.characterVisuals.GetVisuals();
 
@@ -103,8 +76,7 @@ namespace GameFile
 
                 JobManager.Instance.CurrentJob = CurrentSaveData.currentJob;
 
-                PlayerStatsManager.Instance.playerSkills = CurrentSaveData.PlayerSkills;
-                PlayerStatsManager.Instance.playerStatusBars = CurrentSaveData.PlayerStatusBars;
+                Stats.Initialize(CurrentSaveData.playerSkillsData, CurrentSaveData.playerStatusData);
 
                 if (CurrentSaveData.CompletedMissions != null)
                     MissionHandler.CompletedMissions = new List<string>(CurrentSaveData.CompletedMissions);
@@ -115,28 +87,17 @@ namespace GameFile
 
                 Upgrades.SetData(CurrentSaveData.upgrades);
 
-                InitializePlayerStats();
                 CareerUi.Instance.UpdateJobUi();
             }
-            else
+            else if (Stats.Ready)
             {
-                if (PlayerStatsManager.Instance)
-                {
-                    PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
-                    CareerUi.Instance.UpdateJobUi();
-                }
+                Stats.Initialize();
+                Inventory.Initialize();
+                CareerUi.Instance.UpdateJobUi();
             }
 
             onPlay = true;
-        }
-
-        private void InitializePlayerStats()
-        {
-            //TODO PlayerStatManager Improvement
-            //if (CurrentSaveData.PlayerSkills == null || CurrentSaveData.PlayerStatusBars == null)
-                PlayerStatsManager.Instance.InitializeSkillsAndStatusBars();
-            //else
-            //    PlayerStatsManager.Instance.InitializeSkillsAndStatusBars(CurrentSaveData);
+            Portrait.TakePortraitNextFrame();
         }
 
         public void CreateSaveFile(string filename, CharacterData.CharacterInfo charInfo)
@@ -187,16 +148,16 @@ namespace GameFile
 
                 time = GameTime.Clock.Time,
                 days = GameTime.Calendar.Day,
-                season = GameTime.Calendar.CurrentSson,
-                weekday = GameTime.Calendar.CurrentWkDay,
+                season = GameTime.Calendar.CurrentSeason,
+                weekday = GameTime.Calendar.CurrentWeekday,
                 weather = Weather.WeatherSystem.CurrentSaveWeather,
 
-                money = PlayerStatsManager.Instance.Money,
+                money = Stats.Money,
                 moneyInBank = Bank.Instance.MoneyInBank,
                 percentagePerDay = Bank.Instance.PercentagePerDay,
-                xpMultiplayer = PlayerStatsManager.Instance.XPMultiplier,
-                priceMultiplayer = PlayerStatsManager.Instance.PriceMultiplier,
-                repairSpeed = PlayerStatsManager.Instance.RepairSpeed,
+                xpMultiplayer = Stats.XpMultiplier,
+                priceMultiplayer = Stats.PriceMultiplier,
+                repairSpeed = Stats.RepairSpeed,
 
                 characterVisuals = new CharacterVisual(SpriteControler.Instance.visuals),
 
@@ -204,8 +165,8 @@ namespace GameFile
                 containerItems = Inventory.ContainerContents,
 
                 currentJob = JobManager.Instance.CurrentJob,
-                PlayerSkills = PlayerStatsManager.Instance.playerSkills,
-                PlayerStatusBars = PlayerStatsManager.Instance.playerStatusBars,
+                playerSkillsData = Stats.SkillsData,
+                playerStatusData = Stats.StatusData,
                 CompletedMissions = new List<string>(MissionHandler.CompletedMissions),
                 CurrentMissions = new List<string>(MissionHandler.CurrentMissions),
 

@@ -14,6 +14,7 @@ namespace PlayerStats
 
         protected Data data = defaultData;
 
+        public Data GetData() => data;
         public int CurrentLevel => data.level;
         public Type type { get; protected set; }
         public string name { get; protected set; }
@@ -51,7 +52,7 @@ namespace PlayerStats
         {
             data.xp = 0;
             data.level += 1;
-            Stats.SkillLevelUp(type);
+            Stats.InvokeLevelUp(type);
             Effect();
             GameLibOfMethods.CreateFloatingText($"{name} Leveled UP!", 3);
             GameLibOfMethods.AddChatMessege(name + " level UP!");

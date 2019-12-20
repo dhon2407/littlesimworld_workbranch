@@ -1,9 +1,9 @@
 ﻿using CharacterData;
-using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using static PlayerStats.Skill;
 using CharacterInfo = CharacterData.CharacterInfo;
 
 namespace GameFile
@@ -37,19 +37,19 @@ namespace GameFile
         {
             saveData = data;
             name.text = filename;
-            playtime.text = $"{TimeSpan.FromSeconds(data.RealPlayTime).Hours.ToString("00")}:" +
-                            $"{TimeSpan.FromSeconds(data.RealPlayTime).Minutes.ToString("00")}";
+            playtime.text = $"{System.TimeSpan.FromSeconds(data.RealPlayTime).Hours.ToString("00")}:" +
+                            $"{System.TimeSpan.FromSeconds(data.RealPlayTime).Minutes.ToString("00")}";
 
             int totalLvl = 0;
 
-            if (data.PlayerSkills != null)
+            if (data.playerSkillsData != null)
             {
-                totalLvl = data.PlayerSkills[SkillType.Charisma].Level +
-                               data.PlayerSkills[SkillType.Fitness].Level +
-                               data.PlayerSkills[SkillType.Intelligence].Level +
-                               data.PlayerSkills[SkillType.Strength].Level +
-                               data.PlayerSkills[SkillType.Cooking].Level +
-                               data.PlayerSkills[SkillType.Repair].Level;
+                totalLvl = data.playerSkillsData[Type.Charisma].level +
+                               data.playerSkillsData[Type.Fitness].level +
+                               data.playerSkillsData[Type.Intelligence].level +
+                               data.playerSkillsData[Type.Strength].level +
+                               data.playerSkillsData[Type.Cooking].level +
+                               data.playerSkillsData[Type.Repair].level;
             }
 
             totalSkillLevel.text = (totalLvl <= 0) ? "-" : totalLvl.ToString("0");
@@ -83,7 +83,7 @@ namespace GameFile
         public void DeleteThisSave()
         {
             DirectoryInfo dir = new DirectoryInfo(Application.persistentDataPath);
-            var files = dir.GetFiles().Where(obj => obj.Name.EndsWith(name.text + ".save"));
+            var files = dir.GetFiles().Where(obj => obj.Name.EndsWith(name.text + Save.fileExtension));
             foreach (FileInfo file in files)
                 file.Delete();
             

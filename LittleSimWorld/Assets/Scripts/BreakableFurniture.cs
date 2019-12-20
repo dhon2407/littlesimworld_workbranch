@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
 
 public class BreakableFurniture : MonoBehaviour
 {
@@ -76,7 +78,7 @@ public class BreakableFurniture : MonoBehaviour
             yield return new WaitForEndOfFrame();
             while (!Input.GetKey(KeyCode.E))
             {
-                RepairProgress += (Time.deltaTime * repairSpeed) * PlayerStatsManager.Instance.RepairSpeed;
+                RepairProgress += (Time.deltaTime * repairSpeed) * Stats.RepairSpeed;
                 Progress.fillAmount = RepairProgress / 100;
                 if(RepairProgress >= 100)
                 {
@@ -114,7 +116,7 @@ public class BreakableFurniture : MonoBehaviour
         RepairProgress = 0;
         Progress.fillAmount = RepairProgress;
 		PlayerAnimationHelper.ResetPlayer();
-        PlayerStatsManager.Instance.playerSkills[SkillType.Repair].AddXP(10);
+        Stats.AddXP(Type.Repair, 10);
     }
 
     public void PlayEnterAndLoopSound()

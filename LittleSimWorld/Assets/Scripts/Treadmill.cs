@@ -1,6 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+using static PlayerStats.Status.Type;
+using static PlayerStats.Skill.Type;
+using Stats = PlayerStats.Stats;
 
 public class Treadmill : BreakableFurniture, IInteractable, IUseable {
 
@@ -11,7 +14,7 @@ public class Treadmill : BreakableFurniture, IInteractable, IUseable {
 	public float CustomSpeedToPosition { get; }
 
 	public void Interact() {
-		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 5 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 5) { return; }
+		if (Stats.Status(Energy).CurrentAmount <= 5 || Stats.Status(Health).CurrentAmount <= 5) { return; }
 		PlayerCommands.JumpTo(this);
 	}
 	public void Use() => StartCoroutine(RunningOnTreadmill());
@@ -35,10 +38,10 @@ public class Treadmill : BreakableFurniture, IInteractable, IUseable {
 
 			SpriteControler.Instance.FaceLEFT();
 
-			PlayerStatsManager.Fitness.Instance.AddXP(0.027777778f);
-			PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].Add(-0.027777778f);
+            Stats.AddXP(Fitness, 0.027777778f);
+            Stats.Status(Energy).Remove(0.027777778f);
 
-			if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) { break; }
+			if (Stats.Status(Energy).CurrentAmount <= 0 || Stats.Status(Health).CurrentAmount <= 0) { break; }
 
 
 			yield return new WaitForFixedUpdate();
@@ -53,7 +56,7 @@ public class Treadmill : BreakableFurniture, IInteractable, IUseable {
 		yield return new WaitForEndOfFrame();
 
 
-		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) {
+		if (Stats.Status(Energy).CurrentAmount <= 0 || Stats.Status(Health).CurrentAmount <= 0) {
 			void act() => GameLibOfMethods.animator.SetBool("PassOut", true);
 			PlayerCommands.JumpOff(0, act);
 		}

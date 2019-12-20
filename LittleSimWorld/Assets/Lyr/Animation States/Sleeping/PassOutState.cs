@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Stats = PlayerStats.Stats;
+using static PlayerStats.Status.Type;
+
 public class PassOutState : StateMachineBehaviour {
 
 	public bool CheckOutReason = false;
@@ -21,15 +24,14 @@ public class PassOutState : StateMachineBehaviour {
 	}
 
 	void CheckPassOutReason(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		if (PlayerStatsManager.GetCurrentAmount(StatusBarType.Health) <= 0)
+		if (Stats.Status(Health).CurrentAmount <= 0)
             WakeUpHospital().Start();
-		else if (PlayerStatsManager.GetCurrentAmount(StatusBarType.Energy) <= 0)
+		else if (Stats.Status(Energy).CurrentAmount <= 0)
             animator.SetBool("Sleeping", true);
 	}
 
 
 	public static IEnumerator<float> WakeUpHospital() {
-		PlayerStatsManager.Instance.passingOut = false;
         GameTime.Clock.ResetSpeed();
 		GameLibOfMethods.blackScreen.CrossFadeAlpha(1, 0.5f, false);
 		yield return MEC.Timing.WaitForSeconds(2);
@@ -39,16 +41,14 @@ public class PassOutState : StateMachineBehaviour {
 		player.GetComponent<Animator>().enabled = true;
 
 
-		var keys = PlayerStatsManager.Instance.playerStatusBars.Keys;
-
-		foreach (var key in keys) {
-			PlayerStatsManager.PlayerStatusBars[key].CurrentAmount = 100;
+		foreach (PlayerStats.Status.Type type in Stats.PlayerStatus.Keys) {
+            Stats.Add(type, float.MaxValue); //FULL HEAL
 		}
 		// can be in stead of 
 
 		player.transform.rotation = Quaternion.Euler(0,0,0);
 
-		PlayerStatsManager.Instance.SubstractMoney(GameLibOfMethods.HospitalFee);
+        Stats.GetMoney(GameLibOfMethods.HospitalFee);
 
 		GameLibOfMethods.passedOut = false;
 		Vector3 SpawnPosition = GameLibOfMethods.HospitalRespawnPoint.position;

@@ -566,7 +566,7 @@ public class InteractionChecker : MonoBehaviour
     //
     //IEnumerator SlowlyApproachToSleep()
     //{
-    //    if (!GameLibOfMethods.doingSomething && PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
+    //    if (!GameLibOfMethods.doingSomething && Stats.Status(Type.Hunger).CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
     //        PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
     //        PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
     //        PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f)
@@ -628,7 +628,7 @@ public class InteractionChecker : MonoBehaviour
     //    float timeWithFullBar = 0;
     //    DayNightCycle.Instance.ChangeSpeedToSleepingSpeed();
     //    while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut &&
-    //        !GameLibOfMethods.doingSomething && PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
+    //        !GameLibOfMethods.doingSomething && Stats.Status(Type.Hunger).CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
     //        PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
     //        PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
     //        PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f)
@@ -688,7 +688,7 @@ public class InteractionChecker : MonoBehaviour
     //
     //            PlayerStatsManager.Energy.Instance.Add(((EnergyGainSpeedWhenPassedOut)
     //                * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
-    //            PlayerStatsManager.Health.Instance.CurrentAmount -= (((EnergyGainSpeedWhenPassedOut * 0.5f)
+    //            Stats.Status(Type.Health).CurrentAmount -= (((EnergyGainSpeedWhenPassedOut * 0.5f)
     //              * (Time.deltaTime / GameClock.Speed)) * GameClock.Multiplier);
     //
     //

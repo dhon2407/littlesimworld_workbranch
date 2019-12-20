@@ -1,5 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 namespace InventorySystem
 {
@@ -28,20 +29,20 @@ namespace InventorySystem
 
         private void ApplyStatGains()
         {
-            PlayerStatsManager.Hunger.Instance.Add(Hunger);
-            PlayerStatsManager.Energy.Instance.Add(Energy);
-            PlayerStatsManager.Health.Instance.Add(Health);
-            PlayerStatsManager.Mood.Instance.Add(Mood);
-            PlayerStatsManager.Thirst.Instance.Add(Thirst);
+            Stats.Status(Type.Hunger).Add(Hunger);
+            Stats.Status(Type.Energy).Add(Energy);
+            Stats.Status(Type.Health).Add(Health);
+            Stats.Status(Type.Mood).Add(Mood);
+            Stats.Status(Type.Thirst).Add(Thirst);
         }
 
         private void ApplyBonusGains()
         {
-            PlayerStatsManager.Hunger.Instance.Add(PlayerStatsManager.Hunger.Instance.MaxAmount * HungerPercentBonus);
-            PlayerStatsManager.Energy.Instance.Add(PlayerStatsManager.Energy.Instance.MaxAmount * EnergyPercentBonus);
-            PlayerStatsManager.Health.Instance.Add(PlayerStatsManager.Health.Instance.MaxAmount * HealthPercentBonus);
-            PlayerStatsManager.Mood.Instance.Add(PlayerStatsManager.Mood.Instance.MaxAmount * MoodPercentBonus);
-            PlayerStatsManager.Thirst.Instance.Add(PlayerStatsManager.Thirst.Instance.MaxAmount * ThirstPercentBonus);
+            Stats.Status(Type.Hunger).Add(Stats.Status(Type.Hunger).MaxAmount * HungerPercentBonus);
+            Stats.Status(Type.Energy).Add(Stats.Status(Type.Energy).MaxAmount * EnergyPercentBonus);
+            Stats.Status(Type.Health).Add(Stats.Status(Type.Health).MaxAmount * HealthPercentBonus);
+            Stats.Status(Type.Mood).Add(Stats.Status(Type.Mood).MaxAmount * MoodPercentBonus);
+            Stats.Status(Type.Thirst).Add(Stats.Status(Type.Thirst).MaxAmount * ThirstPercentBonus);
         }
     }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using CharacterStats;
+using Stats = PlayerStats.Stats;
+
 [System.Serializable]
 public class Bank : MonoBehaviour, IInteractable
 {
@@ -36,19 +38,19 @@ public class Bank : MonoBehaviour, IInteractable
     public void Deposit()
     {
         int inputInt = int.Parse(InputField.text);
-        if (inputInt > PlayerStatsManager.Instance.Money)
+        if (inputInt > Stats.Money)
         {
             GameLibOfMethods.CreateFloatingText("Not enough money!", 3);
             return;
         }
-        PlayerStatsManager.Instance.Money -= inputInt;
+        Stats.GetMoney(inputInt);
         MoneyInBank += inputInt;
         UpdateBalance();
 
     }
     public void Withdraw()
     {
-        PlayerStatsManager.Instance.Money += (float)MoneyInBank;
+        Stats.AddMoney((float)MoneyInBank);
         MoneyInBank = 0;
         UpdateBalance();
 

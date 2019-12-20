@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class PissingInPantsState : StateMachineBehaviour
 {
    
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerStatsManager. Bladder.Instance.CurrentAmount = PlayerStatsManager.Bladder.Instance.MaxAmount;
-        PlayerStatsManager.Hygiene.Instance.CurrentAmount = 0;
+        Stats.Status(Type.Bladder).Set(float.MaxValue);
+        Stats.Status(Type.Hygiene).Set(0);
+
         GameLibOfMethods.cantMove = true;
         GameLibOfMethods.canInteract = false;
         GameLibOfMethods.doingSomething = true;

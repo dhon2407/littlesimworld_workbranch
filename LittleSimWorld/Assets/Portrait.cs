@@ -1,23 +1,37 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Portrait : MonoBehaviour
 {
+    private static Portrait instance;
     public Camera PortraitCamera;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        UpdatePortrait();
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void UpdatePortrait()
+    public void Render()
     {
         PortraitCamera.Render();
+    }
+
+    public static void TakePortraitNextFrame()
+    {
+        instance.StartCoroutine(instance.RendeBeforeNextFrame());
+    }
+
+    private IEnumerator RendeBeforeNextFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        Render();
     }
 }

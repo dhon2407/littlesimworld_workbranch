@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using GameClock = GameTime.Clock;
+using Stats = PlayerStats.Stats;
+using static PlayerStats.Status.Type;
 
 public class SleepingState : StateMachineBehaviour {
 
@@ -21,10 +23,10 @@ public class SleepingState : StateMachineBehaviour {
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		float Multi = Time.deltaTime * GameClock.TimeMultiplier / GameClock.Speed;
 
-		PlayerStatsManager.Add(StatusBarType.Energy, EnergyGainPerSecond * Multi);
-		PlayerStatsManager.Remove(StatusBarType.Health, HealthReducePerSecond * Multi);
+        Stats.Status(Energy).Add(EnergyGainPerSecond * Multi);
+        Stats.Status(Energy).Remove(EnergyGainPerSecond * Multi);
 
-		bool ShouldExitState = PlayerStatsManager.GetCurrentAmount(StatusBarType.Energy) >= EnergyRequiredToWakeUp || (Cancelable && Input.GetKeyDown(KeyCode.E));
+		bool ShouldExitState = Stats.Status(Energy).CurrentAmount >= EnergyRequiredToWakeUp || (Cancelable && Input.GetKeyDown(KeyCode.E));
 		if (ShouldExitState) { animator.SetBool("Sleeping", false); }
 	}
 

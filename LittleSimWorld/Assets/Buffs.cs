@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class Buffs : MonoBehaviour
 {
@@ -29,11 +30,11 @@ public class Buffs : MonoBehaviour
     void Update()
     {
         Instance = gameObject;
-        if (PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount < MinHealthPercentageForPoorHealth && !PoorHealthDebuff.poorHealthDebuffInstance && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
+        if (Stats.Status(Type.Health).CurrentAmount / Stats.Status(Type.Health).MaxAmount < MinHealthPercentageForPoorHealth && !PoorHealthDebuff.poorHealthDebuffInstance && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
         {
            Instantiate(poorHealthDebuff, Instance.transform);
         }
-        if (PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount < MinHealthPercentageForVeryPoorHealth && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
+        if (Stats.Status(Type.Health).CurrentAmount / Stats.Status(Type.Health).MaxAmount < MinHealthPercentageForVeryPoorHealth && !VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
         {
             Instantiate(veryPoorHealthDebuff, Instance.transform);
         }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
+
 public class LevelQuest : Mission
 
      
@@ -22,12 +25,12 @@ public class LevelQuest : Mission
     // Update is called once per frame
     void Update()
     {
-        if (PlayerStatsManager.Instance.playerSkills[SkillType.Strength].Level >= RequieredStrLevel ||
-            PlayerStatsManager.Instance.playerSkills[SkillType.Intelligence].Level >= RequiredIntLevel ||
-            PlayerStatsManager.Instance.playerSkills[SkillType.Fitness].Level >= RequiredFitLevel ||
-            PlayerStatsManager.Instance.playerSkills[SkillType.Charisma].Level >= RequiredChrLevel||
-            PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].Level >= RequiredCookingLevel||
-         PlayerStatsManager.Instance.playerSkills[SkillType.Repair].Level >= RequiredRepairLevel)
+        if (Stats.Skill(Type.Strength).CurrentLevel >= RequieredStrLevel ||
+            Stats.Skill(Type.Intelligence).CurrentLevel >= RequiredIntLevel ||
+            Stats.Skill(Type.Fitness).CurrentLevel >= RequiredFitLevel ||
+            Stats.Skill(Type.Charisma).CurrentLevel >= RequiredChrLevel||
+            Stats.Skill(Type.Cooking).CurrentLevel >= RequiredCookingLevel||
+            Stats.Skill(Type.Repair).CurrentLevel >= RequiredRepairLevel)
 
         {
             if (accomplished == false)

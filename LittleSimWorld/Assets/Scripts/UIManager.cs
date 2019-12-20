@@ -7,6 +7,8 @@ using UnityEngine.U2D;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using GameSettings;
+using Stats = PlayerStats.Stats;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -72,11 +74,19 @@ public class UIManager : MonoBehaviour
 		if (!Instance) {
 			Instance = this;
 			DontDestroyOnLoad(gameObject);
-		}
+
+            SceneManager.activeSceneChanged += DestroyOnMenuScreen;
+        }
 		else {
 			Destroy(gameObject);
 			return;
 		}
+    }
+
+    private void DestroyOnMenuScreen(Scene oldScene, Scene newScene)
+    {
+        if (newScene.buildIndex == 0)//Main Menu index = 0
+            Destroy(Instance.gameObject);
     }
 
     void Start()
@@ -129,7 +139,7 @@ public class UIManager : MonoBehaviour
         }
 
 
-        Money.text = "£" + System.Math.Round(PlayerStatsManager.Instance.Money, 2).ToString();
+        Money.text = "£" + System.Math.Round(Stats.Money, 2).ToString();
 
         actionBar.fillAmount = GameLibOfMethods.progress;
 
@@ -169,9 +179,9 @@ public class UIManager : MonoBehaviour
 
     public void SwitchTo(int sceneIndex)
     {
+        GameFile.Data.Save();
         SceneManager.LoadScene(sceneIndex);
     }
-
 
     public void SwitchChat()
     {

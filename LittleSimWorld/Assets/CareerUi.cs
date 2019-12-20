@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using GameTime;
 using Sirenix.OdinInspector;
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
+
 public class CareerUi : SerializedMonoBehaviour
 {
     public static CareerUi Instance;
@@ -77,7 +80,7 @@ public class CareerUi : SerializedMonoBehaviour
             
             RequiredLevel.text = "Level " + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString() + " " + string.Join (", ",job.RequiredSkills);
 
-            ProgressLevel.text = PlayerStatsManager.Instance.playerSkills[job.RequiredSkills[0]].Level + "/" + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString();
+            ProgressLevel.text = Stats.Skill(job.RequiredSkills[0]).CurrentLevel + "/" + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString();
 
             CurrentEmplymentStatus.text = job.JobName[job.CurrentCareerLevel];
 

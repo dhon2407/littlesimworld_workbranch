@@ -3,6 +3,10 @@ using UnityEngine;
 using UI.Cooking;
 using InventorySystem;
 
+using static PlayerStats.Status.Type;
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
+
 public class _CookingStove : MonoBehaviour, IInteractable {
 
 	public static _CookingStove instance;
@@ -40,7 +44,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 
 	public void Interact() {
 		if (isPlayerCooking) { return; }
-		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 5 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 5) { return; }
+		if (Stats.Status(Energy).CurrentAmount <= 5 || Stats.Status(Health).CurrentAmount <= 5) { return; }
 		StoveManager.instance.ToggleMenu();
 		isOpen = !isOpen;
 	}
@@ -56,8 +60,8 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 	#region Cooking Logic
 
 	public void Cook(List<ItemCode> ingredients) {
-        if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount > 5 &&
-            PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount > 5)
+        if (Stats.Status(Energy).CurrentAmount > 5 &&
+            Stats.Status(Health).CurrentAmount > 5)
         {
             GameLibOfMethods.doingSomething = true;
             PlayerCommands.MoveTo(ZoneToStand.position, () => StartCooking(ingredients).Start());
@@ -94,7 +98,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 				break;
 			}
 
-			if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) { break; }
+			if (Stats.Status(Energy).CurrentAmount <= 0 || Stats.Status(Health).CurrentAmount <= 0) { break; }
 			yield return 0f;
 		}
 
@@ -108,7 +112,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 
 		GameLibOfMethods.progress = 0;
 
-		if (PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Energy].CurrentAmount <= 0 || PlayerStatsManager.Instance.playerStatusBars[StatusBarType.Health].CurrentAmount <= 0) {
+		if (Stats.Status(Energy).CurrentAmount <= 0 || Stats.Status(Health).CurrentAmount <= 0) {
 			PlayerAnimationHelper.ResetPlayer();
 			yield return 0f;
 			GameLibOfMethods.animator.SetBool("PassOut", true);
@@ -123,7 +127,7 @@ public class _CookingStove : MonoBehaviour, IInteractable {
         {
             var recipeOutcome = GetRecipeOutcome(ingredients, out int expEarned);
 
-            PlayerStatsManager.Instance.playerSkills[SkillType.Cooking].AddXP(expEarned);
+            Stats.AddXP(Type.Cooking, expEarned);
 
             Inventory.RemoveInBag(GetIngredientItemList(ingredients));
             yield return 0f;

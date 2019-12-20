@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Stats = PlayerStats.Stats;
 
 public class DebugUtilities : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class DebugUtilities : MonoBehaviour
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Keypad0)) { player.position = HomePos; }
 		if (Input.GetKeyDown(KeyCode.Keypad1)) { player.position = GroceriesPos; }
-		if (Input.GetKeyDown(KeyCode.Keypad2)) { PlayerStatsManager.Instance.Money += 100f; }
+		if (Input.GetKeyDown(KeyCode.Keypad2)) { Stats.AddMoney(100f); }
 		if (Input.GetKeyDown(KeyCode.Keypad9)) { player.position = TestViewPos; }
 		if (Input.GetKeyDown(KeyCode.Keypad3)) {
 			_CookingStove.instance.DefaultCookingEXP = Cheated3 ? 5 : 100;

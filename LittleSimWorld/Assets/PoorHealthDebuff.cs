@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class PoorHealthDebuff : Buffs
 {
@@ -9,20 +11,21 @@ public class PoorHealthDebuff : Buffs
     void Start()
     {
         maxDuration = 999999;
-        PlayerStatsManager.Instance.MovementSpeed -= MovementSpeedModifier;
+        Stats.MoveSpeed -= MovementSpeedModifier;
+        Stats.MoveSpeed -= MovementSpeedModifier;
         poorHealthDebuffInstance = this;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(PlayerStatsManager.Health.Instance.CurrentAmount / PlayerStatsManager.Health.Instance.MaxAmount > MinHealthPercentageForPoorHealth || VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
+        if(Stats.Status(Type.Health).CurrentAmount / Stats.Status(Type.Health).MaxAmount > MinHealthPercentageForPoorHealth || VeryPoorHealthDebuff.veryPoorHealthDebuffInstance)
         {
             Destroy(gameObject);
         }
     }
     private void OnDestroy()
     {
-        PlayerStatsManager.Instance.MovementSpeed += MovementSpeedModifier;
+        Stats.MoveSpeed += MovementSpeedModifier;
     }
 }

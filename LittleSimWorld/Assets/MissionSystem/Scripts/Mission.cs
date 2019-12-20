@@ -2,6 +2,7 @@
 using CharacterStats;
 using UnityEngine.UI;
 using System.Linq;
+using Stats = PlayerStats.Stats;
 
 /// <summary>
 /// Holds the extra information needed for each mission
@@ -55,7 +56,7 @@ public class Mission : MonoBehaviour
     {
         
        
-        PlayerStatsManager.Instance.AddMoney(MoneyBonus);
+        Stats.AddMoney(MoneyBonus);
         if (nextMission)
         {
             GameObject NextMission = Instantiate(nextMission, MissionHandler.missionHandler.MissionsGameObjects.transform);

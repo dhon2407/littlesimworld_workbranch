@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Stats = PlayerStats.Stats;
+
 
 namespace InventorySystem
 {
@@ -96,7 +97,7 @@ namespace InventorySystem
         private void UpdateTotalPriceDisplay()
         {
             totalPriceUI.text = "£ " + totalPrice.ToString("0.00");
-            totalPriceUI.color = (totalPrice > PlayerStatsManager.Instance.Money) ? Color.red : totalPriceInitialColor;
+            totalPriceUI.color = (totalPrice > Stats.Money) ? Color.red : totalPriceInitialColor;
         }
 
         private List<ItemList.ItemInfo> CreateItemList()

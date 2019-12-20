@@ -19,6 +19,7 @@ namespace PlayerStats
         public Type type { get; protected set; }
         public float CurrentAmount => data.amount;
         public float MaxAmount => data.maxAmount;
+        public Data GetData() => data;
 
         protected abstract void InitializeData();
         public abstract void ZeroPenalty(float timeScale);
@@ -34,10 +35,21 @@ namespace PlayerStats
             data.amount = Mathf.Clamp(data.amount + amount, minValue, data.maxAmount);
         }
 
+        public virtual void Set(float amount)
+        {
+            data.amount = Mathf.Clamp(amount, 0, data.maxAmount);
+        }
+
         public virtual void Drain(float timeScale)
         {
             float multiplier = (GameLibOfMethods.isSleeping || JobManager.Instance.isWorking) ? 0.5f : 1;
             Add(data.drainPerHour * timeScale * multiplier);
+        }
+
+        public virtual void Remove(float amount)
+        {
+            amount = Mathf.Abs(amount);
+            Add(-amount);
         }
 
         public virtual void AddMax(float amount)

@@ -7,8 +7,10 @@ using UnityEngine.Events;
 using Timers;
 using System.Linq;
 using CharacterStats;
-using System;
 using JetBrains.Annotations;
+
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class GameLibOfMethods : MonoBehaviour
 
@@ -241,22 +243,21 @@ public class GameLibOfMethods : MonoBehaviour
 
     public static IEnumerator WakeUpHospital()
     {
-        PlayerStatsManager.Instance.passingOut = false;
         GameTime.Clock.ResetSpeed();
         yield return new WaitForSecondsRealtime(2);
         player.GetComponent<Animator>().enabled = true;
-        PlayerStatsManager.Hunger.Instance.CurrentAmount = (PlayerStatsManager.Hunger.Instance.MaxAmount);
-        PlayerStatsManager.Energy.Instance.CurrentAmount = (PlayerStatsManager.Energy.Instance.MaxAmount);
-        PlayerStatsManager.Health.Instance.CurrentAmount =(PlayerStatsManager.Health.Instance.MaxAmount);
-        PlayerStatsManager.Mood.Instance.CurrentAmount = (PlayerStatsManager.Mood.Instance.MaxAmount);
-        PlayerStatsManager.Bladder.Instance.CurrentAmount = (100);
-        PlayerStatsManager.Hygiene.Instance.CurrentAmount = (100);
-        PlayerStatsManager.Thirst.Instance.CurrentAmount = (100);
+        Stats.Status(Type.Hunger).Set(float.MaxValue);
+        Stats.Status(Type.Energy).Set(float.MaxValue);
+        Stats.Status(Type.Health).Set(float.MaxValue);
+        Stats.Status(Type.Mood).Set(float.MaxValue);
+        Stats.Status(Type.Bladder).Set(100);
+        Stats.Status(Type.Hunger).Set(100);
+        Stats.Status(Type.Hygiene).Set(100);
 
         Vector3 tempRotation = new Vector3(0, 0, 0);
         player.transform.rotation = Quaternion.Euler(tempRotation);
 
-        PlayerStatsManager.Instance.SubstractMoney(HospitalFee);
+        Stats.GetMoney(HospitalFee);
 
         passedOut = false;
         player.transform.position = new Vector3(HospitalRespawnPoint.position.x, HospitalRespawnPoint.position.y, player.transform.position.z);

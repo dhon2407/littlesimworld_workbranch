@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using GameClock = GameTime.Clock;
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class Bed : BreakableFurniture, IInteractable, IUseable {
 	public float InteractionRange => 1;
@@ -13,10 +15,10 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 
 	public float JumpOffSpeed = 5;
 
-	bool CanPlayerSleep => PlayerStatsManager.Hunger.Instance.CurrentAmount > PlayerStatsManager.Hunger.Instance.MaxAmount * 0.1f &&
-												PlayerStatsManager.Thirst.Instance.CurrentAmount > PlayerStatsManager.Thirst.Instance.MaxAmount * 0.1f &&
-												PlayerStatsManager.Bladder.Instance.CurrentAmount > PlayerStatsManager.Bladder.Instance.MaxAmount * 0.1f &&
-												PlayerStatsManager.Hygiene.Instance.CurrentAmount > PlayerStatsManager.Hygiene.Instance.MaxAmount * 0.1f;
+	bool CanPlayerSleep =>  Stats.Status(Type.Hunger).CurrentAmount > Stats.Status(Type.Hunger).MaxAmount * 0.1f &&
+                            Stats.Status(Type.Thirst).CurrentAmount > Stats.Status(Type.Thirst).MaxAmount * 0.1f &&
+                            Stats.Status(Type.Bladder).CurrentAmount > Stats.Status(Type.Bladder).MaxAmount * 0.1f &&
+                            Stats.Status(Type.Hygiene).CurrentAmount > Stats.Status(Type.Hygiene).MaxAmount * 0.1f;
 	public void Interact() {
 		if (!CanPlayerSleep) {
 			Debug.Log("Player cannot sleep at the moment");
@@ -92,13 +94,13 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 			GameLibOfMethods.concecutiveSleepTime += (Time.deltaTime * GameClock.TimeMultiplier) * GameClock.Speed;
 			float Multi = (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier;
 
-			PlayerStatsManager.Energy.Instance.Add(EnergyGainPerHour * Multi);
-			PlayerStatsManager.Mood.Instance.Add(MoodGainPerHour * Multi);
-			PlayerStatsManager.Health.Instance.Add(HealthGainPerHour * Multi);
+            Stats.Status(Type.Energy).Add(EnergyGainPerHour * Multi);
+            Stats.Status(Type.Mood).Add(MoodGainPerHour * Multi);
+            Stats.Status(Type.Health).Add(HealthGainPerHour * Multi);
 
 			if (Input.GetKeyUp(KeyCode.E)) { break; }
 
-			if (PlayerStatsManager.Energy.Instance.CurrentAmount >= PlayerStatsManager.Energy.Instance.MaxAmount) {
+			if (Stats.Status(Type.Energy).CurrentAmount >= Stats.Status(Type.Energy).MaxAmount) {
 				T += Time.deltaTime;
 
 				if (T >= 2) {

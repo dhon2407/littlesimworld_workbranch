@@ -9,6 +9,8 @@ using GameTime;
 using GameClock = GameTime.Clock;
 using CharacterData;
 using Sirenix.OdinInspector;
+using PlayerStats;
+
 [System.Serializable]
 public class JobManager : SerializedMonoBehaviour
 
@@ -67,7 +69,7 @@ public class JobManager : SerializedMonoBehaviour
     public class Job
     {
 
-        virtual public List<SkillType> RequiredSkills { get; set; } = new List<SkillType>();
+        virtual public List<Skill.Type> RequiredSkills { get; set; } = new List<Skill.Type>();
         public List<int> DefaultMoneyAtTheEndOfWorkingDay = new List<int>() { 50, 100, 150 };
         public float WorkingTimeInSeconds = 28800f;
         public JobType jobType;
@@ -128,9 +130,9 @@ public class JobManager : SerializedMonoBehaviour
         }
         public virtual void Promote()
         {
-            foreach (SkillType skill in RequiredSkills)
+            foreach (Skill.Type skill in RequiredSkills)
             {
-                if (PlayerStatsManager.Instance.playerSkills[skill].Level >= CurrentCareerLevel * 2)
+                if (Stats.SkillLevel(skill) >= CurrentCareerLevel * 2)
                 {
 
                 }
@@ -147,21 +149,21 @@ public class JobManager : SerializedMonoBehaviour
 
         public virtual void Finish()
         {
-            foreach (SkillType skill in RequiredSkills)
+            foreach (Skill.Type skill in RequiredSkills)
             {
-                PlayerStatsManager.Instance.playerSkills[skill].AddXP(XPbonus);
+                Stats.AddXP(skill, XPbonus);
                 
 
             }
             WorkedToday = true;
-            PlayerStatsManager.Instance.AddMoney(DefaultMoneyAtTheEndOfWorkingDay[CurrentCareerLevel]);
+            Stats.AddMoney(DefaultMoneyAtTheEndOfWorkingDay[CurrentCareerLevel]);
         }
         public virtual void ShowUpAtWork()
         {
             float PerformanceScore = 0;
-            foreach(PlayerStatsManager.StatusBar type in PlayerStatsManager.PlayerStatusBars.Values)
+            foreach(Status.Type type in Stats.PlayerStatus.Keys)
             {
-                PerformanceScore += type.CurrentAmount;
+                PerformanceScore += Stats.Status(type).CurrentAmount;
             }
             if(PerformanceScore > 525)
             {
@@ -189,7 +191,7 @@ public class JobManager : SerializedMonoBehaviour
      {
          new public static JobManager.Job Instance = new CookingJob();
          new public List<int> DefaultMoneyAtTheEndOfWorkingDay = new List<int>() { 50, 100, 150 };
-        override public List<SkillType> RequiredSkills { get { return RequiredSkills = new List<SkillType>() { { SkillType.Cooking } }; } }
+        override public List<Skill.Type> RequiredSkills { get { return RequiredSkills = new List<Skill.Type>() { { Skill.Type.Cooking } }; } }
          new public JobType jobType = JobType.Cooking;
 
         override public List<string> JobName{ get { return JobName = new List<string>() { "Dishwasher", "Cook", "Chef" }; ; }}

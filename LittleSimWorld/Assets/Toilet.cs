@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats.Status;
+using Stats = PlayerStats.Stats;
 
 public class Toilet : BreakableFurniture, IUseable, IInteractable {
 	public float InteractionRange => 1;
@@ -28,14 +30,14 @@ public class Toilet : BreakableFurniture, IUseable, IInteractable {
 		SpriteControler.Instance.FaceLEFT();
 
 		float timeWithFullBar = 0;
-		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !PlayerStatsManager.Instance.passingOut) {
+		while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !GameLibOfMethods.passedOut) {
 
 
 
-			PlayerStatsManager.Bladder.Instance.Add(BladderGainAmount * Time.fixedDeltaTime);
+            Stats.Status(Type.Bladder).Add(BladderGainAmount * Time.fixedDeltaTime);
 
 
-			if (PlayerStatsManager.Bladder.Instance.CurrentAmount >= PlayerStatsManager.Bladder.Instance.MaxAmount) {
+			if (Stats.Status(Type.Bladder).CurrentAmount >= Stats.Status(Type.Bladder).MaxAmount) {
 				timeWithFullBar += Time.deltaTime;
 
 				if (timeWithFullBar >= 2) {
