@@ -28,7 +28,7 @@ namespace InventorySystem
             {
                 Inventory.CreateSlot(itemCells[currentSlot].transform).
                     SetItem(Inventory.CreateItem(itemData), itemData.count).
-                    SetSelfAction(Inventory.PlaceOnBag);
+                    SetUseAction();
 
                 currentSlot++;
             }

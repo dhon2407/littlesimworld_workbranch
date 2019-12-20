@@ -235,6 +235,11 @@ namespace InventorySystem
             controller = inventoryController;
         }
 
+        public static void Initialize()
+        {
+            Initialize(null, null);
+        }
+
         public static void Initialize(List<ItemList.ItemInfo> bagContents, Dictionary<int, List<ItemList.ItemInfo>> containersContents)
         {
             controller.InitializeBag(bagContents);

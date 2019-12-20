@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour
         instance.loadPreview.ClearElements();
 
         DirectoryInfo dir = new DirectoryInfo(Application.persistentDataPath);
-        var files = dir.GetFiles().Where(obj => obj.Name.EndsWith(".save"));
+        var files = dir.GetFiles().Where(obj => obj.Name.EndsWith(Save.fileExtension));
 
         if (files.Count() == 0)
             instance.NoSavePreview();
@@ -90,7 +90,7 @@ public class MainMenu : MonoBehaviour
             }
 
             LoadDataPreview save = Instantiate(saveGO).GetComponent<LoadDataPreview>();
-            save.name = file.Name.Replace(".save", "");
+            save.name = file.Name.Replace(Save.fileExtension, "");
 
             save.Initialize(save.name, saveFile);
             save.SetBackAction(() => loadMenu.SetActive(false));
