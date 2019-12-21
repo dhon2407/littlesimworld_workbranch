@@ -587,16 +587,7 @@ MonoBehaviour:
   doorSpeed: 0.05
   leftDoor: {fileID: 950951874813564442}
   rightDoor: {fileID: 950951876045714908}
-  distanceFromPlayerToOpen: 2
-  openTimeInSeconds: 0
-  closeingTimeInSeconds: 9999999
-  OpenedOrClosedRenderer: {fileID: 0}
-  OpenedSprite: {fileID: 0}
-  ClosedSprite: {fileID: 0}
-  ShopZone: {fileID: 950951876045714907}
-  ClosingMessege: {fileID: 0}
-  anim: {fileID: 0}
-  isDoorOpened: 0
+  distanceFromPlayerToOpen: {x: 1.5, y: 2.5}
 --- !u!61 &605229446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -621,7 +612,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.7048874, y: 8.881483}
+  m_Size: {x: 1.5, y: 2.5}
   m_EdgeRadius: 0
 --- !u!1 &6663597589641092254
 GameObject:

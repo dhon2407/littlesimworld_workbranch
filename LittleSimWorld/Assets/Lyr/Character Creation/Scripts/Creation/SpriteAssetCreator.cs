@@ -8,7 +8,6 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CharacterData {
-	[CreateAssetMenu]
 	public class SpriteAssetCreator : Utilities.ScriptableObjectCreator<CharacterSpriteSet> {
 
 		[ShowInInspector]

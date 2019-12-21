@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using GameTime;
 using Sirenix.OdinInspector;
-using static PlayerStats.Skill;
+
+using PlayerStats;
 using Stats = PlayerStats.Stats;
 
 public class CareerUi : SerializedMonoBehaviour
@@ -53,15 +54,15 @@ public class CareerUi : SerializedMonoBehaviour
     {
         if (JobManager.Instance.CurrentJob != null)
         {
-            JobManager.Job job = JobManager.Instance.CurrentJob;
-            JobNameText.text = job.JobName[job.CurrentCareerLevel];
+            Job job = JobManager.Instance.CurrentJob;
+            JobNameText.text = job.name;
 
-            PaymentText.text = job.DefaultMoneyAtTheEndOfWorkingDay[job.CurrentCareerLevel] / System.TimeSpan.FromSeconds(job.WorkingTimeInSeconds).TotalHours + "/Hour";
+            PaymentText.text = job.WagePerHour  + "/Hour";
 
-            WorkingTimeText.text = System.TimeSpan.FromSeconds(job.JobStartingTime).Hours.ToString("00") + ":" + System.TimeSpan.FromSeconds(job.JobStartingTime).Minutes.ToString("00") +
+            WorkingTimeText.text = System.TimeSpan.FromHours(job.JobStartingTimeInHours).Hours.ToString("00") + ":" + System.TimeSpan.FromHours(job.JobStartingTimeInHours).Minutes.ToString("00") +
                " - " +
-               System.TimeSpan.FromSeconds(job.JobStartingTime + job.WorkingTimeInSeconds).Hours.ToString("00") + ":" +
-               System.TimeSpan.FromSeconds(job.JobStartingTime + job.WorkingTimeInSeconds).Minutes.ToString("00");
+               System.TimeSpan.FromHours(job.JobStartingTimeInHours + job.WorkingTimeInHours).Hours.ToString("00") + ":" +
+              System.TimeSpan.FromHours( job.JobStartingTimeInHours + job.WorkingTimeInHours).Minutes.ToString("00");
 
 
             WorkingDaysText.text = "";
@@ -70,21 +71,27 @@ public class CareerUi : SerializedMonoBehaviour
                 WorkingDaysText.text += ((Calendar.Weekday)workingDay).ToString()[0];
             }
 
-            PerformanceSlider.value = job.CurrentPerfomanceLevel;
+            PerformanceSlider.value = job.GetPerformanceLevel();
 
             JobIcon.sprite = JobIconSprites[job.jobType];
 
             RequiredLevel.text = "";
             ProgressLevel.text = "";
 
-            
-            RequiredLevel.text = "Level " + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString() + " " + string.Join (", ",job.RequiredSkills);
+            if (Stats.Initialized)
+            {
+                foreach (Skill.Type type in job.RequiredSkills.Keys)
+                {
+                    RequiredLevel.text += "Level " + job.RequiredSkills[type].ToString() + " " + type.ToString() + "\n";
+                }
+                //+ string.Join(", ", job.RequiredSkills);
+                foreach (Skill.Type type in job.RequiredSkills.Keys)
+                {
+                    ProgressLevel.text += Stats.Skill(type).CurrentLevel + "/" + job.RequiredSkills[type].ToString() + "\n";
+                }
+            }
 
-            ProgressLevel.text = Stats.Skill(job.RequiredSkills[0]).CurrentLevel + "/" + (Mathf.Clamp(job.CurrentCareerLevel, 1, Mathf.Infinity) * 2).ToString();
-
-            CurrentEmplymentStatus.text = job.JobName[job.CurrentCareerLevel];
-
-            Debug.Log(JobManager.Instance.CurrentJob.CurrentPerfomanceLevel);
+            CurrentEmplymentStatus.text = job.name;
         }
         else
         {

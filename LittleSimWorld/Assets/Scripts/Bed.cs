@@ -56,9 +56,6 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		}
 
 		Physics2D.IgnoreLayerCollision(GameLibOfMethods.player.layer, 10, true);
-		GameLibOfMethods.canInteract = false;
-		GameLibOfMethods.cantMove = true;
-		GameLibOfMethods.doingSomething = true;
 
 		while (true) {
 			GameLibOfMethods.player.transform.position = Vector2.MoveTowards(GameLibOfMethods.player.transform.position, CharacterPosition.position, 3 * Time.deltaTime);
@@ -83,10 +80,9 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		GameLibOfMethods.cantMove = true;
 		GameLibOfMethods.animator.SetBool("Sleeping", true);
 		GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
+		yield return MEC.Timing.WaitForSeconds(0.5f);
 		GameLibOfMethods.AddChatMessege("Went to sleep.");
-
-		yield return 0f;
-
 
 		float T = 0;
         GameClock.ChangeSpeedToSleepingSpeed();

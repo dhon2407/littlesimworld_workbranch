@@ -5,11 +5,6 @@ using UnityEngine;
 public class HomeComputer : BreakableFurniture
 {
     public Canvas LaptopOptionsCanvas;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
    /* void Update()

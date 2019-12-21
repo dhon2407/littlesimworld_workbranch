@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace UI.CharacterCreation {
 
+	[HideReferenceObjectPicker]
 	public class SpriteSetCollection {
 
 		public enum GeneralCharacterPart {
@@ -31,13 +32,13 @@ namespace UI.CharacterCreation {
 		[HideInInspector] public Dictionary<CharacterClothing, List<CharacterSpriteSet>> MaleClothes;
 		[HideInInspector] public Dictionary<CharacterClothing, List<CharacterSpriteSet>> FemaleClothes;
 
-		[EnumToggleButtons, PropertyOrder(9)] 
+		[EnumToggleButtons, PropertyOrder(9)]
 		public GeneralCharacterPart bodyPart = GeneralCharacterPart.Body;
-		[EnumToggleButtons, PropertyOrder(11)] 
+		[EnumToggleButtons, PropertyOrder(11)]
 		public Gender gender = Gender.Male;
-		[Space, EnumToggleButtons, PropertyOrder(12)] 
+		[Space, EnumToggleButtons, PropertyOrder(12)]
 		public HairColor hairColor = HairColor.One;
-		[EnumToggleButtons, PropertyOrder(21)] 
+		[EnumToggleButtons, PropertyOrder(21)]
 		public CharacterClothing clothing = CharacterClothing.Top;
 
 		string BodyPartsLabel => $"{bodyPart} parts";

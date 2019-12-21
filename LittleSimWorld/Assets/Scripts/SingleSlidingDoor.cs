@@ -3,105 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameClock = GameTime.Clock;
 
-public class SingleSlidingDoor : MonoBehaviour
-{
-    public float maxDoorPosition;
-    public float doorSpeed = 0.1f;
-    public Transform leftDoor;
-    
-    public float distanceFromPlayerToOpen = 2;
-    private Vector2 endLeftPosition;
+public class SingleSlidingDoor : MonoBehaviour {
+	public float maxDoorPosition;
+	public float doorSpeed = 0.1f;
+	public Transform leftDoor;
 
-    private Vector2 startLeftPosition;
-    [Space]
-    public float openTimeInSeconds = 21600;
-    public float closeingTimeInSeconds = 79200;
+	List<GameObject> ObjectsInProximity = new List<GameObject>();
 
-    public SpriteRenderer OpenedOrClosedRenderer;
+	public bool AdjustSizeAutomatically = false;
+	public Vector2 triggerDistance = new Vector2(1.5f, 2.5f);
+	void OnValidate() { if (AdjustSizeAutomatically) { GetComponent<BoxCollider2D>().size = triggerDistance; } }
 
-    public Sprite OpenedSprite;
-    public Sprite ClosedSprite;
+	Vector2 endLeftPosition;
+	Vector2 startLeftPosition;
 
-    public BoxCollider2D ShopZone;
-    public GameObject ClosingMessege;
-    public Animator anim;
+	// TODO: Add authorized people list.
+	// Some doors will only allow authorized people to pass through.
+	bool isDoorOpen => ObjectsInProximity.Count > 0;
 
+	void Start() {
+		startLeftPosition = leftDoor.transform.position;
+		endLeftPosition = new Vector2(leftDoor.position.x - maxDoorPosition, leftDoor.position.y);
+	}
 
+	protected virtual void Update() {
+		if (isDoorOpen) { OpenDoor(); }
+		else { CloseDoor(); }
+	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        startLeftPosition = leftDoor.transform.position;
+	void OpenDoor() => leftDoor.position = Vector2.Lerp(leftDoor.position, endLeftPosition, doorSpeed);
+	void CloseDoor() => leftDoor.position = Vector2.Lerp(leftDoor.position, startLeftPosition, doorSpeed);
 
-        endLeftPosition = new Vector2(leftDoor.position.x - maxDoorPosition, leftDoor.position.y);
-
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (Vector2.Distance(GameLibOfMethods.player.transform.position, transform.position) < distanceFromPlayerToOpen &&
-            GameClock.Time >= openTimeInSeconds && GameClock.Time < closeingTimeInSeconds)
-        {
-            if (ClosingMessege)
-                ClosingMessege.SetActive(false);
-            OpenDoor();
-        }
-        else if(!ShopZone.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()))
-        {
-            if (ClosingMessege)
-                ClosingMessege.SetActive(false);
-            CloseDoor();
-        }
-        else if (ShopZone.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()) && GameClock.Time >= closeingTimeInSeconds)
-        {
-            if (ClosingMessege)
-                ClosingMessege.SetActive(true);
-
-        }
-
-
-        if (GameClock.Time >= openTimeInSeconds && GameClock.Time < closeingTimeInSeconds)
-        {
-            if (anim != null && anim.GetFloat("OpenedClosed") < 1)
-                anim.SetFloat("OpenedClosed", anim.GetFloat("OpenedClosed") + 0.02f);
-        }
-        else
-        {
-            if (anim != null && anim.GetFloat("OpenedClosed") > 0)
-                anim.SetFloat("OpenedClosed", anim.GetFloat("OpenedClosed") - 0.02f);
-        }
-    }
-
-    public void OpenDoor()
-    {
-
-        leftDoor.position = Vector2.Lerp(leftDoor.position, endLeftPosition, doorSpeed);
-
-
-        
-
-    }
-    public void CloseDoor()
-    {
-        leftDoor.position = Vector2.Lerp(leftDoor.position, startLeftPosition, doorSpeed);
-
-
-        
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            GameLibOfMethods.canInteract = true;
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == "Player" && GameClock.Time >= closeingTimeInSeconds)
-        {
-            GameLibOfMethods.canInteract = false;
-        }
-    }
+	// TODO : Add layer mask if needed.
+	// We don't need it currently since the only rigidbodies are the NPCs and the player.
+	void OnTriggerEnter2D(Collider2D collision) => ObjectsInProximity.Add(collision.gameObject);
+	void OnTriggerExit2D(Collider2D collision) => ObjectsInProximity.Remove(collision.gameObject);
 }

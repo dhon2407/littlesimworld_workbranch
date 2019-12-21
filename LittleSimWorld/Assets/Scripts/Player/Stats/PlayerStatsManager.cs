@@ -189,15 +189,32 @@ namespace PlayerStats
     {
         private static PlayerStatsManager manager = null;
 
+        /// <summary>
+        /// Stat instance is Ready
+        /// </summary>
         public static bool Ready => (manager != null);
+        /// <summary>
+        /// Stat data initialized
+        /// </summary>
+        public static bool Initialized => (manager.PlayerSkills != null && manager.PlayerStatus != null);
+        /// <summary>
+        /// Current player money
+        /// </summary>
         public static float Money  => (manager.money);
-        public static PlayerStatsManager.OnSkillChange OnSkillLevelUp;
-        public static PlayerStatsManager.OnSkillChange OnSkillUpdate;
+        /// <summary>
+        /// Current player status
+        /// </summary>
         public static PlayerStatus PlayerStatus => manager.PlayerStatus;
+        /// <summary>
+        /// Current player skills
+        /// </summary>
         public static PlayerSkills PlayerSkills => manager.PlayerSkills;
 
         public static PlayerSkillsData SkillsData => manager.CreateSkillsData();
         public static PlayerStatusData StatusData => manager.CreateStatusData();
+
+        public static PlayerStatsManager.OnSkillChange OnSkillLevelUp;
+        public static PlayerStatsManager.OnSkillChange OnSkillUpdate;
 
         public static float PriceMultiplier { set => manager.PriceMultiplier(value); get => manager.priceMultiplier; }
         public static float XpMultiplier { set => manager.XpMultiplier(value); get => manager.xpMultiplier; }
@@ -206,43 +223,76 @@ namespace PlayerStats
         public static float RepairSpeed { set => manager.RepairSpeed(value); get => manager.repairSpeed; }
         public static float SetMoney { set => manager.Money(value); }
 
+        /// <summary>
+        /// Initializing Player Stats Manager
+        /// </summary>
+        /// <param name="statsManager">Player stats manager instance</param>
         public static void SetManager(PlayerStatsManager statsManager)
         {
             manager = statsManager;
             InitializeEvents();
         }
+
+        /// <summary>
+        /// Initializing New Stats (New players)
+        /// </summary>
         public static void Initialize()
         {
             manager.UpdateData(null, null);
         }
 
+        /// <summary>
+        /// Initializing Player Stats
+        /// </summary>
+        /// <param name="playerSkills">Player skills data</param>
+        /// <param name="playerStatus">Player stats data</param>
         public static void Initialize(PlayerSkillsData playerSkills, PlayerStatusData playerStatus)
         {
             manager.UpdateData(playerSkills, playerStatus);
         }
 
+        /// <summary>
+        /// Play levelup effects on player
+        /// </summary>
         public static void PlayLevelUpEffects()
         {
             manager.PlayLevelUpEffects();
         }
 
         #region Skills Functions
+        /// <summary>
+        /// Set player skill
+        /// </summary>
+        /// <param name="type">Skill type</param>
         public static Skill Skill(Skill.Type type)
         {
             return manager.GetSkill(type);
         }
 
+        /// <summary>
+        /// Add experience to player skill
+        /// </summary>
+        /// <param name="type">Skill type</param>
+        /// <param name="amount">Experience amount</param>
         public static void AddXP(Skill.Type type, float amount)
         {
             manager.AddSkillXP(type, amount);
             OnSkillUpdate.Invoke(type);
         }
 
+        /// <summary>
+        /// Get skill level
+        /// </summary>
+        /// <param name="type">Skill type</param>
         public static int SkillLevel(Skill.Type type)
         {
             return manager.GetSkillLevel(type);
         }
 
+        /// <summary>
+        /// Invoke level up skill event
+        /// </summary>
+        /// <param name="type">Skill type</param>
         public static void InvokeLevelUp(Skill.Type type)
         {
             OnSkillLevelUp.Invoke(type);
@@ -250,55 +300,96 @@ namespace PlayerStats
         #endregion
 
         #region Status Functions
+        /// <summary>
+        /// Get player status
+        /// </summary>
+        /// <param name="type">Status type</param>
         public static Status Status(Status.Type type)
         {
             return manager.GetStatus(type);
         }
 
+        /// <summary>
+        /// Add value to current player status
+        /// </summary>
+        /// <param name="type">Status type</param>
+        /// <param name="amount">Amount to add</param>
         public static void Add(Status.Type type, float amount)
         {
             manager.AddStatusAmount(type, Mathf.Abs(amount));
         }
 
+        /// <summary>
+        /// Reduce value to current player status
+        /// </summary>
+        /// <param name="type">Status type</param>
+        /// <param name="amount">Amount to reduce</param>
         public static void Remove(Status.Type type, float amount)
         {
             manager.AddStatusAmount(type, -1 * Mathf.Abs(amount));
         }
 
+        /// <summary>
+        /// Get status current amount value
+        /// </summary>
+        /// <param name="type">Status type</param>
         public static float GetAmount(Status.Type type)
         {
             return manager.GetStatusAmount(type);
         }
 
+        /// <summary>
+        /// Get status maximum value
+        /// </summary>
+        /// <param name="type">Status type</param>
         public static float MaxAmount(Status.Type type)
         {
             return manager.GetStatusMaxAmount(type);
         }
 
+        /// <summary>
+        /// Increase status maximum value
+        /// </summary>
+        /// <param name="type">Status type</param>
+        /// <param name="amount">Amount to increase</param>
         public static void IncreaseMaxAmount(Status.Type type, float amount)
         {
             manager.IncreaseStatusMaxAmount(type, amount);
         }
         #endregion
 
+        /// <summary>
+        /// Add money to player
+        /// </summary>
+        /// <param name="amount">Amount to give</param>
         public static void AddMoney(float amount)
         {
             amount = Mathf.Abs(amount);
             manager.Money(Mathf.Clamp(Money + amount, 0, float.MaxValue));
         }
 
+        /// <summary>
+        /// Removes money from player
+        /// </summary>
+        /// <param name="amount">Amount to get</param>
         public static void GetMoney(float amount)
         {
             amount = Mathf.Abs(amount);
             manager.Money(Mathf.Clamp(Money - amount, 0, float.MaxValue));
         }
 
+        /// <summary>
+        /// Invokes update skill event
+        /// </summary>
         public static void UpdateSkillsData()
         {
             foreach (var skillType in PlayerSkills.Keys)
                 OnSkillUpdate.Invoke(skillType);
         }
 
+        /// <summary>
+        /// Initialize skill events
+        /// </summary>
         private static void InitializeEvents()
         {
             OnSkillLevelUp = new PlayerStatsManager.OnSkillChange();

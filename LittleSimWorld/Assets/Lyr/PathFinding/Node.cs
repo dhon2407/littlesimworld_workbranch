@@ -13,6 +13,7 @@
 		[NonSerialized] public int gCost, hCost;
 		[NonSerialized] public int HeapIndex;
 		[NonSerialized] public BaseNode parent;
+		[NonSerialized] public Collider2D isCurrentlyOccupied;
 
 		public Node(bool _walkable,Vector2 _worldPos,int _gridX,int _gridY) {
 			walkable = _walkable;

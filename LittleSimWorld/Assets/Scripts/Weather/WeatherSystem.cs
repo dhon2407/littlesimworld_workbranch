@@ -21,7 +21,7 @@ namespace Weather
 
 		[Header("Available Weather Details")]
 		[SerializeField]
-		private WeatherChangeHelper weatherChangeHelper;
+		private WeatherChangeHelper weatherChangeHelper = null;
         [SerializeField]
         private WeatherParticleSystem[] particleSystemMap = null;
 
@@ -162,8 +162,8 @@ namespace Weather
         [System.Serializable]
         private class WeatherParticleSystem
         {
-            public WeatherType weather;
-            public ParticleSystem particleSystem;
+            public WeatherType weather = WeatherType.Sunny;
+            public ParticleSystem particleSystem = null;
         }
     }
 }

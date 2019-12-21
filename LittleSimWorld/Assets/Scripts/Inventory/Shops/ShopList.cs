@@ -4,14 +4,18 @@ using System;
 
 namespace InventorySystem
 {
-    public class ShopList : MonoBehaviour
-    {
+	public class ShopList : MonoBehaviour, IInteractable {
         [SerializeField]
         private List<ItemInfo> items = null;
         public int Count => items.Count;
         public List<ItemInfo> Items => items;
 
-        [Serializable]
+		public float InteractionRange => 1;
+		public Vector3 PlayerStandPosition => transform.position;
+
+		public virtual void Interact() { if (Shop.Ready) { Shop.OpenCloseShop(this, gameObject.name); } }
+
+		[Serializable]
         public struct ItemInfo
         {
             public int price;

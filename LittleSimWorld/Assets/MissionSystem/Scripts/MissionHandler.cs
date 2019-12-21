@@ -111,8 +111,6 @@ public class MissionHandler : MonoBehaviour
 
         cleanUp = true;
 
-        // It should persist across scenes
-        DontDestroyOnLoad(gameObject);
         #endregion
 
         #region // Set up canvas
@@ -262,7 +260,7 @@ public class MissionHandler : MonoBehaviour
                 {
                     found = false;
 
-                    m = Random.RandomRange(0, allMissions.Count);
+                    m = Random.Range(0, allMissions.Count);
 
                     found = allMissions[m].gameObject.activeSelf;
                 }

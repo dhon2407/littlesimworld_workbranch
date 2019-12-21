@@ -9,7 +9,7 @@ public static class Extensions
 		var enumValues = System.Enum.GetValues(typeof(T));
 
 		if (dictionary == null) {
-			Debug.Log("Dictionary is null. Make sure you assign the value somewhere.");
+			//Debug.Log("Dictionary is null. Make sure you assign the value somewhere.");
 			dictionary = new Dictionary<T, U>();
 		}
 		foreach (var enumValue in enumValues) {
@@ -25,7 +25,7 @@ public static class Extensions
 		var enumValues = System.Enum.GetValues(typeof(T));
 
 		if (dictionary == null) {
-			Debug.Log("Dictionary is null. Make sure you assign the value somewhere.");
+			//Debug.Log("Dictionary is null. Make sure you assign the value somewhere.");
 			dictionary = new Dictionary<T, U>();
 		}
 		foreach (var enumValue in enumValues) { dictionary.Add((T) enumValue, default(U)); }
@@ -38,7 +38,7 @@ public static class Extensions
 		var enumValues = System.Enum.GetValues(typeof(T));
 
 		if (dictionary == null) {
-			Debug.Log("Dictionary is null. Make sure you assign the value somewhere.");
+			//Debug.Log("Dictionary is null. Make sure you assign the value somewhere.");
 			dictionary = new Dictionary<T, U>();
 		}
 		foreach (var enumValue in enumValues) { dictionary.Add((T) enumValue, defaultValue); }

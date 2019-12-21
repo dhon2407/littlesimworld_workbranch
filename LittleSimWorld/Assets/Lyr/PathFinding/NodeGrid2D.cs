@@ -9,20 +9,7 @@
 
 	public class NodeGrid2D : MonoBehaviour {
 
-		#region Singleton			
-		public static NodeGrid2D instance;
-		void Awake() {
-			if (!instance) { instance = this; }
-			else if (instance != this) { Destroy(gameObject); }
-			gridData.Load();
-			CacheNeighbours();
-			//BetterList list = new BetterList(ref nodeGrid[0,0]);
-		}
-
-		#endregion
-		public enum _Tabbing { GridSettings, Walkable, DataSaving }
-		//[EnumToggleButtons,HideLabel,GUIColor(0.9f,0,0.9f,0.9f)] public _Tabbing _tabbing;
-
+		#region Inspector
 
 		public Vector2 GridSize;
 		[Range(0.1f, 3)] public float nodeSize = 1;
@@ -32,10 +19,25 @@
 		public LayerMask unwalkableMask;
 		public string DataName;
 		public GridData gridData;
+		[Space]
+		public bool DontDraw = false;
+		#endregion
+
+		#region Initialization			
+
+		Vector2 cachedCenter;
+		void Awake() {
+			gridData.Load();
+			CacheNeighbours();
+			//BetterList list = new BetterList(ref nodeGrid[0,0]);
+			cachedCenter = Center - GridSize / 2;
+		}
+		void CacheNeighbours() { foreach (var item in nodeGrid) { item.Cache(this); } }
+
+		#endregion
 
 		#region EDITOR STUFF
 #if (UNITY_EDITOR)
-		//[ShowIf("_tabbing",_Tabbing.DataSaving)]
 		[Button]
 		public void Save() {
 			if (gridData == null || String.IsNullOrEmpty(UnityEditor.AssetDatabase.GetAssetPath(gridData))) {
@@ -63,8 +65,8 @@
 
 			for (int x = 0; x < gridX; x++) {
 				for (int y = 0; y < gridY; y++) {
-					Vector2 pos = (Center - GridSize / 2) + new Vector2(x * nodeSize, y * nodeSize);
-					bool walkable = !Physics2D.OverlapCircle(pos, (nodeSize / 2) - 0.1f, unwalkableMask);
+					Vector2 pos = (Center - GridSize / 2) + new Vector2(x, y) * nodeSize;
+					bool walkable = IsNodeWalkable(pos);
 					gridData.nodeGrid[x, y] = new Node(walkable, pos, x, y);
 				}
 			}
@@ -91,8 +93,9 @@
 
 		[HideInInspector, NonSerialized] public List<Node> currentlySelected = new List<Node>();
 		[HideInInspector, NonSerialized] public Node selectedNode;
-		public void OnDrawGizmos() {
+		public void OnDrawGizmosSelected() {
 			if (DontDraw || nodeGrid == null) { return; }
+			cachedCenter = Center - GridSize / 2;
 			Gizmos.DrawWireCube(Center, GridSize);
 			Color walkableColor = new Color(1, 1, 1, 0.1f);
 			Color unwalkableColor = new Color(1, 0, 0, 0.4f);
@@ -107,6 +110,10 @@
 				}
 				if (!item.walkable) {
 					Gizmos.color = unwalkableColor;
+					Gizmos.DrawWireCube(PosFromNode(item), size);
+				}
+				else if (item.isCurrentlyOccupied) {
+					Gizmos.color = Color.blue;
 					Gizmos.DrawWireCube(PosFromNode(item), size);
 				}
 				else {
@@ -125,8 +132,7 @@
 #endif
 		#endregion
 
-		void CacheNeighbours() { foreach (var item in nodeGrid) { item.Cache(this); } }
-
+		#region Properties
 		public Node[,] nodeGrid => gridData?.nodeGrid;
 
 		public Vector2 Center {
@@ -134,14 +140,18 @@
 			set { center = value - (Vector2) transform.position; }
 		}
 
-
 		public int gridX => Mathf.FloorToInt(GridSize.x / nodeSize) + 1;
 		public int gridY => Mathf.FloorToInt(GridSize.y / nodeSize) + 1;
+		#endregion
+
+		#region Node position helpers
+		public Vector2 PosFromCoords(int x, int y) => cachedCenter + new Vector2(x, y) * nodeSize;
+		public Vector2 PosFromNode(Node node) => PosFromCoords(node.X, node.Y);
 
 		public Node NodeFromWorldPoint(Vector2 worldPosition) {
 
-			float percentX = (worldPosition.x - Center.x + GridSize.x / 2) / GridSize.x;
-			float percentY = (worldPosition.y - Center.y + GridSize.y / 2) / GridSize.y;
+			float percentX = (worldPosition.x - cachedCenter.x) / GridSize.x;
+			float percentY = (worldPosition.y - cachedCenter.y) / GridSize.y;
 
 			percentX = Mathf.Clamp01(percentX);
 			percentY = Mathf.Clamp01(percentY);
@@ -149,128 +159,22 @@
 			int x = Mathf.RoundToInt((gridX - 1) * percentX);
 			int y = Mathf.RoundToInt((gridY - 1) * percentY);
 
+			// Sanity check
 			if (nodeGrid.GetLength(0) <= x) { Debug.Log("WRONG X"); return null; }
 			if (nodeGrid.GetLength(1) <= y) { Debug.Log("WRONG Y"); return null; }
 
 			return nodeGrid[x, y];
 		}
+		#endregion
 
-		public Vector2 PosFromCoords(int x, int y) => (Center - GridSize / 2) + (new Vector2(x, y) * nodeSize);
-		public Vector2 PosFromNode(Node node) => PosFromCoords(node.X, node.Y);
+		public bool IsNodeWalkable(Vector2 pos) => !Physics2D.OverlapCircle(pos, (nodeSize / 2) - 0.1f, unwalkableMask);
+		public bool IsNodeWalkable_Temp(Vector2 pos, LayerMask mask) => !Physics2D.OverlapCircle(pos, (nodeSize / 2) - 0.05f, mask);
 
 		[Serializable]
 		public class TerrainType {
 			public LayerMask terrainMask;
 			public int terrainPenalty;
 		}
-
-		public bool ClosestHelp = false;
-		public bool DontDraw = false;
-	}
-
-	public static class NodeHelper {
-		static List<Node> helperList = new List<Node>(80);
-		static Node[,] nodeGrid;
-
-		const int maxTries = 10;
-		const int maxRadius = 5;
-		static int X, Y, maxX, maxY;
-
-
-		public static Node ClosestWalkable(Node closestTo) {
-
-
-			nodeGrid = NodeGrid2D.instance.nodeGrid;
-
-			// First, check if any of the neighbors are walkable
-			BaseNode[] neighbors = closestTo.neighbours.directionNeighbours;
-
-			X = closestTo.X;
-			Y = closestTo.Y;
-
-			maxX = nodeGrid.GetLength(0) - 1;
-			maxY = nodeGrid.GetLength(1) - 1;
-
-			helperList.Clear();
-
-
-			// Find Closest Left
-			helperList.Add(ClosestToOrigin(Decrease, Stay));
-
-			// Find Closest Right
-			helperList.Add(ClosestToOrigin(Increase, Stay));
-
-			// Find Closest Top
-			helperList.Add(ClosestToOrigin(Stay, Increase));
-
-			// Find Closest Bot
-			helperList.Add(ClosestToOrigin(Stay, Decrease));
-
-			// Find Closest Diags
-			helperList.Add(ClosestToOrigin(Decrease, Decrease));
-			helperList.Add(ClosestToOrigin(Decrease, Increase));
-			helperList.Add(ClosestToOrigin(Increase, Decrease));
-			helperList.Add(ClosestToOrigin(Increase, Increase));
-
-			// Find Most efficient Node
-			int minDist = int.MaxValue;
-			Node closestNode = null;
-
-			foreach (Node n in helperList) {
-				if (n == null) { continue; }
-
-				int dist = heuristic(n, closestTo);
-				if (dist >= minDist) { continue; }
-
-				minDist = dist;
-				closestNode = n;
-			}
-
-			if (closestNode == null) {
-				Debug.LogError("Couldn't find valid node");
-				return closestTo;
-			}
-			else { return closestNode; }
-
-		}
-
-		#region Helper Methods
-		static Node ClosestToOrigin(Func<int, int> opX, Func<int, int> opY) {
-			int x = X;
-			int y = Y;
-
-			for (int i = 0; i < maxTries; i++) {
-				x = opX(x);
-				y = opY(y);
-
-				if (y < 0 || y > maxY) { break; }
-				if (x < 0 || x > maxX) { break; }
-
-				Node n = nodeGrid[x, y];
-				if (n.walkable) { return n; }
-			}
-
-			return null;
-		}
-
-		static int Increase(int a) => a + 1;
-		static int Decrease(int a) => a - 1;
-		static int Stay(int a) => a;
-
-		static int heuristic(Node A, Node B) {
-			int distX = (A.X > B.X ? A.X - B.X : B.X - A.X);
-			int distY = (A.Y > B.Y ? A.Y - B.Y : B.Y - A.Y);
-
-			return distX + distY;
-		}
-		#endregion
-
-		//public static TSource First<TSource>(this IList<TSource> source, Func<TSource, bool> predicate) {
-		//	for (int i = 0; i < source.Count; i++) {
-		//		if (predicate(source[i])) { return source[i]; }
-		//	}
-		//	return default(TSource);
-		//}
 
 	}
 

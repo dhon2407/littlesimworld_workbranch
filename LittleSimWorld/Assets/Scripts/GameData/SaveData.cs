@@ -35,7 +35,7 @@ namespace GameFile
         public ItemList inventoryItems;
         public Dictionary<int, ItemList> containerItems;
 
-        public JobManager.Job currentJob;
+        //public Job currentJob;
         
         public PlayerSkillsData playerSkillsData;
         public PlayerStatusData playerStatusData;
@@ -48,6 +48,6 @@ namespace GameFile
 
     public static class Save
     {
-        public static readonly string fileExtension = ".save_test";
+        public static readonly string fileExtension = ".save_";
     }
 }

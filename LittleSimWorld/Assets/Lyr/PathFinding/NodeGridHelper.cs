@@ -8,28 +8,38 @@ namespace PathFinding {
 	using UnityEditor;
 
 	[CustomEditor(typeof(NodeGrid2D))]
-	public class NodeGridHelper:OdinEditor {
+	public class NodeGridHelper : OdinEditor {
 
 		NodeGrid2D grid => (NodeGrid2D)target;
 		Vector2 StartDragPos, EndDragPos;
 
+		Event e; 
 		void OnSceneGUI() {
 			if (grid.gridData == null || grid.DontDraw) { return; }
 			if (!grid.gridData.attemptedLoad) { grid.gridData.Load(); }
 			//EdgesHandler(); 
-			if (!Event.current.control) { Reset(); return; }
-			if (Tools.current != Tool.None) { lastTool = Tools.current; }
-			Tools.current = Tool.None;
+			e = Event.current;
+			if (!e.control) { Reset(); return; }
 			SetSelected();
 			DragManage();
+		}
+
+		protected override void OnEnable() {
+			base.OnEnable();
+			lastTool = Tools.current;
+			Tools.current = Tool.None;
+		}
+
+		protected override void OnDisable() {
+			base.OnDisable();
+			Tools.current = lastTool;
 		}
 
 		Tool lastTool;
 		void Reset() {
 			grid.selectedNode = null;
 			grid.currentlySelected.Clear();
-			clickedNode = null;;
-			if (Tools.current == Tool.None) { Tools.current = lastTool; }
+			clickedNode = null;
 		}
 
 		void SetSelected() {
@@ -40,7 +50,6 @@ namespace PathFinding {
 		}
 
 		void DragManage() {
-			Event e = Event.current;
 
 			var controlID = GUIUtility.GetControlID(FocusType.Passive);
 			var eventType = e.GetTypeForControl(controlID);
@@ -99,7 +108,6 @@ namespace PathFinding {
 		List<Vector3> updatedNodes = new List<Vector3>(), previousPos = new List<Vector3>();
 
 		void EdgesHandler() {
-			Event e = Event.current;
 			if (e.control||grid.DontDraw||ndg==null) { inControl = false; return; }
 			var controlID = GUIUtility.GetControlID(FocusType.Passive);
 			var eventType = e.GetTypeForControl(controlID);
@@ -156,7 +164,7 @@ namespace PathFinding {
 			
 		}
 
-	}//Class End
+	}
 }
 
 #endif

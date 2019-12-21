@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 222087243549622906}
   - component: {fileID: 5007512071207299244}
   - component: {fileID: 745021120810660793}
-  m_Layer: 5
+  m_Layer: 30
   m_Name: PlayerInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 222993342896450010}
   - component: {fileID: 114452786291230788}
   - component: {fileID: 114537854355684540}
-  m_Layer: 5
+  m_Layer: 30
   m_Name: Items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,6 +193,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemCell (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -296,6 +300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemCell (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -398,6 +406,10 @@ PrefabInstance:
     - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_Name
       value: TrashCell
+      objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
@@ -540,6 +552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemCell (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -642,6 +658,10 @@ PrefabInstance:
     - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_Name
       value: ItemCell (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
@@ -746,6 +766,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemCell (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -848,6 +872,10 @@ PrefabInstance:
     - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_Name
       value: ItemCell (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
@@ -952,6 +980,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemCell
       objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1054,6 +1086,10 @@ PrefabInstance:
     - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_Name
       value: ItemCell (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 149246, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
+      propertyPath: m_Layer
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 22482442, guid: 56a7d10e336e6ba498ccb7634244f764, type: 3}
       propertyPath: m_LocalPosition.x

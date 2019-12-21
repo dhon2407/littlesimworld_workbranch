@@ -97,44 +97,23 @@ public class GameLibOfMethods : MonoBehaviour
         //int layerMask = 1 << 8;
         //layerMask = ~layerMask;
         int layerMask = 1 << 10 | 1 << 11;
+		var playerPos = player.transform.position;
 
-        List<Collider2D> colliders = new List<Collider2D>();
+		List<Collider2D> colliders = new List<Collider2D>();
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(GameLibOfMethods.Instance.InteractablesLayer);
-        Physics2D.OverlapCircle(player.transform.position + (facingDir * 0.3f), 0.5f, contactFilter, colliders);
-        //colliders = colliders.OrderBy(x => x.Distance(player.GetComponent<Collider2D>())).ToList();
+        Physics2D.OverlapCircle(playerPos + (facingDir * 0.3f), 0.5f, contactFilter, colliders);
+		//colliders = colliders.OrderBy(x => x.Distance(player.GetComponent<Collider2D>())).ToList();
 
-        colliders.Sort(delegate (Collider2D a, Collider2D b)
-        {
-
-            return Vector2.Distance(player.transform.position, a.transform.position)
-            .CompareTo(
-              Vector2.Distance(player.transform.position, b.transform.position));
-        });
-        foreach (Collider2D collider in colliders)
-        {
-
-        }
-        RaycastHit2D hit = new RaycastHit2D();
-
-        foreach (Collider2D collider in colliders)
-
-        {
-            hit = Physics2D.Raycast(checkRaycastOrigin.transform.position, (collider.bounds.ClosestPoint(player.transform.position) - player.transform.position).normalized, 1000, layerMask);
-            if (hit.collider == collider)
-            {
+		colliders.Sort((a, b) => Vector2.SqrMagnitude(playerPos - a.transform.position).CompareTo(Vector2.SqrMagnitude(playerPos - b.transform.position)));
 
 
-                return hit.collider.gameObject;
-
-            }
-            else
-            {
-            }
-
-        }
-        //RaycastHit2D hit = Physics2D.Raycast(checkRaycastOrigin.transform.position, facingDir, CheckRadius, layerMask);
-
+		var origin = checkRaycastOrigin.transform.position;
+		foreach (Collider2D collider in colliders) {
+			var dir = (collider.bounds.ClosestPoint(playerPos) - playerPos).normalized;
+			var hit = Physics2D.Raycast(origin, dir, 1000, layerMask);
+			if (hit.collider == collider) { return hit.collider.gameObject; }
+		}
 
         return null;
 

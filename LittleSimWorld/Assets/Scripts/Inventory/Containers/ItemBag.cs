@@ -7,8 +7,10 @@ namespace InventorySystem
 {
     public class ItemBag : Storage
     {
+#if ITEM_INVENTORY_HIDE_SUPPORTED
         [SerializeField]
         private KeyCode functionKey = KeyCode.I;
+#endif
         private UnityAction<ItemSlot> openBagSlotAction;
 
         public int FreeSlot => GetFreeSlot();

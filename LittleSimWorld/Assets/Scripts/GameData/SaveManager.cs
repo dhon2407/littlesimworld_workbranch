@@ -74,7 +74,7 @@ namespace GameFile
 
                 Inventory.Initialize(CurrentSaveData.inventoryItems, CurrentSaveData.containerItems);
 
-                JobManager.Instance.CurrentJob = CurrentSaveData.currentJob;
+                //JobManager.Instance.CurrentJob = CurrentSaveData.currentJob;
 
                 Stats.Initialize(CurrentSaveData.playerSkillsData, CurrentSaveData.playerStatusData);
 
@@ -164,7 +164,7 @@ namespace GameFile
                 inventoryItems = Inventory.BagItems,
                 containerItems = Inventory.ContainerContents,
 
-                currentJob = JobManager.Instance.CurrentJob,
+                //currentJob = JobManager.Instance.CurrentJob,
                 playerSkillsData = Stats.SkillsData,
                 playerStatusData = Stats.StatusData,
                 CompletedMissions = new List<string>(MissionHandler.CompletedMissions),

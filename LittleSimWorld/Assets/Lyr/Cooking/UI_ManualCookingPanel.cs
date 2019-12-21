@@ -23,8 +23,8 @@ namespace UI.Cooking {
 		void Awake() {
 			FastClosePanel();
 
-			StoveManager.instance.OnClosing += FastClosePanel;
-			StoveManager.instance.OnClose += FastClosePanel;
+			StoveUIManager.instance.OnClosing += FastClosePanel;
+			StoveUIManager.instance.OnClose += FastClosePanel;
 
 			ConfirmButton.onClick.AddListener(ConfirmCooking);
 			ClearAllButton.onClick.AddListener(ClearSlots);
@@ -78,7 +78,7 @@ namespace UI.Cooking {
             if (CurrentMenuState == MenuState.Open)
             {
                 EvaluateSlotState();
-                InventorySystem.Inventory.SetBagItemActions(StoveManager.instance.PlaceItemOnSlot);
+                InventorySystem.Inventory.SetBagItemActions(StoveUIManager.instance.PlaceItemOnSlot);
             }
             else
             {

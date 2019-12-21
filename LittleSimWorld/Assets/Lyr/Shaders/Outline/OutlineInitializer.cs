@@ -62,21 +62,21 @@ namespace InternalUtils {
 			}
 			return;
 
-			Resources.UnloadUnusedAssets();
-			var x = FindObjectsOfType<Sprite>();
-			foreach (var item in x) {
-				Debug.Log("Destroying: " + item);
-				//DestroyImmediate(item);
-			}
-			var y = FindObjectsOfType<Material>();
-			foreach (var item in x) {
-				Debug.Log("Destroying Material: " + item);
-				//DestroyImmediate(item);
-			}
-			var z = FindObjectsOfType<Texture2D>();
-			foreach (var item in z) {
-				Debug.Log("Destroying texture: " + item);
-			}
+			//Resources.UnloadUnusedAssets();
+			//var x = FindObjectsOfType<Sprite>();
+			//foreach (var item in x) {
+			//	Debug.Log("Destroying: " + item);
+			//	//DestroyImmediate(item);
+			//}
+			//var y = FindObjectsOfType<Material>();
+			//foreach (var item in x) {
+			//	Debug.Log("Destroying Material: " + item);
+			//	//DestroyImmediate(item);
+			//}
+			//var z = FindObjectsOfType<Texture2D>();
+			//foreach (var item in z) {
+			//	Debug.Log("Destroying texture: " + item);
+			//}
 		}
 	}
 }

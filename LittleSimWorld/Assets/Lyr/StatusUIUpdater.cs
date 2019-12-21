@@ -30,7 +30,7 @@ public class StatusUIUpdater : SerializedMonoBehaviour
 	public static void UpdateEverything() { instance.UpdateNow(); }
 	void UpdateNow() {
 		NameText.text = SpriteControler.Instance.visuals.Name;
-		JobText.text = JobManager.Instance.CurrentJob?.JobName[JobManager.Instance.CurrentJob.CurrentCareerLevel] ?? "Unemployed";
+		JobText.text = JobManager.Instance.CurrentJob?.name ?? "Unemployed";
 
 		// TODO: enable when we switch to this.
 		//portraitUI.Update();

@@ -34,6 +34,7 @@ namespace GameTime
             instance.calendarDay = day;
             instance.weekday = weekDays;
             instance.season = season;
+
         }
 
         public static void NextDay()
@@ -56,6 +57,8 @@ namespace GameTime
         {
             Clock.onDayPassed.AddListener(DayPassed);
             UpdateCalendar();
+
+            AmPmText.text = ""; //NOT SUPPORTED
         }
 
         private void DayPassed()

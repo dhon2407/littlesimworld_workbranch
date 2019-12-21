@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ShopUpgradeSoundHandler : MonoBehaviour
 {
-    [SerializeField] private AudioClip open, close;
+    [SerializeField] private AudioClip open = null, close = null;
 
-    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource source = null;
 
     public void PlayOpenCloseSound()
     {

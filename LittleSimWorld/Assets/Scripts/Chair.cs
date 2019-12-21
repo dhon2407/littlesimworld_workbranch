@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayerStats;
 using GameClock = GameTime.Clock;
+using static PlayerStats.Skill;
+using Stats = PlayerStats.Stats;
+
 public class Chair : BreakableFurniture, IInteractable, IUseable {
     public Canvas LaptopOptionsCanvas;
     public bool IsFacingDown;
@@ -46,7 +49,11 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
 	public void StartBrowsingInternet() {
 		StartCoroutine(BrowsingInternet());
 	}
-	private IEnumerator BrowsingInternet() {
+    public void StartPracticingWriting()
+    {
+        StartCoroutine(PracticeWriting());
+    }
+    private IEnumerator BrowsingInternet() {
 
 		GameLibOfMethods.cantMove = true;
 		GameLibOfMethods.canInteract = false;
@@ -85,5 +92,47 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
 
 		//Debug.Log("cant browse, busy doing something else");
 	}
+    private IEnumerator PracticeWriting()
+    {
+
+        GameLibOfMethods.cantMove = true;
+        GameLibOfMethods.canInteract = false;
+        GameLibOfMethods.animator.SetBool("Sitting", true);
+        GameLibOfMethods.doingSomething = true;
+
+        float moodDrainSpeed = MoodDrainPerHour;
+        float energyDrainSpeed = EnergyDrainPerHour;
+        float xpGainSpeed = XpGainGetHour;
+        yield return new WaitForEndOfFrame();
+
+        while (!Input.GetKey(InteractionChecker.Instance.KeyToInteract) && !GameLibOfMethods.passedOut)
+        {
+
+            GameLibOfMethods.animator.SetBool("Learning", true);
+            float multi = (Time.deltaTime / GameClock.Speed) * GameClock.TimeMultiplier;
+
+            Stats.AddXP(Type.Writing, xpGainSpeed * multi);
+            Stats.Remove(Status.Type.Energy, energyDrainSpeed * multi);
+            Stats.Remove(Status.Type.Mood, moodDrainSpeed * multi);
+
+            /*GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
+			//blackScreen.CrossFadeAlpha(0, 1, false);
+
+			GameLibOfMethods.facingDir = Vector2.left;*/
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        PlayExitSound();
+
+
+        GameLibOfMethods.animator.SetBool("Learning", false);
+        yield return new WaitForEndOfFrame();
+
+        PlayerCommands.WalkBackToLastPosition();
+
+        //Debug.Log("cant browse, busy doing something else");
+    }
 
 }

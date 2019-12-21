@@ -8,7 +8,7 @@ namespace InventorySystem
     public class Droppable : MonoBehaviour, IDropHandler
     {
         [SerializeField]
-        private CellType cellType;
+        private CellType cellType = CellType.Swap;
 
         public bool Empty => isEmpty();
         public CellType Type => cellType;

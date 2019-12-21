@@ -1,0 +1,472 @@
+fileFormatVersion: 2
+guid: ed21ef1dbf4e6ee41926117f570cc13e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3573835207334203460
+    second: Stats UI_0
+  - first:
+      213: -5717580746784781986
+    second: Stats UI_1
+  - first:
+      213: -2758367808317876218
+    second: Stats UI_2
+  - first:
+      213: -5923411290685985506
+    second: Stats UI_3
+  - first:
+      213: 4656798388972139167
+    second: Stats UI_5
+  - first:
+      213: -7407408752732558015
+    second: Stats UI_6
+  - first:
+      213: 4916417360858496644
+    second: Stats UI_7
+  - first:
+      213: -6162746595002152709
+    second: Stats UI_8
+  - first:
+      213: 1342335526120136631
+    second: Stats UI_9
+  - first:
+      213: 8494090477088067975
+    second: Stats UI_10
+  - first:
+      213: -417727030057659031
+    second: Stats UI_11
+  - first:
+      213: 8597701201846090933
+    second: Character creation UI_0
+  - first:
+      213: -5235211695290960731
+    second: Character creation UI_1
+  - first:
+      213: -5556856848414221978
+    second: Character creation UI_2
+  - first:
+      213: 102716559088091796
+    second: Character creation UI_3
+  - first:
+      213: 4592536580084128420
+    second: Character creation UI_4
+  - first:
+      213: -5711506440248154733
+    second: Character creation UI_5
+  - first:
+      213: -2575138467218767683
+    second: Character creation UI_6
+  - first:
+      213: -5484669191624290283
+    second: Character creation UI_7
+  - first:
+      213: -2083681285388798072
+    second: Character creation UI_8
+  - first:
+      213: -1861914811245810333
+    second: Character creation UI_9
+  - first:
+      213: -4274985317742423274
+    second: Character creation UI_10
+  - first:
+      213: 5123258132066319767
+    second: Character creation UI_11
+  - first:
+      213: 1344888708144655738
+    second: Character creation UI_12
+  - first:
+      213: 4015144381824028562
+    second: Character creation UI_13
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Character creation UI_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2250
+        width: 3587
+        height: 2242
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bd01bfa5297c424eb1413175e095859
+      internalID: 8597701201846090933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_1
+      rect:
+        serializedVersion: 2
+        x: 3644
+        y: 4213
+        width: 453
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6bae248df55e374f9ee799bba227c41
+      internalID: -5235211695290960731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_2
+      rect:
+        serializedVersion: 2
+        x: 4308
+        y: 2404
+        width: 435
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2085481f2d8be12448a039885dc85a5b
+      internalID: -5556856848414221978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_3
+      rect:
+        serializedVersion: 2
+        x: 3637
+        y: 3762
+        width: 990
+        height: 354
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e65748daefbe65649ad4d86d6c1c302b
+      internalID: 102716559088091796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_4
+      rect:
+        serializedVersion: 2
+        x: 4017
+        y: 3527
+        width: 104
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4da350ee7834b724db9dc7754c807af4
+      internalID: 4592536580084128420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_5
+      rect:
+        serializedVersion: 2
+        x: 3803
+        y: 3230
+        width: 178
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75ffe462c4e87aa418e50e12e5389259
+      internalID: -5711506440248154733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_6
+      rect:
+        serializedVersion: 2
+        x: 4200
+        y: 3230
+        width: 177
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2348afbe93069984a97c1a566bc668e4
+      internalID: -2575138467218767683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_7
+      rect:
+        serializedVersion: 2
+        x: 3703
+        y: 2869
+        width: 166
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 160d130c253ecf34b942dc30e5c6e539
+      internalID: -5484669191624290283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_8
+      rect:
+        serializedVersion: 2
+        x: 4017
+        y: 2855
+        width: 151
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f70f0897a99093346be2c0f468264bf7
+      internalID: -2083681285388798072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_9
+      rect:
+        serializedVersion: 2
+        x: 4309
+        y: 2874
+        width: 179
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5580649c98d06c342b30070e612af4cd
+      internalID: -1861914811245810333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_10
+      rect:
+        serializedVersion: 2
+        x: 3796
+        y: 2402
+        width: 437
+        height: 242
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b84d71ac12db56d42ad78335882dd82f
+      internalID: -4274985317742423274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2424
+        height: 231
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8bbf1517402b5d4dae6594a8b63bdae
+      internalID: 5123258132066319767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 343
+        width: 3466
+        height: 1833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5118fd56ae3e2094aa5b4c39e0453dcd
+      internalID: 1344888708144655738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character creation UI_13
+      rect:
+        serializedVersion: 2
+        x: 3580
+        y: 465
+        width: 1283
+        height: 1656
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55eb6840159d83d44a4f2b6da008c25d
+      internalID: 4015144381824028562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: c67fa076de7527d47b3bdb513ca63b5d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: UI
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

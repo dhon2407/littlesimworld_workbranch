@@ -15,19 +15,19 @@ namespace GameTime
         [SerializeField]
         private Light2D light2d;
         [SerializeField]
-        private AnimationCurve lightIntensityCurve;
+        private AnimationCurve lightIntensityCurve = null;
         [SerializeField]
-        private Gradient lightGradient;
+        private Gradient lightGradient = null;
         [SerializeField]
         private Color fogDay = Color.grey;
         [SerializeField]
         private Color fogNight = Color.blue;
         [SerializeField]
-        private Color endColor;
+        private Color endColor = Color.white;
         [SerializeField]
-        private Color midcolor;
+        private Color midcolor = Color.white;
         [SerializeField]
-        private float stepUpdate;
+        private float stepUpdate = 0;
 
         private float lightIntensity;
         private Color[] colors;

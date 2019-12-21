@@ -11,7 +11,7 @@ namespace GameSettings
         private bool masterVolume = false;
         [Space]
         [SerializeField]
-        private SoundMixer.SoundGroup soundGroup;
+        private SoundMixer.SoundGroup soundGroup = SoundMixer.SoundGroup.Background;
         [SerializeField]
         private Slider slider = null;
 

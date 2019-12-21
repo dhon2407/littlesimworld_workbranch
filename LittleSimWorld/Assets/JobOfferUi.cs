@@ -35,22 +35,22 @@ public class JobOfferUi : SerializedMonoBehaviour
     }
 
 
-    public void UpdateJobUi(JobManager.Job job)
+    public void UpdateJobUi(Job job)
     {
-        JobNameText.text = job.JobName[job.CurrentCareerLevel];
+        JobNameText.text = job.name;
 
-        PaymentText.text = job.DefaultMoneyAtTheEndOfWorkingDay[job.CurrentCareerLevel] / System.TimeSpan.FromSeconds(job.WorkingTimeInSeconds).TotalHours + "/Hour";
+        PaymentText.text = job.WagePerHour + "/Hour";
 
-        WorkingTimeText.text = System.TimeSpan.FromSeconds(job.JobStartingTime).Hours.ToString("00") + ":" + System.TimeSpan.FromSeconds(job.JobStartingTime).Minutes.ToString("00") +
+        WorkingTimeText.text = System.TimeSpan.FromHours(job.JobStartingTimeInHours).Hours.ToString("00") + ":" + System.TimeSpan.FromHours(job.JobStartingTimeInHours).Minutes.ToString("00") +
            " - " +
-           System.TimeSpan.FromSeconds(job.JobStartingTime + job.WorkingTimeInSeconds).Hours.ToString("00") + ":" +
-           System.TimeSpan.FromSeconds(job.JobStartingTime + job.WorkingTimeInSeconds).Minutes.ToString("00");
+           System.TimeSpan.FromHours(job.JobStartingTimeInHours + job.WorkingTimeInHours).Hours.ToString("00") + ":" +
+          System.TimeSpan.FromHours(job.JobStartingTimeInHours + job.WorkingTimeInHours).Minutes.ToString("00");
 
 
         WorkingDaysText.text = "";
-        foreach (int workingDay in job.WorkingDays)
+        foreach (Calendar.Weekday weekday in job.WorkingDays)
         {
-            WorkingDaysText.text += ((Calendar.Weekday)workingDay).ToString()[0];
+            WorkingDaysText.text += (weekday).ToString()[0];
         }
 
         AcceptButton.onClick.RemoveAllListeners();

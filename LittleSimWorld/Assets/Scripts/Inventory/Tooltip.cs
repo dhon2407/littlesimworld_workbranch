@@ -9,11 +9,11 @@ namespace InventorySystem
         private static Tooltip instance;
             
         [SerializeField]
-        private GuiPopUpAnim PopUpScript;
+        private GuiPopUpAnim PopUpScript = null;
         [SerializeField]
-        new private TextMeshProUGUI name;
+        new private TextMeshProUGUI name = null;
         [SerializeField]
-        private TextMeshProUGUI description;
+        private TextMeshProUGUI description = null;
 
         public float MinWidth = 0.1f;
         public float MaxWidth = 0.92f;

@@ -95,6 +95,12 @@ namespace PlayerStats
                 lvlText.text = (Stats.SkillLevel(type) == 0) ? "-" : Stats.SkillLevel(type).ToString("0");
                 xpText.text = $" XP: {Stats.Skill(type).GetData().xp}/{Stats.Skill(type).GetData().requiredXP}";
             }
+
+            int totalLevel = 0;
+            foreach (var skill in Stats.PlayerSkills.Values)
+                totalLevel += skill.CurrentLevel;
+
+            TotalLevelText.text = (totalLevel == 0) ? "-" : totalLevel.ToString("0");
         }
     }
 }

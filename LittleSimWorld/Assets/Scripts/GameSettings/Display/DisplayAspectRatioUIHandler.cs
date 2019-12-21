@@ -11,7 +11,7 @@ namespace GameSettings
     public class DisplayAspectRatioUIHandler : MonoBehaviour
     {
         [SerializeField]
-        private DropDown dropDownList;
+        private DropDown dropDownList = null;
         private List<(int, int)> ratios;
 
         private void Awake()

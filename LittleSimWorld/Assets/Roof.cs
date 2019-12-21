@@ -9,16 +9,10 @@ public class Roof : MonoBehaviour
     public Collider2D roofCOllider;
     public bool Visible = false;
     public SlidingDoor slidingDoor;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
-        if (roofCOllider.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()) || slidingDoor.isDoorOpened)
+        if (roofCOllider.IsTouching(GameLibOfMethods.player.GetComponent<Collider2D>()))
         {
             StartCoroutine(FadeOut());
 

@@ -96,11 +96,10 @@ public class JobCar : MonoBehaviour, IInteractable, IUseable
 
         GameClock.ChangeSpeedToSleepingSpeed();
 
-
-        while (JobManager.Instance.CurrentJob != null && JobManager.Instance.CurrentWorkingTime <= JobManager.Instance.CurrentJob.WorkingTimeInSeconds && !Input.GetKeyDown(KeyCode.P))
+        while (JobManager.Instance.CurrentJob != null && System.TimeSpan.FromSeconds( JobManager.Instance.CurrentWorkingTime).Hours <= JobManager.Instance.CurrentJob.WorkingTimeInHours && !Input.GetKeyDown(KeyCode.P))
         {
             JobManager.Instance.CurrentWorkingTime += (Time.deltaTime * GameClock.TimeMultiplier) * GameClock.Speed;
-            GameLibOfMethods.progress = JobManager.Instance.CurrentWorkingTime / JobManager.Instance.CurrentJob.WorkingTimeInSeconds  ;
+            GameLibOfMethods.progress = JobManager.Instance.CurrentWorkingTime / (float)System.TimeSpan.FromHours( JobManager.Instance.CurrentJob.WorkingTimeInHours).TotalSeconds ;
            // Debug.Log("Current job progress is " + GameLibOfMethods.progress + ". Working time in seconds: " + JobManager.Instance.CurrentWorkingTime + ". And required work time is " + JobManager.Instance.CurrentJob.WorkingTimeInSeconds);
             yield return 0f;
         }
@@ -111,6 +110,7 @@ public class JobCar : MonoBehaviour, IInteractable, IUseable
         {
             JobManager.Instance.CurrentJob.Finish();
             JobManager.Instance.CurrentWorkingTime = 0;
+            
         }
         
         Debug.Log("Called car back from work");

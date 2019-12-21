@@ -8,10 +8,10 @@ namespace GameSettings
     public class VolumeMuter : MonoBehaviour
     {
         [SerializeField]
-        private bool masterVolume;
+        private bool masterVolume = false;
         [Space]
         [SerializeField]
-        private SoundMixer.SoundGroup soundGroup;
+        private SoundMixer.SoundGroup soundGroup = SoundMixer.SoundGroup.Background;
         [SerializeField]
         private Toggle toggle;
 

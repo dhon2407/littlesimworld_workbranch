@@ -19,8 +19,11 @@ namespace Characters {
 
 	public abstract class BaseNPC : BaseCharacter {
 
-		public JobType job;
-		//public List<CharacterData.Relationships>
+		// public NPCIdentity identity;
+		// public JobInfo job;
+		// public RelationshipTree relationships;
+		// public List<DialogueLine> dialogue;
+		// public TaskSchedule schedule;
 
 		// TODO: Add when Pathfinding has been implemented
 		public void MoveTo(Vector3 Position) {
