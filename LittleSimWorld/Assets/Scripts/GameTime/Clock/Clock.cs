@@ -72,7 +72,7 @@ namespace GameTime
 
             return string.Format("{0}:{1}",
                 currentTimeSpan.Hours.ToString("00"),
-                ((currentTimeSpan.Minutes / 10) * 10).ToString("00"));
+                currentTimeSpan.Minutes.ToString("00"));
         }
 
         private void OnDestroy()

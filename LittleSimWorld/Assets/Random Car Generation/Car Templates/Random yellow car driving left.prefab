@@ -300,7 +300,7 @@ MonoBehaviour:
   CarMaxAcceleration: 0.1
   CarStopable:
     serializedVersion: 2
-    m_Bits: 536871169
+    m_Bits: 2684354817
   MaxBreakTime: 0.4
   CurrentAcceleration: 0.1
   AccelerationSpeed: 0.01

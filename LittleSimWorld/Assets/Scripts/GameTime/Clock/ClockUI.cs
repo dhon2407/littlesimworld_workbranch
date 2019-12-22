@@ -15,43 +15,34 @@ namespace GameTime
         private TextMeshProUGUI MinutesText = null;
 
         private TimeSpan currentTime;
-        private TimeSpan lastTimeCheck;
+        private TimeSpan lastTimeUpdate;
 
         private void Start()
         {
             if (gameClock == null)
                 throw new UnityException("Game clock UI: Game clock not referenced properly.");
 
-            currentTime = TimeSpan.FromSeconds(Clock.Time);
-            lastTimeCheck = currentTime;
-
-            UpdateTimeDisplay();
-
+            Refresh();
             Clock.onDayPassed.AddListener(Refresh);
         }
 
         private void Update()
         {
-            currentTime = TimeSpan.FromSeconds(Clock.Time);
-            if (currentTime.TotalMinutes != lastTimeCheck.TotalMinutes)
-            {
-                UpdateTimeDisplay();
-                lastTimeCheck = currentTime;
-            }
+            Refresh();
         }
 
         private void UpdateTimeDisplay()
         {
             HoursText.text = currentTime.Hours.ToString("00");
-            MinutesText.text = ((currentTime.Minutes / 10) * 10).ToString("00");
+            MinutesText.text = currentTime.Minutes.ToString("00");
+            lastTimeUpdate = currentTime;
         }
 
         private void Refresh()
         {
             currentTime = TimeSpan.FromSeconds(Clock.Time);
-            lastTimeCheck = currentTime;
-
-            UpdateTimeDisplay();
+            if (currentTime.TotalMinutes != lastTimeUpdate.TotalMinutes)
+                UpdateTimeDisplay();
         }
     }
 }

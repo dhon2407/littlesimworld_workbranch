@@ -67,8 +67,8 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: serializationData.SerializationNodes.Array.data[0].Data
-    value: 0|UnityEngine.Rendering.SerializedDictionary`2[[SkillType, Assembly-CSharp],[System.Int32,
-      mscorlib]], Unity.RenderPipelines.Core.Runtime
+    value: 0|System.Collections.Generic.Dictionary`2[[PlayerStats.Skill+Type, Assembly-CSharp],[System.Int32,
+      mscorlib]], mscorlib
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: serializationData.SerializationNodes.Array.data[1].Name
@@ -80,8 +80,8 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: serializationData.SerializationNodes.Array.data[1].Data
-    value: 1|System.Collections.Generic.EnumEqualityComparer`1[[SkillType, Assembly-CSharp]],
-      mscorlib
+    value: 1|System.Collections.Generic.EnumEqualityComparer`1[[PlayerStats.Skill+Type,
+      Assembly-CSharp]], mscorlib
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: serializationData.SerializationNodes.Array.data[2].Name
