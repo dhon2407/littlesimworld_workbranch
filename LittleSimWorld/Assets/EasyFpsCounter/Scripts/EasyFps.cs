@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using GameSettings;
 
 //[System.Serializable]
 public class EasyFps : MonoBehaviour {
@@ -51,7 +52,7 @@ public class EasyFps : MonoBehaviour {
         get { return mx; }
         set { mx = value; Application.targetFrameRate = value; }
 #else
-        get { return Application.targetFrameRate; }
+        get { return Settings.Display.GetFPSLimit(); }
         set { mx = value; }
 #endif
     }
@@ -137,7 +138,7 @@ public class EasyFps : MonoBehaviour {
                 }
                 else
                 {
-                    txt.text = MaxFrameRate + "+";
+                    txt.text = MaxFrameRate.ToString("0");
                 }
             }
             frameCounter = 0;

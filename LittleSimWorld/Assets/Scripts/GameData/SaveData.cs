@@ -35,8 +35,8 @@ namespace GameFile
         public ItemList inventoryItems;
         public Dictionary<int, ItemList> containerItems;
 
-        //public Job currentJob;
-        
+        public JobData job;
+
         public PlayerSkillsData playerSkillsData;
         public PlayerStatusData playerStatusData;
       

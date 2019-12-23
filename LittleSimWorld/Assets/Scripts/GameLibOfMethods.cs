@@ -96,7 +96,10 @@ public class GameLibOfMethods : MonoBehaviour
     {
         //int layerMask = 1 << 8;
         //layerMask = ~layerMask;
-        int layerMask = 1 << 10 | 1 << 11;
+        //TODO Vague setup
+        int layerMask = 1 << 10 |
+                        1 << 15 |
+                        1 << 11;
 		var playerPos = player.transform.position;
 
 		List<Collider2D> colliders = new List<Collider2D>();

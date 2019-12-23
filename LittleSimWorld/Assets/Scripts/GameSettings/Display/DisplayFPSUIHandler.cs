@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 using InputField = TMPro.TMP_InputField;
@@ -22,9 +23,17 @@ namespace GameSettings
                 yield return null;
 
             Settings.Display.onValuesChanged.AddListener(UpdateValue);
+            Settings.Display.onVSyncChanged.AddListener(VsyncUpdate);
             UpdateValue();
 
             input.onValueChanged.AddListener(UpdateFPS);
+
+            VsyncUpdate(QualitySettings.vSyncCount != 0);
+        }
+
+        private void VsyncUpdate(bool value)
+        {
+            input.textComponent.color = value ? Color.red : Color.black;
         }
 
         private void UpdateValue()

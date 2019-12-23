@@ -24,6 +24,7 @@ public class JobManager : SerializedMonoBehaviour
     public static JobManager Instance;
     public bool isWorking;
     public float CurrentWorkingTime = 0;
+    public static JobData JobData { get => Instance.GetCurrentJobData(); set => Instance.InitializeCurrentJob(value); }
     [SerializeField]
     public Dictionary<JobType, Job> Jobs = new Dictionary<JobType, Job>()
     {
@@ -48,6 +49,35 @@ public class JobManager : SerializedMonoBehaviour
     {
         if (CurrentJob == null || (CurrentJob != null && CurrentJob.name != Jobs[job].name))
             Jobs[job].AssignToThisJob();
+        CareerUi.Instance.UpdateJobUi();
+    }
+
+    public JobData GetCurrentJobData()
+    {
+        return new JobData
+        {
+            type = (CurrentJob != null) ? CurrentJob.jobType : JobType.Unemployed,
+            joblevel = (CurrentJob != null) ? CurrentJob.JobCareerLevel : 0,
+        };
+    }
+
+    public void InitializeCurrentJob(JobData data)
+    {
+        if (data.joblevel > 0 && Jobs.ContainsKey(data.type))
+            UpdateCurrentJob(data);
+        else if (data.joblevel > 0)
+            Debug.LogWarning($"Job type {data.type} currently not suporrted.");
+
+    }
+
+    private void UpdateCurrentJob(JobData data)
+    {
+        Job newJob = Jobs[data.type];
+        while (newJob.JobCareerLevel != data.joblevel)
+            newJob = newJob.PromotionJob;
+
+        CurrentJob = newJob;
+
         CareerUi.Instance.UpdateJobUi();
     }
 
@@ -145,5 +175,12 @@ public class JobManager : SerializedMonoBehaviour
 [SerializeField]
 public enum JobType
 {
-    Cooking, Journalism, Athlete, Science
+    Cooking, Journalism, Athlete, Science, Unemployed
+}
+
+[System.Serializable]
+public struct JobData
+{
+    public int joblevel;
+    public JobType type;
 }

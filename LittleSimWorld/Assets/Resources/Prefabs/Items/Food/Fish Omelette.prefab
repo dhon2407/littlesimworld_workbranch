@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 9213482336428277766}
   - component: {fileID: -6069739536112417205}
   - component: {fileID: 4484011881370692092}
-  - component: {fileID: 1766788821788954663}
   - component: {fileID: 6359679677035237611}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Fish Omelette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,35 +123,15 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 20
-  m_LinearDrag: 5
+  m_Mass: 0.0001
+  m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1766788821788954663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9198496275181037447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowCachedSettings: 0
-  spr: {fileID: 0}
-  outlineRenderer: {fileID: 0}
-  outlineMaterial: {fileID: 0}
-  AutoSolveWidth: 1
-  MaxWidthInPixels: 0
-  Speed: 0
-  isMouseOver: 0
 --- !u!114 &6359679677035237611
 MonoBehaviour:
   m_ObjectHideFlags: 0

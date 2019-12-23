@@ -54,7 +54,7 @@ namespace GameFile
 
             totalSkillLevel.text = (totalLvl <= 0) ? "-" : totalLvl.ToString("0");
 
-            job.text = "Unemployed"; //NOT IMPLEMENTED YET
+            job.text = GetJobName(data.job);
 
             CharacterInfo charInfo = data.characterVisuals.GetVisuals();
 
@@ -88,6 +88,39 @@ namespace GameFile
                 file.Delete();
             
             MainMenu.LoadSaves();
+        }
+
+        public string GetJobName(JobData jobData)
+        {
+            const string defaultJobDisplay = "Unemployed";
+
+            if (jobData.joblevel == 0) return defaultJobDisplay;
+
+            Job baseJob;
+            switch (jobData.type)
+            {
+                case JobType.Cooking:
+                    baseJob = Resources.Load<Job>("Jobs/Cooking/Assistant Dishwasher");
+                    break;
+                case JobType.Science:
+                    baseJob = Resources.Load<Job>("Jobs/Intelligence/Whiteboard Wiper");
+                    break;
+                
+                case JobType.Journalism:
+                case JobType.Athlete:
+                    Debug.LogWarning($"No available job data for job type {jobData.type}");
+                    return defaultJobDisplay;
+                case JobType.Unemployed:
+                
+                default:
+                    return defaultJobDisplay;
+            }
+
+            while (baseJob.JobCareerLevel != jobData.joblevel)
+                baseJob = baseJob.PromotionJob;
+
+
+            return baseJob.name;
         }
     }
 }

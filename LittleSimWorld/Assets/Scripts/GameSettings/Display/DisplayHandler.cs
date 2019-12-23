@@ -33,13 +33,16 @@ public partial class DisplayHandler
     public bool AutoDetectResolution { get; private set; }
 
     public OnChangeResolution onChangeResolution;
+
     public UnityEvent onValuesChanged;
     public UnityEvent onResolutionListChanged;
+    public OnVSyncChange onVSyncChanged;
 
     public DisplayHandler()
     {
         onChangeResolution = new OnChangeResolution();
         onValuesChanged = new UnityEvent();
+        onVSyncChanged = new OnVSyncChange();
         onResolutionListChanged = new UnityEvent();
         availableResolutions = new List<Resolution>();
         availableAspectRatio = new List<(int, int)>();
@@ -135,6 +138,7 @@ public partial class DisplayHandler
     public void SetVsync(bool active)
     {
         QualitySettings.vSyncCount = active ? 1 : 0;
+        onVSyncChanged.Invoke(active);
     }
 
     public int ChangeMaxFPS(int newFPS = DefaultFPS)
@@ -145,7 +149,10 @@ public partial class DisplayHandler
 
     public int GetFPSLimit()
     {
-        return Application.targetFrameRate;
+        if (QualitySettings.vSyncCount == 0)
+            return Application.targetFrameRate;
+        else
+            return Screen.currentResolution.refreshRate;
     }
 
     public void SetAspectRatio((int, int) ratio)
@@ -208,6 +215,14 @@ public partial class DisplayHandler
                 !availableResolutions.Exists(listres => listres.height == res.height && listres.width == res.width))
                 availableResolutions.Add(res);
         }
+
+        availableAspectRatio.Sort((ar1, ar2) =>
+        {
+            if (ar1.Item1 == ar2.Item1)
+                return ar1.Item2.CompareTo(ar2.Item2);
+
+            return ar1.CompareTo(ar2);
+        });
 
         onResolutionListChanged.Invoke();
     }
@@ -295,6 +310,7 @@ public partial class DisplayHandler
 
 
     public class OnChangeResolution : UnityEvent<Resolution> { }
+    public class OnVSyncChange : UnityEvent<bool> { }
 
     private class DataSave
     {
