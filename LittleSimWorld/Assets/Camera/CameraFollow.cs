@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform target;
     [SerializeField]
-    private Tilemap tilemap;
+    private Tilemap tilemap = null;
     public static CameraFollow Instance;
     public float xMax, xMin, yMax, yMin;
     public float damping = 1;

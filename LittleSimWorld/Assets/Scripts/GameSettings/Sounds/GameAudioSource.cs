@@ -7,7 +7,7 @@ namespace GameSettings
     public class GameAudioSource : MonoBehaviour
     {
         [SerializeField]
-        private SoundMixer.SoundGroup soundGroup;
+        private SoundMixer.SoundGroup soundGroup = SoundMixer.SoundGroup.Background;
         [SerializeField]
         private AudioSource audioSource;
 

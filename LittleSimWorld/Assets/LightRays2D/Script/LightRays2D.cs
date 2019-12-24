@@ -7,7 +7,7 @@ using Weather;
 public class LightRays2D:LightRays2DAbstract{
 
     [SerializeField]
-    private GameTime.DayAndNightController dayAndNightController;
+    private GameTime.DayAndNightController dayAndNightController = null;
 
 	private MeshRenderer mr;
 

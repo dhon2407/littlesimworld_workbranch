@@ -39,6 +39,8 @@ namespace InventorySystem
             Inventory.ShowBag();
 
             shopOpen = true;
+
+            PlayOpenSFX();
         }
 
         public void OpenUpgradesShop(UpgradeList upgradeList, string name)
@@ -50,6 +52,8 @@ namespace InventorySystem
             Inventory.ShowBag();
 
             upgradeShopOpen = true;
+
+            PlayOpenSFX();
         }
 
         private void Awake()
@@ -94,6 +98,8 @@ namespace InventorySystem
             Inventory.HideBag();
 
             shopOpen = false;
+
+            PlayCloseSFX();
         }
 
         public void CloseUpgradeShop()
@@ -104,6 +110,8 @@ namespace InventorySystem
             Inventory.HideBag();
 
             upgradeShopOpen = false;
+
+            PlayCloseSFX();
         }
 
         private void Initialize()
@@ -113,6 +121,24 @@ namespace InventorySystem
 
             upgradesShop = Instantiate(Resources.Load<GameObject>("Inventory/Shops/UpgradeShop"), canvasTransform).
                 GetComponent<UpgradesShop>();
+        }
+
+        private void PlayOpenSFX()
+        {
+            if (audioSource != null && openShop != null)
+            {
+                audioSource.clip = openShop;
+                audioSource.Play();
+            }
+        }
+
+        private void PlayCloseSFX()
+        {
+            if (audioSource != null && closeShop != null)
+            {
+                audioSource.clip = closeShop;
+                audioSource.Play();
+            }
         }
     }
 

@@ -17,7 +17,7 @@ namespace CharacterStats
         public float MaxWidth = 0.92f;
         public float MinHeight = 0.2f;
         public float MaxHeight = 1;
-        [SerializeField] TextMeshProUGUI statsText;
+        [SerializeField] TextMeshProUGUI statsText = null;
 
 
         private void Awake()

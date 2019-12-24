@@ -39,6 +39,6 @@ public class RandomCarSpawner : MonoBehaviour
     public void SpawnCar()
     {
         GameObject car = (GameObject) Pool.RandomObject();
-        GameObject InstantiatedCar = Instantiate(car, transform.position, car.transform.rotation);
+        GameObject InstantiatedCar = Instantiate(car, transform.position, transform.rotation);
     }
 }

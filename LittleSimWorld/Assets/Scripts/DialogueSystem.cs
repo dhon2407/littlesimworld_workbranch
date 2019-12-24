@@ -15,7 +15,9 @@ public class DialogueSystem : MonoBehaviour
     private int index;
     public float typingSpeed;
     public static bool done = false; // controls that the dialogue is done
-    bool collding = false; // same as OnTriggerEnter but working good
+    
+    // CURRENTLY not in used.
+    //bool collding = false; // same as OnTriggerEnter but working good
 
 
     public GameObject DialogueUI;
@@ -23,7 +25,7 @@ public class DialogueSystem : MonoBehaviour
     void Start()
     {
         DialogueUI.SetActive(false);
-        collding = false;
+        //collding = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -31,7 +33,7 @@ public class DialogueSystem : MonoBehaviour
         if (other.tag == "Player")
         {
             index = Random.Range(0, sentences.Length);
-            collding = true;
+            //collding = true;
             DialogueUI.SetActive(true);
             dialogueText.text = "";
             StartCoroutine(Type());
@@ -43,7 +45,7 @@ public class DialogueSystem : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        collding = false;
+        //collding = false;
         DialogueUI.SetActive(false);
         StopAllCoroutines();
 

@@ -109,11 +109,9 @@ namespace Weather {
 			}
 
 			[SerializeField, HideInInspector] int TotalLootChance = 0;
-			[SerializeField, HideInInspector] int TotalDropChance = 0;
 
 			void CalculateTotalRarity() {
 				TotalLootChance = 0;
-				TotalDropChance = 0;
 
 				foreach (var item in WeatherChanceTable) { TotalLootChance += item.Occurence; }
 			}
