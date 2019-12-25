@@ -97,7 +97,7 @@ namespace GameFile
             }
 
             onPlay = true;
-            Portrait.TakePortraitNextFrame();
+            //Portrait.TakePortraitNextFrame();       moved this to portrait itself, since i am doing photo after some amount of frames   @Kira
         }
 
         public void CreateSaveFile(string filename, CharacterData.CharacterInfo charInfo)
