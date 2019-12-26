@@ -21,7 +21,7 @@ public class CareerUi : SerializedMonoBehaviour
     public Image JobIcon;
     [SerializeField]
     public Dictionary<JobType, Sprite> JobIconSprites;
-    public GuiPopUpAnim anim;
+    public UIPopUp anim;
     public Slider PerformanceSlider;
     public KeyCode Switch = KeyCode.F2;
 
@@ -46,7 +46,7 @@ public class CareerUi : SerializedMonoBehaviour
     {
         if (Input.GetKeyDown(Switch))
         {
-            anim.SwitchWindow();
+            anim.ToggleState();
         }
     }
 

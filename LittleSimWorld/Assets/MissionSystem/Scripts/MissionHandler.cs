@@ -72,7 +72,7 @@ public class MissionHandler : MonoBehaviour
     /// <summary>
     /// The canvas used for mission information
     /// </summary>
-    public GameObject missionCanvas;
+    public GameObject missionUI;
     public GameObject MissionsGameObjects;
 
     /// <summary>
@@ -134,7 +134,7 @@ public class MissionHandler : MonoBehaviour
         
 
 
-        MissionsGameObjects = missionCanvas.transform.Find("Missions").gameObject;
+        MissionsGameObjects = missionUI.transform.Find("Missions").gameObject;
 
 
         //RandomizeMissions();
@@ -146,16 +146,7 @@ public class MissionHandler : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(toggleMissions))
-        {
-            if (missionCanvas.activeSelf)
-            {
-                HideMissions();
-            }
-            else
-            {
-                ShowMissions();
-            }
-        }
+            missionUI.GetComponent<UIPopUp>()?.ToggleState();
        
     }
 
@@ -208,7 +199,7 @@ public class MissionHandler : MonoBehaviour
     /// </summary>
     public void CheckMissions()
     {
-        allMissions = new List<Mission>(missionCanvas.gameObject.GetComponentsInChildren<Mission>(true));
+        allMissions = new List<Mission>(missionUI.gameObject.GetComponentsInChildren<Mission>(true));
         activeMissions = allMissions;
         
         
@@ -284,7 +275,7 @@ public class MissionHandler : MonoBehaviour
         PlayerPrefs.Save();
 
         // Get all missions available
-        allMissions = new List<Mission>(missionCanvas.gameObject.GetComponentsInChildren<Mission>(true));
+        allMissions = new List<Mission>(missionUI.gameObject.GetComponentsInChildren<Mission>(true));
 
         // Inactivate all missions at start
         TurnOffAll();
@@ -298,7 +289,7 @@ public class MissionHandler : MonoBehaviour
     /// </summary>
     public void ShowMissions()
     {
-        missionCanvas.SetActive(true);
+        missionUI.SetActive(true);
     }
 
     /// <summary>
@@ -307,11 +298,11 @@ public class MissionHandler : MonoBehaviour
     public void HideMissions()
     {
         // missionCanvas.SetActive(false);
-        missionCanvas.GetComponent<GuiPopUpAnim>().CloseWindow();
+        missionUI.GetComponent<GuiPopUpAnim>().CloseWindow();
     }
     public void SwitchMissions()
     {
-        if (missionCanvas.activeSelf)
+        if (missionUI.activeSelf)
         {
             HideMissions();
         }
@@ -333,7 +324,7 @@ public class MissionHandler : MonoBehaviour
             string t = "";
             string comma = "";
 
-            List<Mission> ms = new List<Mission>(missionCanvas.gameObject.GetComponentsInChildren<Mission>(true));
+            List<Mission> ms = new List<Mission>(missionUI.gameObject.GetComponentsInChildren<Mission>(true));
 
             for (int i = 0; i < ms.Count; i++)
             {

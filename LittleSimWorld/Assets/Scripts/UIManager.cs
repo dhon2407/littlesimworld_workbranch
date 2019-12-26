@@ -94,13 +94,8 @@ public class UIManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("Was tutorial done"))
         {
             PlayerPrefs.SetInt("Was tutorial done", 1);
-            TutorialUI.GetComponent<GuiPopUpAnim>().OpenWindow();
+            TutorialUI.GetComponent<UIPopUp>().Open();
         }
-        else
-        {
-            TutorialUI.GetComponent<GuiPopUpAnim>().CloseWindow();
-        }
-
     }
 
     private void FixedUpdate()
@@ -189,30 +184,12 @@ public class UIManager : MonoBehaviour
     }
     public void SwitchSoundOptions()
     {
-        //SoundOptionsUI.SetActive(!SoundOptionsUI.activeSelf);
-        switch (SoundOptionsUI.activeSelf)
-        {
-            case true:
-                {
-                    SoundOptionsUI.GetComponent<GuiPopUpAnim>().CloseWindow();
-                    break;
-                }
-            case false:
-                {
-                    SoundOptionsUI.SetActive(true);
-                    break;
-                }
-        }
-
+        SoundOptionsUI.GetComponent<UIPopUp>()?.ToggleState();
     }
+
     public void SwitchTutorialWindow()
     {
-        //SoundOptionsUI.SetActive(!SoundOptionsUI.activeSelf);
-
-        TutorialUI.GetComponent<GuiPopUpAnim>().SwitchWindow();
-
-
-
+        TutorialUI.GetComponent<UIPopUp>()?.ToggleState();
     }
     public void ChangeDisplayMode(TMP_Dropdown dropdown)
     {
@@ -283,41 +260,14 @@ public class UIManager : MonoBehaviour
 
     public void SwitchExit()
     {
-
-        switch (exitUi.activeSelf)
-        {
-            case true:
-                {
-                    exitUi.GetComponent<GuiPopUpAnim>().CloseWindow();
-                    break;
-                }
-            case false:
-                {
-                    exitUi.SetActive(true);
-                    break;
-                }
-        }
-
+        exitUi.GetComponent<UIPopUp>()?.ToggleState();
     }
 
     public void SwitchStats()
     {
-        //statsUI.SetActive(!statsUI.activeSelf);
-        switch (statsUI.activeSelf)
-        {
-            case true:
-                {
-                    statsUI.GetComponent<GuiPopUpAnim>().CloseWindow();
-                    break;
-                }
-            case false:
-                {
-                    statsUI.SetActive(true);
-                    break;
-                }
-        }
-
+        statsUI.GetComponent<UIPopUp>()?.ToggleState();
     }
+
     public IEnumerator ShowLevelingSkill()
     {
         CurrentShowTime = 0;

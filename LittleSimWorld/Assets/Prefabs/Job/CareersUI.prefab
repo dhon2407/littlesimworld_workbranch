@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 404842142283905547}
   - component: {fileID: 404842142283905546}
   - component: {fileID: 404842142283905541}
+  - component: {fileID: 693605831}
   m_Layer: 13
   m_Name: CareersUI
   m_TagString: Untagged
@@ -567,6 +568,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &693605831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404842142283905542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 707c4aeca35a2054a9d1e3e8405debe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainWindow: {fileID: 404842142283905543}
+  hideAtStart: 1
+  popInPosition: {x: 0, y: 0}
+  popOutPosition: {x: 65.3, y: 0}
+  popInScale: 1.154701
+  popOutScale: 0
+  duration: 1
+  popStyle: 1
+  layoutGroup: {fileID: 0}
 --- !u!1 &404842142381436098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,8 +1684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 162.36855, y: -5.9801}
-  m_SizeDelta: {x: 44.13, y: 21.77}
+  m_AnchoredPosition: {x: 162.5, y: -4.71}
+  m_SizeDelta: {x: 44.13, y: 23.04}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &404842142926365375
 CanvasRenderer:
@@ -1737,7 +1759,7 @@ MonoBehaviour:
   m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0

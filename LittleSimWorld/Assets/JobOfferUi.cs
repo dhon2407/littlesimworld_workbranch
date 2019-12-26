@@ -15,7 +15,7 @@ public class JobOfferUi : SerializedMonoBehaviour
     public TMPro.TextMeshProUGUI WorkingTimeText;
     public TMPro.TextMeshProUGUI WorkingDaysText;
     public Button AcceptButton;
-    public GuiPopUpAnim anim;
+    public UIPopUp anim;
     
 
     private void Awake()
@@ -63,7 +63,7 @@ public class JobOfferUi : SerializedMonoBehaviour
     public void ShowJobOffer(int jobTypeIndex)
     {
         UpdateJobUi(JobManager.Instance.Jobs[(JobType)jobTypeIndex]);
-        anim.OpenWindow();
+        anim.Open();
         
     }
 }

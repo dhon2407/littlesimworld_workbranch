@@ -44,7 +44,7 @@ namespace PlayerStats
 
         private IEnumerator RegisterSkillChanges()
         {
-            while (!Stats.Ready)
+            while (!Stats.Ready || !Stats.Initialized)
                 yield return null;
 
             Stats.OnSkillUpdate.AddListener(UpdateSkillDisplay);

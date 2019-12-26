@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2648715266790545512}
   - component: {fileID: 2648715266790545513}
-  - component: {fileID: 2648715266790545519}
   m_Layer: 0
   m_Name: Career Scripts
   m_TagString: Untagged
@@ -125,33 +124,7 @@ MonoBehaviour:
   RequiredLevel: {fileID: 0}
   ProgressLevel: {fileID: 0}
   JobIcon: {fileID: 0}
-  anim: {fileID: 2648715266790545519}
+  anim: {fileID: 0}
   PerformanceSlider: {fileID: 0}
   Switch: 283
---- !u!114 &2648715266790545519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2648715266790545514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ce4b1eed78c2d742acc6ddbbe3a33e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainWindow: {fileID: 0}
-  popInVector: {x: 0, y: 0, z: 0}
-  popOutVector: {x: 65.3, y: 0, z: 0}
-  popInScale: {x: 1.154701, y: 1.154701, z: 1.154701}
-  popOutScale: {x: 0, y: 0, z: 0}
-  typeIn: 1
-  typeOut: 1
-  JustMoveAnimation: 0
-  delay: 0.1
-  CheckIfSliding: 1
-  CloseWindowOnEnable: 1
-  usingLayoutGroup: 1
-  isVisible: 0
-  isSliding: 0
-  hLayout: {fileID: 0}
+  CurrentEmplymentStatus: {fileID: 0}

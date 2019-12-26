@@ -427,8 +427,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8984189571503769472}
-        m_MethodName: CloseWindow
+      - m_Target: {fileID: 5075886070149939407}
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 8984189571503769487}
   - component: {fileID: 8984189571503769486}
   - component: {fileID: 8984189571503769485}
-  - component: {fileID: 8984189571503769472}
+  - component: {fileID: 5075886070149939407}
   m_Layer: 13
   m_Name: JobOfferUI
   m_TagString: Untagged
@@ -871,85 +871,19 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 21300016, guid: 34ff6bec121763c4c919d1af0584ea88, type: 3}
-    - {fileID: 21300024, guid: 34ff6bec121763c4c919d1af0584ea88, type: 3}
-    - {fileID: 21300008, guid: 34ff6bec121763c4c919d1af0584ea88, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: JobIconSprites
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[JobType, Assembly-CSharp],[UnityEngine.Sprite,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[JobType, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   JobNameText: {fileID: 8984189571330048357}
   PaymentText: {fileID: 8984189572575437145}
   WorkingTimeText: {fileID: 8984189571949979442}
   WorkingDaysText: {fileID: 8984189572535301045}
-  JobIcon: {fileID: 8984189573007709964}
   AcceptButton: {fileID: 8984189572778928429}
-  anim: {fileID: 8984189571503769472}
---- !u!114 &8984189571503769472
+  anim: {fileID: 5075886070149939407}
+--- !u!114 &5075886070149939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -958,24 +892,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8984189571503769483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ce4b1eed78c2d742acc6ddbbe3a33e3, type: 3}
+  m_Script: {fileID: 11500000, guid: f8f4fb38221e1974c90c1f79bbb0714e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainWindow: {fileID: 8984189571503769484}
-  popInVector: {x: 0, y: 0, z: 0}
-  popOutVector: {x: 0, y: 0, z: 0}
-  popInScale: {x: 1, y: 1, z: 1}
-  popOutScale: {x: 0, y: 0, z: 0}
-  typeIn: 0
-  typeOut: 0
-  JustMoveAnimation: 0
-  delay: 0.1
-  CheckIfSliding: 0
-  CloseWindowOnEnable: 1
-  usingLayoutGroup: 0
-  isVisible: 0
-  isSliding: 0
-  hLayout: {fileID: 0}
+  hideAtStart: 1
+  popInPosition: {x: 0, y: 0}
+  popOutPosition: {x: 0, y: 0}
+  popInScale: 1
+  popOutScale: 0
+  duration: 0.1
+  popStyle: 1
 --- !u!1 &8984189571540390903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,8 +2234,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8984189571503769472}
-        m_MethodName: CloseWindow
+      - m_Target: {fileID: 5075886070149939407}
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
