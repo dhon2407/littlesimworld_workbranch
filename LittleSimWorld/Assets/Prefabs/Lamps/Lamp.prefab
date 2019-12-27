@@ -60,7 +60,7 @@ MonoBehaviour:
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 2
   m_PointLightOuterRadius: 6
-  m_PointLightDistance: 4
+  m_PointLightDistance: 2
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
@@ -146,7 +146,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 21300036, guid: ffe1a00a942425642877dbb072c2c9dd, type: 3}
+  m_Sprite: {fileID: -3535221090349844623, guid: bf8d8f31c3e0e8e44a472bc30dac70a3,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -170,18 +171,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.006011486, y: 0.15069032}
+  m_Offset: {x: -0.0020046234, y: 0.15069032}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.4189582, y: 1.9258823}
+    oldSize: {x: 0.44117647, y: 1.9211764}
     newSize: {x: 0.44333333, y: 1.9666667}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.39446354, y: 0.30138063}
+  m_Size: {x: 0.42653275, y: 0.30138063}
   m_EdgeRadius: 0
 --- !u!114 &479577727
 MonoBehaviour:
