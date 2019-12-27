@@ -16,7 +16,7 @@ MonoBehaviour:
   kind: 0
   name: Jelly
   icon: {fileID: 21300012, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: Yummy!
+  Description: Whats this? I should be more cooking ingredients
   droppable: 1
   isStackable: 1
   maxStack: 99

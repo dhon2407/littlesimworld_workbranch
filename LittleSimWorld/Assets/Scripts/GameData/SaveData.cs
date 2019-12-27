@@ -44,6 +44,8 @@ namespace GameFile
         public List<string> CurrentMissions = new List<string>();
 
         public Dictionary<ItemUpgradable.UpgradeType, ItemCode> upgrades;
+
+        public List<ItemCode> cookedRecipes;
     }
 
     public static class Save

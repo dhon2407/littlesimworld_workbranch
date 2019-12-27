@@ -29,6 +29,7 @@ public class UIPopUp : MonoBehaviour
 
     protected Vector3 vectorPopInScale => Vector3.one * popInScale;
     protected Vector3 vectorPopOutScale => Vector3.one * popOutScale;
+    public bool Visible => visible;
 
     protected void Start()
     {

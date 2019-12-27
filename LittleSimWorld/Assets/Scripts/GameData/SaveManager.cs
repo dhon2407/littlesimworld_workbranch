@@ -2,6 +2,7 @@
 using UnityEngine;
 using Sirenix.Serialization;
 using System.IO;
+using Cooking.Recipe;
 using UnityEngine.SceneManagement;
 using InventorySystem;
 using PlayerStats;
@@ -87,24 +88,25 @@ namespace GameFile
 
                 Upgrades.SetData(CurrentSaveData.upgrades);
 
+                CookingHandler.SetCookedRecipes(CurrentSaveData.cookedRecipes);
+
                 CareerUi.Instance.UpdateJobUi();
             }
-            else if (Stats.Ready)
+            else if (Stats.Ready) //Loaded directly from game scene
             {
                 Stats.Initialize();
                 Inventory.Initialize();
+                CookingHandler.SetCookedRecipes(null);
                 CareerUi.Instance.UpdateJobUi();
             }
 
             onPlay = true;
-            //Portrait.TakePortraitNextFrame();       moved this to portrait itself, since i am doing photo after some amount of frames   @Kira
         }
 
         public void CreateSaveFile(string filename, CharacterData.CharacterInfo charInfo)
         {
             CurrentSaveName = filename;
-            CurrentSaveData = new SaveData();
-            CurrentSaveData.characterVisuals = new CharacterVisual(charInfo);
+            CurrentSaveData = new SaveData {characterVisuals = new CharacterVisual(charInfo)};
 
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
@@ -172,6 +174,8 @@ namespace GameFile
                 CurrentMissions = new List<string>(MissionHandler.CurrentMissions),
 
                 upgrades = Upgrades.GetData,
+
+                cookedRecipes = CookingHandler.CookedRecipes,
             };
         }
 

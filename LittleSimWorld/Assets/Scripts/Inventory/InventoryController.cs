@@ -215,6 +215,7 @@ namespace InventorySystem
     {
         private static InventoryController controller;
         private static ItemBuilder itemBuilder;
+        private static bool initialized;
 
         static Inventory()
         {
@@ -222,6 +223,7 @@ namespace InventorySystem
         }
 
         public static bool Ready => (controller != null);
+        public static bool Initialized => initialized;
         public static bool ContainerOpen => (controller.ContainerOpen);
 
         public static List<ItemList.ItemInfo> BagItems => controller.GetBagItems();
@@ -244,6 +246,8 @@ namespace InventorySystem
         {
             controller.InitializeBag(bagContents);
             controller.InitializeContainers(containersContents);
+
+            initialized = true;
         }
 
         public static void OpenCloseContainer(ItemList containerItems, string name)
@@ -324,6 +328,12 @@ namespace InventorySystem
         public static void PlaceOnBag(Item item)
         {
             controller.PickupItem(item);
+        }
+
+        public static List<ItemList.ItemInfo> GetContainerItems(int containerId)
+        {
+            var containers = controller.GetContainersContents();
+            return containers.ContainsKey(containerId) ? containers[containerId] : null;
         }
 
         public enum Sound
