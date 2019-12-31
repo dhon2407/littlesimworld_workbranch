@@ -1,20 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using InventorySystem;
-using UnityEditor;
-using UnityEngine.Events;
 
 namespace Cooking.Recipe
 {
     public class CookList : MonoBehaviour
     {
-        [SerializeField] private GameObject recipeSlot;
-        [SerializeField] private Transform itemContainer;
-        [SerializeField] private CookingHandler handler;
-        [SerializeField] private RecipeLoader recipeLoader;
+        [SerializeField] private GameObject recipeSlot = null;
+        [SerializeField] private Transform itemContainer = null;
+        [SerializeField] private CookingHandler handler = null;
+        [SerializeField] private RecipeLoader recipeLoader = null;
 
         private List<CookSlot> cookingSlots;
         private void Awake()

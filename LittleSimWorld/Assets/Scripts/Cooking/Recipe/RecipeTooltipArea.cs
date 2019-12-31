@@ -6,7 +6,7 @@ namespace Cooking.Recipe
     public class RecipeTooltipArea : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField]
-        private RecipeSlot owner;
+        private RecipeSlot owner = null;
         
         public void OnPointerEnter(PointerEventData eventData)
         {

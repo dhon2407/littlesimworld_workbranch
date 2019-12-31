@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using InventorySystem;
+using TMPro;
 using UnityEngine.UI;
 
 namespace Cooking.Recipe
@@ -21,7 +22,7 @@ namespace Cooking.Recipe
         private AutoCookHandler autoCook;
 
         [Header("Canvas Ray Caster")]
-        [SerializeField] private GraphicRaycaster cookingCanvas;
+        [SerializeField] private GraphicRaycaster cookingCanvas = null;
 
         [Space]
         [Header("Slot Cooking Lvl Requirements")]
@@ -29,8 +30,15 @@ namespace Cooking.Recipe
         [SerializeField, Range(0, 10)] private int secondSlot = 2;
         [SerializeField, Range(0, 10)] private int thirdSlot = 5;
 
-        [SerializeField] private RecipeLoader recipeLoader;
-        [SerializeField] private CookList cookingList;
+        [Space]
+        [Header("Action Buttons")]
+        [SerializeField, FieldLabel("Auto / Continue")] private Button auto_continue = null;
+        [SerializeField, FieldLabel("Manual / Reset")] private Button manual_reset = null;
+
+        [Space]
+        [Header("Manual Cooking Objects")]
+        [SerializeField] private RecipeLoader recipeLoader = null;
+        [SerializeField] private CookList cookingList = null;
 
         [Space]
         [SerializeField] private UIPopUp popUp = null;
@@ -85,13 +93,12 @@ namespace Cooking.Recipe
             instance.InitializeCookedItems(savedCookedRecipes);
         }
 
-        public static void ToggleView(Vector2 stoveLocation)
+        public static void ToggleView(Vector2 stoveLocation, bool newCook)
         {
             if (instance.isOpen)
                 instance.Close();
             else
-                instance.Open(stoveLocation);
-
+                instance.Open(stoveLocation, newCook);
         }
 
         public static void ForceClose()
@@ -116,11 +123,6 @@ namespace Cooking.Recipe
                 popUpManualCooking.Open();
             else
                 CloseManualCooking();
-        }
-
-        public void AutoCook()
-        {
-            CookingStove.AutoCook();
         }
 
         public void TakeIngredient(Item requiredItem)
@@ -203,15 +205,47 @@ namespace Cooking.Recipe
             cookedRecipes = savedCookedRecipes ?? new List<ItemCode>();
         }
 
-        private void Open(Vector2 stoveLocation)
+        private void Open(Vector2 stoveLocation, bool newCook)
         {
-            this.stoveLocation = stoveLocation;
+            this.stoveLocation = stoveLocation; 
             seenRecipes = new List<ItemCode>();
-            UpdateIngredientSource();
+
+            if (newCook)
+                StartCooking();
+            else
+                ResumeCooking();
 
             popUp.Open(stoveLocation);
             isOpen = true;
             EnableCanvas = true;
+        }
+
+        private void StartCooking()
+        {
+            CookingStove.ResetStove();
+            UpdateIngredientSource();
+            auto_continue.onClick.RemoveAllListeners();
+            auto_continue.onClick.AddListener(CookingStove.AutoCook);
+            auto_continue.GetComponentInChildren<TextMeshProUGUI>().text = "Auto Cook";
+            manual_reset.onClick.RemoveAllListeners();
+            manual_reset.onClick.AddListener(ToggleManualCooking);
+            manual_reset.GetComponentInChildren<TextMeshProUGUI>().text = "Manual Cook";
+        }
+
+        private void ResumeCooking()
+        {
+            auto_continue.onClick.RemoveAllListeners();
+            auto_continue.onClick.AddListener(CookingStove.ResumeCook);
+            auto_continue.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
+            manual_reset.onClick.RemoveAllListeners();
+            manual_reset.onClick.AddListener(StartNewCook);
+            manual_reset.GetComponentInChildren<TextMeshProUGUI>().text = "Start again";
+        }
+
+        private void StartNewCook()
+        {
+            popUp.ReOpen();
+            StartCooking();
         }
 
         private void CloseManualCooking()

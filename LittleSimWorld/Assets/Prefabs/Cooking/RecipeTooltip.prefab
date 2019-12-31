@@ -1008,11 +1008,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3253963165680801939}
-  - {fileID: 5363548568860256357}
-  - {fileID: 1460989638577345984}
-  - {fileID: 2107466042987091797}
-  - {fileID: 9185265398170089080}
+  - {fileID: 8540550384199254938}
+  - {fileID: 1279409394615956332}
+  - {fileID: 5757919489047137993}
+  - {fileID: 5084984139080813660}
+  - {fileID: 2654547794584710513}
   m_Father: {fileID: 356492604360020052}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1227,7 +1227,7 @@ PrefabInstance:
     - target: {fileID: 1995357385752213175, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
       propertyPath: m_Name
-      value: IngredientTooltip (1)
+      value: Ingredient3
       objectReference: {fileID: 0}
     - target: {fileID: 1995357385752213175, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
@@ -1427,7 +1427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f08f60eaeea20d4a939f9280860de9d, type: 3}
---- !u!224 &1460989638577345984 stripped
+--- !u!224 &5757919489047137993 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
     type: 3}
@@ -1443,7 +1443,7 @@ PrefabInstance:
     - target: {fileID: 1995357385752213175, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
       propertyPath: m_Name
-      value: IngredientTooltip (2)
+      value: Ingredient4
       objectReference: {fileID: 0}
     - target: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
@@ -1638,7 +1638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f08f60eaeea20d4a939f9280860de9d, type: 3}
---- !u!224 &2107466042987091797 stripped
+--- !u!224 &5084984139080813660 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
     type: 3}
@@ -1654,7 +1654,7 @@ PrefabInstance:
     - target: {fileID: 1995357385752213175, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
       propertyPath: m_Name
-      value: Ingredient
+      value: Ingredient1
       objectReference: {fileID: 0}
     - target: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
@@ -1818,7 +1818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f08f60eaeea20d4a939f9280860de9d, type: 3}
---- !u!224 &3253963165680801939 stripped
+--- !u!224 &8540550384199254938 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
     type: 3}
@@ -1834,7 +1834,7 @@ PrefabInstance:
     - target: {fileID: 1995357385752213175, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
       propertyPath: m_Name
-      value: IngredientTooltip
+      value: Ingredient2
       objectReference: {fileID: 0}
     - target: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
@@ -2029,7 +2029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f08f60eaeea20d4a939f9280860de9d, type: 3}
---- !u!224 &5363548568860256357 stripped
+--- !u!224 &1279409394615956332 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
     type: 3}
@@ -2045,7 +2045,7 @@ PrefabInstance:
     - target: {fileID: 1995357385752213175, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
       propertyPath: m_Name
-      value: IngredientTooltip (3)
+      value: Ingredient5
       objectReference: {fileID: 0}
     - target: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
         type: 3}
@@ -2240,7 +2240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f08f60eaeea20d4a939f9280860de9d, type: 3}
---- !u!224 &9185265398170089080 stripped
+--- !u!224 &2654547794584710513 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6606295843183648665, guid: 1f08f60eaeea20d4a939f9280860de9d,
     type: 3}

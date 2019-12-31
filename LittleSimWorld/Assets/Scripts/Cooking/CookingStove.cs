@@ -12,6 +12,8 @@ namespace Cooking
     {
         private static CookingStove instance;
         private static ItemCode lastCookItem = ItemCode.NONE;
+        private static bool cookingCanceled;
+        private static bool resumeCooking;
 
         [SerializeField]
         private float verticalDisplayOffset = 1480f;
@@ -29,6 +31,7 @@ namespace Cooking
         private Transform standArea = null;
 
         private bool isCooking;
+        private LastCookingData cookData;
 
         public float InteractionRange => interactionRange;
         public Vector3 PlayerStandPosition => standArea.position;
@@ -41,7 +44,7 @@ namespace Cooking
 
             var displayPosition = stovePosition;
             displayPosition.y += verticalDisplayOffset;
-            CookingHandler.ToggleView(Camera.main.WorldToViewportPoint(displayPosition));
+            CookingHandler.ToggleView(Camera.main.WorldToViewportPoint(displayPosition), !cookingCanceled);
         }
 
         public static void ManualCook(List<ItemList.ItemInfo> itemsToCook)
@@ -88,7 +91,9 @@ namespace Cooking
         }
 
 		private IEnumerator<float> StartCooking(List<ItemList.ItemInfo> itemsToCook)
-		{
+        {
+            cookData.itemsToCook = itemsToCook;
+
 			isCooking = true;
             fryingPan.SetActive(false);
             
@@ -101,19 +106,22 @@ namespace Cooking
 
 			GameLibOfMethods.animator.SetBool("Cooking", true);
 			UIManager.Instance.ActionText.text = "Cooking";
-			bool cookingCanceled = false;
 
-			float timeLapse = 0;
+			float timeLapse = cookingCanceled ? cookData.timeLapse : 0;
             float TimeToCook = 10f;
+            cookingEXP = cookingCanceled ? cookData.exp : 10f;
 
             while (timeLapse < TimeToCook)
 			{
 				timeLapse += Time.deltaTime;
 				GameLibOfMethods.progress = timeLapse / TimeToCook;
-				if (Input.GetKeyUp(KeyCode.E))
+				if (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.Escape))
 				{
-					cookingCanceled = true;
-					break;
+                    resumeCooking = false;
+                    cookingCanceled = true;
+                    cookData.exp = cookingEXP;
+                    cookData.timeLapse = timeLapse;
+                    break;
 				}
 
                 if (Stats.Status(Type.Energy).CurrentAmount <= 0 ||
@@ -133,20 +141,15 @@ namespace Cooking
 			isCooking = false;
 
 			GameLibOfMethods.progress = 0;
+            PlayerAnimationHelper.ResetPlayer();
 
-			if (Stats.Status(Type.Energy).CurrentAmount <= 0 || Stats.Status(Type.Health).CurrentAmount <= 0)
+            if (Stats.Status(Type.Energy).CurrentAmount <= 0 || Stats.Status(Type.Health).CurrentAmount <= 0)
 			{
-				PlayerAnimationHelper.ResetPlayer();
 				yield return 0f;
 				GameLibOfMethods.animator.SetBool("PassOut", true);
 			}
-			else if (cookingCanceled)
-			{
-				PlayerAnimationHelper.ResetPlayer();
-				yield return 0f;
-			}
-			else
-			{
+			else if (resumeCooking || !cookingCanceled)
+            {
 				Stats.AddXP(Skill.Type.Cooking, cookingEXP);
 
 				yield return 0f;
@@ -157,9 +160,41 @@ namespace Cooking
                 if (itemsToCook.Count > 0)
                     lastCookItem = itemsToCook[itemsToCook.Count - 1].itemCode;
 
-                PlayerAnimationHelper.ResetPlayer();
 				yield return 0f;
-			}
+
+                cookingCanceled = false;
+                resumeCooking = false;
+                cookData.Reset();
+            }
 		}
-	}
+
+        public static void ResumeCook()
+        {
+            resumeCooking = true;
+            if (cookingCanceled)
+                instance.TryCook(instance.cookData.itemsToCook);
+            else
+                AutoCook();
+        }
+
+        public static void ResetStove()
+        {
+            cookingCanceled = false;
+            instance.cookData.Reset();
+        }
+
+        private struct LastCookingData
+        {
+            public List<ItemList.ItemInfo> itemsToCook;
+            public float timeLapse;
+            public float exp;
+
+            public void Reset()
+            {
+                itemsToCook = new List<ItemList.ItemInfo>();
+                timeLapse = 0;
+                exp = 10; //minimum default
+            }
+        }
+    }
 }

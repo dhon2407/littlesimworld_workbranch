@@ -7,8 +7,8 @@ namespace Cooking.Recipe
 {
     public class IngredientTooltip : MonoBehaviour
     {
-        [SerializeField] private Image icon;
-        [SerializeField] private new TextMeshProUGUI name;
+        [SerializeField] private Image icon = null;
+        [SerializeField] private new TextMeshProUGUI name = null;
 
         private readonly Color locked = new Color(200f / 255f, 200f / 255f, 200f / 255f, 128f / 255f);
         private readonly Color textLocked = new Color(1f, 0f, 0f, 200f / 255f);

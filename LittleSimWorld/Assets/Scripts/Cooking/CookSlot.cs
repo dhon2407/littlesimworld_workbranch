@@ -7,7 +7,7 @@ namespace Cooking.Recipe
 {
     public class CookSlot : RecipeSlot
     {
-        [SerializeField] private TMPro.TextMeshProUGUI qty;
+        [SerializeField] private TMPro.TextMeshProUGUI qty = null;
 
         private int currentQty = 1;
         private UnityAction onDestroyAction;
@@ -38,7 +38,7 @@ namespace Cooking.Recipe
             AddQuantity(-qty);
         }
 
-        public new CookSlot SetItem(ItemCode recipeRecipeOutcome)
+        public CookSlot SetItem(ItemCode recipeRecipeOutcome)
         {
             currentItem = Inventory.CreateItem(recipeRecipeOutcome);
             icon.sprite = currentItem.Icon;

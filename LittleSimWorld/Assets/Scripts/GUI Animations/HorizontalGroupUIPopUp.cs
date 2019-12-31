@@ -6,7 +6,7 @@ public class HorizontalGroupUIPopUp : UIPopUp
 {
     [Header("Horizontal Layout")]
     [SerializeField]
-    private HorizontalLayoutGroup layoutGroup;
+    private HorizontalLayoutGroup layoutGroup = null;
     
     protected override IEnumerator PopIn()
     {

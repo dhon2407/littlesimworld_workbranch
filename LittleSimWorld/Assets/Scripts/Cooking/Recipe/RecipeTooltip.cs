@@ -13,17 +13,16 @@ namespace Cooking.Recipe
         private static RecipeTooltip instance;
 
         [Header("Labels")]
-        [SerializeField] private TextMeshProUGUI recipeName;
-        [SerializeField] private TextMeshProUGUI description;
+        [SerializeField] private TextMeshProUGUI recipeName = null;
+        [SerializeField] private TextMeshProUGUI description = null;
         
         [Space]
-        [SerializeField] private Transform ingredientsList;
-        [SerializeField] private GameObject ingredient;
-        
+        [SerializeField] private Transform ingredientsList = null;
+
         [Space]
         [Header("Screen Pointer offset")]
         [SerializeField]
-        private Vector2 offset;
+        private Vector2 offset = Vector2.zero;
         
         private UIPopUp popUp;
 

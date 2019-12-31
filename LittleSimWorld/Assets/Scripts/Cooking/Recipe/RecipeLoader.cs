@@ -8,10 +8,10 @@ namespace Cooking.Recipe
 {
     public class RecipeLoader : MonoBehaviour
     {
-        [SerializeField] private GameObject recipeSlot;
-        [SerializeField] private Transform recipeContainer;
-        [SerializeField] private CookList cookingList;
-        [SerializeField] private CookingHandler handler;
+        [SerializeField] private GameObject recipeSlot = null;
+        [SerializeField] private Transform recipeContainer = null;
+        [SerializeField] private CookList cookingList = null;
+        [SerializeField] private CookingHandler handler = null;
 
         private List<RecipeSlot> slots;
 

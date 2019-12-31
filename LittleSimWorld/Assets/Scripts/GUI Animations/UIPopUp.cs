@@ -55,17 +55,22 @@ public class UIPopUp : MonoBehaviour
             StartCoroutine(PopIn());
     }
 
-    public void Close()
-    {
-        if (visible && !animating)
-            StartCoroutine(PopOut());
-    }
-
     public void Open(Vector2 popInPosition)
     {
         this.popInPosition = popInPosition;
         if (!visible && !animating)
             StartCoroutine(PopIn());
+    }
+
+    public void ReOpen()
+    {
+        StartCoroutine(PopIn());
+    }
+
+    public void Close()
+    {
+        if (visible && !animating)
+            StartCoroutine(PopOut());
     }
 
     public void Close(Vector2 popOutPosition)
