@@ -30,6 +30,8 @@ public class UIPopUp : MonoBehaviour
     protected Vector3 vectorPopInScale => Vector3.one * popInScale;
     protected Vector3 vectorPopOutScale => Vector3.one * popOutScale;
     public bool Visible => visible;
+    public Vector2 PopInPosition => popInPosition;
+    public Vector2 PopOutPosition => popOutPosition;
 
     protected void Start()
     {
@@ -57,6 +59,35 @@ public class UIPopUp : MonoBehaviour
     {
         if (visible && !animating)
             StartCoroutine(PopOut());
+    }
+
+    public void Open(Vector2 popInPosition)
+    {
+        this.popInPosition = popInPosition;
+        if (!visible && !animating)
+            StartCoroutine(PopIn());
+    }
+
+    public void Close(Vector2 popOutPosition)
+    {
+        this.popOutPosition = popOutPosition;
+        if (visible && !animating)
+            StartCoroutine(PopOut());
+    }
+
+    public void Move(Vector2 position)
+    {
+        if (visible && !animating)
+            StartCoroutine(MoveTo(position));
+    }
+
+    private IEnumerator MoveTo(Vector2 position)
+    {
+        animating = true;
+        LeanTween.moveLocal(mainWindow.gameObject, position, duration);
+
+        yield return new WaitForSecondsRealtime(duration);
+        animating = false;
     }
 
     public void ToggleState()

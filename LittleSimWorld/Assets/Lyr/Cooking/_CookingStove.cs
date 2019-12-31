@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cooking.Recipe;
 using UnityEngine;
 using UI.Cooking;
 using InventorySystem;
@@ -35,16 +36,24 @@ public class _CookingStove : MonoBehaviour, IInteractable {
 	}
 
 	void Update() {
-		if (isOpen && !IsInRange()) {
-			StoveUIManager.instance.ToggleMenu(MenuState.Closed);
+		if (CookingHandler.Ongoing && !IsInRange()) {
+			CookingHandler.ForceClose();
 		}
 	}
 
 	public void Interact() {
 		if (isPlayerCooking) { return; }
 		if (Stats.Status(Type.Energy).CurrentAmount <= 5 || Stats.Status(Type.Health).CurrentAmount <= 5) { return; }
-		StoveUIManager.instance.ToggleMenu();
-		isOpen = !isOpen;
+		//StoveUIManager.instance.ToggleMenu();
+
+		//TODO: TEMPORARY
+        Vector2 stovePos = transform.position;
+        float offset = 1480f;
+        stovePos.y += offset;
+		Vector2 pos = Camera.main.WorldToViewportPoint(stovePos);
+		CookingHandler.ToggleView(pos);
+
+        isOpen = !isOpen;
 	}
 
 	bool IsInRange() {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cooking.Recipe;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -37,6 +38,8 @@ namespace InventorySystem
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (CookingHandler.Ongoing) return;
+
             if (!GameLibOfMethods.doingSomething && GameLibOfMethods.canInteract && !GameLibOfMethods.cantMove)
             {
                 sourceCell = GetCell();
@@ -73,6 +76,8 @@ namespace InventorySystem
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (CookingHandler.Ongoing) return;
+
             if (icon != null &&
                 !GameLibOfMethods.doingSomething &&
                 GameLibOfMethods.canInteract &&
@@ -80,7 +85,6 @@ namespace InventorySystem
             {
                 icon.transform.position = Input.mousePosition;
             }
-
         }
 
         public void OnEndDrag(PointerEventData eventData)

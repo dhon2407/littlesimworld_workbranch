@@ -13,6 +13,8 @@ namespace Cooking.Recipe
         private UnityAction onDestroyAction;
         private UnityAction onClickAction;
 
+        public int CurrentItemCount => currentQty;
+
         protected void Start()
         {
             UpdateDisplay();

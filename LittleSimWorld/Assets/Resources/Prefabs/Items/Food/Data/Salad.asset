@@ -16,8 +16,7 @@ MonoBehaviour:
   kind: 0
   name: Salad
   icon: {fileID: 21300044, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
-  Description: 'Whoever said salads are boring? To enable screen reader support,
-    press Ctrl+Alt+Z To learn about keyboard shortcuts, press Ctrl+slash '
+  Description: Whoever said salads are boring?
   droppable: 1
   isStackable: 1
   maxStack: 99

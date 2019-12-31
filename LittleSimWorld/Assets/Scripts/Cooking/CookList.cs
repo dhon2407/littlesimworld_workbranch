@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -19,11 +20,6 @@ namespace Cooking.Recipe
         private void Awake()
         {
             cookingSlots = new List<CookSlot>();
-        }
-
-        private void Start()
-        {
-            ClearList();
         }
 
         public void AddItem(Item slotItem)
@@ -52,11 +48,49 @@ namespace Cooking.Recipe
             recipeLoader.RefreshRecipeRequirements();
         }
 
-        private void ClearList()
+        public void ClearList()
         {
             cookingSlots.Clear();
             for (var i = 0; i < itemContainer.childCount; i++)
                 Destroy(itemContainer.GetChild(i).gameObject);
+        }
+
+        public void ReturnIngredients()
+        {
+            if (cookingSlots.Count > 0)
+            {
+                foreach (var cookingSlot in cookingSlots)
+                {
+                    var requiredItems = RecipeManager.GetItemRequirement(cookingSlot.Item.Code);
+                    foreach (var requiredItem in requiredItems)
+                        handler.ReturnIngredient(requiredItem, cookingSlot.CurrentItemCount);
+                }
+            }
+            
+            ClearList();
+        }
+
+        public List<ItemList.ItemInfo> GetRecipesToCook()
+        {
+            var items = new List<ItemList.ItemInfo>();
+            foreach (var cookingSlot in cookingSlots)
+            {
+                items.Add(new ItemList.ItemInfo
+                {
+                    itemCode = cookingSlot.Item.Code,
+                    count = cookingSlot.CurrentItemCount,
+                });
+            }
+
+            return items;
+        }
+
+        public void ManualCook()
+        {
+            if (cookingSlots.Count == 0) return;
+
+            CookingStove.ManualCook(GetRecipesToCook());
+            ClearList();
         }
     }
 }

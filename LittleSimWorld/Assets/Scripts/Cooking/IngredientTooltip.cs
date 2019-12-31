@@ -11,6 +11,7 @@ namespace Cooking.Recipe
         [SerializeField] private new TextMeshProUGUI name;
 
         private readonly Color locked = new Color(200f / 255f, 200f / 255f, 200f / 255f, 128f / 255f);
+        private readonly Color textLocked = new Color(1f, 0f, 0f, 200f / 255f);
         private ItemCode itemCode;
 
         public ItemCode ItemCode => itemCode;
@@ -25,7 +26,7 @@ namespace Cooking.Recipe
         public void GreyOut(bool active)
         {
             icon.color = active ? locked : Color.white;
-            name.color = active ? locked : Color.black;
+            name.color = active ? textLocked : Color.black;
         }
     }
 }
