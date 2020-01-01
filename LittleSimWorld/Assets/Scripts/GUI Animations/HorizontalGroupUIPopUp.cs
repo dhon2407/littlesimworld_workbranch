@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class HorizontalGroupUIPopUp : UIPopUp
@@ -8,7 +9,7 @@ public class HorizontalGroupUIPopUp : UIPopUp
     [SerializeField]
     private HorizontalLayoutGroup layoutGroup = null;
     
-    protected override IEnumerator PopIn()
+    protected override IEnumerator PopIn(UnityAction actionOnClose = null)
     {
         animating = true;
         mainWindow.gameObject.SetActive(true);
@@ -37,7 +38,7 @@ public class HorizontalGroupUIPopUp : UIPopUp
         animating = false;
     }
 
-    protected override IEnumerator PopOut()
+    protected override IEnumerator PopOut(UnityAction actionOnClose = null)
     {
         animating = true;
 

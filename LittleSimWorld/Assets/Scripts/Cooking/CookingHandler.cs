@@ -17,7 +17,6 @@ namespace Cooking.Recipe
         private List<ItemCode> seenRecipes;
         private bool isOpen = false;
         private Vector2 stoveLocation;
-        private bool manualCooking;
 
         private AutoCookHandler autoCook;
 
@@ -25,24 +24,15 @@ namespace Cooking.Recipe
         [SerializeField] private GraphicRaycaster cookingCanvas = null;
 
         [Space]
-        [Header("Slot Cooking Lvl Requirements")]
-        [SerializeField, Range(0, 10)]private int firstSlot = 0;
-        [SerializeField, Range(0, 10)] private int secondSlot = 2;
-        [SerializeField, Range(0, 10)] private int thirdSlot = 5;
-
-        [Space]
         [Header("Action Buttons")]
         [SerializeField, FieldLabel("Auto / Continue")] private Button auto_continue = null;
         [SerializeField, FieldLabel("Manual / Reset")] private Button manual_reset = null;
 
         [Space]
-        [Header("Manual Cooking Objects")]
-        [SerializeField] private RecipeLoader recipeLoader = null;
-        [SerializeField] private CookList cookingList = null;
+        [SerializeField, FieldLabel("Manual Cooking Handler")] private ManualCookHandler manualCook = null;
 
         [Space]
         [SerializeField] private UIPopUp popUp = null;
-        [SerializeField] private UIPopUp popUpManualCooking = null;
 
         [Space]
         [SerializeField] private ItemCode defaultItemToCook = ItemCode.JELLY;
@@ -54,39 +44,6 @@ namespace Cooking.Recipe
         public static bool Ongoing => instance.isOpen;
 
         public static bool EnableCanvas { set => instance.cookingCanvas.enabled = value; }
-
-        public void UpdateIngredientSource()
-        {
-            availableIngredients = new List<ItemList.ItemInfo>();
-            AddIngredientSource(Inventory.BagItems);
-            AddIngredientSource(Inventory.GetContainerItems(freezerID));
-
-            recipeLoader.FetchRecipes();
-            cookingList.ClearList();
-        }
-
-        public void AddIngredientSource(List<ItemList.ItemInfo> list)
-        {
-            if (list == null) return;
-
-            foreach (var availableItem in list)
-                AddToAvailableIngredients(availableItem);
-        }
-
-        public static int RequiredLevel(int numberOfIngredients)
-        {
-            Mathf.Clamp(numberOfIngredients, 1, int.MaxValue);
-
-            switch (numberOfIngredients)
-            {
-                case 1: return instance.firstSlot;
-                case 2: return instance.secondSlot;
-                case 3: return instance.thirdSlot;
-
-                default:
-                    return int.MaxValue;
-            }
-        }
 
         public static void SetCookedRecipes(List<ItemCode> savedCookedRecipes)
         {
@@ -112,17 +69,29 @@ namespace Cooking.Recipe
                 instance.cookedRecipes.Add(itemInfo.itemCode);
         }
 
+        public void UpdateIngredientSource()
+        {
+            availableIngredients = new List<ItemList.ItemInfo>();
+            AddIngredientSource(Inventory.BagItems);
+            AddIngredientSource(Inventory.GetContainerItems(freezerID));
+
+            manualCook.Refresh();
+        }
+
+        public void AddIngredientSource(List<ItemList.ItemInfo> list)
+        {
+            if (list == null) return;
+
+            foreach (var availableItem in list)
+                AddToAvailableIngredients(availableItem);
+        }
+
         public void ToggleManualCooking()
         {
-            manualCooking = !manualCooking;
+            const float horizontalOffset = -700f;
+            var manualCooking = manualCook.ToggleManualCooking();
             
-            const float verticalOffset = -700f;
-            popUp.Move(manualCooking ? new Vector2(verticalOffset, 0) : popUp.PopInPosition);
-            
-            if (manualCooking)
-                popUpManualCooking.Open();
-            else
-                CloseManualCooking();
+            popUp.Move(manualCooking ? new Vector2(horizontalOffset, 0) : popUp.PopInPosition);
         }
 
         public void TakeIngredient(Item requiredItem)
@@ -153,10 +122,9 @@ namespace Cooking.Recipe
         public void Close()
         {
             EnableCanvas = false;
-            CloseManualCooking();
+            manualCook.Close();
 
-            popUp.Close(stoveLocation);
-            isOpen = false;
+            popUp.Close(stoveLocation,() => isOpen = false);
         }
 
         private void Awake()
@@ -168,7 +136,6 @@ namespace Cooking.Recipe
             }
 
             instance = this;
-
             autoCook = new AutoCookHandler(defaultItemToCook);
         }
 
@@ -215,9 +182,11 @@ namespace Cooking.Recipe
             else
                 ResumeCooking();
 
-            popUp.Open(stoveLocation);
-            isOpen = true;
-            EnableCanvas = true;
+            popUp.Open(stoveLocation, () =>
+            {
+                isOpen = true;
+                EnableCanvas = true;
+            });
         }
 
         private void StartCooking()
@@ -246,15 +215,6 @@ namespace Cooking.Recipe
         {
             popUp.ReOpen();
             StartCooking();
-        }
-
-        private void CloseManualCooking()
-        {
-            RecipeTooltip.Hide();
-            popUpManualCooking.Close();
-            manualCooking = false;
-
-            cookingList.ReturnIngredients();
         }
 
         private void AddToAvailableIngredients(ItemList.ItemInfo availableItem)

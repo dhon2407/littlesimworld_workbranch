@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using InventorySystem;
+﻿using InventorySystem;
 using PlayerStats;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+using static Cooking.ManualCookHandler;
 using static Cooking.Recipe.CookingHandler;
 
 namespace Cooking.Recipe
@@ -71,7 +71,7 @@ namespace Cooking.Recipe
             var requiredItems = RecipeManager.GetItemRequirement(currentItem.Code);
             var slotRequirements = requiredItems.Count;
 
-            if (RequiredLevel(slotRequirements) <= Stats.SkillLevel(Skill.Type.Cooking))
+            if (SlotRequiredLevel(slotRequirements) <= Stats.SkillLevel(Skill.Type.Cooking))
             {
                 if (RecipeManager.HaveEnoughIngredients(currentRecipe, AvailableIngredients))
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIPopUp : MonoBehaviour
 {
@@ -49,35 +50,35 @@ public class UIPopUp : MonoBehaviour
         visible = !hideAtStart;
     }
 
-    public void Open()
+    public void Open(UnityAction actionOnOpen = null)
     {
         if (!visible && !animating)
-            StartCoroutine(PopIn());
+            StartCoroutine(PopIn(actionOnOpen));
     }
 
-    public void Open(Vector2 popInPosition)
+    public void Open(Vector2 popInPosition, UnityAction actionOnOpen = null)
     {
         this.popInPosition = popInPosition;
         if (!visible && !animating)
-            StartCoroutine(PopIn());
+            StartCoroutine(PopIn(actionOnOpen));
     }
 
-    public void ReOpen()
+    public void ReOpen(UnityAction actionOnOpen = null)
     {
-        StartCoroutine(PopIn());
+        StartCoroutine(PopIn(actionOnOpen));
     }
 
-    public void Close()
+    public void Close(UnityAction actionOnClose = null)
     {
         if (visible && !animating)
-            StartCoroutine(PopOut());
+            StartCoroutine(PopOut(actionOnClose));
     }
 
-    public void Close(Vector2 popOutPosition)
+    public void Close(Vector2 popOutPosition, UnityAction actionOnClose = null)
     {
         this.popOutPosition = popOutPosition;
         if (visible && !animating)
-            StartCoroutine(PopOut());
+            StartCoroutine(PopOut(actionOnClose));
     }
 
     public void Move(Vector2 position)
@@ -103,7 +104,7 @@ public class UIPopUp : MonoBehaviour
             Open();
     }
 
-    protected virtual IEnumerator PopOut()
+    protected virtual IEnumerator PopOut(UnityAction actionOnClose = null)
     {
         animating = true;
 
@@ -115,9 +116,10 @@ public class UIPopUp : MonoBehaviour
 
         visible = false;
         animating = false;
+        actionOnClose?.Invoke();
     }
 
-    protected virtual IEnumerator PopIn()
+    protected virtual IEnumerator PopIn(UnityAction actionOnOpen = null)
     {
         animating = true;
 
@@ -132,5 +134,6 @@ public class UIPopUp : MonoBehaviour
 
         visible = true;
         animating = false;
+        actionOnOpen?.Invoke();
     }
 }

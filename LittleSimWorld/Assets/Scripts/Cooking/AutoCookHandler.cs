@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using InventorySystem;
+using PlayerStats;
 using UnityEngine;
+
+using static Cooking.ManualCookHandler;
 
 namespace Cooking.Recipe
 {
@@ -26,13 +29,14 @@ namespace Cooking.Recipe
             var cookableRecipes = new List<ItemCode>();
             foreach (var recipe in RecipeManager.Recipes)
             {
-                if (RecipeManager.HaveEnoughIngredients(recipe, CookingHandler.AvailableIngredients))
+                if (RecipeManager.HaveEnoughIngredients(recipe, CookingHandler.AvailableIngredients) &&
+                    SlotRequiredLevel(recipe.itemsRequired.Count) <= Stats.SkillLevel(Skill.Type.Cooking))
                     cookableRecipes.Add(recipe.RecipeOutcome);
             }
 
             if (cookableRecipes.Count > 0)
                 return cookableRecipes[Random.Range(0, cookableRecipes.Count - 1)];
-
+            
             return defaultItemToCook;
         }
     }

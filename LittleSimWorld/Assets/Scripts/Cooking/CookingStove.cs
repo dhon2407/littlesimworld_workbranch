@@ -45,6 +45,8 @@ namespace Cooking
             var displayPosition = stovePosition;
             displayPosition.y += verticalDisplayOffset;
             CookingHandler.ToggleView(Camera.main.WorldToViewportPoint(displayPosition), !cookingCanceled);
+
+            interactionRange = Vector2.Distance(stovePosition, GameLibOfMethods.player.transform.position);
         }
 
         public static void ManualCook(List<ItemList.ItemInfo> itemsToCook)
@@ -80,7 +82,8 @@ namespace Cooking
 
         private bool InRange()
         {
-            return Vector2.Distance(stovePosition, GameLibOfMethods.player.transform.position) < interactionRange;
+            var distanceAway = Vector2.Distance(stovePosition, GameLibOfMethods.player.transform.position);
+            return distanceAway <= interactionRange;
         }
 
         private bool CanCook()
