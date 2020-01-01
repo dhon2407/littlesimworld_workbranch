@@ -21,6 +21,8 @@ namespace Cooking
 
         private bool isOpen = false;
 
+        public bool Active => isOpen;
+
         public bool ToggleManualCooking()
         {
             isOpen = !isOpen;

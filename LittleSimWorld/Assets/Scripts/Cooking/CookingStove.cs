@@ -32,21 +32,23 @@ namespace Cooking
 
         private bool isCooking;
         private LastCookingData cookData;
+        private float minimumInteractionRange;
 
         public float InteractionRange => interactionRange;
         public Vector3 PlayerStandPosition => standArea.position;
         public static ItemCode LastCookedItem => lastCookItem;
-        private Vector3 stovePosition => transform.position;
+        private Vector3 StovePosition => transform.position;
 
         public void Interact()
         {
             if (!CanCook()) return;
 
-            var displayPosition = stovePosition;
+            var displayPosition = StovePosition;
             displayPosition.y += verticalDisplayOffset;
             CookingHandler.ToggleView(Camera.main.WorldToViewportPoint(displayPosition), !cookingCanceled);
 
-            interactionRange = Vector2.Distance(stovePosition, GameLibOfMethods.player.transform.position);
+            interactionRange = Mathf.Clamp(Vector2.Distance(StovePosition, GameLibOfMethods.player.transform.position),
+                minimumInteractionRange, float.MaxValue);
         }
 
         public static void ManualCook(List<ItemList.ItemInfo> itemsToCook)
@@ -72,6 +74,7 @@ namespace Cooking
         private void Awake()
         {
             instance = this;
+            minimumInteractionRange = interactionRange;
         }
 
         private void Update()
@@ -82,7 +85,7 @@ namespace Cooking
 
         private bool InRange()
         {
-            var distanceAway = Vector2.Distance(stovePosition, GameLibOfMethods.player.transform.position);
+            var distanceAway = Vector2.Distance(StovePosition, GameLibOfMethods.player.transform.position);
             return distanceAway <= interactionRange;
         }
 

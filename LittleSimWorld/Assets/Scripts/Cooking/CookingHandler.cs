@@ -194,12 +194,13 @@ namespace Cooking.Recipe
             CookingStove.ResetStove();
             UpdateIngredientSource();
             auto_continue.onClick.RemoveAllListeners();
-            auto_continue.onClick.AddListener(CookingStove.AutoCook);
+            auto_continue.onClick.AddListener(AutoCook);
             auto_continue.GetComponentInChildren<TextMeshProUGUI>().text = "Auto Cook";
             manual_reset.onClick.RemoveAllListeners();
             manual_reset.onClick.AddListener(ToggleManualCooking);
             manual_reset.GetComponentInChildren<TextMeshProUGUI>().text = "Manual Cook";
         }
+
 
         private void ResumeCooking()
         {
@@ -215,6 +216,13 @@ namespace Cooking.Recipe
         {
             popUp.ReOpen();
             StartCooking();
+        }
+        private void AutoCook()
+        {
+            if (manualCook.Active)
+                manualCook.Close();
+
+            CookingStove.AutoCook();
         }
 
         private void AddToAvailableIngredients(ItemList.ItemInfo availableItem)

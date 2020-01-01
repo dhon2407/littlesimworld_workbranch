@@ -1,4 +1,5 @@
 ﻿using InventorySystem;
+using LSW.Helpers;
 using PlayerStats;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 
 using static Cooking.ManualCookHandler;
 using static Cooking.Recipe.CookingHandler;
+using static Cooking.Recipe.RecipeSlot.Visibility;
 
 namespace Cooking.Recipe
 {
@@ -18,6 +20,11 @@ namespace Cooking.Recipe
         [SerializeField] protected Color available = Color.white;
         [SerializeField] protected Color locked = new Color(200f / 255f, 200f / 255f, 200f / 255f, 128f / 255f);
         [SerializeField] protected Color hidden = new Color(10f / 255f, 10f / 255f, 10f / 255f, 70f / 255f);
+
+        [Space]
+        [Header("Shake Behaviour")]
+        [SerializeField] private float duration = 0.2f;
+        [SerializeField] private float intensity = 0.02f;
 
         protected Item currentItem;
         protected NewRecipe currentRecipe;
@@ -41,7 +48,7 @@ namespace Cooking.Recipe
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() =>
             {
-                if ((visibility == Visibility.Available))
+                if (visibility == Available)
                     action.Invoke();
                 else
                     CantCookThis();
@@ -51,7 +58,7 @@ namespace Cooking.Recipe
         public void OnCursorEnter()
         {
             mouseOver = true;
-            if (visibility != Visibility.Hidden)
+            if (visibility != Hidden)
                 RecipeTooltip.Show(currentItem);
         }
 
@@ -66,48 +73,52 @@ namespace Cooking.Recipe
             button = GetComponent<Button>();
         }
 
-        public RecipeSlot CheckRequirement()
+        public void CheckRequirement()
         {
             var requiredItems = RecipeManager.GetItemRequirement(currentItem.Code);
             var slotRequirements = requiredItems.Count;
 
-            if (SlotRequiredLevel(slotRequirements) <= Stats.SkillLevel(Skill.Type.Cooking))
+            if (SlotRequiredLevel(slotRequirements) > Stats.SkillLevel(Skill.Type.Cooking))
             {
-                if (RecipeManager.HaveEnoughIngredients(currentRecipe, AvailableIngredients))
-                {
-                    icon.color = available;
-                    visibility = Visibility.Available;
-                    button.interactable = true;
+                SetVisibility(Hidden);
+                return;
+            }
 
-                    if (!SeenRecipes.Contains(currentItem.Code))
-                        SeenRecipes.Add(currentItem.Code);
+            if (RecipeManager.HaveEnoughIngredients(currentRecipe, AvailableIngredients))
+            {
+                SetVisibility(Available);
 
-                    RefreshTooltip();
-                }
-                else if (CookedRecipes.Contains(currentItem.Code) ||
-                         SeenRecipes.Contains(currentItem.Code))
-                {
-                    icon.color = locked;
-                    visibility = Visibility.Locked;
-                    button.interactable = true;
-
-                    RefreshTooltip();
-                }
-                else
-                {
-                    icon.color = hidden;
-                    visibility = Visibility.Hidden;
-                    button.interactable = false;
-                }
+                if (!SeenRecipes.Contains(currentItem.Code))
+                    SeenRecipes.Add(currentItem.Code);
             }
             else
             {
-                icon.color = hidden;
-                visibility = Visibility.Hidden;
-                button.interactable = false;
+                SetVisibility(CookedRecipes.Contains(currentItem.Code) ||
+                              SeenRecipes.Contains(currentItem.Code) ?
+                    Locked : Hidden);
             }
+        }
 
-            return this;
+        private void SetVisibility(Visibility value)
+        {
+            visibility = value;
+            button.interactable = (visibility == Available ||
+                                   visibility == Locked);
+
+            if (button.interactable)
+                RefreshTooltip();
+
+            icon.color = GetIconColor();
+        }
+
+        private Color GetIconColor()
+        {
+            switch (visibility)
+            {
+                case Available: return available;
+                case Locked: return locked;
+                default: return hidden;
+            }
         }
 
         private void RefreshTooltip()
@@ -127,7 +138,7 @@ namespace Cooking.Recipe
 
         private void CantCookThis()
         {
-            throw new System.NotImplementedException();
+            button.Shake(duration, intensity);
         }
 
         public enum Visibility
