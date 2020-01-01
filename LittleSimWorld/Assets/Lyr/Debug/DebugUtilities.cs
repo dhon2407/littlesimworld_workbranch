@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cooking;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -22,8 +23,8 @@ public class DebugUtilities : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad2)) { Stats.AddMoney(100f); }
 		if (Input.GetKeyDown(KeyCode.Keypad9)) { player.position = TestViewPos; }
 		if (Input.GetKeyDown(KeyCode.Keypad3)) {
-			_CookingStove.instance.DefaultCookingEXP = Cheated3 ? 5 : 100;
-			_CookingStove.instance.TimeToCook = Cheated3 ? 10 : 5;
+			CookingStove.CheatEXP = Cheated3 ? 5 : 100;
+			CookingStove.CheatTimeCompletion = Cheated3 ? 10 : 5;
 
 			Cheated3 = !Cheated3;
 		}

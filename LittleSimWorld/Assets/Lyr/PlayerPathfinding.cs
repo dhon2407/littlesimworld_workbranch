@@ -16,6 +16,7 @@ namespace PathFinding {
 		Collider2D col;
 
 		public float Speed = 2;
+		float builtUpSpeed = 0;
 
 		void Start() {
 			player = GameLibOfMethods.player;
@@ -37,7 +38,12 @@ namespace PathFinding {
 		}
 
 		void LateUpdate() {
+			CheckClicks();
+			HandleBuiltUpSpeed();
+			MakeCurrentNodeOccupied();
+		}
 
+		void CheckClicks() {
 			bool shouldCancel = (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && currentHandle.HasValue;
 			if (shouldCancel) { Cancel(); }
 
@@ -61,8 +67,6 @@ namespace PathFinding {
 				var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				MoveTo(pos, Speed, null);
 			}
-
-			MakeCurrentNodeOccupied();
 		}
 
 		void Cancel() {
@@ -89,58 +93,60 @@ namespace PathFinding {
 			return null;
 		}
 
-		void IgnoreAllCollisionExcept(bool ignore, params int[] collidingLayers) {
-			var layer = col.gameObject.layer;
-
-			for (int i = 0; i < 32; i++) {
-				Physics.IgnoreLayerCollision(layer, i, ignore);
+		void HandleBuiltUpSpeed() {
+			if (currentHandle != null) {
+				builtUpSpeed = Mathf.MoveTowards(builtUpSpeed, 1, Time.deltaTime);
 			}
-			if (ignore) {
-				foreach (var i in collidingLayers) {
-					Physics.IgnoreLayerCollision(layer, i, false);
-				}
+			else if (builtUpSpeed > 0) {
+				builtUpSpeed = Mathf.MoveTowards(builtUpSpeed, 0, Time.deltaTime);
 			}
-
 		}
-
 
 		#region Movement
 		List<Node> path = new List<Node>(1000);
 		ContactFilter2D contactFilter = new ContactFilter2D();
 		MEC.CoroutineHandle? currentHandle;
-		public void MoveTo(Vector3 pos, float speed, System.Action callback) {
+		public void MoveTo(Vector3 pos,float speed, System.Action callback) {
 			if (currentHandle.HasValue) { Cancel(); }
 			if (GameLibOfMethods.doingSomething) { return; }
-			currentHandle = WalkTo(pos, speed, callback).Start(MEC.Segment.FixedUpdate);
+			currentHandle = WalkTo(pos, builtUpSpeed, speed, callback).Start(MEC.Segment.FixedUpdate);
 		}
 
 
-		IEnumerator<float> WalkTo(Vector3 Position, float Speed, System.Action Callback) {
+		IEnumerator<float> WalkTo(Vector3 Position, float StartingSpeedPercentage, float MaxSpeed, System.Action Callback) {
 
 			PlayerAnimationHelper.StopPlayer();
-			RequestPath.GetPath(rb.position, Position, path, Resolution.High);
+			//RequestPath.GetPath(rb.position, Position, path, Resolution.High);
+			RequestPath.GetPath_Avoidance(rb.position, Position, path, Resolution.High, col);
 			//IgnoreAllCollisionExcept(true, 31, 9, 10);
 			col.isTrigger = true;
 
 			yield return 0f;
 
 			if (path.Count != 0) { anim.SetBool("Walking", true); }
-            Speed *= Stats.MoveSpeed;
+            MaxSpeed *= Stats.MoveSpeed;
 
-			float _spd = 0;
-			int index = 0;
+			float _spd = StartingSpeedPercentage * MaxSpeed;
+			int index=0;
 
 			while (this) {
-
-				float spd = _spd * Time.fixedDeltaTime;
-				if (_spd != Speed) { _spd = Mathf.MoveTowards(_spd, Speed, 10 * Speed * Time.fixedDeltaTime); }
-
 				if (index >= path.Count) { break; }
+
+				if (!CanWalkAt(path[index])) {
+					yield return 0f;
+					//RequestPath.GetPath(rb.position, Position, path, Resolution.High);
+					RequestPath.GetPath_Avoidance(rb.position, Position, path, Resolution.High, col);
+					index = 0;
+					continue;
+				}
 
 				var targetPos = grid.PosFromNode(path[index]);
 				var offset = targetPos - rb.position;
 
-				var posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, spd);
+				if (_spd != MaxSpeed) { _spd = Mathf.MoveTowards(_spd, MaxSpeed, 10 * MaxSpeed * Time.fixedDeltaTime); }
+				float currentSpeed = _spd * Time.fixedDeltaTime;
+
+				var posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, currentSpeed);
 
 				if (posAfterMovement == targetPos) {
 					index++;
@@ -149,7 +155,7 @@ namespace PathFinding {
 					else {
 						targetPos = grid.PosFromNode(path[index]);
 						offset = targetPos - rb.position;
-						posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, spd);
+						posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, currentSpeed);
 					}
 				}
 
@@ -176,7 +182,8 @@ namespace PathFinding {
 
 
 		void CalculateFacing(Vector2 offset) {
-			bool isYBigger = Mathf.Abs(offset.x) <= 0.01f;//Mathf.Abs(offset.x) < Mathf.Abs(offset.y);
+			//bool isYBigger = Mathf.Abs(offset.x) <= 0.01f;
+			bool isYBigger = Mathf.Abs(offset.x) < Mathf.Abs(offset.y);
 
 			if (isYBigger) {
 				if (offset.y > 0) { spr.FaceUP(); }
@@ -198,5 +205,7 @@ namespace PathFinding {
 			}
 		}
 		#endregion
+
+		bool CanWalkAt(Node node) => node.isCurrentlyOccupied == null || node.isCurrentlyOccupied == col;
 	}
 }

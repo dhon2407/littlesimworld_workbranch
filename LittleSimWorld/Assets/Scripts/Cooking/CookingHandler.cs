@@ -247,7 +247,7 @@ namespace Cooking.Recipe
             {
                 Inventory.RemoveInBag(new List<ItemList.ItemInfo>
                 {
-                    new ItemList.ItemInfo { itemCode = requiredItemCode, count =  1}
+                    new ItemList.ItemInfo {itemCode = requiredItemCode, count = 1}
                 });
 
                 return;
@@ -255,20 +255,19 @@ namespace Cooking.Recipe
 
             var fridgeItems = Inventory.GetContainerItems(freezerID);
 
-            if (fridgeItems != null)
-            {
-                for (int i = 0; i < fridgeItems.Count; i++)
-                {
-                    if (fridgeItems[i].itemCode == requiredItemCode)
-                    {
-                        var itemInfo = fridgeItems[i];
-                        itemInfo.count -= 1;
+            if (fridgeItems == null) return;
 
-                        if (itemInfo.count <= 0)
-                            fridgeItems.RemoveAt(i);
-                        else
-                            fridgeItems[i] = itemInfo;
-                    }
+            for (int i = 0; i < fridgeItems.Count; i++)
+            {
+                if (fridgeItems[i].itemCode == requiredItemCode)
+                {
+                    var itemInfo = fridgeItems[i];
+                    itemInfo.count -= 1;
+
+                    if (itemInfo.count <= 0)
+                        fridgeItems.RemoveAt(i);
+                    else
+                        fridgeItems[i] = itemInfo;
                 }
             }
         }

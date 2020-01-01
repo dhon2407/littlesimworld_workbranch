@@ -14,6 +14,10 @@ namespace PathFinding {
 		static int X, Y, maxX, maxY;
 
 
+		static Func<int, int> decrease = Decrease;
+		static Func<int, int> increase = Increase;
+		static Func<int, int> stay = Stay;
+
 		public static Node ClosestWalkable(Node closestTo, Resolution resolution) {
 
 			grid = NodeGridManager.GetGrid(resolution);
@@ -32,22 +36,22 @@ namespace PathFinding {
 
 
 			// Find Closest Left
-			helperList.Add(ClosestToOrigin(Decrease, Stay));
+			helperList.Add(ClosestToOrigin(decrease, stay));
 
 			// Find Closest Right
-			helperList.Add(ClosestToOrigin(Increase, Stay));
+			helperList.Add(ClosestToOrigin(increase, stay));
 
 			// Find Closest Top
-			helperList.Add(ClosestToOrigin(Stay, Increase));
+			helperList.Add(ClosestToOrigin(stay, increase));
 
 			// Find Closest Bot
-			helperList.Add(ClosestToOrigin(Stay, Decrease));
+			helperList.Add(ClosestToOrigin(stay, decrease));
 
 			// Find Closest Diags
-			helperList.Add(ClosestToOrigin(Decrease, Decrease));
-			helperList.Add(ClosestToOrigin(Decrease, Increase));
-			helperList.Add(ClosestToOrigin(Increase, Decrease));
-			helperList.Add(ClosestToOrigin(Increase, Increase));
+			helperList.Add(ClosestToOrigin(decrease, decrease));
+			helperList.Add(ClosestToOrigin(decrease, increase));
+			helperList.Add(ClosestToOrigin(increase, decrease));
+			helperList.Add(ClosestToOrigin(increase, increase));
 
 			// Find Most efficient Node
 			int minDist = int.MaxValue;

@@ -29,6 +29,10 @@ public class SlidingDoor : MonoBehaviour {
 
 		endLeftPosition = new Vector2(leftDoor.position.x - maxDoorPosition, leftDoor.position.y);
 		endRightPosition = new Vector2(rightDoor.position.x + maxDoorPosition, rightDoor.position.y);
+
+		transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
+		transform.GetChild(1).GetComponent<Collider2D>().enabled = false;
+		gameObject.layer = 9;
 	}
 
 	protected virtual void Update() {

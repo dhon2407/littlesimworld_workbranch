@@ -68,6 +68,11 @@ public class UIPopUp : MonoBehaviour
         StartCoroutine(PopIn(actionOnOpen));
     }
 
+    public void Close()
+    {
+        Close(null);
+    }
+
     public void Close(UnityAction actionOnClose = null)
     {
         if (visible && !animating)

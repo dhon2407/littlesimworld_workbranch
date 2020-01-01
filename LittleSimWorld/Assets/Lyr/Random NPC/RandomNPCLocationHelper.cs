@@ -3,6 +3,7 @@
 	using System.Collections.Generic;
 	using Sirenix.OdinInspector;
 	using UnityEngine;
+	using PathFinding;
 
 	[HideReferenceObjectPicker]
 	public class RandomNPCLocationHelper {
@@ -20,5 +21,8 @@
 
 			public override string ToString() => Name;
 		}
+
+
+		public static Node GetRandomWalkable(PathFinding.Resolution resolution) => NodeGridManager.GetGrid(resolution).GetRandomWalkable();
 	}
 }

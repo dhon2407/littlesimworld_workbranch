@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Cooking;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -169,7 +170,7 @@ namespace InventorySystem
             var cellSlot = cell.GetSlot();
             if (cell.Type == Droppable.CellType.TrashBin)
                 cellSlot.ClearActions();
-            else if (Inventory.ContainerOpen || Shop.IsShopOpen || _CookingStove.instance.Open)
+            else if (Inventory.ContainerOpen || Shop.IsShopOpen || CookingStove.Open)
                 cellSlot.SetSelfAction(openBagSlotAction);
             else
                 cellSlot.SetUseAction();

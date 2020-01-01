@@ -53,7 +53,7 @@ namespace PathFinding {
 
 			var controlID = GUIUtility.GetControlID(FocusType.Passive);
 			var eventType = e.GetTypeForControl(controlID);
-			if (eventType == EventType.MouseUp && e.button == 0 && grid.currentlySelected.Count > 0) {
+			if (eventType == EventType.MouseUp && e.button == 0) {
 				GUIUtility.hotControl = controlID;
 				e.Use();
 				EndDragPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
@@ -82,8 +82,11 @@ namespace PathFinding {
 			var fX = dif.x / grid.nodeSize;
 			var fY = dif.y / grid.nodeSize;
 
-			for (int i = 0; i < Mathf.Abs(fX); i++) {
-				for (int j = 0; j < Mathf.Abs(fY); j++) {
+			var absX = Mathf.Max(Mathf.Abs(fX), 0.01f);
+			var absY = Mathf.Max(Mathf.Abs(fY), 0.01f);
+
+			for (int i = 0; i < absX; i++) {
+				for (int j = 0; j < absY; j++) {
 					Vector2 pos = StartDragPos + new Vector2(Mathf.Sign(fX) * i * grid.nodeSize,Mathf.Sign(fY) * j * grid.nodeSize);
 					Node node = grid.NodeFromWorldPoint(pos);
 					grid.currentlySelected.Add(node);

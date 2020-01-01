@@ -6,14 +6,16 @@ using UnityEngine.Audio;
 
 namespace Characters.RandomNPC {
 	public class RandomNPCPool : SerializedMonoBehaviour {
-		[Range(0, 100)] public int PoolAmount;
-		[Range(0, 100), MaxValue("PoolAmount")] public int MaxActive;
+		public uint PoolAmount;
+		[MaxValue("PoolAmount")] public uint MaxActive;
 
 		[Space] public RandomNPC npcPrefab;
 
 		public static RandomNPCPool instance;
 
 		public RandomNPCLocationHelper npcLocationHelper;
+
+		public List<Collider2D> NormallyIgnoredColliders;
 
 		Queue<RandomNPC> npcPool;
 
@@ -25,7 +27,7 @@ namespace Characters.RandomNPC {
 		}
 
 		void InitializePool() {
-			npcPool = new Queue<RandomNPC>(PoolAmount);
+			npcPool = new Queue<RandomNPC>((int)PoolAmount);
 
 			for (int i = 0; i < PoolAmount; i++) {
 				var newObj = GameObject.Instantiate(npcPrefab);
@@ -34,21 +36,21 @@ namespace Characters.RandomNPC {
 				newObj.gameObject.SetActive(false);
 
 				newObj.OnCompleteAction = () => { npcPool.Enqueue(newObj); newObj.gameObject.SetActive(false); };
-				newObj.visualsHelper.AssignRandomSet();
+				newObj.visualsHelper.Initialize();
 
 				npcPool.Enqueue(newObj);
 			}
 		}
-		void OnDrawGizmosSelected() {
-			Gizmos.color = Color.white;
-			foreach (var loc in npcLocationHelper.SpawnLocations) {
-				Gizmos.DrawWireSphere(loc, 0.2f);
-			}
-			Gizmos.color = Color.magenta;
-			foreach (var loc in npcLocationHelper.GoToLocations) {
-				Gizmos.DrawWireSphere(loc, 0.4f);
-			}
-		}
+		//void OnDrawGizmosSelected() {
+		//	Gizmos.color = Color.white;
+		//	foreach (var loc in npcLocationHelper.SpawnLocations) {
+		//		Gizmos.DrawWireSphere(loc, 0.2f);
+		//	}
+		//	Gizmos.color = Color.magenta;
+		//	foreach (var loc in npcLocationHelper.GoToLocations) {
+		//		Gizmos.DrawWireSphere(loc, 0.4f);
+		//	}
+		//}
 		#endregion
 
 		float t;
@@ -78,11 +80,11 @@ namespace Characters.RandomNPC {
 			// If the command queue is not empty there is an error in code.
 			if (nextNPC.commandQueue.Count != 0) { Debug.LogWarning("Command queue of {nextNPC} is not empty."); }
 
-			nextNPC.commandQueue.Enqueue(new AppearCommand(nextNPC, npcLocationHelper.SpawnLocations, targetAlpha: 1));
+			nextNPC.commandQueue.Enqueue(new AppearCommand(nextNPC));
 			nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, target));
 			nextNPC.commandQueue.Enqueue(new HangAroundCommand(nextNPC, time));
 			nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, origin));
-			nextNPC.commandQueue.Enqueue(new AppearCommand(nextNPC, npcLocationHelper.SpawnLocations, targetAlpha: 0));
+			nextNPC.commandQueue.Enqueue(new DisappearCommand(nextNPC));
 
 			// Patch for the single frame that the NPC appears on the screen before searching for a new location.
 			nextNPC.transform.position = Vector3.one * 1000;

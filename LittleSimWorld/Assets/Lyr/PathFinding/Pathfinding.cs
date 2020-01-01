@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace PathFinding {
 	public static class RequestPath {
 
 		#region INITIALIZATION
 
 		static OpenHeap openSet; static ClosedHeap closedSet;
-		static int minCheckAmount => NodeGridManager.instance.MinCheckAmount;
+		static int minCheckAmount = NodeGridManager.instance.MinCheckAmount;
 
 		static RequestPath() {
-			// magic numbers.. no actual cost in memory / performance tho (400kb total)
-			// Increase to a few millions if we choose to upscale the resolution of the grid and implement width-based pathfinding
+			// Magic numbers.. no actual cost in memory / performance tho (400kb total)
+			// NOTE: It's currently at about max node size (~19.442) of the highest resolution grid
+
+			// Increase to a max node size if we choose to upscale the resolution of the grid and implement width-based pathfinding
 
 			// Should be (int) (gridX * gridY / nodeSize) if we want to get the actual numbers
-			openSet = new OpenHeap(100000);
-			closedSet = new ClosedHeap(100000);
+			openSet = new OpenHeap(20000);
+			closedSet = new ClosedHeap(20000);
 		}
 
 		#endregion
@@ -175,6 +176,8 @@ namespace PathFinding {
 						nbr.parent = new BaseNode(node.X, node.Y);
 					}
 				}
+
+
 				if (skipD) { continue; }
 
 				var nbsB = node.neighbours.diagonalNeighbours;

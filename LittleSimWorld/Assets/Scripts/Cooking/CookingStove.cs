@@ -33,10 +33,13 @@ namespace Cooking
         private bool isCooking;
         private LastCookingData cookData;
         private float minimumInteractionRange;
+        private float timeToCook = 10f;
 
         public float InteractionRange => interactionRange;
         public Vector3 PlayerStandPosition => standArea.position;
         public static ItemCode LastCookedItem => lastCookItem;
+        public static bool Open => instance.isCooking;
+
         private Vector3 StovePosition => transform.position;
 
         public void Interact()
@@ -114,13 +117,12 @@ namespace Cooking
 			UIManager.Instance.ActionText.text = "Cooking";
 
 			float timeLapse = cookingCanceled ? cookData.timeLapse : 0;
-            float TimeToCook = 10f;
             cookingEXP = cookingCanceled ? cookData.exp : 10f;
 
-            while (timeLapse < TimeToCook)
+            while (timeLapse < timeToCook)
 			{
 				timeLapse += Time.deltaTime;
-				GameLibOfMethods.progress = timeLapse / TimeToCook;
+				GameLibOfMethods.progress = timeLapse / timeToCook;
 				if (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.Escape))
 				{
                     resumeCooking = false;
@@ -188,6 +190,20 @@ namespace Cooking
             cookingCanceled = false;
             instance.cookData.Reset();
         }
+
+        #region MyRegion
+
+        public static float CheatEXP
+        {
+            set => instance.cookingEXP = value;
+        }
+
+        public static float CheatTimeCompletion
+        {
+            set => instance.timeToCook = value;
+        }
+
+        #endregion
 
         private struct LastCookingData
         {

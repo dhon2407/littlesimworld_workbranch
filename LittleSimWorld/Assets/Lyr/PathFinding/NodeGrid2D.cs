@@ -5,7 +5,6 @@
 	using Sirenix.OdinInspector;
 	using Sirenix.Serialization;
 	using System;
-	using System.Linq;
 
 	public class NodeGrid2D : MonoBehaviour {
 
@@ -25,12 +24,18 @@
 
 		#region Initialization			
 
+		List<Node> walkableNodes;
 		Vector2 cachedCenter;
 		void Awake() {
 			gridData.Load();
 			CacheNeighbours();
 			//BetterList list = new BetterList(ref nodeGrid[0,0]);
 			cachedCenter = Center - GridSize / 2;
+			walkableNodes = new List<Node>(nodeGrid.Length);
+			foreach (var node in nodeGrid) {
+				if (!node.walkable) { continue; }
+				walkableNodes.Add(node);
+			}
 		}
 		void CacheNeighbours() { foreach (var item in nodeGrid) { item.Cache(this); } }
 
@@ -40,7 +45,8 @@
 #if (UNITY_EDITOR)
 		[Button]
 		public void Save() {
-			if (gridData == null || String.IsNullOrEmpty(UnityEditor.AssetDatabase.GetAssetPath(gridData))) {
+			if (String.IsNullOrEmpty(DataName)) { Debug.LogError("Cannot save empty asset name"); }
+			else if (gridData == null || String.IsNullOrEmpty(UnityEditor.AssetDatabase.GetAssetPath(gridData))) {
 				gridData = GridData.CreateInstance<GridData>();
 				string path = "Assets/GridData/" + DataName + ".asset";
 				UnityEditor.AssetDatabase.CreateAsset(gridData, path);
@@ -95,6 +101,7 @@
 		[HideInInspector, NonSerialized] public Node selectedNode;
 		public void OnDrawGizmosSelected() {
 			if (DontDraw || nodeGrid == null) { return; }
+			if (Event.current.type != EventType.Repaint) { return; }
 			cachedCenter = Center - GridSize / 2;
 			Gizmos.DrawWireCube(Center, GridSize);
 			Color walkableColor = new Color(1, 1, 1, 0.1f);
@@ -169,6 +176,8 @@
 
 		public bool IsNodeWalkable(Vector2 pos) => !Physics2D.OverlapCircle(pos, (nodeSize / 2) - 0.1f, unwalkableMask);
 		public bool IsNodeWalkable_Temp(Vector2 pos, LayerMask mask) => !Physics2D.OverlapCircle(pos, (nodeSize / 2) - 0.05f, mask);
+
+		public Node GetRandomWalkable() => walkableNodes[UnityEngine.Random.Range(0, walkableNodes.Count)];
 
 		[Serializable]
 		public class TerrainType {

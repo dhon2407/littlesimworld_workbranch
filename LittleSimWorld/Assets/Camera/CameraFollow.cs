@@ -74,7 +74,7 @@ public class CameraFollow : MonoBehaviour
         Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
 
 
-        transform.position = new Vector3(Mathf.Clamp(newPos.x, xMin, xMax), Mathf.Clamp(newPos.y, yMin, yMax), -10);
+        transform.position = new Vector3(Mathf.Clamp(newPos.x, xMin, xMax), Mathf.Clamp(newPos.y, yMin, yMax), transform.position.z);
         m_LastTargetPosition = target.position;
     }
     public void SetLimits()

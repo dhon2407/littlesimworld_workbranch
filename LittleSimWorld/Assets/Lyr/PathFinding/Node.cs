@@ -22,6 +22,7 @@
 			//neighbours = new Neighbours(X,Y,NodeGrid2D.instance);
 		}
 
+
 		public void Cache(NodeGrid2D grid) {
 			neighbours = new Neighbours();
 			for (int x = -1; x <= 1; x++) {
@@ -53,6 +54,9 @@
 			if (CostA == CostB) { return hCost < obj.hCost; }
 			return CostA <= CostB;
 		}
+
+		// Hash Code optimization
+		public override int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode() << 2;
 	}
 
 	// Helpers

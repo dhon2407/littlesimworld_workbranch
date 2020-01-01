@@ -8,16 +8,14 @@ namespace Characters.RandomNPC {
 
 		RandomNPC parent;
 		Vector2 Target;
-
 		List<Node> path;
 
 		const PathFinding.Resolution resolution = PathFinding.Resolution.Medium;
 		NodeGrid2D grid => NodeGridManager.GetGrid(resolution);
-		Node[,] nodeGrid => grid.nodeGrid;
 
-		Rigidbody2D rb => parent.rb;
-		Animator anim => parent.anim;
-		Collider2D col => parent.col;
+		Rigidbody2D rb;
+		Animator anim;
+		Collider2D col;
 
 		public bool IsFinished { get; set; }
 		public CommandInterval interval => CommandInterval.FixedUpdate;
@@ -25,23 +23,35 @@ namespace Characters.RandomNPC {
 		public MoveToCommand(RandomNPC parent, Vector2 Target) {
 			this.parent = parent;
 			this.Target = Target;
+			this.rb = parent.rb;
+			this.anim = parent.anim;
+			this.col = parent.col;
+			this.path = parent.path;
 		}
 
 		public void Initialize() {
-			path = new List<Node>(1000);
 			GetPath();
 			anim.Play("Walk");
 		}
 
 		void GetPath() {
+			if (gotPathThisFrame) {
+				gotValidPath = false;
+				return;
+			}
 			RequestPath.GetPath_Avoidance(rb.position, Target, path, resolution, col);
 			index = 0;
+			gotValidPath = true;
+			gotPathThisFrame = true;
 		}
 
 		float Speed = 1.5f;
 		int index = 0;
+		bool gotValidPath;
 
 		public void ExecuteCommand() {
+
+			FrameSafeEnsurance();
 
 			if (index >= path.Count) {
 				IsFinished = true;
@@ -49,20 +59,23 @@ namespace Characters.RandomNPC {
 				return;
 			}
 
+
+			// Local avoidance implementation
 			if (!CanWalkAt(path[index]) || (index < path.Count - 1 && !CanWalkAt(path[index + 1]))) {
 				GetPath();
 				return;
 			}
 
+			if (!gotValidPath) { return; }
+
 			var spd = Speed * Time.fixedDeltaTime * GameTime.Clock.TimeMultiplier;
 			anim.Play("Walk");
 
-			NodeGridManager.SetPosUnwalkable(rb.position, col);
-
+			var pos = rb.position;
 			var targetPos = grid.PosFromNode(path[index]);
-			var offset = targetPos - rb.position;
+			var offset = targetPos - pos;
 
-			var posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, spd);
+			var posAfterMovement = Vector2.MoveTowards(pos, targetPos, spd);
 
 			if (posAfterMovement == targetPos) {
 				index++;
@@ -70,13 +83,14 @@ namespace Characters.RandomNPC {
 					if (!CanWalkAt(path[index])) { }
 					else {
 						targetPos = grid.PosFromNode(path[index]);
-						offset = targetPos - rb.position;
-						posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, spd);
+						offset = targetPos - pos;
+						posAfterMovement = Vector2.MoveTowards(pos, targetPos, spd);
 					}
 				}
 			}
 
 			rb.MovePosition(posAfterMovement);
+			if (!hasUpdatedThisFrame) { NodeGridManager.SetPosUnwalkable(pos, col); }
 
 			if (index >= path.Count) {
 				IsFinished = true;
@@ -86,10 +100,13 @@ namespace Characters.RandomNPC {
 				CalculateFacing(offset);
 			}
 
+			hasUpdatedThisFrame = true;
 		}
 
-
 		void CalculateFacing(Vector2 offset) {
+
+			if (hasUpdatedThisFrame) { return; }
+
 			bool isYBigger = Mathf.Abs(offset.x) <= 0.01f;//Mathf.Abs(offset.x) < Mathf.Abs(offset.y);
 
 			if (offset == Vector2.zero) { return; }
@@ -116,5 +133,17 @@ namespace Characters.RandomNPC {
 
 		bool CanWalkAt(Node node) => node.isCurrentlyOccupied == null || node.isCurrentlyOccupied == col;
 
+		int previousFrameCount;
+		bool hasUpdatedThisFrame = false;
+		bool gotPathThisFrame = false;
+		void FrameSafeEnsurance() {
+			// Optimization -- only update visuals once per couple frames
+			int currentFrameCount = Time.frameCount;
+			if (previousFrameCount >= currentFrameCount - 2) { return; }
+			previousFrameCount = currentFrameCount;
+
+			hasUpdatedThisFrame = false;
+			gotPathThisFrame = false;
+		}
 	}
 }

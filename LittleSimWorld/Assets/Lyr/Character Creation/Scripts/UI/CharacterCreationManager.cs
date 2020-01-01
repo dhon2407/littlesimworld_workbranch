@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UI.Cooking;
 using UnityEngine.UI;
 
 using UnityEngine;
@@ -122,5 +121,6 @@ namespace UI.CharacterCreation {
 			outIndex = integer;
 		}
 
+        public delegate void UIAction();
 	}
 }

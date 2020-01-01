@@ -13,6 +13,9 @@ public class VerticalSlidingDoor : SlidingDoor
         endLeftPosition = new Vector2(leftDoor.position.x , leftDoor.position.y - maxDoorPosition);
         endRightPosition = new Vector2(rightDoor.position.x , rightDoor.position.y + maxDoorPosition);
 
+        transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
+        transform.GetChild(1).GetComponent<Collider2D>().enabled = false;
+
     }
 
 	protected override void OpenDoor()

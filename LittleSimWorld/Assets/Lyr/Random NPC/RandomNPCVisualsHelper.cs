@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿namespace Characters.RandomNPC {
+
+using System.Collections.Generic;
 using CharacterData;
 using Sirenix.OdinInspector;
-using UnityEngine;
-
-namespace Characters.RandomNPC {
+	using UnityEditor;
+	using UnityEngine;
+	using System.Linq;
 
 [HideReferenceObjectPicker]
 public class VisualsHelper {
@@ -11,27 +13,52 @@ public class VisualsHelper {
 		const float minFacePosition = -0.058f;
 		const float maxFacePosition = -0.018f;
 
-		Dictionary<CharacterPart, CharacterSpriteSet> SpriteSets;
 		public Dictionary<CharacterPart, SpriteRenderer> bodyParts;
 
 		public SpriteRenderer Hand_L;
 		public SpriteRenderer Hand_R;
 
-		public void AssignRandomSet() {
-			SpriteSets = SpriteSets.InitializeDefaultValues();
-			SpriteSets.Remove(CharacterPart.None);
+		Dictionary<int, CharacterSpriteSet> SpriteSets;
+		Dictionary<int, SpriteRenderer> _bodyParts;
+		CharacterPart[] bodyKeys;
 
-			// Randomize gender and looks.
+		public void Initialize() {
+			RegisterKeys();
+			CacheOptimization();
+			AssignRandomSets();
+			AssignRandomFace();
+		}
+
+		void CacheOptimization() {
+			SpriteSets = new Dictionary<int, CharacterSpriteSet>(bodyKeys.Length);
+			foreach (var key in bodyKeys) { SpriteSets.Add((int) key, null); }
+
+			_bodyParts = new Dictionary<int, SpriteRenderer>(bodyKeys.Length);
+			foreach (var key in bodyKeys) { _bodyParts.Add((int) key, bodyParts[key]); }
+		}
+
+		void AssignRandomSets() {
 			int tone = Random.Range(0, 5);
 			int Gender = Random.Range(0, 2);
-			var keys = bodyParts.Keys;
-			foreach (var key in keys) { SpriteSets[key] = CharacterClothingManager.instance.GetRandom(tone, (Gender) Gender, key); }
-
-			// Randomize face positioning.
+			foreach (var key in bodyKeys) { SpriteSets[(int) key] = CharacterClothingManager.instance.GetRandom(tone, (Gender) Gender, key); }
+			SpriteSets[(int) CharacterPart.Hands] = CharacterClothingManager.instance.GetRandom(tone, (Gender) Gender, CharacterPart.Hands);
+		}
+		void AssignRandomFace() {
 			float faceT = Random.Range(0f, 1f);
 			var facePos = bodyParts[CharacterPart.Face].transform.localPosition;
 			facePos.y = Mathf.Lerp(minFacePosition, maxFacePosition, faceT);
 			bodyParts[CharacterPart.Face].transform.localPosition = facePos;
+		}
+
+		void RegisterKeys() {
+			var bodyKeys = bodyParts.Keys;
+			var activeKeyList = new List<CharacterPart>(10);
+			foreach (var key in bodyKeys) {
+				if (bodyParts[key] == null) { continue; }
+				activeKeyList.Add(key);
+			}
+
+			this.bodyKeys = activeKeyList.ToArray();
 		}
 
 		public void FaceUP() => UpdateVisuals(CharacterOrientation.Top);
@@ -40,20 +67,25 @@ public class VisualsHelper {
 		public void FaceLEFT() => UpdateVisuals(CharacterOrientation.Left);
 
 
+		int previousOrientation = -1;
+
 		void UpdateVisuals(CharacterOrientation orientation) {
-			var keys = bodyParts.Keys;
 
-			foreach (var key in keys) {
-				if (bodyParts[key] == null || SpriteSets[key] == null) { continue; }
+			if (previousOrientation == (int) orientation) { return; }
+			previousOrientation = (int) orientation;
 
-				if (key != CharacterPart.Hands) {
-					bodyParts[key].sprite = SpriteSets[key].Get(orientation);
-				}
-				else {
-					Hand_L.sprite = SpriteSets[key].Get(orientation);
-					Hand_R.sprite = SpriteSets[key].Get(orientation);
-				}
+			foreach (var key in bodyKeys) {
+				var _key = (int) key;
+				var part = _bodyParts[_key];
+				var set = SpriteSets[_key];
+
+				part.sprite = set.Get(orientation);
 			}
+
+			var handSpr = SpriteSets[(int) CharacterPart.Hands].Get(orientation);
+
+			Hand_L.sprite = handSpr;
+			Hand_R.sprite = handSpr;
 		}
 
 	}
