@@ -2,7 +2,7 @@
 
 public interface IUseable 
 {
-	Vector3 PlayerStandPosition { get; }
+	Vector2 PlayerStandPosition { get; }
 	float CustomSpeedToPosition { get; }
 
 	void Use();

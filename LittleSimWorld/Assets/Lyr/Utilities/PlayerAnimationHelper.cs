@@ -31,15 +31,15 @@ public static class PlayerAnimationHelper
 		GameLibOfMethods.doingSomething = false;
         GameLibOfMethods.passedOut = false;
 
-		GameLibOfMethods.player.transform.rotation = Quaternion.Euler(Vector3.zero);
+		GameLibOfMethods.player.transform.rotation = Quaternion.Euler(Vector2.zero);
 		GameLibOfMethods.animator.enabled = true;
 
         GameTime.Clock.ResetSpeed();
 
         SpriteControler.Instance.LeftHand.position = SpriteControler.Instance.LeftHandLeft.transform.position;
-		SpriteControler.Instance.LeftHand.GetComponent<SpriteRenderer>().sortingOrder = 6;
+		SpriteControler.Instance.LeftHand.GetComponent<SpriteRenderer>().sortingOrder = 0;
 		SpriteControler.Instance.RightHand.position = SpriteControler.Instance.RightHandRight.transform.position;
-		SpriteControler.Instance.RightHand.GetComponent<SpriteRenderer>().sortingOrder = 6;
+		SpriteControler.Instance.RightHand.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
         JobManager.Instance.isWorking = false;
 

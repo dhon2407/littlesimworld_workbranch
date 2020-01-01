@@ -242,7 +242,7 @@ public class GameLibOfMethods : MonoBehaviour
         Stats.GetMoney(HospitalFee);
 
         passedOut = false;
-        player.transform.position = new Vector3(HospitalRespawnPoint.position.x, HospitalRespawnPoint.position.y, player.transform.position.z);
+        player.transform.position = new Vector2(HospitalRespawnPoint.position.x, HospitalRespawnPoint.position.y);
         blackScreen.CrossFadeAlpha(0, 2, false);
         cantMove = false;
         CameraFollow.Instance.ResetCamera();

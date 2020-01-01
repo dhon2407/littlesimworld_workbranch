@@ -11,7 +11,7 @@ public class Chair : BreakableFurniture, IInteractable, IUseable {
     public bool IsFacingDown;
 
 	public float InteractionRange { get; }
-	public Vector3 PlayerStandPosition => CharacterPosition.position;
+	public Vector2 PlayerStandPosition => CharacterPosition.position;
 
 	public float CustomSpeedToPosition { get; }
 

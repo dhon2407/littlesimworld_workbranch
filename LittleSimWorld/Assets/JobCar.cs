@@ -15,7 +15,7 @@ public class JobCar : MonoBehaviour, IInteractable, IUseable
     public float InteractionRange => interactionRange;
     public float CustomSpeedToPosition=> customSpeedToPosition;
     public Transform playerStandPosition;
-    public Vector3 PlayerStandPosition => playerStandPosition.transform.position;
+    public Vector2 PlayerStandPosition => playerStandPosition.transform.position;
     private void Awake()
     {
         if (Instance == null)
@@ -92,7 +92,7 @@ public class JobCar : MonoBehaviour, IInteractable, IUseable
        
         GameLibOfMethods.cantMove = true;
         
-        GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         GameClock.ChangeSpeedToSleepingSpeed();
 

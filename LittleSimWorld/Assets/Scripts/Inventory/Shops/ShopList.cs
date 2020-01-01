@@ -11,7 +11,7 @@ namespace InventorySystem
         public List<ItemInfo> Items => items;
 
 		public float InteractionRange => 1;
-		public Vector3 PlayerStandPosition => transform.position;
+		public Vector2 PlayerStandPosition => transform.position;
 
 		public virtual void Interact() { if (Shop.Ready) { Shop.OpenCloseShop(this, gameObject.name); } }
 

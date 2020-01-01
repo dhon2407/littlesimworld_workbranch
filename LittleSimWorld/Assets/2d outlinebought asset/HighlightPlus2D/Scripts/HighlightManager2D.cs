@@ -69,14 +69,22 @@ namespace HighlightPlus2D {
 			} else {
 				ray = new Ray (raycastCamera.transform.position, raycastCamera.transform.forward);
 			}
+            
 			RaycastHit2D hitInfo2D = Physics2D.GetRayIntersection (ray);
-			Collider2D collider = hitInfo2D.collider;
-			if (collider != null) {
-				if (collider.transform != currentObject) {
-					SwitchesCollider (collider.transform);
-				}
-				return;
-			}
+            if (hitInfo2D && layerMask == (layerMask | (1 << hitInfo2D.collider.gameObject.layer)))
+            {
+                Collider2D collider = hitInfo2D.collider;
+                if (collider != null)
+                {
+                    if (collider.transform != currentObject)
+                    {
+                        SwitchesCollider(collider.transform);
+                    }
+                    return;
+                }
+            }
+              
+			
 
 			// no hit
 			if (highlightDuration == 0) {

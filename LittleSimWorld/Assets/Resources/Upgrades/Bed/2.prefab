@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2125854229084412352}
   - component: {fileID: 3769961918533026946}
   - component: {fileID: 1412266861492302352}
-  - component: {fileID: 3737142631886207848}
   - component: {fileID: 1286266547590153924}
   m_Layer: 10
   m_Name: 2
@@ -128,6 +127,7 @@ MonoBehaviour:
   HealthDrainPerHour: 4
   HygieneDrainPerHour: 4
   BrokenParticleSystem: {fileID: 0}
+  JumpOffSpeed: 5
 --- !u!61 &1412266861492302352
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -154,23 +154,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5458823, y: 0.9882698}
   m_EdgeRadius: 0
---- !u!114 &3737142631886207848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740546435624522988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RendererOfOutlinedObject: {fileID: 0}
-  OutlineGO: {fileID: 0}
-  outlineThickness: 10
-  OutlineColor: {r: 0.05789665, g: 1, b: 0.042452812, a: 0.23529412}
-  Enabled: 0
 --- !u!82 &1286266547590153924
 AudioSource:
   m_ObjectHideFlags: 0
@@ -474,7 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Comfortable bed
   showXp: 0
-  XpText: {fileID: 0}
+  XpText: 0
 --- !u!1 &7487185062055265807
 GameObject:
   m_ObjectHideFlags: 0

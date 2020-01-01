@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -313,7 +313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3872338654007241415}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.093, y: 0.56, z: 0}
+  m_LocalPosition: {x: -0.093, y: 0.56, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3872338654827256586}
@@ -331,7 +331,6 @@ GameObject:
   - component: {fileID: 3872338654827256587}
   - component: {fileID: 3872338654827256590}
   - component: {fileID: 3872338654827256585}
-  - component: {fileID: 293503789906563211}
   - component: {fileID: -7257067474089267829}
   - component: {fileID: 3942181810658553332}
   m_Layer: 10
@@ -348,9 +347,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3872338654827256580}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.022, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3872338654007241414}
   - {fileID: 5680512116694905253}
@@ -396,7 +395,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: 5653534785032640388, guid: 77466f25f007dd64093af69bde7b48e3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -476,26 +475,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4541177, y: 0.98618937}
   m_EdgeRadius: 0
---- !u!114 &293503789906563211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3872338654827256580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowCachedSettings: 0
-  spr: {fileID: 0}
-  outlineRenderer: {fileID: 76749473}
-  outlineMaterial: {fileID: 0}
-  AutoSolveWidth: 1
-  MaxWidthInPixels: 103
-  Speed: 206
-  isMouseOver: 0
 --- !u!82 &-7257067474089267829
 AudioSource:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class WorkoutPlace : BreakableFurniture, IInteractable, IUseable {
     public GameObject Weights;
 
 	public float InteractionRange => 1;
-	public Vector3 PlayerStandPosition => CharacterPosition.position;
+	public Vector2 PlayerStandPosition => CharacterPosition.position;
 	public float CustomSpeedToPosition { get; }
 
 	public void Interact() {

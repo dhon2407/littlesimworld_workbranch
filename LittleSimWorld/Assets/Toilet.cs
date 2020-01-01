@@ -6,7 +6,7 @@ using Stats = PlayerStats.Stats;
 
 public class Toilet : BreakableFurniture, IUseable, IInteractable {
 	public float InteractionRange => 1;
-	public Vector3 PlayerStandPosition => CharacterPosition.position;
+	public Vector2 PlayerStandPosition => CharacterPosition.position;
 
 	public float CustomSpeedToPosition => 3;
 
@@ -54,7 +54,7 @@ public class Toilet : BreakableFurniture, IUseable, IInteractable {
 		GameLibOfMethods.animator.SetBool("TakingADump", false);
 		yield return new WaitForEndOfFrame();
 
-		void act() => SpriteControler.Instance.ChangeSortingOrder(6);
+		void act() => SpriteControler.Instance.ChangeSortingOrder(0);
 
 		PlayerCommands.JumpOff(0, act);
 	}

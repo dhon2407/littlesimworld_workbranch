@@ -81,6 +81,7 @@ namespace HighlightPlus2D {
         [Range(0, 1)]
         public float overlayBlending = 1.0f;
         public int overlayRenderQueue = 3000;
+        public Vector3 EffectsOffset;
 
         [Range(0, 1)]
         public float outline = 1f;
@@ -257,7 +258,7 @@ namespace HighlightPlus2D {
                 if (t == null || rms[k].fxMatMask == null)
                     continue;
                 Vector3 lossyScale;
-                Vector3 position = t.position;
+                Vector3 position = t.position + EffectsOffset;
                 Renderer renderer = rms[k].renderer;
                 if (renderer == null)
                     continue;

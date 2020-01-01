@@ -17,7 +17,6 @@
 			public Vector2 Position;
 
 			public static implicit operator Vector2(NPCLocation npc) => npc.Position;
-			public static implicit operator Vector3(NPCLocation npc) => npc.Position;
 
 			public override string ToString() => Name;
 		}

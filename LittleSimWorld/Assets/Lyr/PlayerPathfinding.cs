@@ -79,7 +79,7 @@ namespace PathFinding {
 			PlayerAnimationHelper.ResetPlayer();
 		}
 
-		IInteractable CheckInteractable(Vector3 pos) {
+		IInteractable CheckInteractable(Vector2 pos) {
 			var colliders = new List<Collider2D>();
 
 			Physics2D.OverlapCircle(pos, 0.1f, contactFilter, colliders);
@@ -114,7 +114,7 @@ namespace PathFinding {
 
 
 		IEnumerator<float> WalkTo(Vector3 Position, float StartingSpeedPercentage, float MaxSpeed, System.Action Callback) {
-
+            Position = new Vector3(Position.x, Position.y, 1);
 			PlayerAnimationHelper.StopPlayer();
 			//RequestPath.GetPath(rb.position, Position, path, Resolution.High);
 			RequestPath.GetPath_Avoidance(rb.position, Position, path, Resolution.High, col);
@@ -140,22 +140,23 @@ namespace PathFinding {
 					continue;
 				}
 
-				var targetPos = grid.PosFromNode(path[index]);
-				var offset = targetPos - rb.position;
-
+				Vector3 targetPos = grid.PosFromNode(path[index]);
+				
+                Vector3 offset = new Vector3(targetPos.x - rb.position.x, targetPos.y - rb.position.y, 1);
 				if (_spd != MaxSpeed) { _spd = Mathf.MoveTowards(_spd, MaxSpeed, 10 * MaxSpeed * Time.fixedDeltaTime); }
 				float currentSpeed = _spd * Time.fixedDeltaTime;
 
-				var posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, currentSpeed);
+				var posAfterMovement = Vector3.MoveTowards(rb.position, targetPos, currentSpeed);
 
 				if (posAfterMovement == targetPos) {
 					index++;
 
 					if (index >= path.Count) { }
 					else {
-						targetPos = grid.PosFromNode(path[index]);
-						offset = targetPos - rb.position;
-						posAfterMovement = Vector2.MoveTowards(rb.position, targetPos, currentSpeed);
+						targetPos =  new Vector3( grid.PosFromNode(path[index]).x, grid.PosFromNode(path[index]).y, 1);
+                        offset = new Vector3(targetPos.x - rb.position.x, targetPos.y - rb.position.y, 1);
+
+                        posAfterMovement = Vector3.MoveTowards(rb.position, targetPos, currentSpeed);
 					}
 				}
 

@@ -21,7 +21,7 @@ Properties {
                 Pass keep 
             }
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite Off
+            ZWrite off
             Cull Off
 
             CGPROGRAM

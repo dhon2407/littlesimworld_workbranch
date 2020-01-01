@@ -36,7 +36,7 @@ namespace Cooking
         private float timeToCook = 10f;
 
         public float InteractionRange => interactionRange;
-        public Vector3 PlayerStandPosition => standArea.position;
+        public Vector2 PlayerStandPosition => standArea.position;
         public static ItemCode LastCookedItem => lastCookItem;
         public static bool Open => instance.isCooking;
 

@@ -42,7 +42,7 @@ public static class PlayerCommands {
 	public static void FinishAnimation() { StartFinishAnimation().Start(Segment.FixedUpdate); }
 
 	static IEnumerator<float> StartJumping(Vector3 TargetPosition, Action callback, IUseable useable = null, float CustomSpeed = 0) {
-
+        TargetPosition = new Vector3(TargetPosition.x, TargetPosition.y, 1);
 		var StartPosition = GameLibOfMethods.player.transform.position;
 
 		GameLibOfMethods.canInteract = false;
@@ -62,8 +62,8 @@ public static class PlayerCommands {
 		while (true) {
 			T += _speed * Time.deltaTime;
 
-			GameLibOfMethods.player.transform.position = Vector2.Lerp(StartPosition, TargetPosition, T);
-			GameLibOfMethods.player.transform.localScale = new Vector3(jumpCurve.Evaluate(T), jumpCurve.Evaluate(T), 1);
+			GameLibOfMethods.player.transform.position = Vector3.Lerp(StartPosition, TargetPosition, T);
+			GameLibOfMethods.player.transform.localScale = new Vector3(jumpCurve.Evaluate(T), jumpCurve.Evaluate(T));
 
 			// if our value has reached the total, break out of the loop
 			if (T >= 1) { break; }
@@ -76,9 +76,9 @@ public static class PlayerCommands {
 		LastPositionBeforeJump = StartPosition;
 	}
 
-	static IEnumerator<float> StartWalking(Vector2 TargetPosition, Action callback) {
-
-		var StartPosition = GameLibOfMethods.player.transform.position;
+	static IEnumerator<float> StartWalking(Vector3 TargetPosition, Action callback) {
+        TargetPosition = new Vector3(TargetPosition.x, TargetPosition.y, 1);
+        Vector3 StartPosition = GameLibOfMethods.player.transform.position;
 
 		PlayerAnimationHelper.ResetAnimations();
 
@@ -90,7 +90,7 @@ public static class PlayerCommands {
 
 		float T = 0;
 
-		Vector2 temp = GameLibOfMethods.player.transform.position;
+		Vector3 temp = GameLibOfMethods.player.transform.position;
 		while (true) {
 			T += 0.04f * Time.deltaTime / Time.fixedDeltaTime;
 			if (Mathf.Abs((TargetPosition - temp).normalized.x) < Mathf.Abs((TargetPosition - temp).normalized.y)) {
@@ -101,7 +101,7 @@ public static class PlayerCommands {
 			}
 
 			GameLibOfMethods.animator.SetBool("Walking", true);
-			GameLibOfMethods.player.transform.position = Vector2.Lerp(temp, TargetPosition, T);
+			GameLibOfMethods.player.transform.position = Vector3.Lerp(temp, TargetPosition, T);
 
 			PlayerAnimationHelper.HandlePlayerFacing();
 

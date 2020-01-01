@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Bed
   showXp: 0
-  XpText: {fileID: 0}
+  XpText: 0
 --- !u!1 &4848808639087170938
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +250,6 @@ GameObject:
   - component: {fileID: 5467416415451320697}
   - component: {fileID: 5467416415451320700}
   - component: {fileID: 5467416415451320699}
-  - component: {fileID: 1372744798516774480}
   - component: {fileID: -2566483270394270967}
   m_Layer: 10
   m_Name: 3
@@ -366,6 +365,7 @@ MonoBehaviour:
   HealthDrainPerHour: 4
   HygieneDrainPerHour: 4
   BrokenParticleSystem: {fileID: 0}
+  JumpOffSpeed: 5
 --- !u!61 &5467416415451320699
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -392,23 +392,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5363655, y: 0.99642324}
   m_EdgeRadius: 0
---- !u!114 &1372744798516774480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5467416415451320694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RendererOfOutlinedObject: {fileID: 0}
-  OutlineGO: {fileID: 0}
-  outlineThickness: 10
-  OutlineColor: {r: 0.05789665, g: 1, b: 0.042452812, a: 0.23529412}
-  Enabled: 0
 --- !u!82 &-2566483270394270967
 AudioSource:
   m_ObjectHideFlags: 0

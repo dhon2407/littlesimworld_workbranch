@@ -25,6 +25,6 @@ public class SavePosition : MonoBehaviour
 
     public void LoadPlayerPosition()
     {
-        player.transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
+        player.transform.position = new Vector2(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"));
     }
 }

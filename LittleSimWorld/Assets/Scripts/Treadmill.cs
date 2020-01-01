@@ -9,7 +9,7 @@ public class Treadmill : BreakableFurniture, IInteractable, IUseable {
 
 	public float InteractionRange => 1;
 
-	public Vector3 PlayerStandPosition => CharacterPosition.position;
+	public Vector2 PlayerStandPosition => CharacterPosition.position;
 
 	public float CustomSpeedToPosition { get; }
 

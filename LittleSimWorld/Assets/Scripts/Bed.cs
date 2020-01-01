@@ -8,7 +8,7 @@ using Stats = PlayerStats.Stats;
 
 public class Bed : BreakableFurniture, IInteractable, IUseable {
 	public float InteractionRange => 1;
-	public Vector3 PlayerStandPosition => CharacterPosition.position;
+	public Vector2 PlayerStandPosition => CharacterPosition.position;
 
 	[ShowInInspector]
 	public float CustomSpeedToPosition { get; set; } = 5;
@@ -58,8 +58,10 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		Physics2D.IgnoreLayerCollision(GameLibOfMethods.player.layer, 10, true);
 
 		while (true) {
-			GameLibOfMethods.player.transform.position = Vector2.MoveTowards(GameLibOfMethods.player.transform.position, CharacterPosition.position, 3 * Time.deltaTime);
-			if (GameLibOfMethods.player.transform.position == CharacterPosition.position) { break; }
+            Vector3 temp = new Vector3(CharacterPosition.position.x, CharacterPosition.position.y, 1);
+
+            GameLibOfMethods.player.transform.position = Vector3.MoveTowards(GameLibOfMethods.player.transform.position, temp, 3 * Time.deltaTime);
+			if ( GameLibOfMethods.player.transform.position.y == CharacterPosition.position.y) { break; }
 			yield return 0f;
 		}
 
@@ -79,7 +81,7 @@ public class Bed : BreakableFurniture, IInteractable, IUseable {
 		GameLibOfMethods.isSleeping = true;
 		GameLibOfMethods.cantMove = true;
 		GameLibOfMethods.animator.SetBool("Sleeping", true);
-		GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+		GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
 		yield return MEC.Timing.WaitForSeconds(0.5f);
 		GameLibOfMethods.AddChatMessege("Went to sleep.");

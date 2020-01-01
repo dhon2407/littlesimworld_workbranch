@@ -18,7 +18,7 @@ namespace InventorySystem
         public List<ItemInfo> Items => items;
         public int ID => containerID;
         public float InteractionRange => 1;
-        public Vector3 PlayerStandPosition => transform.position;
+        public Vector2 PlayerStandPosition => transform.position;
         public void Interact()
         {
             if (Inventory.Ready)

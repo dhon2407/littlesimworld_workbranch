@@ -72,6 +72,7 @@ public class SpriteControler : SerializedMonoBehaviour {
 
 			if (x != 0 || y != 0) { GameTime.Clock.ResetSpeed(); }
 		}
+    
 	}
 
 	private void FixedUpdate() {
@@ -80,7 +81,8 @@ public class SpriteControler : SerializedMonoBehaviour {
 
 	// Update is called once per frame
 	void LateUpdate() {
-		if (Input.GetAxisRaw("Vertical") < 0 && !GameLibOfMethods.cantMove && !GameLibOfMethods.doingSomething) {
+        //transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        if (Input.GetAxisRaw("Vertical") < 0 && !GameLibOfMethods.cantMove && !GameLibOfMethods.doingSomething) {
 			FaceDOWN();
 		}
 		if (Input.GetAxisRaw("Vertical") > 0 && !GameLibOfMethods.cantMove && !GameLibOfMethods.doingSomething) {
