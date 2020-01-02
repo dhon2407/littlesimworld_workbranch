@@ -191,7 +191,7 @@ namespace Cooking.Recipe
 
         private void StartCooking()
         {
-            CookingStove.ResetStove();
+            CookingEntity.ResetAction();
             UpdateIngredientSource();
             auto_continue.onClick.RemoveAllListeners();
             auto_continue.onClick.AddListener(AutoCook);
@@ -205,7 +205,7 @@ namespace Cooking.Recipe
         private void ResumeCooking()
         {
             auto_continue.onClick.RemoveAllListeners();
-            auto_continue.onClick.AddListener(CookingStove.ResumeCook);
+            auto_continue.onClick.AddListener(CookingEntity.Resume);
             auto_continue.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
             manual_reset.onClick.RemoveAllListeners();
             manual_reset.onClick.AddListener(StartNewCook);
@@ -222,7 +222,7 @@ namespace Cooking.Recipe
             if (manualCook.Active)
                 manualCook.Close();
 
-            CookingStove.AutoCook();
+            CookingEntity.AutoAction();
         }
 
         private void AddToAvailableIngredients(ItemList.ItemInfo availableItem)

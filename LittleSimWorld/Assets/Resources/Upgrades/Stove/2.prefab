@@ -5029,8 +5029,7 @@ GameObject:
   - component: {fileID: 3964632349994853580}
   - component: {fileID: 3964632349994853582}
   - component: {fileID: 3964632349994853576}
-  - component: {fileID: 3964632349994853579}
-  - component: {fileID: 4714931801441272109}
+  - component: {fileID: -2389296305421691179}
   m_Layer: 10
   m_Name: 2
   m_TagString: Untagged
@@ -5160,7 +5159,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7389236, y: 0.19474995}
   m_EdgeRadius: 0
---- !u!114 &3964632349994853579
+--- !u!114 &-2389296305421691179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5169,34 +5168,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3964632349994853581}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowCachedSettings: 1
-  spr: {fileID: 0}
-  outlineRenderer: {fileID: 5244886588990138291}
-  outlineMaterial: {fileID: 0}
-  AutoSolveWidth: 1
-  MaxWidthInPixels: 88
-  Speed: 176
-  isMouseOver: 0
---- !u!114 &4714931801441272109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3964632349994853581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fdc1db36f96ec74699ac0237ffef595, type: 3}
+  m_Script: {fileID: 11500000, guid: 21c4d5c4d9637c64cb3e668eec5f9087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   verticalDisplayOffset: 1480
   interactionRange: 0.2
-  cookingEXP: 10
-  fryingPan: {fileID: 3964632349712323384}
+  defaultEXP: 10
   standArea: {fileID: 25485108}
+  fryingPan: {fileID: 3964632349712323384}
 --- !u!1 &3964632350212935150
 GameObject:
   m_ObjectHideFlags: 0

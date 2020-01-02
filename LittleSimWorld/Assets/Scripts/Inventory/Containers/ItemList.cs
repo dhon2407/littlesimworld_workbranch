@@ -25,7 +25,6 @@ namespace InventorySystem
                 Inventory.OpenCloseContainer(this, gameObject.name);
         }
 
-
         [Serializable]
         public struct ItemInfo
         {

@@ -18,7 +18,7 @@ namespace Cooking.Recipe
 
         public ItemCode GetItem()
         {
-            var lastCookItemCode = CookingStove.LastCookedItem;
+            var lastCookItemCode = CookingEntity.LastCookedItem;
             return RecipeManager.HaveEnoughIngredients(lastCookItemCode, CookingHandler.AvailableIngredients) ?
                 lastCookItemCode : GetCookableRecipe();
         }

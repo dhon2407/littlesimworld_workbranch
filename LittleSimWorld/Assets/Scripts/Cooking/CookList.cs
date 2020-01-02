@@ -84,7 +84,7 @@ namespace Cooking.Recipe
         {
             if (cookingSlots.Count == 0) return;
 
-            CookingStove.ManualCook(GetRecipesToCook());
+            CookingEntity.ManualAction(GetRecipesToCook());
             ClearList();
         }
     }

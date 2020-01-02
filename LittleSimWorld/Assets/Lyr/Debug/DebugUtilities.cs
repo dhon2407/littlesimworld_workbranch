@@ -23,8 +23,8 @@ public class DebugUtilities : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad2)) { Stats.AddMoney(100f); }
 		if (Input.GetKeyDown(KeyCode.Keypad9)) { player.position = TestViewPos; }
 		if (Input.GetKeyDown(KeyCode.Keypad3)) {
-			CookingStove.CheatEXP = Cheated3 ? 5 : 100;
-			CookingStove.CheatTimeCompletion = Cheated3 ? 10 : 5;
+			CookingEntity.CheatEXP = Cheated3 ? 5 : 100;
+			CookingEntity.CheatTimeCompletion = Cheated3 ? 10 : 5;
 
 			Cheated3 = !Cheated3;
 		}

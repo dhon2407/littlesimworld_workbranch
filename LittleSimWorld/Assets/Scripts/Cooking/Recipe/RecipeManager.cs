@@ -9,17 +9,22 @@ namespace Cooking.Recipe
     public class RecipeManager : ScriptableObject
     {
         private static RecipeManager instance;
+        private static RecipeStyle style = RecipeStyle.FoodCooking;
 
         public static List<NewRecipe> Recipes => Instance.recipes;
         public List<NewRecipe> recipes;
 
         private Dictionary<ItemCode, List<Item>> recipeRequirements;
+        public static RecipeStyle Style
+        {
+            set => Initialize(value);
+        }
 
         private static RecipeManager Instance
         {
             get
             {
-                if (instance == null) Initialize();
+                if (instance == null) Initialize(style);
                 return instance;
             }
         }
@@ -75,9 +80,9 @@ namespace Cooking.Recipe
             return null;
         }
 
-        private static void Initialize()
+        private static void Initialize(RecipeStyle style)
         {
-            instance = Resources.Load<RecipeManager>("Cooking/RecipeManager");
+            instance = Resources.Load<RecipeManager>(GetRecipeManagerString(style));
             instance.recipeRequirements = new Dictionary<ItemCode, List<Item>>();
 
             foreach (var recipe in Recipes)
@@ -88,6 +93,24 @@ namespace Cooking.Recipe
             }
 
         }
+        
+        private static string GetRecipeManagerString(RecipeStyle style)
+        {
+            switch (style)
+            {
+                case RecipeStyle.FoodCooking:
+                    return "Cooking/CookingRecipeManager";
+                case RecipeStyle.DrinkMixing:
+                    return "Cooking/MixingRecipeManager";
+                default:
+                    throw new UnityException($"No recipe manager for type :{style}");
+            }
+        }
 
+        public enum RecipeStyle
+        {
+            FoodCooking,
+            DrinkMixing,
+        }
     }
 }

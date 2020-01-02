@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\jessi\.Rider2019.2\system\extResources" t="IncludeRecursive" />
@@ -392,6 +392,7 @@
             <e p="ObjectRandomizer.cs" t="Include" />
           </e>
         </e>
+        <e p="OccluderMover.cs" t="Include" />
         <e p="Outline.cs" t="Include" />
         <e p="PissingInPantsState.cs" t="Include" />
         <e p="PlayerChatLog.cs" t="Include" />
@@ -497,6 +498,8 @@
           <e p="Chair.cs" t="Include" />
           <e p="Cooking" t="Include">
             <e p="AutoCookHandler.cs" t="Include" />
+            <e p="CookingDevice.cs" t="Include" />
+            <e p="CookingEntity.cs" t="Include" />
             <e p="CookingHandler.cs" t="Include" />
             <e p="CookingStove.cs" t="Include" />
             <e p="CookList.cs" t="Include" />
@@ -510,6 +513,7 @@
               <e p="RecipeSlot.cs" t="Include" />
               <e p="RecipeTooltip.cs" t="Include" />
               <e p="RecipeTooltipArea.cs" t="Include" />
+              <e p="RecipeType.cs" t="Include" />
             </e>
           </e>
           <e p="DialogueSystem.cs" t="Include" />
