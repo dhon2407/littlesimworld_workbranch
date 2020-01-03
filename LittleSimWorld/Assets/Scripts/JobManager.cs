@@ -84,7 +84,7 @@ public class JobManager : SerializedMonoBehaviour
     private void Update()
     {
 
-        if (CurrentJob != null && GameClock.Time >= CurrentJob.JobStartingTimeInHours && !CurrentJob.WorkedToday && GameClock.Time <= CurrentJob.JobStartingTimeInHours + System.TimeSpan.FromHours(1).TotalSeconds &&
+        if (CurrentJob != null && GameClock.Time >= System.TimeSpan.FromHours( CurrentJob.JobStartingTimeInHours).TotalSeconds && !CurrentJob.WorkedToday && GameClock.Time <= System.TimeSpan.FromHours(CurrentJob.JobStartingTimeInHours).TotalSeconds + System.TimeSpan.FromHours(1).TotalSeconds &&
             CurrentJob.WorkingDays.Contains(Calendar.CurrentWeekday))
         {
             JobCar.Instance.CarToPlayerHouse();
