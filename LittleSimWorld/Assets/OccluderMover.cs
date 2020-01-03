@@ -12,7 +12,7 @@ public class OccluderMover : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         transform.position = new Vector3(target.transform.position.x, target.transform.position.y, target.transform.position.z);
         transform.rotation = target.transform.rotation;

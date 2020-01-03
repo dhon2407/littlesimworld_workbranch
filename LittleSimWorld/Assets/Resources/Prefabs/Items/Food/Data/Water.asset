@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   code: 1
-  kind: 0
+  kind: 1
   name: Water
   icon: {fileID: 2977000874983149097, guid: 02375688e6446cd47b06b22d0f8bc48f, type: 3}
   Description: Good ol' H2O.

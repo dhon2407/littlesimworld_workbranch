@@ -5,7 +5,6 @@ using UnityEngine;
 using PlayerStats;
 
 using static Cooking.Recipe.RecipeManager.RecipeStyle;
-
 using static PlayerStats.Status;
 
 namespace Cooking
@@ -18,17 +17,20 @@ namespace Cooking
         private static bool cookingCanceled;
         private static bool resumeCooking;
         
+        [SerializeField] private ItemCode defaultItemToCook = ItemCode.JELLY;
         [Space]
-        [SerializeField]
-        private GameObject fryingPan = null;
+        [SerializeField] private GameObject fryingPan = null;
+        [SerializeField] private float timeToCook = 10f;
         
         private LastCookingData cookData;
         private float minimumInteractionRange;
-        private float timeToCook = 10f;
         
         protected override float TimeToCook { get =>timeToCook; set => timeToCook = value; }
         protected override bool ResumeAction { get => resumeCooking; set => resumeCooking = value; }
         protected override bool ActionCanceled { get => cookingCanceled; set => cookingCanceled = value; }
+        protected override string AutoText => "Auto Cook";
+        protected override string ManualText => "Manual Cook";
+        protected override string ActionText => "Cook";
         protected override LastCookingData CookData => cookData;
 
         public override void Interact()
@@ -38,6 +40,7 @@ namespace Cooking
             var displayPosition = Position;
             displayPosition.y += verticalDisplayOffset;
             RecipeManager.Style = FoodCooking;
+            currentOpenCookingEntity = this;
             CookingHandler.ToggleView(Camera.main.WorldToViewportPoint(displayPosition), !cookingCanceled);
 
             interactionRange = Mathf.Clamp(Vector2.Distance(Position, GameLibOfMethods.player.transform.position),
@@ -125,11 +128,13 @@ namespace Cooking
         {
 	        return lastCookItem;
         }
-        
+
+        protected override ItemCode DefaultItemToCook => defaultItemToCook;
+
         private void Awake()
         {
             instance = this;
-            currentOpenCookingEntity = this;
+            currentOpenCookingEntity = this; //Default cooking entity
             minimumInteractionRange = interactionRange;
         }
     }

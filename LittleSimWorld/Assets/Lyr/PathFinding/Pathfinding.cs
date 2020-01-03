@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace PathFinding {
@@ -212,8 +213,9 @@ namespace PathFinding {
 				}
 			}
 
+			pp.Clear();
 			// If the code escapes the while loop, it means no valid path could be found.
-			//Debug.LogWarning($"Path not found (Start: {start} -- Target: {target})");
+			Debug.LogWarning($"Path not found (Start: {start} -- Target: {target})");
 
 		}
 

@@ -110,7 +110,10 @@ namespace HighlightPlus2D {
 		}
 
 		void CancelHighlight() {
-			Highlight (false);
+           
+                Highlight(false);
+                Debug.Log("Canceling Highlight");
+           
 		}
 
 		IEnumerator DoRayCast () {

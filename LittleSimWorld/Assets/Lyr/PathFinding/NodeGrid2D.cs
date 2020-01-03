@@ -18,8 +18,10 @@
 		public LayerMask unwalkableMask;
 		public string DataName;
 		public GridData gridData;
+
 		[Space]
 		public bool DontDraw = false;
+		public bool DrawNonWired = false;
 		#endregion
 
 		#region Initialization			
@@ -117,15 +119,17 @@
 				}
 				if (!item.walkable) {
 					Gizmos.color = unwalkableColor;
-					Gizmos.DrawWireCube(PosFromNode(item), size);
+					if (DrawNonWired) { Gizmos.DrawCube(PosFromNode(item), size); }
+					else { Gizmos.DrawWireCube(PosFromNode(item), size); }
 				}
 				else if (item.isCurrentlyOccupied) {
 					Gizmos.color = Color.blue;
-					Gizmos.DrawWireCube(PosFromNode(item), size);
+					if (DrawNonWired) { Gizmos.DrawCube(PosFromNode(item), size); }
+					else { Gizmos.DrawWireCube(PosFromNode(item), size); }
 				}
 				else {
 					Gizmos.color = walkableColor;
-					Gizmos.DrawWireCube(PosFromNode(item), size);
+					Gizmos.DrawWireCube(PosFromNode(item), size); 
 				}
 			}
 

@@ -5095,7 +5095,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: -2407209518365363007, guid: 77466f25f007dd64093af69bde7b48e3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5176,7 +5176,9 @@ MonoBehaviour:
   interactionRange: 0.2
   defaultEXP: 10
   standArea: {fileID: 25485108}
+  defaultItemToCook: 21
   fryingPan: {fileID: 3964632349712323384}
+  timeToCook: 10
 --- !u!1 &3964632350212935150
 GameObject:
   m_ObjectHideFlags: 0

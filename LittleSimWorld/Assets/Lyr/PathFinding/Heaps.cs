@@ -9,10 +9,10 @@ namespace PathFinding {
 
 		public ClosedHeap(int capacity) { nodes = new Node[capacity]; }
 		public void Clear() { for (int i = 0; i < nodes.Length; i++) { nodes[i] = null; } currentCount = 0; }
-		public bool Contains(Node item) { return nodes[item.HeapIndex] == item; }
+		public bool Contains(Node item) { return nodes[item.heapIndex] == item; }
 		public void Add(Node item) {
-			item.HeapIndex = currentCount;
-			nodes[item.HeapIndex] = item;
+			item.heapIndex = currentCount;
+			nodes[item.heapIndex] = item;
 			currentCount++;
 		}
 	}
@@ -25,49 +25,49 @@ namespace PathFinding {
 
 		public OpenHeap(int maxHeapSize) { items = new Node[maxHeapSize]; }
 		public void Clear() { for (int i = 0; i < items.Length; i++) { items[i] = null; } Count = 0; }
-		public bool Contains(Node item) { return items[item.HeapIndex] == item; }
+		public bool Contains(Node item) { return items[item.heapIndex] == item; }
 		public void Add(Node item) {
-			item.HeapIndex = Count;
+			item.heapIndex = Count;
 			items[Count] = item;
 			Count++;
 
 			//Parent swapping
-			int parentIndex = (item.HeapIndex - 1) / 2;
+			int parentIndex = (item.heapIndex - 1) / 2;
 			Node parentItem = items[parentIndex];
 			
 			while (item.IsMoreEfficient(parentItem)) {
-				items[item.HeapIndex] = parentItem;
+				items[item.heapIndex] = parentItem;
 				items[parentIndex] = item;
-				parentItem.HeapIndex = item.HeapIndex;
-				item.HeapIndex = parentIndex;
-				parentIndex = (item.HeapIndex - 1) / 2;
+				parentItem.heapIndex = item.heapIndex;
+				item.heapIndex = parentIndex;
+				parentIndex = (item.heapIndex - 1) / 2;
 				parentItem = items[parentIndex];
 			}
 		}
-		public void FirstAdd(Node item) { item.HeapIndex = 0; items[0] = item; Count = 1; }
+		public void FirstAdd(Node item) { item.heapIndex = 0; items[0] = item; Count = 1; }
 
 		public Node RemoveFirst() {
 			Node firstItem = items[0];
 			Count--;
 			Node item = items[0] = items[Count];
-			item.HeapIndex = 0;
+			item.heapIndex = 0;
 
 			//Children swapping
 			//int childIndexLeft = item.HeapIndex * 2 + 1;
-			int childIndexLeft = ((item.HeapIndex << 1) + 1);
+			int childIndexLeft = ((item.heapIndex << 1) + 1);
 			int childIndexRight = childIndexLeft + 1;
 			int swapIndex = childIndexLeft;
 			while (childIndexLeft < Count) {
 				if (childIndexRight < Count && !items[childIndexLeft].IsMoreEfficient(items[childIndexRight])) { swapIndex = childIndexRight; }
 				Node swapItem = items[swapIndex];
 				if (!item.IsMoreEfficient(swapItem)) {
-					items[item.HeapIndex] = swapItem;
+					items[item.heapIndex] = swapItem;
 					items[swapIndex] = item;
-					swapItem.HeapIndex = item.HeapIndex;
-					item.HeapIndex = swapIndex;
+					swapItem.heapIndex = item.heapIndex;
+					item.heapIndex = swapIndex;
 				}
 				else { break; }
-				childIndexLeft = swapIndex = childIndexRight = ((item.HeapIndex << 1) + 1);
+				childIndexLeft = swapIndex = childIndexRight = ((item.heapIndex << 1) + 1);
 				++childIndexRight;
 			}
 			return firstItem;

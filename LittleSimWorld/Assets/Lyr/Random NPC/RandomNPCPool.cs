@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PathFinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -67,23 +68,30 @@ namespace Characters.RandomNPC {
 			if (npcPool.Count <= 0) { return; }
 			if (npcPool.Count <= PoolAmount - MaxActive) { return; }
 
-			T RandomFromList<T>(List<T> list) => list[Random.Range(0, list.Count)];
+			//T RandomFromList<T>(List<T> list) => list[Random.Range(0, list.Count)];
 
-			Vector2 target = RandomFromList(npcLocationHelper.GoToLocations);
-			Vector2 origin = RandomFromList(npcLocationHelper.SpawnLocations);
-			target += new Vector2(Random.Range(-5f, 5f), Random.Range(5f, 5f));
+			//Vector2 target = RandomFromList(npcLocationHelper.GoToLocations);
+			//Vector2 origin = RandomFromList(npcLocationHelper.SpawnLocations);
+			//target += new Vector2(Random.Range(-5f, 5f), Random.Range(5f, 5f));
 
-			float time = Random.Range(1f, 20f);
+			//float time = Random.Range(1f, 20f);
+
+
+			var grid = NodeGridManager.GetGrid(PathFinding.Resolution.Medium);
+			var disappearNode = grid.GetRandomWalkable();
+			var disappearPos = grid.PosFromNode(disappearNode);
+
 
 			var nextNPC = npcPool.Dequeue();
 
 			// If the command queue is not empty there is an error in code.
-			if (nextNPC.commandQueue.Count != 0) { Debug.LogWarning("Command queue of {nextNPC} is not empty."); }
+			if (nextNPC.commandQueue.Count != 0) { Debug.LogWarning($"Command queue of {nextNPC} is not empty."); }
 
 			nextNPC.commandQueue.Enqueue(new AppearCommand(nextNPC));
-			nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, target));
-			nextNPC.commandQueue.Enqueue(new HangAroundCommand(nextNPC, time));
-			nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, origin));
+			nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, disappearPos));
+			//nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, target));
+			//nextNPC.commandQueue.Enqueue(new HangAroundCommand(nextNPC, time));
+			//nextNPC.commandQueue.Enqueue(new MoveToCommand(nextNPC, origin));
 			nextNPC.commandQueue.Enqueue(new DisappearCommand(nextNPC));
 
 			// Patch for the single frame that the NPC appears on the screen before searching for a new location.

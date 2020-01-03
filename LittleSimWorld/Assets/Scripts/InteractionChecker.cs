@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using InventorySystem;
 using UnityEngine.Events;
+using HighlightPlus2D;
 
 [DefaultExecutionOrder(-1)]
 public class InteractionChecker : MonoBehaviour
@@ -13,8 +14,8 @@ public class InteractionChecker : MonoBehaviour
     public AnimationCurve jumpCurve;
     private int currentFrames;
 
-    public Outline lastHighlightedObject_Closest;
-	public Outline lastHighlightedObject_Mouse;
+    public Transform lastHighlightedObject_Closest;
+	public Transform lastHighlightedObject_Mouse;
 
 	public float JumpSpeed = 1.8f; // Per Second
 
@@ -53,38 +54,49 @@ public class InteractionChecker : MonoBehaviour
 	void HighlightClosest() {
 		if (!GameLibOfMethods.player || GameLibOfMethods.doingSomething || !GameLibOfMethods.canInteract) {
 			if (lastHighlightedObject_Closest) {
-				lastHighlightedObject_Closest.isMouseOver = false;
+				//lastHighlightedObject_Closest.isMouseOver = false;
 				lastHighlightedObject_Closest = null;
 			}
 			return;
 		}
 
 		// Check for CLOSEST Interactables
-		var highlight = CheckClosestInteractable();
-		if (highlight) {
-			if (lastHighlightedObject_Closest && lastHighlightedObject_Closest != highlight) { lastHighlightedObject_Closest.isMouseOver = false; }
+		var highlightedObject = CheckClosestInteractable();
+        //Debug.Log(highlightedObject);
+		if (highlightedObject) {
+			if (lastHighlightedObject_Closest && lastHighlightedObject_Closest != highlightedObject) { //lastHighlightedObject_Closest.isMouseOver = false;
+            }
 
-			highlight.isMouseOver = true;
-			lastHighlightedObject_Closest = highlight;
+            //if(HighlightManager2D.instance.currentObject != highlightedObject)
+            HighlightManager2D.instance.SwitchesCollider(highlightedObject);
+			lastHighlightedObject_Closest = highlightedObject;
 		}
 		else if (lastHighlightedObject_Closest) {
-			lastHighlightedObject_Closest.isMouseOver = false;
+			//lastHighlightedObject_Closest.isMouseOver = false;
 			lastHighlightedObject_Closest = null;
-		}
+           
+        }
+        else
+        {
+             HighlightManager2D.instance.SwitchesCollider(null);
+            HighlightManager2D.instance.baseEffect.SetHighlighted(false);
+            //Debug.Log("nothing to highlight");
+        }
 	}
 
 	void HighlightMouseOver() {
 		// Check for MOUSE Interactables
 		var highlight_mouse = CheckMouseOverInteractable();
 		if (highlight_mouse) {
-			if (lastHighlightedObject_Mouse && lastHighlightedObject_Mouse != highlight_mouse) { lastHighlightedObject_Mouse.isMouseOver = false; }
+			if (lastHighlightedObject_Mouse && lastHighlightedObject_Mouse != highlight_mouse) { //lastHighlightedObject_Mouse.isMouseOver = false;
+            }
 
-			highlight_mouse.isMouseOver = true;
+			//highlight_mouse.isMouseOver = true;
 			lastHighlightedObject_Mouse = highlight_mouse;
 
 		}
 		else if (lastHighlightedObject_Mouse) {
-			lastHighlightedObject_Mouse.isMouseOver = false;
+			//lastHighlightedObject_Mouse.isMouseOver = false;
 			lastHighlightedObject_Mouse = null;
 		}
 	}
@@ -109,7 +121,7 @@ public class InteractionChecker : MonoBehaviour
 		}
 	}
 
-	Outline CheckClosestInteractable() {
+	Transform CheckClosestInteractable() {
 
 		int layerMask = 1 << 10 | 1 << 11;
 
@@ -128,7 +140,7 @@ public class InteractionChecker : MonoBehaviour
 			var hit = Physics2D.Raycast(origin, (collider.bounds.ClosestPoint(playerPos) - playerPos).normalized, 1000, layerMask);
 
 			if (hit.collider == collider) {
-				var interactable = collider.GetComponent<Outline>();
+				var interactable = collider.transform;
 				if (interactable == null) { continue; }
 
 				return interactable;
@@ -138,7 +150,7 @@ public class InteractionChecker : MonoBehaviour
 		return null;
 	}
 
-	Outline CheckMouseOverInteractable() {
+	Transform CheckMouseOverInteractable() {
 
 		var pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 		colliders.Clear();
@@ -146,7 +158,7 @@ public class InteractionChecker : MonoBehaviour
 		Physics2D.OverlapCircle(pos, 0.1f, contactFilter, colliders);
 
 		foreach (Collider2D collider in colliders) {
-			var interactable = collider.GetComponent<Outline>();
+			var interactable = collider.transform;
 			if (interactable == null) { continue; }
 
 			return interactable;

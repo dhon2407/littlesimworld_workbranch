@@ -51,20 +51,29 @@ namespace InventorySystem
                     case ItemCode.VEGGY_SANDWICH:           return Resourcelocation + "Food/Veggy Sandwich";
                     case ItemCode.BURGER:                   return Resourcelocation + "Food/Burger";
                     case ItemCode.WATER:                    return Resourcelocation + "Food/Water";
-                    case ItemCode.BEER:                    return Resourcelocation + "Food/Beer";
-                    case ItemCode.BED2:                    return Resourcelocation + "Furnitures/Bed2";
-                    case ItemCode.BED3:                    return Resourcelocation + "Furnitures/Bed3";
-                    case ItemCode.STOVE2:                    return Resourcelocation + "Furnitures/Stove2";
-                    case ItemCode.STOVE3:                    return Resourcelocation + "Furnitures/Stove3";
+                    case ItemCode.BEER:                     return Resourcelocation + "Food/Beer";
+                    case ItemCode.RUM:                      return Resourcelocation + "Food/Rum";
+                    case ItemCode.GIN:                      return Resourcelocation + "Food/Gin";
+                    case ItemCode.VODKA:                    return Resourcelocation + "Food/Vodka";
+                    case ItemCode.WHISKEY:                  return Resourcelocation + "Food/Whiskey";
+                    case ItemCode.ON_THE_ROCKS:             return Resourcelocation + "Food/On the Rocks";
+                    case ItemCode.GIN_TONIC:                return Resourcelocation + "Food/Gin Tonic";
+                    case ItemCode.CUBA_LIBRE:               return Resourcelocation + "Food/Cuba Libre";
+                    case ItemCode.BED2:                     return Resourcelocation + "Furnitures/Bed2";
+                    case ItemCode.BED3:                     return Resourcelocation + "Furnitures/Bed3";
+                    case ItemCode.STOVE2:                   return Resourcelocation + "Furnitures/Stove2";
+                    case ItemCode.STOVE3:                   return Resourcelocation + "Furnitures/Stove3";
                     case ItemCode.DESK2:                    return Resourcelocation + "Furnitures/Desk2";
                     case ItemCode.DESK3:                    return Resourcelocation + "Furnitures/Desk3";
-                    case ItemCode.SHOWER2:                    return Resourcelocation + "Furnitures/Shower2";
-                    case ItemCode.SHOWER3:                    return Resourcelocation + "Furnitures/Shower3";
-                    case ItemCode.TOILET2:                    return Resourcelocation + "Furnitures/Toilet2";
-                    case ItemCode.TOILET3:                    return Resourcelocation + "Furnitures/Toilet3";
+                    case ItemCode.SHOWER2:                  return Resourcelocation + "Furnitures/Shower2";
+                    case ItemCode.SHOWER3:                  return Resourcelocation + "Furnitures/Shower3";
+                    case ItemCode.TOILET2:                  return Resourcelocation + "Furnitures/Toilet2";
+                    case ItemCode.TOILET3:                  return Resourcelocation + "Furnitures/Toilet3";
+                    case ItemCode.COOKINGTABLE2:            return Resourcelocation + "Furnitures/CookingTable2";
+                    case ItemCode.COOKINGTABLE3:            return Resourcelocation + "Furnitures/CookingTable3";
 
                     default:
-                        throw new UnityException("Unknow itemCode, unable to build item.");
+                        throw new UnityException($"Unknown itemCode[{code}], unable to build item.");
                 }
             }
         }

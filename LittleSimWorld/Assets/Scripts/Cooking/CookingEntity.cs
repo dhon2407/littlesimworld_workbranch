@@ -25,19 +25,28 @@ namespace Cooking
 
         public abstract void Interact();
 
-        public float InteractionRange => interactionRange;
-        public Vector2 PlayerStandPosition => standArea.position;
-        public Vector3 Position => transform.position;
+        public float InteractionRange => currentOpenCookingEntity.interactionRange;
+        public Vector2 PlayerStandPosition => currentOpenCookingEntity.standArea.position;
+        public Vector3 Position => currentOpenCookingEntity.transform.position;
         
         public static bool Open => currentOpenCookingEntity.onGoingAction;
         public static ItemCode LastCookedItem => currentOpenCookingEntity.GetLastCookedItem();
+        public static ItemCode DefaultCookItem => currentOpenCookingEntity.DefaultItemToCook;
+
+        public static string AutoActionText => currentOpenCookingEntity.AutoText;
+        public static string ManualActionText => currentOpenCookingEntity.ManualText;
+        public static string Text => currentOpenCookingEntity.ActionText;
 
         protected bool onGoingAction = false;
         protected abstract IEnumerator<float> StartAction(List<ItemList.ItemInfo> itemsToCook);
         protected abstract ItemCode GetLastCookedItem();
+        protected abstract ItemCode DefaultItemToCook { get; }
         protected abstract float TimeToCook { get; set; }
         protected abstract bool ResumeAction { get; set; }
         protected abstract bool ActionCanceled { get; set; }
+        protected abstract string AutoText { get; }
+        protected abstract string ManualText { get; }
+        protected abstract string ActionText { get; }
         protected abstract LastCookingData CookData { get; }
 
         public static void AutoAction()
@@ -75,7 +84,7 @@ namespace Cooking
         protected bool InRange()
         {
             var distanceAway = Vector2.Distance(Position, GameLibOfMethods.player.transform.position);
-            return distanceAway <= interactionRange;
+            return distanceAway <= InteractionRange;
         }
         
         private void Update()

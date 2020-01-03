@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using InventorySystem;
+using TMPro;
 
 namespace Cooking.Recipe
 {
@@ -10,6 +11,8 @@ namespace Cooking.Recipe
         [SerializeField] private Transform itemContainer = null;
         [SerializeField] private CookingHandler handler = null;
         [SerializeField] private RecipeLoader recipeLoader = null;
+
+        [SerializeField] private TextMeshProUGUI buttonText = null;
 
         private List<CookSlot> cookingSlots;
         private void Awake()
@@ -45,6 +48,7 @@ namespace Cooking.Recipe
 
         public void ClearList()
         {
+            UpdateButtonText();
             cookingSlots.Clear();
             for (var i = 0; i < itemContainer.childCount; i++)
                 Destroy(itemContainer.GetChild(i).gameObject);
@@ -87,5 +91,11 @@ namespace Cooking.Recipe
             CookingEntity.ManualAction(GetRecipesToCook());
             ClearList();
         }
+
+        private void UpdateButtonText()
+        {
+            buttonText.text = CookingEntity.Text;
+        }
+        
     }
 }

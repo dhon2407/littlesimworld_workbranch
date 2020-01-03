@@ -16,6 +16,7 @@ namespace Characters.RandomNPC {
 		Rigidbody2D rb;
 		Animator anim;
 		Collider2D col;
+		float Speed = 1.3f;
 
 		public bool IsFinished { get; set; }
 		public CommandInterval interval => CommandInterval.FixedUpdate;
@@ -30,38 +31,43 @@ namespace Characters.RandomNPC {
 		}
 
 		public void Initialize() {
-			GetPath();
+			GetPath(true);
 			anim.Play("Walk");
 		}
 
-		void GetPath() {
-			if (gotPathThisFrame) {
+
+		void GetPath(bool forcePath = false) {
+			if (!forcePath && !pathTimer.IsReady(false)) {
 				gotValidPath = false;
+				anim.Play("Idle");
 				return;
 			}
-			RequestPath.GetPath_Avoidance(rb.position, Target, path, resolution, col);
-			index = 0;
-			gotValidPath = true;
-			gotPathThisFrame = true;
-		}
 
-		float Speed = 1.5f;
-		int index = 0;
-		bool gotValidPath;
+			currentPathNodeCount = path.Count - index;
+			shortPathNodeCount = Mathf.Min(shortPathNodeCount, currentPathNodeCount);
+
+			RequestPath.GetPath_Avoidance(rb.position, Target, path, resolution, col);
+
+			currentPathNodeCount = path.Count;
+			shortPathNodeCount = Mathf.Min(shortPathNodeCount, currentPathNodeCount);
+
+			index = 0;
+			gotValidPath = path.Count > 0;
+			pathTimer.ForceUpdate();
+		}
 
 		public void ExecuteCommand() {
 
 			FrameSafeEnsurance();
 
-			if (index >= path.Count) {
+			if (gotValidPath && index >= path.Count) {
 				IsFinished = true;
 				anim.Play("Idle");
 				return;
 			}
 
-
 			// Local avoidance implementation
-			if (!CanWalkAt(path[index]) || (index < path.Count - 1 && !CanWalkAt(path[index + 1]))) {
+			if (ShouldGetNewPath()) {
 				GetPath();
 				return;
 			}
@@ -133,17 +139,66 @@ namespace Characters.RandomNPC {
 
 		bool CanWalkAt(Node node) => node.isCurrentlyOccupied == null || node.isCurrentlyOccupied == col;
 
+		#region Path Optimizations
+
 		int previousFrameCount;
 		bool hasUpdatedThisFrame = false;
-		bool gotPathThisFrame = false;
+		const int frameDelay = 3;
 		void FrameSafeEnsurance() {
-			// Optimization -- only update visuals once per couple frames
+			// Optimization -- only update visuals once per few frames
 			int currentFrameCount = Time.frameCount;
-			if (previousFrameCount >= currentFrameCount - 2) { return; }
+			if (previousFrameCount >= currentFrameCount - frameDelay) { return; }
 			previousFrameCount = currentFrameCount;
 
 			hasUpdatedThisFrame = false;
-			gotPathThisFrame = false;
 		}
+
+		int index = 0;
+		bool gotValidPath;
+		int shortPathNodeCount = 10000;
+		int currentPathNodeCount = 10000;
+		const int maxAllowedPathExtents = 10;
+		FrameTimer pathTimer = new FrameTimer(3);
+
+		bool gotEfficientPath => shortPathNodeCount <= currentPathNodeCount + maxAllowedPathExtents;
+
+		bool ShouldGetNewPath() {
+			if (!gotValidPath) { return true; }
+			bool isOnUnwalkablePath = !CanWalkAt(path[index]) || (index < path.Count - 1 && !CanWalkAt(path[index + 1]));
+			if (isOnUnwalkablePath) { return true; }
+			if (!gotEfficientPath && !pathTimer.IsReady(true)) { return true; }
+
+			return false;
+		}
+
+
+
+
+		#endregion
+
+
+		class FrameTimer {
+			static int currentFrameCount => Time.frameCount;
+			int previousFrameCount;
+			int frameDelay;
+
+			static FrameTimer() {
+				/// TODO: Make currentFrameCount update once per frame
+			}
+
+			public FrameTimer(int frameDelay) {
+				previousFrameCount = currentFrameCount;
+				this.frameDelay = frameDelay;
+			}
+
+			public bool IsReady(bool update = false) {
+				if (previousFrameCount >= currentFrameCount - frameDelay) { return false; }
+				if (update) { ForceUpdate(); }
+				return true;
+			}
+
+			public void ForceUpdate() => previousFrameCount = currentFrameCount;
+		}
+
 	}
 }

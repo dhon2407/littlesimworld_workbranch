@@ -34,9 +34,6 @@ namespace Cooking.Recipe
         [Space]
         [SerializeField] private UIPopUp popUp = null;
 
-        [Space]
-        [SerializeField] private ItemCode defaultItemToCook = ItemCode.JELLY;
-
         public static List<ItemList.ItemInfo> AvailableIngredients => instance.availableIngredients;
         public static List<ItemCode> CookedRecipes => instance.cookedRecipes;
         public static List<ItemCode> SeenRecipes => instance.seenRecipes;
@@ -136,7 +133,7 @@ namespace Cooking.Recipe
             }
 
             instance = this;
-            autoCook = new AutoCookHandler(defaultItemToCook);
+            autoCook = new AutoCookHandler();
         }
 
         private void Start()
@@ -195,10 +192,10 @@ namespace Cooking.Recipe
             UpdateIngredientSource();
             auto_continue.onClick.RemoveAllListeners();
             auto_continue.onClick.AddListener(AutoCook);
-            auto_continue.GetComponentInChildren<TextMeshProUGUI>().text = "Auto Cook";
+            auto_continue.GetComponentInChildren<TextMeshProUGUI>().text = CookingEntity.AutoActionText;
             manual_reset.onClick.RemoveAllListeners();
             manual_reset.onClick.AddListener(ToggleManualCooking);
-            manual_reset.GetComponentInChildren<TextMeshProUGUI>().text = "Manual Cook";
+            manual_reset.GetComponentInChildren<TextMeshProUGUI>().text = CookingEntity.ManualActionText;
         }
 
 
@@ -302,7 +299,7 @@ namespace Cooking.Recipe
         {
             var itemToCook = autoCook.GetItem();
 
-            if (itemToCook != instance.defaultItemToCook)
+            if (itemToCook != CookingEntity.DefaultCookItem)
                 instance.TakeIngredientsFromPlayer(itemToCook);
 
             return new List<ItemList.ItemInfo>

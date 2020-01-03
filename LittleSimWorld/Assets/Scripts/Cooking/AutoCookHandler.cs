@@ -9,13 +9,6 @@ namespace Cooking.Recipe
 {
     public class AutoCookHandler
     {
-        private readonly ItemCode defaultItemToCook;
-
-        public AutoCookHandler(ItemCode defaultItemToCook)
-        {
-            this.defaultItemToCook = defaultItemToCook;
-        }
-
         public ItemCode GetItem()
         {
             var lastCookItemCode = CookingEntity.LastCookedItem;
@@ -37,7 +30,7 @@ namespace Cooking.Recipe
             if (cookableRecipes.Count > 0)
                 return cookableRecipes[Random.Range(0, cookableRecipes.Count - 1)];
             
-            return defaultItemToCook;
+            return CookingEntity.DefaultCookItem;
         }
     }
 }

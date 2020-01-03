@@ -126,6 +126,7 @@ namespace InventorySystem
                 [UpgradeType.STOVE] = ItemCode.STOVE1,
                 [UpgradeType.SHOWER] = ItemCode.SHOWER1,
                 [UpgradeType.TOILET] = ItemCode.TOILET1,
+                [UpgradeType.COOKTABLE] = ItemCode.COOKINGTABLE1,
             };
 
             Upgrades.SetManager(this);

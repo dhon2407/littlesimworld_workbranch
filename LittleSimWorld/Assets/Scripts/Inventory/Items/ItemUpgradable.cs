@@ -22,6 +22,7 @@ namespace InventorySystem
             DESK,
             SHOWER,
             TOILET,
+            COOKTABLE,
         }
     }
 }

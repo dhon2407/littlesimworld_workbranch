@@ -64,5 +64,17 @@ namespace InventorySystem
         FRIDGE2,
         FRIDGE3,
         NONE,
+        
+        RUM,
+        VODKA,
+        GIN,
+        WHISKEY,
+        GIN_TONIC,
+        CUBA_LIBRE,
+        ON_THE_ROCKS,
+        
+        COOKINGTABLE1,
+        COOKINGTABLE2,
+        COOKINGTABLE3,
     }
 }

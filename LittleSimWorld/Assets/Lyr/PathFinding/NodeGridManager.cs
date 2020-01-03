@@ -25,28 +25,11 @@
 		HashSet<Node> tempNodeSet = new HashSet<Node>();
 
 		static Collider2D playerCol;
-		#region Singleton
 		public static NodeGridManager instance;
-
 		void Awake() {
-			if (instance) {
-				DestroyImmediate(gameObject);
-				return;
-			}
-			else {
-				instance = this;
-				DontDestroyOnLoad(gameObject);
-			}
-
-			SceneManager.activeSceneChanged += DestroyOnMenuScreen;
+			instance = this;
 			playerCol = GameLibOfMethods.player.GetComponent<Collider2D>();
 		}
-
-		private void DestroyOnMenuScreen(Scene oldScene, Scene newScene) {
-			if (newScene.buildIndex == 0)//Main Menu index = 0
-				Destroy(instance.gameObject);
-		}
-		#endregion
 
 
 		#region Static functionality

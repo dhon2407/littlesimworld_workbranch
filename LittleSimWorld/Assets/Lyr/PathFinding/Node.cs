@@ -11,7 +11,7 @@
 		//public List<NodeBase> neighbours = new List<NodeBase>(8);
 		[NonSerialized] public Neighbours neighbours;
 		[NonSerialized] public int gCost, hCost;
-		[NonSerialized] public int HeapIndex;
+		[NonSerialized] public int heapIndex;
 		[NonSerialized] public BaseNode parent;
 		[NonSerialized] public Collider2D isCurrentlyOccupied;
 

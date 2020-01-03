@@ -170,19 +170,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: University Door Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 1336865117, guid: db06f987a69476d4588074444b0f7e53, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 950951876395497773, guid: db06f987a69476d4588074444b0f7e53,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.822
+      value: -22.065
       objectReference: {fileID: 0}
     - target: {fileID: 950951876395497773, guid: db06f987a69476d4588074444b0f7e53,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.496
+      value: 3.278
       objectReference: {fileID: 0}
     - target: {fileID: 950951876395497773, guid: db06f987a69476d4588074444b0f7e53,
         type: 3}
@@ -244,10 +240,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.1176717
       objectReference: {fileID: 0}
-    - target: {fileID: 1528057825, guid: db06f987a69476d4588074444b0f7e53, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 950951874813564441, guid: db06f987a69476d4588074444b0f7e53,
         type: 3}
       propertyPath: m_Offset.y
@@ -274,31 +266,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300016, guid: 1c38818d100ea9143915803047923df1,
         type: 3}
-    - target: {fileID: 3093101427329322635, guid: db06f987a69476d4588074444b0f7e53,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.4228783
-      objectReference: {fileID: 0}
-    - target: {fileID: 3093101427329322635, guid: db06f987a69476d4588074444b0f7e53,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3.133551
-      objectReference: {fileID: 0}
-    - target: {fileID: 3093101427329322635, guid: db06f987a69476d4588074444b0f7e53,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.4228783
-      objectReference: {fileID: 0}
-    - target: {fileID: 3093101427329322635, guid: db06f987a69476d4588074444b0f7e53,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.067
-      objectReference: {fileID: 0}
-    - target: {fileID: 950951876395497774, guid: db06f987a69476d4588074444b0f7e53,
-        type: 3}
-      propertyPath: ShopZone
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 950951876045714907, guid: db06f987a69476d4588074444b0f7e53,
         type: 3}
       propertyPath: m_Offset.y
@@ -329,6 +296,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.264
+      objectReference: {fileID: 0}
+    - target: {fileID: 392507960, guid: db06f987a69476d4588074444b0f7e53, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.7085764
+      objectReference: {fileID: 0}
+    - target: {fileID: 392507960, guid: db06f987a69476d4588074444b0f7e53, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.083
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db06f987a69476d4588074444b0f7e53, type: 3}

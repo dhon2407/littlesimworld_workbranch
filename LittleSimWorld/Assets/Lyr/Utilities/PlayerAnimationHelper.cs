@@ -10,6 +10,7 @@ public static class PlayerAnimationHelper
 		GameLibOfMethods.animator.SetBool("TakingADump", false);
 		GameLibOfMethods.animator.SetBool("TakingShower", false);
 		GameLibOfMethods.animator.SetBool("Cooking", false);
+		GameLibOfMethods.animator.SetBool("Mixing", false);
 		GameLibOfMethods.animator.SetBool("Sleeping", false);
 		GameLibOfMethods.animator.SetBool("Jumping", false);
 		GameLibOfMethods.animator.SetBool("Eating", false);

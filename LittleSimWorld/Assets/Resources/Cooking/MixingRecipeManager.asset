@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MixingRecipeManager
   m_EditorClassIdentifier: 
   recipes:
-  - {fileID: 11400000, guid: 149359bc242e5fd4c850f279bb4273a4, type: 2}
+  - {fileID: 11400000, guid: 69368eebf1db38541a7022e8975ad5c6, type: 2}
+  - {fileID: 11400000, guid: 7b68d6d343113b34583bf7cef4d4378f, type: 2}

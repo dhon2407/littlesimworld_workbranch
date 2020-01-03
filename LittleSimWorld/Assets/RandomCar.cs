@@ -15,11 +15,15 @@ public class RandomCar : MonoBehaviour
 
     public float CarLifetime = 30;
     public float CurrentLifetime = 0;
-    private bool WillBeDestroyedAfterOutsideOfTheScreen = false;
+    private Renderer render;
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+    private void Awake()
+    {
+        render = gameObject.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -44,16 +48,12 @@ public class RandomCar : MonoBehaviour
         CurrentLifetime += Time.deltaTime;
         if (CurrentLifetime > CarLifetime)
         {
-            WillBeDestroyedAfterOutsideOfTheScreen = true;
+           
+            if(!render.isVisible)
+                Destroy(gameObject);
+
         }
 
-    }
-    private void OnBecameInvisible()
-    {
-        if (WillBeDestroyedAfterOutsideOfTheScreen)
-        {
-            Destroy(gameObject);
-        }
     }
     public void Move()
     {

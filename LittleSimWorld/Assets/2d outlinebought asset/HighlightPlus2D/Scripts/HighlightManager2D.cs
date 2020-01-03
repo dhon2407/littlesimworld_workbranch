@@ -21,8 +21,8 @@ namespace HighlightPlus2D {
 		public Camera raycastCamera;
 		public RayCastSource raycastSource = RayCastSource.MousePosition;
 
-		HighlightEffect2D baseEffect, currentEffect;
-		Transform currentObject;
+		 public HighlightEffect2D baseEffect, currentEffect;
+	    public Transform currentObject;
 
 		static HighlightManager2D _instance;
 		public static HighlightManager2D instance {
@@ -92,12 +92,14 @@ namespace HighlightPlus2D {
 			}
 		}
 
-		void SwitchesCollider (Transform newObject) {
+		public void SwitchesCollider (Transform newObject) {
 			if (currentEffect != null) {
 				if (OnObjectHighlightEnd != null) {
+                    //if(InteractionChecker.Instance.lastHighlightedObject_Closest == null)
 					OnObjectHighlightEnd (currentEffect.gameObject);
 				}
-				currentEffect.SetHighlighted (false);
+                if (InteractionChecker.Instance.lastHighlightedObject_Closest == null)
+                    currentEffect.SetHighlighted (false);
 				currentEffect = null;
 			}
 			currentObject = newObject;
@@ -118,14 +120,19 @@ namespace HighlightPlus2D {
 			currentEffect = otherEffect != null ? otherEffect : baseEffect;
 			currentEffect.SetTarget (currentObject.transform);
 			currentEffect.SetHighlighted (true);
+            //Debug.Log("highlighting " + newObject);
 			if (highlightEvent > 0) {
 				CancelInvoke ();
 				Invoke ("CancelHighlight", highlightDuration);
 			}
 		}
 
-		void CancelHighlight() {
-			SwitchesCollider (null);
+		public void CancelHighlight() {
+           
+                SwitchesCollider(null);
+                Debug.Log("Canceling Highlight");
+            
+		
 		}
 
 		public static Camera GetCamera () {
