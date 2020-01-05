@@ -24,6 +24,8 @@ public class UIPopUp : MonoBehaviour
     [Header("Animation Style")]
     [SerializeField] protected LeanTweenType popStyle = LeanTweenType.linear;
 
+    [SerializeField] private bool anchored;
+
     protected CanvasGroup canvasGroup;
     protected bool animating;
     protected bool visible;
@@ -131,7 +133,12 @@ public class UIPopUp : MonoBehaviour
         mainWindow.localScale = vectorPopOutScale;
         mainWindow.localPosition = popOutPosition;
 
-        LeanTween.moveLocal(mainWindow.gameObject, popInPosition, duration);
+        if (anchored)
+            LeanTween.move(mainWindow, popInPosition, duration);
+        else
+            LeanTween.moveLocal(mainWindow.gameObject, popInPosition, duration);
+        
+        
         LeanTween.scale(mainWindow, vectorPopInScale, duration).setEase(popStyle);
         LeanTween.alphaCanvas(canvasGroup, 1, duration);
 

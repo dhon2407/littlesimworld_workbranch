@@ -52,14 +52,5 @@ namespace GameSettings
             Settings.DefaultSettings();
             UpdateData();
         }
-
-        public void Open()
-        {
-			this.gameObject.SetActive(true);
-            if (transform.localScale == Vector3.zero)
-                GetComponent<GuiPopUpAnim>().OpenWindow();
-            else
-                GetComponent<GuiPopUpAnim>().CloseWindow();
-        }
     }
 }
