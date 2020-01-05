@@ -10,8 +10,8 @@ public class VerticalSlidingDoor : SlidingDoor
         startLeftPosition = leftDoor.transform.position;
         startRightPosition = rightDoor.transform.position;
 
-        endLeftPosition = new Vector2(leftDoor.position.x , leftDoor.position.y - maxDoorPosition);
-        endRightPosition = new Vector2(rightDoor.position.x , rightDoor.position.y + maxDoorPosition);
+        endLeftPosition = new Vector3(leftDoor.position.x , leftDoor.position.y - maxDoorPosition);
+        endRightPosition = new Vector3(rightDoor.position.x , rightDoor.position.y + maxDoorPosition);
 
         transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
         transform.GetChild(1).GetComponent<Collider2D>().enabled = false;
@@ -20,14 +20,14 @@ public class VerticalSlidingDoor : SlidingDoor
 
 	protected override void OpenDoor()
     {
-        leftDoor.position = Vector2.Lerp(leftDoor.position, endLeftPosition, doorSpeed);
-        rightDoor.position = Vector2.Lerp(rightDoor.position, endRightPosition, doorSpeed);
+        leftDoor.position = Vector3.Lerp(leftDoor.position, endLeftPosition, doorSpeed);
+        rightDoor.position = Vector3.Lerp(rightDoor.position, endRightPosition, doorSpeed);
     }
 
     protected override void CloseDoor()
     {
-        leftDoor.position = Vector2.Lerp(leftDoor.position, startLeftPosition, doorSpeed);
-        rightDoor.position = Vector2.Lerp(rightDoor.position, startRightPosition, doorSpeed);
+        leftDoor.position = Vector3.Lerp(leftDoor.position, startLeftPosition, doorSpeed);
+        rightDoor.position = Vector3.Lerp(rightDoor.position, startRightPosition, doorSpeed);
     }
 
 }

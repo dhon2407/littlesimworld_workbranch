@@ -57,7 +57,7 @@ namespace GameFile
             if (CurrentSaveData != null)
             {
                 PlayTime = CurrentSaveData.RealPlayTime;
-                GameLibOfMethods.player.transform.localPosition = new Vector2(CurrentSaveData.playerX, CurrentSaveData.playerY);
+                GameLibOfMethods.player.transform.localPosition = new Vector3(CurrentSaveData.playerX, CurrentSaveData.playerY, 1);
 
                 GameTime.Clock.SetTime(CurrentSaveData.time);
                 GameTime.Calendar.Initialize(CurrentSaveData.days, CurrentSaveData.weekday, CurrentSaveData.season);

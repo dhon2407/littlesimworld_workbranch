@@ -75,7 +75,7 @@ public class RandomCar : MonoBehaviour
             yield return 0f;
            // Debug.Log(breakingTime);
         }
-        while (CarStopZone.IsTouchingLayers(CarStopable.value))
+        while (CarStopZone && CarStopZone.IsTouchingLayers(CarStopable.value))
         {
             yield return 0f;
         }

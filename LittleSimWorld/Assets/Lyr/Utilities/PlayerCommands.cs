@@ -53,7 +53,8 @@ public static class PlayerCommands {
 
 		GameLibOfMethods.TempPos = GameLibOfMethods.player.transform.position;
 		GameLibOfMethods.player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-		GameLibOfMethods.animator.SetBool("Jumping", true);
+        GameLibOfMethods.animator.SetBool("Walking", false);
+        GameLibOfMethods.animator.SetBool("Jumping", true);
 
 		float T = 0;
 		float _speed = CustomSpeed > 0 ? CustomSpeed : DefaultJumpSpeed;
