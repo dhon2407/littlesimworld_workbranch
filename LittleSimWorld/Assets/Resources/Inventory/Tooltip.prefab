@@ -558,8 +558,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2173040943139047457}
-  - component: {fileID: 4988905826098016168}
   - component: {fileID: 5362738523152083875}
+  - component: {fileID: 7754339868893038910}
   m_Layer: 13
   m_Name: Tooltip
   m_TagString: Untagged
@@ -587,33 +587,6 @@ RectTransform:
   m_AnchoredPosition: {x: 784.7534, y: -91}
   m_SizeDelta: {x: 450, y: 280}
   m_Pivot: {x: -0.019843336, y: 1.0975403}
---- !u!114 &4988905826098016168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5129884500319656484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ce4b1eed78c2d742acc6ddbbe3a33e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainWindow: {fileID: 2173040943139047457}
-  popInVector: {x: -1000, y: 0, z: 0}
-  popOutVector: {x: -1000, y: 0, z: 0}
-  popInScale: {x: 0.7491432, y: 0.7491432, z: 0.7491432}
-  popOutScale: {x: 0, y: 0, z: 0}
-  typeIn: 0
-  typeOut: 0
-  JustMoveAnimation: 0
-  delay: 0
-  CheckIfSliding: 0
-  CloseWindowOnEnable: 1
-  usingLayoutGroup: 0
-  isVisible: 0
-  isSliding: 0
-  hLayout: {fileID: 0}
 --- !u!114 &5362738523152083875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,13 +599,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ad840a5c58432458d9006f249aa2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopUpScript: {fileID: 4988905826098016168}
+  PopUpScript: {fileID: 7754339868893038910}
   name: {fileID: 5429497806008278753}
   description: {fileID: 5515466462052759574}
   MinWidth: 0
   MaxWidth: 0.82
   MinHeight: 0.2
   MaxHeight: 1
+--- !u!114 &7754339868893038910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129884500319656484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f4fb38221e1974c90c1f79bbb0714e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainWindow: {fileID: 2173040943139047457}
+  hideAtStart: 1
+  popInPosition: {x: -1000, y: 0}
+  popOutPosition: {x: -1000, y: 0}
+  popInScale: 0.75
+  popOutScale: 0
+  duration: 0
+  popStyle: 0
+  anchored: 0
 --- !u!1 &7770465969075240784
 GameObject:
   m_ObjectHideFlags: 0

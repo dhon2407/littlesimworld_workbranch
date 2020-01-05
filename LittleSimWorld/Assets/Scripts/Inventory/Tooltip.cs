@@ -9,7 +9,7 @@ namespace InventorySystem
         private static Tooltip instance;
             
         [SerializeField]
-        private GuiPopUpAnim PopUpScript = null;
+        private UIPopUp PopUpScript = null;
         [SerializeField]
         new private TextMeshProUGUI name = null;
         [SerializeField]
@@ -32,7 +32,7 @@ namespace InventorySystem
             ItemToolTip.Initialize(this);
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             transform.position = new Vector2(Mathf.Clamp(Input.mousePosition.x, Screen.width * MinWidth, Screen.width * MaxWidth),
                 Mathf.Clamp(Input.mousePosition.y, Screen.height * MinHeight, Screen.height * MaxHeight));
@@ -51,12 +51,12 @@ namespace InventorySystem
             this.name.text = name;
             this.description.text = description;
 
-            PopUpScript.OpenWindow();
+            PopUpScript.Open();
         }
 
         public void HideTooltip()
         {
-            PopUpScript.CloseWindow();
+            PopUpScript.Close();
         }
     }
 

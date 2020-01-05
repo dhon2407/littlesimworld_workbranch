@@ -298,7 +298,7 @@ public class MissionHandler : MonoBehaviour
     public void HideMissions()
     {
         // missionCanvas.SetActive(false);
-        missionUI.GetComponent<GuiPopUpAnim>().CloseWindow();
+        missionUI.GetComponent<UIPopUp>().Close();
     }
     public void SwitchMissions()
     {

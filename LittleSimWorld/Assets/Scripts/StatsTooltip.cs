@@ -11,7 +11,7 @@ namespace CharacterStats
 
     {
         public static StatsTooltip Instance;
-        public GuiPopUpAnim PopUpScript;
+        public UIPopUp PopUpScript;
         public Image image;
         public float MinWidth = 0.1f;
         public float MaxWidth = 0.92f;
@@ -34,13 +34,12 @@ namespace CharacterStats
             {
                 Destroy(this);
             }
-            //PopUpScript.CloseWindow();
+            
             if (!PopUpScript)
             {
-                PopUpScript = gameObject.GetComponent<GuiPopUpAnim>();
+                PopUpScript = gameObject.GetComponent<UIPopUp>();
             }
 
-            //HideDescription();
         }
 
         private void LateUpdate()
@@ -55,7 +54,7 @@ namespace CharacterStats
             transform.position = new Vector2(Mathf.Clamp(Input.mousePosition.x, Screen.width * MinWidth, Screen.width * MaxWidth),
                  Mathf.Clamp(Input.mousePosition.y, Screen.height * MinHeight, Screen.height * MaxHeight));
 
-            PopUpScript.OpenWindow();
+            PopUpScript.Open();
 
             statsText.text = Description;
 
@@ -63,7 +62,7 @@ namespace CharacterStats
 
         public void HideDescription()
         {
-            PopUpScript.CloseWindow();
+            PopUpScript.Close();
         }
     }
 }

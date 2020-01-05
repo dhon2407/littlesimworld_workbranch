@@ -24,7 +24,7 @@ public class UIPopUp : MonoBehaviour
     [Header("Animation Style")]
     [SerializeField] protected LeanTweenType popStyle = LeanTweenType.linear;
 
-    [SerializeField] private bool anchored;
+    [SerializeField] private bool anchored = false;
 
     protected CanvasGroup canvasGroup;
     protected bool animating;
