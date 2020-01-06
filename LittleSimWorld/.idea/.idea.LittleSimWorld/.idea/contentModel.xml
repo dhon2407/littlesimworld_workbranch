@@ -1082,6 +1082,7 @@
             <e p="GuiFadeAnim.cs" t="Include" />
             <e p="GuiLetterType.cs" t="Include" />
             <e p="HorizontalGroupUIPopUp.cs" t="Include" />
+            <e p="IUIPopup.cs" t="Include" />
             <e p="UIPopUp.cs" t="Include" />
           </e>
           <e p="Helpers" t="Include">
@@ -1089,6 +1090,9 @@
             <e p="SerializeFieldLabel.cs" t="Include" />
           </e>
           <e p="HomeComputer.cs" t="Include" />
+          <e p="Installers" t="Include">
+            <e p="ToolTipInstaller.cs" t="Include" />
+          </e>
           <e p="InteractionChecker.cs" t="Include" />
           <e p="Inventory" t="Include">
             <e p="Containers" t="Include">
@@ -1115,6 +1119,7 @@
                 <e p="PassiveItem.cs" t="Include" />
               </e>
             </e>
+            <e p="ItemTooltip.cs" t="Include" />
             <e p="Shops" t="Include">
               <e p="BasketItem.cs" t="Include" />
               <e p="ShopContainer.cs" t="Include" />
@@ -1182,6 +1187,16 @@
           <e p="TimeDependentDoor.cs" t="Include" />
           <e p="TimeManager" t="Include">
             <e p="TimeManager.cs" t="Include" />
+          </e>
+          <e p="Tooltip" t="Include">
+            <e p="ITooltip.cs" t="Include" />
+            <e p="TestTooltip.cs" t="Include" />
+            <e p="TestTooltip2Param.cs" t="Include" />
+            <e p="Tooltip.cs" t="Include" />
+            <e p="TooltipArea.cs" t="Include" />
+            <e p="TooltipPopup.cs" t="Include" />
+            <e p="TTAreaParams1.cs" t="Include" />
+            <e p="TTAreaParams2.cs" t="Include" />
           </e>
           <e p="Treadmill.cs" t="Include" />
           <e p="UIManager.cs" t="Include" />

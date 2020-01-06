@@ -8,6 +8,6 @@ namespace GUI_Animations
         void Show(UnityAction actionOnOpen);
         void Show(Vector2 position, UnityAction actionOnOpen);
         void Hide(UnityAction actionOnOpen);
-        void Hide(Vector2 position, UnityAction actionOnOpen);
+        void Hide(Vector2 position, UnityAction actionOnClose);
     }
 }

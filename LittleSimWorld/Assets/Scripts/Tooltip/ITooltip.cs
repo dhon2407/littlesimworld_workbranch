@@ -1,9 +1,8 @@
 ﻿namespace LSW.Tooltip
 {
-    public interface ITooltip<in T>
+    public interface ITooltip
     {
-        void SetData(T data);
-        void Show(T data);
+        void Show();
         void Hide();
     }
 }

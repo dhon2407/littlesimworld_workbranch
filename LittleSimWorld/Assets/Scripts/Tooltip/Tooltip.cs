@@ -4,26 +4,37 @@ using Zenject;
 
 namespace LSW.Tooltip
 {
-    public abstract class Tooltip<T> : MonoBehaviour, ITooltip<T>
+    [RequireComponent(typeof(TooltipPopup))]
+    public abstract class Tooltip<T> : MonoBehaviour, ITooltip
     {
-        public abstract void SetData(T data);
         public abstract void Show(T data);
-        public abstract void Hide();
-        protected abstract bool isVisible { get; }
-        
-        private RectTransform _rTransform;
-        protected IUiPopup Popup;
+        protected abstract Vector2 MousePosition { get; }
 
         [Inject]
         public void Construct(IUiPopup popup)
         {
-            Popup = popup;
+            _popup = popup;
         }
+        
+        public void Show()
+        {
+            IsVisible = true;
+            _popup.Show(null);
+        }
+
+        public void Hide()
+        {
+            _popup.Hide(() => IsVisible = false);
+        }
+        
+        private bool IsVisible { get; set; }
+        private RectTransform _rTransform;
+        private IUiPopup _popup;
         
         private void LateUpdate()
         {
-            if (isVisible)
-                transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            if (IsVisible)
+                transform.position = MousePosition;
         }
     }
 }
