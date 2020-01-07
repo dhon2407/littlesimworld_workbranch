@@ -134,7 +134,11 @@
         <e p="Buffs.cs" t="Include" />
         <e p="C_Test" t="Include">
           <e p="C_Test.asmdef" t="Include" />
-          <e p="TooltipTests.cs" t="Include" />
+          <e p="Tooltip" t="Include">
+            <e p="TooltipAreaTest.cs" t="Include" />
+            <e p="TooltipPopupTests.cs" t="Include" />
+            <e p="TooltipTests.cs" t="Include" />
+          </e>
         </e>
         <e p="Camera" t="Include">
           <e p="CameraFollow.cs" t="Include" />

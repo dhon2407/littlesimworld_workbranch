@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 using static UnityEngine.Object;
 using Assert = ModestTree.Assert;
 
-namespace Tests
+namespace TooltipTests
 {
     public class TooltipTests
     {
@@ -40,8 +40,8 @@ namespace Tests
             _testToolTip.Show();
             yield return null;
             
-            _popupStub.Received(1).Show(Arg.Any<UnityAction>());
-            _popupStub.Received(0).Hide(Arg.Any<UnityAction>());
+            _popupStub.Received().Show(Arg.Any<UnityAction>());
+            _popupStub.DidNotReceive().Hide(Arg.Any<UnityAction>());
         }
         
         [UnityTest]
@@ -50,17 +50,17 @@ namespace Tests
             _testToolTip.Hide();
             yield return null;
 
-            _popupStub.Received(0).Show(Arg.Any<UnityAction>());
-            _popupStub.Received(1).Hide(Arg.Any<UnityAction>());
+            _popupStub.DidNotReceive().Show(Arg.Any<UnityAction>());
+            _popupStub.Received().Hide(Arg.Any<UnityAction>());
         }
         
         [UnityTest]
-        public IEnumerator FollowMousePosition_WhenShown()
+        public IEnumerator Follow_MousePosition_When_Shown()
         {
             _testToolTip.Show();
             yield return null;
 
-            _popupStub.Received(1).Show(Arg.Any<UnityAction>());
+            _popupStub.Received().Show(Arg.Any<UnityAction>());
 
             const int testIteration = 10;
             for (int i = 0; i < testIteration; i++)
@@ -72,12 +72,12 @@ namespace Tests
         }
         
         [UnityTest]
-        public IEnumerator StopFollowMousePosition_WhenHidden()
+        public IEnumerator Stop_Follow_MousePosition_When_Hidden()
         {
             _testToolTip.Hide();
             yield return null;
 
-            _popupStub.Received(1).Hide(Arg.Any<UnityAction>());
+            _popupStub.Received().Hide(Arg.Any<UnityAction>());
 
             const int testIteration = 10;
             for (int i = 0; i < testIteration; i++)

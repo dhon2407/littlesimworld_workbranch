@@ -7,8 +7,8 @@ public class ToolTipInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.Bind<Tooltip<string>>().To<TestTooltip>().FromComponentInHierarchy().AsSingle();
-        Container.Bind<Tooltip<TestParams>>().To<TestTooltip2Param>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<ITooltip<string>>().To<TestTooltip>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<ITooltip<TestParams>>().To<TestTooltip2Param>().FromComponentInHierarchy().AsSingle();
         Container.Bind<IUiPopup>().To<TooltipPopup>().FromComponentSibling().AsTransient();
     }
 }

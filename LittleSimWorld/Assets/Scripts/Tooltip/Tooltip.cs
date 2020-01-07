@@ -5,7 +5,7 @@ using Zenject;
 namespace LSW.Tooltip
 {
     [RequireComponent(typeof(TooltipPopup))]
-    public abstract class Tooltip<T> : MonoBehaviour, ITooltip
+    public abstract class Tooltip<T> : MonoBehaviour, ITooltip<T>
     {
         public abstract void SetData(T data);
         protected abstract Vector2 MousePosition { get; }

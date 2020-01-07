@@ -7,10 +7,10 @@ namespace LSW.Tooltip
 {
     public abstract class TooltipArea<T> : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private Tooltip<T> _toolTip;
+        private ITooltip<T> _toolTip;
 
         [Inject]
-        private void Init(Tooltip<T> tooltip)
+        public void Init(ITooltip<T> tooltip)
         {
             _toolTip = tooltip;
         }
@@ -19,12 +19,14 @@ namespace LSW.Tooltip
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            Debug.Log("Mouse enter event.");
             _toolTip.SetData(TooltipData);
             _toolTip.Show();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            Debug.Log("Mouse exit event.");
             _toolTip.Hide();
         }
     }
