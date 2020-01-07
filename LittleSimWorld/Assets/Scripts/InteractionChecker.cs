@@ -123,7 +123,7 @@ public class InteractionChecker : MonoBehaviour
 
 	Transform CheckClosestInteractable() {
 
-		int layerMask = 1 << 10 | 1 << 11;
+		int layerMask = 1 << 10 | 1 << 16;
 
 		var player = GameLibOfMethods.player;
 		var playerPos = player.transform.position;

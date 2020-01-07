@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Lyr/Shaders/Outline/Test/outlineTest.unity
     guid: 256d7946f2bb95d4c9865e1e0ef919d8
+  - enabled: 1
+    path: Assets/Dan/TestScene.unity
+    guid: a824162a613a53946998c322cb65b2c2
   m_configObjects: {}

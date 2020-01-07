@@ -15,11 +15,12 @@ namespace LSW.Tooltip
             _toolTip = tooltip;
         }
 
-    protected abstract T TooltipData { get; }
+        protected abstract T TooltipData { get; }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _toolTip.Show(TooltipData);
+            _toolTip.SetData(TooltipData);
+            _toolTip.Show();
         }
 
         public void OnPointerExit(PointerEventData eventData)

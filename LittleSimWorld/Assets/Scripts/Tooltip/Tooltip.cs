@@ -7,11 +7,11 @@ namespace LSW.Tooltip
     [RequireComponent(typeof(TooltipPopup))]
     public abstract class Tooltip<T> : MonoBehaviour, ITooltip
     {
-        public abstract void Show(T data);
+        public abstract void SetData(T data);
         protected abstract Vector2 MousePosition { get; }
 
         [Inject]
-        public void Construct(IUiPopup popup)
+        public void Init(IUiPopup popup)
         {
             _popup = popup;
         }

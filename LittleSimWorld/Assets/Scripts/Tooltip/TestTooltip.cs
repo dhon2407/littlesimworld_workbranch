@@ -9,11 +9,9 @@ namespace LSW.Tooltip
         [SerializeField] private TextMeshProUGUI textmesh = null;
         protected override Vector2 MousePosition => new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
-        public override void Show(string data)
+        public override void SetData(string data)
         {
             textmesh.text = data;
-            Show();
         }
-
     }
 }

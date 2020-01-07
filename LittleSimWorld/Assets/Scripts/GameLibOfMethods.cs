@@ -55,7 +55,7 @@ public class GameLibOfMethods : MonoBehaviour
     public static float concecutiveSleepTime;
     public static float neededConcecutiveSleepTimeForPositiveBuff = 21600;
 
-    public LayerMask InteractablesLayer;
+    public LayerMask InteractablesLayer = 1 << 2 | 1 << 16;
    
 
     private void Awake()
@@ -99,7 +99,7 @@ public class GameLibOfMethods : MonoBehaviour
         //TODO Vague setup
         int layerMask = 1 << 10 |
                         1 << 15 |
-                        1 << 11;
+                        1 << 11| 1 << 16;
 		var playerPos = player.transform.position;
 
 		List<Collider2D> colliders = new List<Collider2D>();
